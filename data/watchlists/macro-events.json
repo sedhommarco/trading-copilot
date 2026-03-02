@@ -1,0 +1,59 @@
+{
+  "file_type": "watchlist",
+  "strategy": "macro_events",
+  "last_updated": "2026-03-01T21:30:00Z",
+  "week_start": "2026-03-02",
+  "week_end": "2026-03-08",
+  "opportunities": [
+    {
+      "event_name": "US ISM Manufacturing PMI",
+      "date": "2026-03-02",
+      "time": "16:00 CET",
+      "impact": "medium",
+      "tradeable_instruments": ["US500", "USD/EUR", "XAU/USD"],
+      "trade_setup": "direction_dependent",
+      "rationale": "Key gauge of US manufacturing health at the start of the month; surprises can move yields and cyclicals ahead of jobs data.",
+      "recommended_action": "wait_for_data"
+    },
+    {
+      "event_name": "Eurozone Flash CPI (HICP, Core)",
+      "date": "2026-03-03",
+      "time": "10:00 CET",
+      "impact": "high",
+      "tradeable_instruments": ["DE40", "EU50", "EUR/USD"],
+      "trade_setup": "volatility_spike",
+      "rationale": "Inflation print shapes ECB rate expectations; strong surprise could hurt equities and support EUR, and vice versa.",
+      "recommended_action": "reduce_exposure"
+    },
+    {
+      "event_name": "US ADP Private Employment & ISM Services",
+      "date": "2026-03-04",
+      "time": "14:15-16:00 CET",
+      "impact": "high",
+      "tradeable_instruments": ["US500", "NAS100", "XAU/USD"],
+      "trade_setup": "direction_dependent",
+      "rationale": "Key labor and services data ahead of NFP; may front-run jobs narrative and move risk assets sharply.",
+      "recommended_action": "wait_for_data"
+    },
+    {
+      "event_name": "Major AI Earnings: Broadcom (AVGO) and Marvell (MRVL)",
+      "date": "2026-03-04/05",
+      "time": "After US close",
+      "impact": "high",
+      "tradeable_instruments": ["AVGO", "MRVL", "SOXX", "NAS100"],
+      "trade_setup": "stock_specific_gap",
+      "rationale": "AI infrastructure bellwethers; large gaps likely. Best edges are in tightly risk-managed single-name trades or avoiding overexposure into prints.",
+      "recommended_action": "partial_de_risk"
+    },
+    {
+      "event_name": "US Non-Farm Payrolls",
+      "date": "2026-03-06",
+      "time": "14:30 CET",
+      "impact": "very_high",
+      "tradeable_instruments": ["US500", "NAS100", "XAU/USD", "BTC-USD", "EUR/USD"],
+      "trade_setup": "volatility_breakout",
+      "rationale": "Primary macro catalyst of the week; can reset Fed expectations and risk appetite. Volatility likely elevated across indices, FX, metals and even crypto.",
+      "recommended_action": "reduce_exposure_before_event"
+    }
+  ]
+}

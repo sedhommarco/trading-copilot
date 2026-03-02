@@ -1,0 +1,42 @@
+{
+  "file_type": "trade_journal",
+  "last_updated": "2026-03-01T21:30:00Z",
+  "capital_start": 1000.0,
+  "win_rate": null,
+  "total_profit_loss": 0.0,
+  "largest_win": null,
+  "largest_loss": null,
+  "trades": [
+    {
+      "trade_id": "T001",
+      "date_open": "2026-03-02T00:32:00Z",
+      "ticker": "XAUUSD",
+      "strategy": "volatility_plays",
+      "entry_price": 5372.99,
+      "position_size_oz_original": 3.0,
+      "leverage": 20,
+      "margin_used_original": 805.95,
+      "partial_close": {
+        "date_close_partial": "2026-03-02T00:47:00Z",
+        "quantity_closed": 1.0,
+        "close_price": 5391.9,
+        "pnl_realized_partial": 18.91
+      },
+      "remaining_quantity": 2.0,
+      "margin_remaining": 537.3,
+      "take_profit": 5450.0,
+      "stop_loss": null,
+      "current_unrealized_pnl": -189.98,
+      "pnl_dollars": -171.07,
+      "r_multiple": null,
+      "holding_days": 0,
+      "outcome": "open_partial",
+      "rules_followed": "partial",
+      "notes": "Aggressive 20x entry amid Iran risk. Partial close locked small gain (+$19). TP at 5450 reasonable; STOP CRITICAL at 5160 to cap risk. ISM Mfg today key catalyst."
+    }
+  ],
+  "capital_current": 1000.0,
+  "total_trades": 1,
+  "winning_trades": 0,
+  "losing_trades": 0
+}

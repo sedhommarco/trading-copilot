@@ -1,0 +1,71 @@
+{
+  "version": "1.0.0",
+  "last_global_update": "2026-03-02T20:00:00Z",
+  "repository": "trading-copilot",
+  "owner": "sedhommarco",
+  "files": {
+    "watchlists/pre-earnings.json": {
+      "last_updated": "2026-03-02T20:00:00Z",
+      "week_start": "2026-03-02",
+      "week_end": "2026-03-08",
+      "record_count": 5,
+      "status": "fresh"
+    },
+    "watchlists/post-crash.json": {
+      "last_updated": "2026-03-02T20:00:00Z",
+      "week_start": "2026-03-02",
+      "week_end": "2026-03-08",
+      "record_count": 4,
+      "status": "fresh"
+    },
+    "watchlists/volatility.json": {
+      "last_updated": "2026-03-02T20:00:00Z",
+      "week_start": "2026-03-02",
+      "week_end": "2026-03-08",
+      "record_count": 5,
+      "status": "fresh"
+    },
+    "watchlists/crypto.json": {
+      "last_updated": "2026-03-02T20:00:00Z",
+      "week_start": "2026-03-02",
+      "week_end": "2026-03-08",
+      "record_count": 5,
+      "status": "fresh"
+    },
+    "watchlists/pair-trades.json": {
+      "last_updated": "2026-03-02T20:00:00Z",
+      "week_start": "2026-03-02",
+      "week_end": "2026-03-08",
+      "record_count": 5,
+      "status": "fresh"
+    },
+    "watchlists/macro-events.json": {
+      "last_updated": "2026-03-02T20:00:00Z",
+      "week_start": "2026-03-02",
+      "week_end": "2026-03-08",
+      "record_count": 5,
+      "status": "fresh"
+    },
+    "context/market-regime.json": {
+      "last_updated": "2026-03-02T20:00:00Z",
+      "status": "fresh"
+    },
+    "journal/trade-history.json": {
+      "last_updated": "2026-03-02T20:00:00Z",
+      "total_trades": 1,
+      "capital_current": 1000.0,
+      "status": "fresh"
+    }
+  },
+  "data_sources": [
+    "TipRanks Earnings Calendar",
+    "Yahoo Finance",
+    "TradingView",
+    "MarketBeat",
+    "StockAnalysis",
+    "Seeking Alpha"
+  ],
+  "status": "fresh",
+  "stale_threshold_days": 10,
+  "notes": "Data automatically updated via Perplexity GitHub MCP tools every Sunday 8:00 PM CET"
+}
