@@ -18,6 +18,9 @@
         --color-warning: #f59e0b;
         --color-danger: #ef4444;
         --color-border: #475569;
+        --color-bullish: #22c55e;
+        --color-bearish: #ef4444;
+        --color-neutral: #f59e0b;
       }
 
       * {
@@ -256,6 +259,7 @@
         justify-content: space-between;
         align-items: flex-start;
         margin-bottom: 1rem;
+        cursor: pointer;
       }
 
       .card-title {
@@ -268,6 +272,14 @@
         font-size: 0.875rem;
         color: var(--color-text-muted);
         margin-top: 0.25rem;
+      }
+
+      .expand-icon {
+        cursor: pointer;
+        font-size: 0.875rem;
+        color: var(--color-text-secondary);
+        transition: transform 0.2s;
+        user-select: none;
       }
 
       .confidence-badge {
@@ -286,12 +298,40 @@
         color: var(--color-warning);
       }
 
-      .card-info {
+      .card-summary {
         display: flex;
         flex-direction: column;
         gap: 0.75rem;
         margin-bottom: 1rem;
         font-size: 0.875rem;
+      }
+
+      .card-details {
+        display: none;
+        margin-top: 1rem;
+        padding-top: 1rem;
+        border-top: 1px solid var(--color-border);
+      }
+
+      .detail-section {
+        margin-bottom: 1rem;
+      }
+
+      .detail-section:last-child {
+        margin-bottom: 0;
+      }
+
+      .detail-section h4 {
+        font-size: 0.75rem;
+        color: var(--color-text-muted);
+        text-transform: uppercase;
+        margin-bottom: 0.5rem;
+      }
+
+      .detail-section p {
+        font-size: 0.875rem;
+        color: var(--color-text-secondary);
+        line-height: 1.5;
       }
 
       .info-row {
@@ -384,11 +424,27 @@
       }
 
       .market-regime {
-        background: var(--color-bg-secondary);
         padding: 1.5rem;
         border-radius: 8px;
-        border: 1px solid var(--color-border);
         margin-bottom: 1.5rem;
+        border: 2px solid;
+      }
+
+      .regime-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1rem;
+      }
+
+      .regime-header h2 {
+        margin: 0;
+        font-size: 1.5rem;
+      }
+
+      .regime-status {
+        font-size: 1.5rem;
+        font-weight: 700;
       }
 
       .regime-grid {
@@ -399,9 +455,10 @@
       }
 
       .regime-item {
-        background: var(--color-bg-tertiary);
+        background: var(--color-bg-secondary);
         padding: 1rem;
         border-radius: 6px;
+        border-left: 3px solid;
       }
 
       .regime-label {
@@ -503,14 +560,13 @@
         githubUser: "sedhommarco",
         repo: "trading-copilot",
         branch: "main",
-        autoRefreshInterval: 5 * 60 * 1000, // 5 minutes
+        autoRefreshInterval: 5 * 60 * 1000,
         staleThresholdDays: 10,
       };
 
       let autoRefreshTimer = null;
       let currentData = {};
 
-      // Build URLs for GitHub raw content or local fallback
       function getDataUrl(path) {
         if (window.location.protocol === "file:") {
           return `data/${path}`;
@@ -518,7 +574,6 @@
         return `https://raw.githubusercontent.com/${CONFIG.githubUser}/${CONFIG.repo}/${CONFIG.branch}/data/${path}`;
       }
 
-      // Fetch JSON with error handling
       async function fetchJSON(url) {
         try {
           const response = await fetch(url);
@@ -530,7 +585,29 @@
         }
       }
 
-      // Load all data
+      // Normalize all trade objects to use standard property names
+      function normalizeTradeData(trade, strategy) {
+        const normalized = { ...trade };
+
+        // Standardize ticker field
+        if (!normalized.ticker) {
+          normalized.ticker = trade.symbol || trade.instrument || trade.long_ticker || 'N/A';
+        }
+
+        // Standardize company name
+        if (!normalized.company_name) {
+          normalized.company_name = trade.company || trade.name || '';
+        }
+
+        // Standardize conviction to confidence mapping
+        if (trade.conviction && !normalized.confidence) {
+          const convictionMap = { high: 80, moderate: 60, low: 40 };
+          normalized.confidence = convictionMap[trade.conviction] || 50;
+        }
+
+        return normalized;
+      }
+
       async function loadAllData() {
         try {
           const [
@@ -575,7 +652,6 @@
         }
       }
 
-      // Check if data is stale
       function checkDataFreshness(manifest) {
         const lastUpdate = new Date(manifest.last_global_update);
         const now = new Date();
@@ -596,18 +672,14 @@
           lastUpdate.toLocaleDateString();
       }
 
-      // Update UI with loaded data
       function updateUI() {
-        // Update capital
         if (currentData.journal) {
           document.getElementById("currentCapital").textContent =
             currentData.journal.capital_current.toFixed(2);
         }
 
-        // Render market regime
         renderMarketRegime();
 
-        // Render all watchlists
         const watchlists = [
           "pre-earnings",
           "post-crash",
@@ -622,72 +694,83 @@
           }
         });
 
-        // Render trade journal
         if (currentData.journal) {
           renderTradeJournal(currentData.journal);
         }
       }
 
-      // Render market regime section
       function renderMarketRegime() {
         const regime = currentData["market-regime"];
         if (!regime) return;
 
-        // Handle property variations then replace '_' with ' ' for display
-        for (const key in regime) {
-          if (typeof regime[key] === "string") {
-            regime[key] = regime[key].replace(/_/g, " ");
-          }
+        const currentRegime = regime.current_regime || 'N/A';
+        const vix = regime.vix || 'N/A';
+        const trend = regime.trend || 'N/A';
+        const sentiment = regime.sentiment || 'N/A';
+        const notes = regime.notes || '';
+
+        // Determine regime color
+        let regimeColor, regimeBg;
+        if (currentRegime.toLowerCase().includes('bull')) {
+          regimeColor = '#22c55e';
+          regimeBg = 'rgba(34, 197, 94, 0.1)';
+        } else if (currentRegime.toLowerCase().includes('bear')) {
+          regimeColor = '#ef4444';
+          regimeBg = 'rgba(239, 68, 68, 0.1)';
+        } else {
+          regimeColor = '#f59e0b';
+          regimeBg = 'rgba(245, 158, 11, 0.1)';
         }
 
-        const currentRegime =
-          regime.current_regime ||
-          regime.currentRegime ||
-          regime.regime ||
-          "N/A";
-        const vix = regime.vix || regime.VIX || "N/A";
-        const trend = regime.trend || "N/A";
-        const sentiment = regime.sentiment || "N/A";
-        const description = regime.description || "";
-
         const html = `
-                <div class="market-regime">
-                    <h2 style="color: var(--color-accent); margin-bottom: 1rem;">🌍 Market Regime</h2>
-                    <div class="regime-grid">
-                        <div class="regime-item">
-                            <div class="regime-label">Current Regime</div>
-                            <div class="regime-value">${currentRegime}</div>
-                        </div>
-                        <div class="regime-item">
-                            <div class="regime-label">VIX Level</div>
-                            <div class="regime-value">${vix}</div>
-                        </div>
-                        <div class="regime-item">
-                            <div class="regime-label">Trend</div>
-                            <div class="regime-value">${trend}</div>
-                        </div>
-                        <div class="regime-item">
-                            <div class="regime-label">Sentiment</div>
-                            <div class="regime-value">${sentiment}</div>
-                        </div>
-                    </div>
-                    <p style="margin-top: 1rem; color: var(--color-text-secondary); font-size: 0.875rem;">
-                        ${description}
-                    </p>
-                </div>
-            `;
+          <div class="market-regime" style="background: ${regimeBg}; border-color: ${regimeColor};">
+            <div class="regime-header">
+              <h2 style="color: ${regimeColor};">🌍 Market Regime</h2>
+              <div class="regime-status" style="color: ${regimeColor};">
+                ${currentRegime.toUpperCase()}
+              </div>
+            </div>
+
+            <div class="regime-grid">
+              <div class="regime-item" style="border-left-color: ${regimeColor};">
+                <div class="regime-label">VIX Level</div>
+                <div class="regime-value">${vix}</div>
+              </div>
+              <div class="regime-item" style="border-left-color: ${regimeColor};">
+                <div class="regime-label">Trend</div>
+                <div class="regime-value">${trend}</div>
+              </div>
+              <div class="regime-item" style="border-left-color: ${regimeColor};">
+                <div class="regime-label">Sentiment</div>
+                <div class="regime-value">${sentiment}</div>
+              </div>
+            </div>
+
+            <p style="margin-top: 1rem; color: var(--color-text-secondary); font-size: 0.875rem;">
+              ${notes}
+            </p>
+          </div>
+        `;
         document.getElementById("marketRegimeSection").innerHTML = html;
       }
 
-      // Render a watchlist
+      function toggleCardExpansion(cardId) {
+        const detailsDiv = document.getElementById(cardId);
+        const icon = document.getElementById(`${cardId}-icon`);
+
+        if (detailsDiv.style.display === 'none' || detailsDiv.style.display === '') {
+          detailsDiv.style.display = 'block';
+          icon.textContent = '▲';
+        } else {
+          detailsDiv.style.display = 'none';
+          icon.textContent = '▼';
+        }
+      }
+
       function renderWatchlist(name, data) {
         const container = document.getElementById(name);
+        const trades = data.opportunities || data.events || data.candidates || [];
 
-        // Handle different property names for backwards compatibility
-        const trades =
-          data.opportunities || data.events || data.candidates || [];
-
-        // Map strategy codes to display names
         const strategyNames = {
           pre_earnings_momentum: "Pre-Earnings Momentum",
           post_crash_rebound: "Post-Crash Rebound",
@@ -697,358 +780,291 @@
           crypto_opportunities: "Crypto Opportunities",
         };
 
-        const strategyCode =
-          data.strategy || data.strategy_name || data.strategyName || "";
-        const strategyName =
-          strategyNames[strategyCode] || strategyCode || "Trading Strategy";
+        const strategyCode = data.strategy || data.strategy_name || data.strategyName || "";
+        const strategyName = strategyNames[strategyCode] || strategyCode || "Trading Strategy";
         const description = data.description || `Strategy: ${strategyCode}`;
         const weekStart = data.week_start || data.weekStart || "N/A";
         const weekEnd = data.week_end || data.weekEnd || "N/A";
         const riskPerTrade = data.risk_per_trade || data.riskPerTrade || 0.02;
 
         const header = `
-                <div class="watchlist-header">
-                    <h2>${strategyName}</h2>
-                    <p style="color: var(--color-text-secondary);">${description}</p>
-                    <div class="watchlist-meta">
-                        <span>📅 Week: ${weekStart} to ${weekEnd}</span>
-                        <span>🎯 Trades: ${trades.length}</span>
-                        <span>📊 Capital per trade: $${(1000 * riskPerTrade).toFixed(2)}</span>
-                    </div>
-                </div>
-            `;
+          <div class="watchlist-header">
+            <h2>${strategyName}</h2>
+            <p style="color: var(--color-text-secondary);">${description}</p>
+            <div class="watchlist-meta">
+              <span>📅 Week: ${weekStart} to ${weekEnd}</span>
+              <span>🎯 Trades: ${trades.length}</span>
+              <span>📊 Capital per trade: $${(1000 * riskPerTrade).toFixed(2)}</span>
+            </div>
+          </div>
+        `;
 
-        const cards = trades
-          .map((trade) => {
-            if (trade.type === "pair_trade") {
-              return renderPairTradeCard(trade);
-            } else if (trade.type === "macro_event") {
-              return renderMacroEventCard(trade);
-            } else {
-              return renderTradeCard(trade);
-            }
-          })
-          .join("");
+        const cards = trades.map((trade) => {
+          const normalizedTrade = normalizeTradeData(trade, strategyCode);
+
+          if (normalizedTrade.long_ticker && normalizedTrade.short_ticker) {
+            return renderPairTradeCard(normalizedTrade);
+          } else if (normalizedTrade.event_name) {
+            return renderMacroEventCard(normalizedTrade);
+          } else {
+            return renderTradeCard(normalizedTrade);
+          }
+        }).join("");
 
         container.innerHTML = header + `<div class="cards-grid">${cards}</div>`;
       }
 
-      // Render standard trade card
       function renderTradeCard(trade) {
-        // Handle property name variations
-        const ticker = trade.ticker || trade.symbol || "N/A";
-        const company = trade.company_name || trade.company || trade.name || "";
-
-        // Map conviction to confidence percentage
-        const convictionMap = { high: 80, moderate: 60, low: 40 };
-        const confidence =
-          trade.confidence || convictionMap[trade.conviction] || 50;
-
+        const cardId = `card-${Math.random().toString(36).substr(2, 9)}`;
+        const ticker = trade.ticker || "N/A";
+        const company = trade.company_name || "";
+        const confidence = trade.confidence || 50;
         const direction = trade.direction || "LONG";
 
-        // Handle different entry formats
-        let entry = 0;
-        if (trade.entry) entry = trade.entry;
-        else if (trade.entry_price) entry = trade.entry_price;
-        else if (trade.current_price) entry = trade.current_price;
-        else if (trade.entry_zone) {
-          // Parse entry_zone like "318-322" to get midpoint
+        let entry = trade.current_price || 0;
+        if (trade.entry_zone) {
           const zoneParts = String(trade.entry_zone).split("-");
           if (zoneParts.length === 2) {
             entry = (parseFloat(zoneParts[0]) + parseFloat(zoneParts[1])) / 2;
+          } else {
+            entry = parseFloat(trade.entry_zone) || entry;
           }
         }
 
-        const stopLoss = trade.stop_loss || trade.stopLoss || trade.sl || 0;
-        const target = trade.target || trade.take_profit || trade.tp || 0;
+        const stopLoss = trade.stop_loss || 0;
+        const target = trade.take_profit || 0;
 
-        // Calculate risk:reward if not provided
-        let riskRewardRatio =
-          trade.risk_reward_ratio || trade.riskRewardRatio || trade.rr;
-        if (!riskRewardRatio && entry > 0 && stopLoss > 0 && target > 0) {
+        let riskRewardRatio = "N/A";
+        if (entry > 0 && stopLoss > 0 && target > 0) {
           const risk = Math.abs(entry - stopLoss);
           const reward = Math.abs(target - entry);
-          riskRewardRatio =
-            risk > 0 ? `1:${(reward / risk).toFixed(2)}` : "N/A";
-        } else if (!riskRewardRatio) {
-          riskRewardRatio = "N/A";
+          riskRewardRatio = risk > 0 ? `1:${(reward / risk).toFixed(2)}` : "N/A";
         }
 
-        const timeframe =
-          trade.timeframe || trade.time_frame || trade.expected_holding_days
-            ? `${trade.expected_holding_days}d`
-            : "N/A";
-        const earningsDate = trade.earnings_date || trade.earningsDate || null;
-        const tags = trade.tags || [];
-
-        const confidenceClass =
-          confidence >= 75 ? "confidence-high" : "confidence-medium";
-
-        // Use position size from data or calculate
-        let positionSize =
-          trade.position_size_usd || trade.positionSizeUsd || 0;
-        if (positionSize === 0 && entry > 0 && stopLoss > 0) {
-          const riskPercent = Math.abs(entry - stopLoss) / entry;
-          if (riskPercent > 0) {
-            positionSize = ((1000 * 0.02) / riskPercent).toFixed(2);
-          }
-        }
-        positionSize = positionSize > 0 ? positionSize.toFixed(2) : "N/A";
+        const timeframe = trade.expected_holding_days ? `${trade.expected_holding_days}d` : "N/A";
+        const earningsDate = trade.earnings_date || null;
+        const positionSize = trade.position_size_usd ? trade.position_size_usd.toFixed(2) : "N/A";
+        const confidenceClass = confidence >= 75 ? "confidence-high" : "confidence-medium";
 
         return `
-                <div class="trade-card">
-                    <div class="card-header">
-                        <div>
-                            <div class="card-title">${ticker}</div>
-                            <div class="card-ticker">${company}</div>
-                        </div>
-                        <div class="confidence-badge ${confidenceClass}">${confidence}%</div>
-                    </div>
-                    <div class="card-info">
-                        <div class="info-row">
-                            <span class="info-label">Direction</span>
-                            <span class="info-value" style="color: ${direction === "LONG" ? "var(--color-success)" : "var(--color-danger)"}">
-                                ${direction}
-                            </span>
-                        </div>
-                        ${
-                          earningsDate
-                            ? `
-                        <div class="info-row">
-                            <span class="info-label">Earnings</span>
-                            <span class="info-value">${earningsDate}</span>
-                        </div>
-                        `
-                            : ""
-                        }
-                        <div class="info-row">
-                            <span class="info-label">Position Size</span>
-                            <span class="info-value">$${positionSize}</span>
-                        </div>
-                        ${
-                          trade.rationale
-                            ? `
-                        <div class="info-row" style="margin-top: 0.5rem;">
-                            <p style="font-size: 0.8125rem; color: var(--color-text-secondary); line-height: 1.4; margin: 0;">
-                                ${trade.rationale}
-                            </p>
-                        </div>
-                        `
-                            : ""
-                        }
-                    </div>
-                    <div class="card-metrics">
-                        <div class="metric">
-                            <div class="metric-label">Target</div>
-                            <div class="metric-value" style="color: var(--color-success)">$${target > 0 ? target.toFixed(2) : "N/A"}</div>
-                        </div>
-                        <div class="metric">
-                            <div class="metric-label">Stop Loss</div>
-                            <div class="metric-value" style="color: var(--color-danger)">$${stopLoss > 0 ? stopLoss.toFixed(2) : "N/A"}</div>
-                        </div>
-                        <div class="metric">
-                            <div class="metric-label">Risk:Reward</div>
-                            <div class="metric-value">${riskRewardRatio}</div>
-                        </div>
-                        <div class="metric">
-                            <div class="metric-label">Timeframe</div>
-                            <div class="metric-value">${timeframe}</div>
-                        </div>
-                    </div>
-                    ${
-                      tags.length > 0
-                        ? `
-                    <div class="card-tags">
-                        ${tags.map((tag) => `<span class="tag">${tag}</span>`).join("")}
-                    </div>
-                    `
-                        : ""
-                    }
-                </div>
-            `;
+          <div class="trade-card">
+            <div class="card-header" onclick="toggleCardExpansion('${cardId}')">
+              <div>
+                <div class="card-title">${ticker}</div>
+                <div class="card-ticker">${company}</div>
+              </div>
+              <div style="display: flex; align-items: center; gap: 0.5rem;">
+                <div class="confidence-badge ${confidenceClass}">${confidence}%</div>
+                <span class="expand-icon" id="${cardId}-icon">▼</span>
+              </div>
+            </div>
+
+            <div class="card-summary">
+              <div class="info-row">
+                <span class="info-label">Direction</span>
+                <span class="info-value" style="color: ${direction === "LONG" ? "var(--color-success)" : "var(--color-danger)"}">
+                  ${direction}
+                </span>
+              </div>
+              ${earningsDate ? `
+              <div class="info-row">
+                <span class="info-label">Earnings</span>
+                <span class="info-value">${earningsDate}</span>
+              </div>
+              ` : ""}
+              <div class="info-row">
+                <span class="info-label">Position Size</span>
+                <span class="info-value">$${positionSize}</span>
+              </div>
+            </div>
+
+            <div class="card-metrics">
+              <div class="metric">
+                <div class="metric-label">Target</div>
+                <div class="metric-value" style="color: var(--color-success)">$${target > 0 ? target.toFixed(2) : "N/A"}</div>
+              </div>
+              <div class="metric">
+                <div class="metric-label">Stop Loss</div>
+                <div class="metric-value" style="color: var(--color-danger)">$${stopLoss > 0 ? stopLoss.toFixed(2) : "N/A"}</div>
+              </div>
+              <div class="metric">
+                <div class="metric-label">Risk:Reward</div>
+                <div class="metric-value">${riskRewardRatio}</div>
+              </div>
+              <div class="metric">
+                <div class="metric-label">Timeframe</div>
+                <div class="metric-value">${timeframe}</div>
+              </div>
+            </div>
+
+            <div class="card-details" id="${cardId}">
+              ${trade.rationale ? `
+              <div class="detail-section">
+                <h4>Full Rationale</h4>
+                <p>${trade.rationale}</p>
+              </div>
+              ` : ""}
+
+              ${trade.trade_setup ? `
+              <div class="detail-section">
+                <h4>Trade Setup</h4>
+                <p>${trade.trade_setup}</p>
+              </div>
+              ` : ""}
+
+              ${trade.entry_trigger ? `
+              <div class="detail-section">
+                <h4>Entry Trigger</h4>
+                <p>${trade.entry_trigger}</p>
+              </div>
+              ` : ""}
+
+              ${trade.crash_date ? `
+              <div class="detail-section">
+                <h4>Crash Details</h4>
+                <p>Date: ${trade.crash_date}<br>Drop: ${trade.drop_percent}%</p>
+              </div>
+              ` : ""}
+
+              ${trade.last_week_performance ? `
+              <div class="detail-section">
+                <h4>Last Week Performance</h4>
+                <p>${trade.last_week_performance}</p>
+              </div>
+              ` : ""}
+            </div>
+          </div>
+        `;
       }
 
-      // Render pair trade card
       function renderPairTradeCard(trade) {
-        // Handle property variations
-        const longTicker =
-          trade.long_ticker ||
-          trade.longTicker ||
-          trade.long_leg?.ticker ||
-          "N/A";
-        const shortTicker =
-          trade.short_ticker ||
-          trade.shortTicker ||
-          trade.short_leg?.ticker ||
-          "N/A";
-        const longEntry =
-          trade.long_entry || trade.longEntry || trade.long_leg?.entry || 0;
-        const shortEntry =
-          trade.short_entry || trade.shortEntry || trade.short_leg?.entry || 0;
-        const spreadTarget = trade.spread_target || trade.spreadTarget || "N/A";
-        const allocationPerLeg =
-          trade.allocation_per_leg || trade.allocationPerLeg || "50%";
-        const timeframe =
-          trade.timeframe || trade.time_frame || trade.expected_holding_days
-            ? `${trade.expected_holding_days}d`
-            : "N/A";
-
-        const convictionMap = { high: 80, moderate: 60, low: 40 };
-        const confidence =
-          trade.confidence || convictionMap[trade.conviction] || 50;
-        const tags = trade.tags || [];
+        const cardId = `card-${Math.random().toString(36).substr(2, 9)}`;
+        const longTicker = trade.long_ticker || "N/A";
+        const shortTicker = trade.short_ticker || "N/A";
+        const longEntry = trade.long_entry || 0;
+        const shortEntry = trade.short_entry || 0;
+        const spreadTarget = trade.target_spread || "N/A";
+        const allocationPerLeg = trade.position_size_usd_each || trade.position_size_usd || 0;
+        const timeframe = trade.expected_holding_days ? `${trade.expected_holding_days}d` : "N/A";
+        const confidence = trade.confidence || 50;
+        const confidenceClass = confidence >= 75 ? "confidence-high" : "confidence-medium";
 
         return `
-                <div class="trade-card">
-                    <div class="card-header">
-                        <div>
-                            <div class="card-title">${longTicker} / ${shortTicker}</div>
-                            <div class="card-ticker">Pair Trade</div>
-                        </div>
-                        <div class="confidence-badge confidence-high">${confidence}%</div>
-                    </div>
-                    <div class="card-info">
-                        <div class="info-row">
-                            <span class="info-label">Long</span>
-                            <span class="info-value" style="color: var(--color-success)">${longTicker} @ $${longEntry > 0 ? longEntry.toFixed(2) : "N/A"}</span>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label">Short</span>
-                            <span class="info-value" style="color: var(--color-danger)">${shortTicker} @ $${shortEntry > 0 ? shortEntry.toFixed(2) : "N/A"}</span>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label">Spread Target</span>
-                            <span class="info-value">${spreadTarget}</span>
-                        </div>
-                    </div>
-                    <div class="card-metrics">
-                        <div class="metric">
-                            <div class="metric-label">Allocation</div>
-                            <div class="metric-value">${allocationPerLeg}</div>
-                        </div>
-                        <div class="metric">
-                            <div class="metric-label">Timeframe</div>
-                            <div class="metric-value">${timeframe}</div>
-                        </div>
-                    </div>
-                    ${
-                      tags.length > 0
-                        ? `
-                    <div class="card-tags">
-                        ${tags.map((tag) => `<span class="tag">${tag}</span>`).join("")}
-                    </div>
-                    `
-                        : ""
-                    }
-                </div>
-            `;
+          <div class="trade-card">
+            <div class="card-header" onclick="toggleCardExpansion('${cardId}')">
+              <div>
+                <div class="card-title">${longTicker} / ${shortTicker}</div>
+                <div class="card-ticker">Pair Trade</div>
+              </div>
+              <div style="display: flex; align-items: center; gap: 0.5rem;">
+                <div class="confidence-badge ${confidenceClass}">${confidence}%</div>
+                <span class="expand-icon" id="${cardId}-icon">▼</span>
+              </div>
+            </div>
+
+            <div class="card-summary">
+              <div class="info-row">
+                <span class="info-label">Long</span>
+                <span class="info-value" style="color: var(--color-success)">${longTicker} @ $${longEntry > 0 ? longEntry.toFixed(2) : "N/A"}</span>
+              </div>
+              <div class="info-row">
+                <span class="info-label">Short</span>
+                <span class="info-value" style="color: var(--color-danger)">${shortTicker} @ $${shortEntry > 0 ? shortEntry.toFixed(2) : "N/A"}</span>
+              </div>
+              <div class="info-row">
+                <span class="info-label">Spread Target</span>
+                <span class="info-value">${spreadTarget}</span>
+              </div>
+            </div>
+
+            <div class="card-metrics">
+              <div class="metric">
+                <div class="metric-label">Allocation Per Leg</div>
+                <div class="metric-value">$${allocationPerLeg > 0 ? allocationPerLeg.toFixed(2) : "N/A"}</div>
+              </div>
+              <div class="metric">
+                <div class="metric-label">Timeframe</div>
+                <div class="metric-value">${timeframe}</div>
+              </div>
+            </div>
+
+            <div class="card-details" id="${cardId}">
+              ${trade.rationale ? `
+              <div class="detail-section">
+                <h4>Rationale</h4>
+                <p>${trade.rationale}</p>
+              </div>
+              ` : ""}
+
+              ${trade.long_stop || trade.short_stop ? `
+              <div class="detail-section">
+                <h4>Stop Losses</h4>
+                <p>Long: $${trade.long_stop || "N/A"}<br>Short: $${trade.short_stop || "N/A"}</p>
+              </div>
+              ` : ""}
+            </div>
+          </div>
+        `;
       }
 
-      // Render macro event card
       function renderMacroEventCard(trade) {
-        // Handle property variations
-        const eventName =
-          trade.event_name || trade.eventName || trade.event || "Macro Event";
-        const eventDate =
-          trade.event_date || trade.eventDate || trade.date || "N/A";
-        const instrument =
-          trade.instrument || trade.ticker || trade.asset || "N/A";
-        const direction = trade.direction || trade.bias || "NEUTRAL";
-        const entryWindow = trade.entry_window || trade.entryWindow || "N/A";
+        const cardId = `card-${Math.random().toString(36).substr(2, 9)}`;
+        const eventName = trade.event_name || 'Macro Event';
+        const eventDate = trade.date || 'N/A';
+        const eventTime = trade.time || '';
+        const impact = trade.impact || 'medium';
+        const instruments = trade.tradeable_instruments || [];
+        const setup = trade.trade_setup || 'N/A';
+        const action = trade.recommended_action || 'monitor';
+        const rationale = trade.rationale || '';
 
-        let target = trade.target || trade.take_profit || trade.tp || "N/A";
-        let stopLoss = trade.stop_loss || trade.stopLoss || trade.sl || "N/A";
-
-        // Calculate R:R if not provided
-        let riskRewardRatio =
-          trade.risk_reward_ratio || trade.riskRewardRatio || trade.rr;
-        if (
-          !riskRewardRatio &&
-          typeof target === "number" &&
-          typeof stopLoss === "number"
-        ) {
-          const entry = trade.entry || trade.current_price || 0;
-          if (entry > 0) {
-            const risk = Math.abs(entry - stopLoss);
-            const reward = Math.abs(target - entry);
-            riskRewardRatio =
-              risk > 0 ? `1:${(reward / risk).toFixed(2)}` : "N/A";
-          }
-        }
-        riskRewardRatio = riskRewardRatio || "N/A";
-
-        const timeframe =
-          trade.timeframe || trade.time_frame || trade.expected_holding_days
-            ? `${trade.expected_holding_days}d`
-            : "N/A";
-        const tags = trade.tags || [];
+        const impactClass = (impact === 'high' || impact === 'very_high') ? 'confidence-high' : 'confidence-medium';
 
         return `
-                <div class="trade-card">
-                    <div class="card-header">
-                        <div>
-                            <div class="card-title">${eventName}</div>
-                            <div class="card-ticker">${eventDate}</div>
-                        </div>
-                        <div class="confidence-badge confidence-medium">MACRO</div>
-                    </div>
-                    <div class="card-info">
-                        <div class="info-row">
-                            <span class="info-label">Instrument</span>
-                            <span class="info-value">${instrument}</span>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label">Direction</span>
-                            <span class="info-value" style="color: ${direction === "LONG" ? "var(--color-success)" : direction === "SHORT" ? "var(--color-danger)" : "var(--color-text-secondary)"}">
-                                ${direction}
-                            </span>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label">Entry Window</span>
-                            <span class="info-value">${entryWindow}</span>
-                        </div>
-                    </div>
-                    <div class="card-metrics">
-                        <div class="metric">
-                            <div class="metric-label">Target</div>
-                            <div class="metric-value" style="color: var(--color-success)">${target}</div>
-                        </div>
-                        <div class="metric">
-                            <div class="metric-label">Stop Loss</div>
-                            <div class="metric-value" style="color: var(--color-danger)">${stopLoss}</div>
-                        </div>
-                        <div class="metric">
-                            <div class="metric-label">Risk:Reward</div>
-                            <div class="metric-value">${riskRewardRatio}</div>
-                        </div>
-                        <div class="metric">
-                            <div class="metric-label">Timeframe</div>
-                            <div class="metric-value">${timeframe}</div>
-                        </div>
-                    </div>
-                    ${
-                      tags.length > 0
-                        ? `
-                    <div class="card-tags">
-                        ${tags.map((tag) => `<span class="tag">${tag}</span>`).join("")}
-                    </div>
-                    `
-                        : ""
-                    }
-                </div>
-            `;
+          <div class="trade-card">
+            <div class="card-header" onclick="toggleCardExpansion('${cardId}')">
+              <div>
+                <div class="card-title">${eventName}</div>
+                <div class="card-ticker">${eventDate} ${eventTime}</div>
+              </div>
+              <div style="display: flex; align-items: center; gap: 0.5rem;">
+                <div class="confidence-badge ${impactClass}">${impact.toUpperCase()}</div>
+                <span class="expand-icon" id="${cardId}-icon">▼</span>
+              </div>
+            </div>
+
+            <div class="card-summary">
+              <div class="info-row">
+                <span class="info-label">Trade Setup</span>
+                <span class="info-value">${setup}</span>
+              </div>
+              <div class="info-row">
+                <span class="info-label">Action</span>
+                <span class="info-value">${action.replace(/_/g, ' ')}</span>
+              </div>
+              <div class="info-row">
+                <span class="info-label">Instruments</span>
+                <span class="info-value">${instruments.join(', ')}</span>
+              </div>
+            </div>
+
+            <div class="card-details" id="${cardId}">
+              ${rationale ? `
+              <div class="detail-section">
+                <h4>Event Analysis</h4>
+                <p>${rationale}</p>
+              </div>
+              ` : ""}
+            </div>
+          </div>
+        `;
       }
 
-      // Render trade journal
       function renderTradeJournal(journal) {
         const container = document.getElementById("journal");
-
-        // Handle property variations
         const trades = journal.trades || journal.history || [];
-        const capitalStart =
-          journal.capital_start || journal.capitalStart || 1000;
-        const capitalCurrent =
-          journal.capital_current || journal.capitalCurrent || 1000;
+        const capitalStart = journal.capital_start || journal.capitalStart || 1000;
+        const capitalCurrent = journal.capital_current || journal.capitalCurrent || 1000;
 
         const winningTrades = trades.filter(
           (t) =>
@@ -1061,84 +1077,71 @@
             : "0.0";
 
         const header = `
-                <div class="watchlist-header">
-                    <h2>📓 Trade Journal</h2>
-                    <div class="watchlist-meta">
-                        <span>💰 Starting Capital: $${capitalStart.toFixed(2)}</span>
-                        <span>📈 Current Capital: $${capitalCurrent.toFixed(2)}</span>
-                        <span>📊 Total Trades: ${trades.length}</span>
-                        <span>✅ Win Rate: ${winRate}%</span>
-                    </div>
-                </div>
-            `;
+          <div class="watchlist-header">
+            <h2>📓 Trade Journal</h2>
+            <div class="watchlist-meta">
+              <span>💰 Starting Capital: $${capitalStart.toFixed(2)}</span>
+              <span>📈 Current Capital: $${capitalCurrent.toFixed(2)}</span>
+              <span>📊 Total Trades: ${trades.length}</span>
+              <span>✅ Win Rate: ${winRate}%</span>
+            </div>
+          </div>
+        `;
 
         const cards = trades
           .map((trade) => {
-            // Handle property variations
             const ticker = trade.ticker || trade.symbol || "N/A";
-            const entryDate =
-              trade.entry_date || trade.entryDate || trade.date || "N/A";
+            const entryDate = trade.entry_date || trade.entryDate || trade.date || "N/A";
             const strategy = trade.strategy || "N/A";
             const direction = trade.direction || "N/A";
-            const entryPrice =
-              trade.entry_price || trade.entryPrice || trade.entry || 0;
-            const exitPrice =
-              trade.exit_price || trade.exitPrice || trade.exit || 0;
-            const pnlDollars =
-              trade.pnl_dollars || trade.pnlDollars || trade.pnl || 0;
-            const pnlPercent =
-              trade.pnl_percent || trade.pnlPercent || trade.pnl_pct || 0;
-            const outcome =
-              trade.outcome ||
-              trade.result ||
-              (pnlDollars >= 0 ? "WIN" : "LOSS");
+            const entryPrice = trade.entry_price || trade.entryPrice || trade.entry || 0;
+            const exitPrice = trade.exit_price || trade.exitPrice || trade.exit || 0;
+            const pnlDollars = trade.pnl_dollars || trade.pnlDollars || trade.pnl || 0;
+            const pnlPercent = trade.pnl_percent || trade.pnlPercent || trade.pnl_pct || 0;
+            const outcome = trade.outcome || trade.result || (pnlDollars >= 0 ? "WIN" : "LOSS");
             const notes = trade.notes || "";
 
             return `
-                <div class="trade-card">
-                    <div class="card-header">
-                        <div>
-                            <div class="card-title">${ticker}</div>
-                            <div class="card-ticker">${entryDate}</div>
-                        </div>
-                        <div class="confidence-badge ${outcome === "WIN" ? "confidence-high" : "confidence-medium"}">
-                            ${outcome}
-                        </div>
-                    </div>
-                    <div class="card-info">
-                        <div class="info-row">
-                            <span class="info-label">Strategy</span>
-                            <span class="info-value">${strategy}</span>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label">Direction</span>
-                            <span class="info-value">${direction}</span>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label">Entry</span>
-                            <span class="info-value">$${entryPrice > 0 ? entryPrice.toFixed(2) : "N/A"}</span>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label">Exit</span>
-                            <span class="info-value">$${exitPrice > 0 ? exitPrice.toFixed(2) : "N/A"}</span>
-                        </div>
-                        <div class="info-row">
-                            <span class="info-label">P&L</span>
-                            <span class="info-value" style="color: ${pnlDollars >= 0 ? "var(--color-success)" : "var(--color-danger)"}">
-                                $${pnlDollars.toFixed(2)} (${pnlPercent.toFixed(2)}%)
-                            </span>
-                        </div>
-                    </div>
-                    ${
-                      notes
-                        ? `
-                    <p style="margin-top: 1rem; font-size: 0.875rem; color: var(--color-text-secondary);">
-                        ${notes}
-                    </p>
-                    `
-                        : ""
-                    }
+              <div class="trade-card">
+                <div class="card-header">
+                  <div>
+                    <div class="card-title">${ticker}</div>
+                    <div class="card-ticker">${entryDate}</div>
+                  </div>
+                  <div class="confidence-badge ${outcome === "WIN" ? "confidence-high" : "confidence-medium"}">
+                    ${outcome}
+                  </div>
                 </div>
+                <div class="card-summary">
+                  <div class="info-row">
+                    <span class="info-label">Strategy</span>
+                    <span class="info-value">${strategy}</span>
+                  </div>
+                  <div class="info-row">
+                    <span class="info-label">Direction</span>
+                    <span class="info-value">${direction}</span>
+                  </div>
+                  <div class="info-row">
+                    <span class="info-label">Entry</span>
+                    <span class="info-value">$${entryPrice > 0 ? entryPrice.toFixed(2) : "N/A"}</span>
+                  </div>
+                  <div class="info-row">
+                    <span class="info-label">Exit</span>
+                    <span class="info-value">$${exitPrice > 0 ? exitPrice.toFixed(2) : "N/A"}</span>
+                  </div>
+                  <div class="info-row">
+                    <span class="info-label">P&L</span>
+                    <span class="info-value" style="color: ${pnlDollars >= 0 ? "var(--color-success)" : "var(--color-danger)"}">
+                      $${pnlDollars.toFixed(2)} (${pnlPercent.toFixed(2)}%)
+                    </span>
+                  </div>
+                </div>
+                ${notes ? `
+                <p style="margin-top: 1rem; font-size: 0.875rem; color: var(--color-text-secondary);">
+                  ${notes}
+                </p>
+                ` : ""}
+              </div>
             `;
           })
           .join("");
@@ -1146,22 +1149,18 @@
         container.innerHTML = header + `<div class="cards-grid">${cards}</div>`;
       }
 
-      // Switch tabs
       function switchTab(tabName) {
-        // Update tab buttons
         document.querySelectorAll(".tab").forEach((tab) => {
           tab.classList.remove("active");
         });
         event.target.classList.add("active");
 
-        // Update content
         document.querySelectorAll(".tab-content").forEach((content) => {
           content.classList.remove("active");
         });
         document.getElementById(tabName).classList.add("active");
       }
 
-      // Show error message
       function showError(message) {
         const errorHtml = `<div class="error-message">${message}</div>`;
         document.querySelectorAll(".tab-content").forEach((content) => {
@@ -1174,7 +1173,6 @@
         statusText.textContent = "Error loading data";
       }
 
-      // Refresh data
       function refreshData() {
         const button = event.target;
         button.disabled = true;
@@ -1186,7 +1184,6 @@
         });
       }
 
-      // Toggle auto-refresh
       function toggleAutoRefresh() {
         const isEnabled = document.getElementById("autoRefreshToggle").checked;
 
@@ -1202,7 +1199,6 @@
         }
       }
 
-      // Initialize on page load
       document.addEventListener("DOMContentLoaded", () => {
         loadAllData();
       });
