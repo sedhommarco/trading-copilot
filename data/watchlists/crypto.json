@@ -18,7 +18,7 @@
       "conviction": "moderate",
       "rationale": "Bitcoin consolidating in mid-60k range; breakout above 70k would confirm trend resumption but volatility remains high.",
       "last_week_performance": null,
-      "trade_setup": "range_breakout",
+      "trade_setup": "range breakout",
       "entry_trigger": "4h close above 70000",
       "units": 0.003,
       "leverage": "2x"
@@ -36,7 +36,7 @@
       "conviction": "moderate",
       "rationale": "ETH is consolidating after a large correction from above 3k; risk/reward favorable for a controlled swing if 1900 holds.",
       "last_week_performance": null,
-      "trade_setup": "support_bounce",
+      "trade_setup": "support bounce",
       "entry_trigger": "Enter near 1960 if price holds above 1900 support with improving breadth.",
       "units": 0.1,
       "leverage": "2x"
@@ -54,7 +54,7 @@
       "conviction": "low",
       "rationale": "High-beta L1 that has lagged over 12 months; suitable only as a small position with tight risk control.",
       "last_week_performance": null,
-      "trade_setup": "oversold_bounce",
+      "trade_setup": "oversold bounce",
       "entry_trigger": "Enter near 84 on intraday stabilization with BTC holding above 65k.",
       "units": 2.37,
       "leverage": "2x"
@@ -72,7 +72,7 @@
       "conviction": "low",
       "rationale": "XRP showing moderate momentum; small-ticket swing suitable only under stable macro and crypto volatility.",
       "last_week_performance": null,
-      "trade_setup": "short_term_swing",
+      "trade_setup": "short term swing",
       "entry_trigger": "Enter near 1.38 on continuation of current uptrend with BTC stable.",
       "units": 145.0,
       "leverage": "2x"
@@ -90,7 +90,7 @@
       "conviction": "low",
       "rationale": "High-volatility L1 with improving tape but no clear edge beyond technical trend; position size kept deliberately small.",
       "last_week_performance": null,
-      "trade_setup": "trend_follow_small",
+      "trade_setup": "trend follow small",
       "entry_trigger": "Enter near 0.98 on higher lows above 0.90.",
       "units": 205.0,
       "leverage": "2x"

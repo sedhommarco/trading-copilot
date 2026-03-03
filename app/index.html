@@ -714,12 +714,13 @@
 
         // Standardize ticker field
         if (!normalized.ticker) {
-          normalized.ticker = trade.symbol || trade.instrument || trade.long_ticker || 'N/A';
+          normalized.ticker =
+            trade.symbol || trade.instrument || trade.long_ticker || "N/A";
         }
 
         // Standardize company name
         if (!normalized.company_name) {
-          normalized.company_name = trade.company || trade.name || '';
+          normalized.company_name = trade.company || trade.name || "";
         }
 
         // Standardize conviction to confidence mapping
@@ -826,63 +827,75 @@
         const regime = currentData["market-regime"];
         if (!regime) return;
 
-        const currentRegime = regime.current_regime || 'N/A';
-        const vix = regime.vix || 'N/A';
-        const trend = regime.trend || 'N/A';
-        const sentiment = regime.sentiment || 'N/A';
-        const notes = regime.notes || '';
+        const currentRegime = regime.current_regime || "N/A";
+        const vix = regime.vix || "N/A";
+        const trend = regime.trend || "N/A";
+        const sentiment = regime.sentiment || "N/A";
+        const notes = regime.notes || "";
         const sectorLeaders = regime.sector_leaders || [];
         const sectorLaggards = regime.sector_laggards || [];
-        const nextCatalyst = regime.next_major_catalyst || 'N/A';
-        const fedPolicy = regime.fed_policy || 'N/A';
+        const nextCatalyst = regime.next_major_catalyst || "N/A";
+        const fedPolicy = regime.fed_policy || "N/A";
         const strategyAdj = regime.strategy_adjustments || {};
 
         // Determine regime color
         let regimeColor, regimeBg;
-        if (currentRegime.toLowerCase().includes('bull')) {
-          regimeColor = '#22c55e';
-          regimeBg = 'rgba(34, 197, 94, 0.1)';
-        } else if (currentRegime.toLowerCase().includes('bear')) {
-          regimeColor = '#ef4444';
-          regimeBg = 'rgba(239, 68, 68, 0.1)';
+        if (currentRegime.toLowerCase().includes("bull")) {
+          regimeColor = "#22c55e";
+          regimeBg = "rgba(34, 197, 94, 0.1)";
+        } else if (currentRegime.toLowerCase().includes("bear")) {
+          regimeColor = "#ef4444";
+          regimeBg = "rgba(239, 68, 68, 0.1)";
         } else {
-          regimeColor = '#f59e0b';
-          regimeBg = 'rgba(245, 158, 11, 0.1)';
+          regimeColor = "#f59e0b";
+          regimeBg = "rgba(245, 158, 11, 0.1)";
         }
 
-        let sectorsHtml = '';
+        let sectorsHtml = "";
         if (sectorLeaders.length > 0 || sectorLaggards.length > 0) {
           sectorsHtml = `
             <div class="sectors-section">
               <div class="sectors-grid">
-                ${sectorLeaders.length > 0 ? `
+                ${
+                  sectorLeaders.length > 0
+                    ? `
                 <div class="sector-box" style="border-left: 3px solid var(--color-success);">
                   <h4 style="color: var(--color-success);">📈 Sector Leaders</h4>
-                  <div class="sector-list">${sectorLeaders.join(' • ')}</div>
+                  <div class="sector-list">${sectorLeaders.join(" • ")}</div>
                 </div>
-                ` : ''}
-                ${sectorLaggards.length > 0 ? `
+                `
+                    : ""
+                }
+                ${
+                  sectorLaggards.length > 0
+                    ? `
                 <div class="sector-box" style="border-left: 3px solid var(--color-danger);">
                   <h4 style="color: var(--color-danger);">📉 Sector Laggards</h4>
-                  <div class="sector-list">${sectorLaggards.join(' • ')}</div>
+                  <div class="sector-list">${sectorLaggards.join(" • ")}</div>
                 </div>
-                ` : ''}
+                `
+                    : ""
+                }
               </div>
             </div>
           `;
         }
 
-        let adjustmentsHtml = '';
+        let adjustmentsHtml = "";
         if (Object.keys(strategyAdj).length > 0) {
-          const adjustmentItems = Object.entries(strategyAdj).map(([key, value]) => {
-            const strategyName = key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
-            return `
+          const adjustmentItems = Object.entries(strategyAdj)
+            .map(([key, value]) => {
+              const strategyName = key
+                .replace(/_/g, " ")
+                .replace(/\b\w/g, (l) => l.toUpperCase());
+              return `
               <div class="adjustment-item">
                 <div class="adjustment-strategy">${strategyName}</div>
                 <div class="adjustment-text">${value}</div>
               </div>
             `;
-          }).join('');
+            })
+            .join("");
 
           adjustmentsHtml = `
             <div class="strategy-adjustments">
@@ -928,11 +941,15 @@
 
             ${adjustmentsHtml}
 
-            ${notes ? `
+            ${
+              notes
+                ? `
             <p style="margin-top: 1rem; color: var(--color-text-secondary); font-size: 0.875rem;">
               ${notes}
             </p>
-            ` : ''}
+            `
+                : ""
+            }
           </div>
         `;
         document.getElementById("marketRegimeSection").innerHTML = html;
@@ -942,38 +959,48 @@
         const detailsDiv = document.getElementById(cardId);
         const icon = document.getElementById(`${cardId}-icon`);
 
-        if (detailsDiv.style.display === 'none' || detailsDiv.style.display === '') {
-          detailsDiv.style.display = 'block';
-          icon.textContent = '▲';
+        if (
+          detailsDiv.style.display === "none" ||
+          detailsDiv.style.display === ""
+        ) {
+          detailsDiv.style.display = "block";
+          icon.textContent = "▲";
         } else {
-          detailsDiv.style.display = 'none';
-          icon.textContent = '▼';
+          detailsDiv.style.display = "none";
+          icon.textContent = "▼";
         }
       }
 
       function renderPreviousOutcomes(previousOutcomes) {
-        if (!previousOutcomes || previousOutcomes.length === 0) return '';
+        if (!previousOutcomes || previousOutcomes.length === 0) return "";
 
-        const outcomesHtml = previousOutcomes.map(outcome => {
-          const ticker = outcome.ticker || 'N/A';
-          const predicted = outcome.predicted_direction || outcome.predicted || 'N/A';
-          const actual = outcome.actual_outcome || outcome.actual || 'N/A';
-          const hitTarget = outcome.hit_target !== undefined ? outcome.hit_target : null;
-          const accuracy = outcome.accuracy || '';
+        const outcomesHtml = previousOutcomes
+          .map((outcome) => {
+            const ticker = outcome.ticker || "N/A";
+            const predicted =
+              outcome.predicted_direction || outcome.predicted || "N/A";
+            const actual = outcome.actual_outcome || outcome.actual || "N/A";
+            const hitTarget =
+              outcome.hit_target !== undefined ? outcome.hit_target : null;
+            const accuracy = outcome.accuracy || "";
 
-          const outcomeClass = hitTarget === true || accuracy.toLowerCase().includes('hit') ? 'outcome-hit' : 'outcome-miss';
+            const outcomeClass =
+              hitTarget === true || accuracy.toLowerCase().includes("hit")
+                ? "outcome-hit"
+                : "outcome-miss";
 
-          return `
+            return `
             <div class="outcome-item ${outcomeClass}">
               <div style="font-weight: 600; margin-bottom: 0.25rem;">${ticker}</div>
               <div style="font-size: 0.8125rem; color: var(--color-text-muted);">
                 Predicted: ${predicted}<br>
                 Actual: ${actual}
-                ${accuracy ? `<br><strong style="color: var(--color-text-primary);">${accuracy}</strong>` : ''}
+                ${accuracy ? `<br><strong style="color: var(--color-text-primary);">${accuracy}</strong>` : ""}
               </div>
             </div>
           `;
-        }).join('');
+          })
+          .join("");
 
         return `
           <div class="previous-outcomes">
@@ -987,7 +1014,8 @@
 
       function renderWatchlist(name, data) {
         const container = document.getElementById(name);
-        const trades = data.opportunities || data.events || data.candidates || [];
+        const trades =
+          data.opportunities || data.events || data.candidates || [];
         const previousOutcomes = data.previous_week_outcomes || [];
 
         const strategyNames = {
@@ -999,8 +1027,10 @@
           crypto_opportunities: "Crypto Opportunities",
         };
 
-        const strategyCode = data.strategy || data.strategy_name || data.strategyName || "";
-        const strategyName = strategyNames[strategyCode] || strategyCode || "Trading Strategy";
+        const strategyCode =
+          data.strategy || data.strategy_name || data.strategyName || "";
+        const strategyName =
+          strategyNames[strategyCode] || strategyCode || "Trading Strategy";
         const description = data.description || `Strategy: ${strategyCode}`;
         const weekStart = data.week_start || data.weekStart || "N/A";
         const weekEnd = data.week_end || data.weekEnd || "N/A";
@@ -1019,17 +1049,19 @@
           ${renderPreviousOutcomes(previousOutcomes)}
         `;
 
-        const cards = trades.map((trade) => {
-          const normalizedTrade = normalizeTradeData(trade, strategyCode);
+        const cards = trades
+          .map((trade) => {
+            const normalizedTrade = normalizeTradeData(trade, strategyCode);
 
-          if (normalizedTrade.long_ticker && normalizedTrade.short_ticker) {
-            return renderPairTradeCard(normalizedTrade);
-          } else if (normalizedTrade.event_name) {
-            return renderMacroEventCard(normalizedTrade);
-          } else {
-            return renderTradeCard(normalizedTrade);
-          }
-        }).join("");
+            if (normalizedTrade.long_ticker && normalizedTrade.short_ticker) {
+              return renderPairTradeCard(normalizedTrade);
+            } else if (normalizedTrade.event_name) {
+              return renderMacroEventCard(normalizedTrade);
+            } else {
+              return renderTradeCard(normalizedTrade);
+            }
+          })
+          .join("");
 
         container.innerHTML = header + `<div class="cards-grid">${cards}</div>`;
       }
@@ -1059,13 +1091,19 @@
         if (entry > 0 && stopLoss > 0 && target > 0) {
           const risk = Math.abs(entry - stopLoss);
           const reward = Math.abs(target - entry);
-          riskRewardRatio = risk > 0 ? `1:${(reward / risk).toFixed(2)}` : "N/A";
+          riskRewardRatio =
+            risk > 0 ? `1:${(reward / risk).toFixed(2)}` : "N/A";
         }
 
-        const timeframe = trade.expected_holding_days ? `${trade.expected_holding_days}d` : "N/A";
+        const timeframe = trade.expected_holding_days
+          ? `${trade.expected_holding_days}d`
+          : "N/A";
         const earningsDate = trade.earnings_date || null;
-        const positionSize = trade.position_size_usd ? trade.position_size_usd.toFixed(2) : "N/A";
-        const confidenceClass = confidence >= 75 ? "confidence-high" : "confidence-medium";
+        const positionSize = trade.position_size_usd
+          ? trade.position_size_usd.toFixed(2)
+          : "N/A";
+        const confidenceClass =
+          confidence >= 75 ? "confidence-high" : "confidence-medium";
 
         return `
           <div class="trade-card">
@@ -1073,7 +1111,7 @@
               <div>
                 <div class="card-title">${ticker}</div>
                 <div class="card-ticker">${company}</div>
-                ${lastWeekPerf ? `<div class="performance-badge">Last Week: ${lastWeekPerf}</div>` : ''}
+                ${lastWeekPerf ? `<div class="performance-badge">Last Week: ${lastWeekPerf}</div>` : ""}
               </div>
               <div style="display: flex; align-items: center; gap: 0.5rem;">
                 <div class="confidence-badge ${confidenceClass}">${confidence}%</div>
@@ -1088,12 +1126,16 @@
                   ${direction}
                 </span>
               </div>
-              ${earningsDate ? `
+              ${
+                earningsDate
+                  ? `
               <div class="info-row">
                 <span class="info-label">Earnings</span>
                 <span class="info-value">${earningsDate}</span>
               </div>
-              ` : ""}
+              `
+                  : ""
+              }
               <div class="info-row">
                 <span class="info-label">Position Size</span>
                 <span class="info-value">$${positionSize}</span>
@@ -1124,33 +1166,49 @@
             </div>
 
             <div class="card-details" id="${cardId}">
-              ${trade.rationale ? `
+              ${
+                trade.rationale
+                  ? `
               <div class="detail-section">
                 <h4>Full Rationale</h4>
                 <p>${trade.rationale}</p>
               </div>
-              ` : ""}
+              `
+                  : ""
+              }
 
-              ${trade.trade_setup ? `
+              ${
+                trade.trade_setup
+                  ? `
               <div class="detail-section">
                 <h4>Trade Setup</h4>
                 <p>${trade.trade_setup}</p>
               </div>
-              ` : ""}
+              `
+                  : ""
+              }
 
-              ${trade.entry_trigger ? `
+              ${
+                trade.entry_trigger
+                  ? `
               <div class="detail-section">
                 <h4>Entry Trigger</h4>
                 <p>${trade.entry_trigger}</p>
               </div>
-              ` : ""}
+              `
+                  : ""
+              }
 
-              ${trade.crash_date ? `
+              ${
+                trade.crash_date
+                  ? `
               <div class="detail-section">
                 <h4>Crash Details</h4>
                 <p>Date: ${trade.crash_date}<br>Drop: ${trade.drop_percent}%</p>
               </div>
-              ` : ""}
+              `
+                  : ""
+              }
             </div>
           </div>
         `;
@@ -1163,10 +1221,14 @@
         const longEntry = trade.long_entry || 0;
         const shortEntry = trade.short_entry || 0;
         const spreadTarget = trade.target_spread || "N/A";
-        const allocationPerLeg = trade.position_size_usd_each || trade.position_size_usd || 0;
-        const timeframe = trade.expected_holding_days ? `${trade.expected_holding_days}d` : "N/A";
+        const allocationPerLeg =
+          trade.position_size_usd_each || trade.position_size_usd || 0;
+        const timeframe = trade.expected_holding_days
+          ? `${trade.expected_holding_days}d`
+          : "N/A";
         const confidence = trade.confidence || 50;
-        const confidenceClass = confidence >= 75 ? "confidence-high" : "confidence-medium";
+        const confidenceClass =
+          confidence >= 75 ? "confidence-high" : "confidence-medium";
 
         return `
           <div class="trade-card">
@@ -1216,12 +1278,16 @@
             </div>
 
             <div class="card-details" id="${cardId}">
-              ${trade.rationale ? `
+              ${
+                trade.rationale
+                  ? `
               <div class="detail-section">
                 <h4>Rationale</h4>
                 <p>${trade.rationale}</p>
               </div>
-              ` : ""}
+              `
+                  : ""
+              }
             </div>
           </div>
         `;
@@ -1229,16 +1295,23 @@
 
       function renderMacroEventCard(trade) {
         const cardId = `card-${Math.random().toString(36).substr(2, 9)}`;
-        const eventName = trade.event_name || 'Macro Event';
-        const eventDate = trade.date || 'N/A';
-        const eventTime = trade.time || '';
-        const impact = trade.impact || 'medium';
+        const eventName = trade.event_name || "Macro Event";
+        const eventDate = trade.date || "N/A";
+        const eventTime = trade.time || "";
         const instruments = trade.tradeable_instruments || [];
-        const setup = trade.trade_setup || 'N/A';
-        const action = trade.recommended_action || 'monitor';
-        const rationale = trade.rationale || '';
+        const setup = trade.trade_setup || "N/A";
+        const action = trade.recommended_action || "monitor";
+        const rationale = trade.rationale || "";
 
-        const impactClass = (impact === 'high' || impact === 'very_high') ? 'confidence-high' : 'confidence-medium';
+        const impact = trade.impact || "medium";
+        const impactClass =
+          impact === "high" || impact === "very high"
+            ? "confidence-high"
+            : "confidence-medium";
+
+        const confidence = trade.confidence || 50;
+        const confidenceClass =
+          confidence >= 75 ? "confidence-high" : "confidence-medium";
 
         return `
           <div class="trade-card">
@@ -1248,33 +1321,41 @@
                 <div class="card-ticker">${eventDate} ${eventTime}</div>
               </div>
               <div style="display: flex; align-items: center; gap: 0.5rem;">
-                <div class="confidence-badge ${impactClass}">${impact.toUpperCase()}</div>
+                <div class="confidence-badge ${confidenceClass}">${confidence}%</div>
                 <span class="expand-icon" id="${cardId}-icon">▼</span>
               </div>
             </div>
 
             <div class="card-summary">
               <div class="info-row">
+                <span class="info-label">Impact</span>
+                <span class="info-value confidence-badge ${impactClass}">${impact.toUpperCase()}</span>
+              </div>
+              <div class="info-row">
                 <span class="info-label">Trade Setup</span>
                 <span class="info-value">${setup}</span>
               </div>
               <div class="info-row">
                 <span class="info-label">Action</span>
-                <span class="info-value">${action.replace(/_/g, ' ')}</span>
+                <span class="info-value">${action.replace(/_/g, " ")}</span>
               </div>
               <div class="info-row">
                 <span class="info-label">Instruments</span>
-                <span class="info-value">${instruments.join(', ')}</span>
+                <span class="info-value">${instruments.join(", ")}</span>
               </div>
             </div>
 
             <div class="card-details" id="${cardId}">
-              ${rationale ? `
+              ${
+                rationale
+                  ? `
               <div class="detail-section">
                 <h4>Event Analysis</h4>
                 <p>${rationale}</p>
               </div>
-              ` : ""}
+              `
+                  : ""
+              }
             </div>
           </div>
         `;
@@ -1283,16 +1364,36 @@
       function renderTradeJournal(journal) {
         const container = document.getElementById("journal");
         const trades = journal.trades || journal.history || [];
-        const capitalStart = journal.capital_start || journal.capitalStart || 1000;
-        const capitalCurrent = journal.capital_current || journal.capitalCurrent || 1000;
-        const totalPnL = journal.total_profit_loss || capitalCurrent - capitalStart;
-        const winningTrades = journal.winning_trades || trades.filter(t => (t.outcome || t.result) === "WIN" || (t.pnl_dollars || t.pnl || 0) > 0).length;
-        const losingTrades = journal.losing_trades || trades.filter(t => (t.outcome || t.result) === "LOSS" || (t.pnl_dollars || t.pnl || 0) < 0).length;
-        const winRate = journal.win_rate || (trades.length > 0 ? ((winningTrades / trades.length) * 100).toFixed(1) : "0.0");
+        const capitalStart =
+          journal.capital_start || journal.capitalStart || 1000;
+        const capitalCurrent =
+          journal.capital_current || journal.capitalCurrent || 1000;
+        const totalPnL =
+          journal.total_profit_loss || capitalCurrent - capitalStart;
+        const winningTrades =
+          journal.winning_trades ||
+          trades.filter(
+            (t) =>
+              (t.outcome || t.result) === "WIN" ||
+              (t.pnl_dollars || t.pnl || 0) > 0,
+          ).length;
+        const losingTrades =
+          journal.losing_trades ||
+          trades.filter(
+            (t) =>
+              (t.outcome || t.result) === "LOSS" ||
+              (t.pnl_dollars || t.pnl || 0) < 0,
+          ).length;
+        const winRate =
+          journal.win_rate ||
+          (trades.length > 0
+            ? ((winningTrades / trades.length) * 100).toFixed(1)
+            : "0.0");
         const largestWin = journal.largest_win || null;
         const largestLoss = journal.largest_loss || null;
 
-        const pnlColor = totalPnL >= 0 ? 'var(--color-success)' : 'var(--color-danger)';
+        const pnlColor =
+          totalPnL >= 0 ? "var(--color-success)" : "var(--color-danger)";
 
         const header = `
           <div class="watchlist-header">
@@ -1305,8 +1406,8 @@
               <span>✅ Wins: ${winningTrades}</span>
               <span>❌ Losses: ${losingTrades}</span>
               <span>📈 Win Rate: ${winRate}%</span>
-              ${largestWin ? `<span style="color: var(--color-success);">💎 Best: $${largestWin.toFixed(2)}</span>` : ''}
-              ${largestLoss ? `<span style="color: var(--color-danger);">💸 Worst: $${largestLoss.toFixed(2)}</span>` : ''}
+              ${largestWin ? `<span style="color: var(--color-success);">💎 Best: $${largestWin.toFixed(2)}</span>` : ""}
+              ${largestLoss ? `<span style="color: var(--color-danger);">💸 Worst: $${largestLoss.toFixed(2)}</span>` : ""}
             </div>
           </div>
         `;
@@ -1314,30 +1415,48 @@
         const cards = trades
           .map((trade) => {
             const ticker = trade.ticker || trade.symbol || "N/A";
-            const entryDate = trade.date_open || trade.entry_date || trade.entryDate || trade.date || "N/A";
-            const closeDate = trade.date_close || trade.exit_date || trade.exitDate || "Open";
+            const entryDate =
+              trade.date_open ||
+              trade.entry_date ||
+              trade.entryDate ||
+              trade.date ||
+              "N/A";
+            const closeDate =
+              trade.date_close || trade.exit_date || trade.exitDate || "Open";
             const strategy = trade.strategy || "N/A";
             const direction = trade.direction || "N/A";
-            const entryPrice = trade.entry_price || trade.entryPrice || trade.entry || 0;
-            const exitPrice = trade.exit_price || trade.exitPrice || trade.exit || 0;
-            const pnlDollars = trade.pnl_dollars || trade.pnlDollars || trade.pnl || trade.actual_profit_loss || 0;
-            const pnlPercent = trade.pnl_percent || trade.pnlPercent || trade.pnl_pct || 0;
+            const entryPrice =
+              trade.entry_price || trade.entryPrice || trade.entry || 0;
+            const exitPrice =
+              trade.exit_price || trade.exitPrice || trade.exit || 0;
+            const pnlDollars =
+              trade.pnl_dollars ||
+              trade.pnlDollars ||
+              trade.pnl ||
+              trade.actual_profit_loss ||
+              0;
+            const pnlPercent =
+              trade.pnl_percent || trade.pnlPercent || trade.pnl_pct || 0;
             const rMultiple = trade.r_multiple || trade.rMultiple || null;
             const holdingDays = trade.holding_days || trade.holdingDays || null;
-            const outcome = trade.outcome || trade.result || (pnlDollars >= 0 ? "WIN" : "LOSS");
+            const outcome =
+              trade.outcome ||
+              trade.result ||
+              (pnlDollars >= 0 ? "WIN" : "LOSS");
             const notes = trade.notes || "";
             const leverage = trade.leverage || null;
-            const rulesFollowed = trade.rules_followed !== undefined ? trade.rules_followed : null;
+            const rulesFollowed =
+              trade.rules_followed !== undefined ? trade.rules_followed : null;
 
             return `
               <div class="trade-card">
                 <div class="card-header">
                   <div>
                     <div class="card-title">${ticker}</div>
-                    <div class="card-ticker">${entryDate}${closeDate !== 'Open' ? ` → ${closeDate}` : ''}</div>
+                    <div class="card-ticker">${entryDate}${closeDate !== "Open" ? ` → ${closeDate}` : ""}</div>
                   </div>
                   <div class="confidence-badge ${outcome === "WIN" ? "confidence-high" : "confidence-medium"}">
-                    ${outcome}
+                    ${outcome.toUpperCase()}
                   </div>
                 </div>
                 <div class="card-summary">
@@ -1349,52 +1468,76 @@
                     <span class="info-label">Direction</span>
                     <span class="info-value">${direction}</span>
                   </div>
-                  ${leverage ? `
+                  ${
+                    leverage
+                      ? `
                   <div class="info-row">
                     <span class="info-label">Leverage</span>
                     <span class="info-value">${leverage}x</span>
                   </div>
-                  ` : ''}
+                  `
+                      : ""
+                  }
                   <div class="info-row">
                     <span class="info-label">Entry</span>
                     <span class="info-value">$${entryPrice > 0 ? entryPrice.toFixed(2) : "N/A"}</span>
                   </div>
-                  ${exitPrice > 0 ? `
+                  ${
+                    exitPrice > 0
+                      ? `
                   <div class="info-row">
                     <span class="info-label">Exit</span>
                     <span class="info-value">$${exitPrice.toFixed(2)}</span>
                   </div>
-                  ` : ''}
+                  `
+                      : ""
+                  }
                   <div class="info-row">
                     <span class="info-label">P&L</span>
                     <span class="info-value" style="color: ${pnlDollars >= 0 ? "var(--color-success)" : "var(--color-danger)"}">
-                      $${pnlDollars.toFixed(2)} ${pnlPercent ? `(${pnlPercent.toFixed(2)}%)` : ''}
+                      $${pnlDollars.toFixed(2)} ${pnlPercent ? `(${pnlPercent.toFixed(2)}%)` : ""}
                     </span>
                   </div>
-                  ${rMultiple !== null ? `
+                  ${
+                    rMultiple !== null
+                      ? `
                   <div class="info-row">
                     <span class="info-label">R-Multiple</span>
                     <span class="info-value">${rMultiple.toFixed(2)}R</span>
                   </div>
-                  ` : ''}
-                  ${holdingDays !== null ? `
+                  `
+                      : ""
+                  }
+                  ${
+                    holdingDays !== null
+                      ? `
                   <div class="info-row">
                     <span class="info-label">Holding Period</span>
                     <span class="info-value">${holdingDays} days</span>
                   </div>
-                  ` : ''}
-                  ${rulesFollowed !== null ? `
+                  `
+                      : ""
+                  }
+                  ${
+                    rulesFollowed !== null
+                      ? `
                   <div class="info-row">
                     <span class="info-label">Rules Followed</span>
-                    <span class="info-value">${rulesFollowed === true ? '✅ Yes' : rulesFollowed === false ? '❌ No' : rulesFollowed}</span>
+                    <span class="info-value">${rulesFollowed === true ? "✅ Yes" : rulesFollowed === false ? "❌ No" : rulesFollowed}</span>
                   </div>
-                  ` : ''}
+                  `
+                      : ""
+                  }
                 </div>
-                ${notes ? `
+                ${
+                  notes
+                    ? `
                 <p style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--color-border); font-size: 0.875rem; color: var(--color-text-secondary);">
                   ${notes}
                 </p>
-                ` : ""}
+                `
+                    : ""
+                }
               </div>
             `;
           })

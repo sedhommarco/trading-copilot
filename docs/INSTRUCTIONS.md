@@ -541,7 +541,7 @@ When you run the Weekly Refresh command, I will provide:
     {
       "ticker": "BTC",
       "current_price": 58500,
-      "trade_setup": "range_breakout",
+      "trade_setup": "range breakout",
       "entry_trigger": "break above 60000",
       "stop_loss": 56000,
       "take_profit": 65000,
@@ -605,9 +605,9 @@ When you run the Weekly Refresh command, I will provide:
       "time": "14:00 EST",
       "impact": "high",
       "tradeable_instruments": ["SPY", "QQQ", "XAU/USD"],
-      "trade_setup": "volatility_spike",
+      "trade_setup": "volatility spike",
       "rationale": "Expect 50+ VIX spike. Consider hedging or staying flat.",
-      "recommended_action": "reduce_exposure"
+      "recommended_action": "reduce exposure"
     }
   ]
 }
@@ -625,7 +625,7 @@ When you run the Weekly Refresh command, I will provide:
   "sentiment": "cautiously optimistic",
   "sector_leaders": ["Technology", "Healthcare"],
   "sector_laggards": ["Energy", "Utilities"],
-  "fed_policy": "data_dependent",
+  "fed_policy": "data dependent",
   "next_major_catalyst": "FOMC Minutes (Feb 26)",
   "strategy_adjustments": {
     "pre_earnings_momentum": "reduce_size_by_25_percent",

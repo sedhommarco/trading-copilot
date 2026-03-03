@@ -26,13 +26,12 @@
       "margin_remaining": 537.3,
       "take_profit": 5450.0,
       "stop_loss": null,
-      "current_unrealized_pnl": -189.98,
-      "pnl_dollars": -171.07,
+      "pnl_dollars": 37.82,
       "r_multiple": null,
       "holding_days": 0,
-      "outcome": "open_partial",
+      "outcome": "open partial",
       "rules_followed": "partial",
-      "notes": "Aggressive 20x entry amid Iran risk. Partial close locked small gain (+$19). TP at 5450 reasonable; STOP CRITICAL at 5160 to cap risk. ISM Mfg today key catalyst."
+      "notes": "Aggressive 20x entry amid Iran risk. Partial close locked small gain (+$18.91). TP at 5450 reasonable; STOP CRITICAL at 5160 to cap risk. ISM Mfg today key catalyst."
     }
   ],
   "capital_current": 1000.0,

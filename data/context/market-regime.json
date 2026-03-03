@@ -11,13 +11,13 @@
     "Some Healthtech",
     "Select Financials"
   ],
-  "fed_policy": "data_dependent",
+  "fed_policy": "data dependent",
   "next_major_catalyst": "US Non-Farm Payrolls (Mar 6)",
   "strategy_adjustments": {
-    "pre_earnings_momentum": "normal_operation_but_reduce_size_around_macro_events",
-    "post_crash_rebound": "normal_operation_focus_on_liquid_names",
-    "volatility_plays": "increase_opportunity",
-    "crypto": "small_size_only_sub_3x_leverage"
+    "pre_earnings_momentum": "normal operation but reduce size around macro events",
+    "post_crash_rebound": "normal operation focus on liquid names",
+    "volatility_plays": "increase opportunity",
+    "crypto": "small size only sub 3x leverage"
   },
   "notes": "S&P 500 near record highs but February finished as only the second losing month in the last ten; VIX just under 20 with elevated geopolitical and macro risk. AI infrastructure remains a key driver of single-name volatility. Jobs data and Iran headlines are primary risk factors this week."
 }
