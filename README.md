@@ -69,7 +69,7 @@ trading-copilot/
 │   └── 2026/
 │       └── week-10/
 ├── docs/
-│   └── Trading-Copilot.md         # Full instructions for Perplexity
+│   └── INSTRUCTIONS.md            # Full instructions for Perplexity
 ├── app/
 │   └── index.html                 # Single-page application (HTML + Vanilla JS)
 └── README.md                      # This file
@@ -290,7 +290,7 @@ GitHub Pages still works with private repos (but requires authentication).
 This is a personal trading system, but if you want to fork and adapt:
 
 1. Fork the repository
-2. Modify strategies in `docs/Trading-Copilot.md`
+2. Modify strategies in `docs/INSTRUCTIONS.md`
 3. Adjust JSON schemas in `data/meta/schema.json`
 4. Customize SPA in `app/index.html`
 
@@ -306,7 +306,7 @@ MIT License - Use at your own risk. No warranties or guarantees.
 
 **Issues with Perplexity Integration?**
 
-- Check `docs/Trading-Copilot.md` for full instructions
+- Check `docs/INSTRUCTIONS.md` for full instructions
 - Verify GitHub MCP tools are enabled in Perplexity Space settings
 
 **Issues with SPA?**
