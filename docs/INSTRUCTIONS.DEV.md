@@ -141,11 +141,13 @@ trading-copilot/
 │       └── schema-positions.md
 └── archive/
     ├── index.json
-    └── 2026/week-XX/
-        ├── manifest.json
-        ├── watchlists/*.json
-        ├── context/market-regime.json
-        └── journal/*.json
+    └── 2026/
+        └── week-XX/
+            ├── manifest.json
+            ├── watchlists/*.json
+            ├── context/market-regime.json
+            ├── journal/*.json
+            └── README.md
 ```
 
 ---
@@ -470,56 +472,185 @@ Journal focuses on **forecasts, notes, and recommendations per transaction and p
 
 ---
 
-## Archive Refactor
+## Archive System
 
-### Archive Folder Design
+### Archive Structure
 
-**Structure:**
+**Complete directory layout:**
 
 ```
 archive/
-  index.json          # Catalog of all weeks
-  2026/
-    week-10/
-      manifest.json
-      watchlists/
-        pre-earnings.json
-        post-crash.json
-        ...
-      context/
-        market-regime.json
-      journal/
-        transactions.json
-        positions.json
+├── index.json                    # Master catalog of all archived weeks
+└── <year>/
+    └── week-<XX>/
+        ├── README.md              # Human-readable week summary
+        ├── manifest.json          # Copy of data/meta/manifest.json
+        ├── watchlists/            # Frozen copies of all watchlists
+        │   ├── pre-earnings.json
+        │   ├── post-crash.json
+        │   ├── volatility.json
+        │   ├── crypto.json
+        │   ├── pair-trades.json
+        │   └── macro-events.json
+        ├── context/
+        │   └── market-regime.json # Market regime snapshot
+        └── journal/
+            ├── transactions.json  # Transaction log snapshot
+            └── positions.json     # Open positions snapshot
 ```
 
-**Each weekly snapshot contains frozen copy of:**
-- All watchlists
-- Market regime
-- Journal snapshot (optional but preferred)
-- Small meta file:
-  - Week range
-  - Creation date
-  - Special notes (major events)
+### Archive Index Format
 
-### Usage for AI
+**`archive/index.json` structure:**
 
-**Document in this file (`INSTRUCTIONS.DEV.md`):**
-- How you will compare **last week's predictions vs actual outcomes** from archives
-- Identify patterns to **add/hold/deprecate strategies**
-- Feed insights back into:
-  - Strategy docs
-  - Confidence levels
-  - Weekly proposals
+```json
+{
+  "file_type": "archive_index",
+  "last_updated": "2026-03-06T11:35:00Z",
+  "total_weeks_archived": 1,
+  "archives": [
+    {
+      "year": 2026,
+      "week_number": 10,
+      "week_start": "2026-03-03",
+      "week_end": "2026-03-09",
+      "created_at": "2026-03-06T11:35:00Z",
+      "path": "archive/2026/week-10",
+      "snapshot_notes": "Brief description of week",
+      "total_opportunities_tracked": 25,
+      "open_positions_count": 1,
+      "total_transactions_count": 1,
+      "market_regime": "cautious_bullish",
+      "vix_level": "14-16"
+    }
+  ]
+}
+```
 
-### Automatic Archival
+### Archival Protocol (Sunday 19:00 CET)
 
-**Sunday Weekly Dev Review:**
-- Copy current `data/` into new `archive/<year>/week-XX/`
-- Update `archive/index.json` with summary metrics
-- Commit archive snapshot
+**During Sunday Weekly Dev Review, execute this archival protocol:**
 
-**Granularity:** One snapshot per Sunday (sufficient)
+#### Step 1: Determine Week Number
+
+- Use ISO week numbering (week 1 = first week with Thursday in January)
+- Current week can be determined from date: `YYYY-Www`
+- Example: March 3-9, 2026 = Week 10
+
+#### Step 2: Create Archive Directory
+
+```
+archive/<year>/week-<XX>/
+```
+
+**Example:** `archive/2026/week-10/`
+
+#### Step 3: Copy Data Files
+
+**Copy from `data/` to archive folder:**
+
+1. **Manifest:**
+   - Copy `data/meta/manifest.json` → `archive/<year>/week-<XX>/manifest.json`
+
+2. **Watchlists:**
+   - Copy all `data/watchlists/*.json` → `archive/<year>/week-<XX>/watchlists/`
+
+3. **Market Context:**
+   - Copy `data/context/market-regime.json` → `archive/<year>/week-<XX>/context/market-regime.json`
+
+4. **Journal:**
+   - Copy `data/journal/transactions.json` → `archive/<year>/week-<XX>/journal/transactions.json`
+   - Copy `data/journal/positions.json` → `archive/<year>/week-<XX>/journal/positions.json`
+
+#### Step 4: Create Week README
+
+**Generate `archive/<year>/week-<XX>/README.md`** with:
+
+- Week date range
+- Archive creation timestamp
+- Market regime summary
+- Trading activity summary (positions, transactions, P&L)
+- Strategy performance snapshot
+- Key events or notes from the week
+- File tree showing archived structure
+
+#### Step 5: Update Archive Index
+
+**Update `archive/index.json`:**
+
+1. Increment `total_weeks_archived`
+2. Update `last_updated` timestamp
+3. Append new entry to `archives` array with:
+   - Year, week number, date range
+   - Creation timestamp
+   - Path to archive folder
+   - Summary metrics:
+     - Total opportunities tracked (sum from manifest)
+     - Open positions count (from positions.json summary)
+     - Total transactions count (from transactions.json summary)
+     - Market regime (from market-regime.json)
+     - VIX level (from market-regime.json)
+   - Brief snapshot notes (2-3 sentences)
+
+#### Step 6: Commit Archive Snapshot
+
+**Create commit:**
+
+```
+archive: add week-XX snapshot (YYYY-MM-DD to YYYY-MM-DD)
+
+Market regime: <regime>
+Positions: <count>
+Transactions: <count>
+Opportunities: <total>
+
+<brief 1-2 sentence notes about major events or changes>
+```
+
+**Branch:** Use existing dev branch or create new one if needed.
+
+### Usage for Historical Analysis
+
+**During weekly reviews, use archives to:**
+
+1. **Compare Predictions vs Outcomes**
+   - Review last week's watchlist opportunities
+   - Check which predictions materialized
+   - Identify false signals and missed opportunities
+   - Calculate hit rate per strategy
+
+2. **Strategy Performance Tracking**
+   - Count successful vs unsuccessful setups per strategy
+   - Track confidence calibration (were "high conviction" calls accurate?)
+   - Identify which strategies work best in which regimes
+   - Spot degrading strategy performance early
+
+3. **Pattern Recognition**
+   - Identify recurring market patterns across weeks
+   - Spot seasonality or event-driven trends
+   - Recognize regime transitions
+   - Learn from repeated mistakes
+
+4. **Refinement and Iteration**
+   - Adjust strategy definitions based on performance
+   - Tune confidence levels and risk parameters
+   - Add new strategies when gaps identified
+   - Deprecate strategies that consistently underperform
+
+**Feed insights back into:**
+- `docs/strategies/*.md` (strategy refinements)
+- `data/meta/manifest.json` (`favorite_tabs` adjustments)
+- `INSTRUCTIONS.TRADING.md` (workflow improvements)
+- Weekly proposals and recommendations
+
+### Archive Maintenance
+
+**Keep archive clean and manageable:**
+
+- **Retention:** Keep all weekly archives indefinitely (disk space is cheap)
+- **Compression:** Consider compressing older archives (>6 months) if repo size becomes issue
+- **Indexing:** Maintain accurate `archive/index.json` for quick lookups
+- **Documentation:** Ensure each week's README is complete and accurate
 
 ---
 
@@ -573,13 +704,34 @@ Trading Copilot Development — Weekly Review [DATE RANGE]
   - Identify fields added/dropped
   - Note strategies without updated watchlists
 
-### 3. Propose and/or Execute Enhancements
+### 3. Archive Current Week
+
+**Execute archival protocol (see Archive System section above):**
+
+1. Determine week number
+2. Create archive directory structure
+3. Copy all data files from `data/` to archive folder
+4. Generate week README with summary
+5. Update `archive/index.json` with new entry
+6. Commit archive snapshot
+
+### 4. Analyze Performance
+
+**Compare last week's archive vs outcomes:**
+
+- Review predictions from last week's watchlists
+- Check which opportunities materialized
+- Calculate strategy hit rates
+- Identify patterns and blind spots
+
+### 5. Propose Enhancements
 
 **Generate short changelog:**
 - Proposed UI changes
 - Docs refactors to perform
 - Archive and schema cleanups
 - New strategy ideas based on market regime and archive outcomes
+- Strategy adjustments based on performance analysis
 
 **Ask clarifying questions** where decisions are ambiguous.
 
@@ -587,11 +739,12 @@ Trading Copilot Development — Weekly Review [DATE RANGE]
 - Create one or more branches
 - Commit code/docs changes via MCP tools
 
-### 4. Update Dev Instructions
+### 6. Update Dev Instructions
 
 **Keep `docs/INSTRUCTIONS.DEV.md` updated:**
 - Document new conventions (branch naming, schemas, archive layout)
 - Track outstanding TODOs / future backlog
+- Update completion status of initiatives
 
 ---
 
@@ -657,13 +810,16 @@ Trading Copilot Development — Weekly Review [DATE RANGE]
 
 **Status:** Manual protocol documented. Priority: Low.
 
-### Completed (This Migration)
+### Completed
 
 - [x] Docs split: `INSTRUCTIONS.TRADING.md` and `INSTRUCTIONS.DEV.md`
 - [x] Setup docs: `spaces-setup.md`, `github-setup.md`, `capital-and-user-profile.md`
 - [x] Strategy docs structure created
 - [x] Journal refactor: new `transactions.json` and `positions.json` schemas
-- [x] Archive structure defined
+- [x] Journal UI: three-section layout with positions, transactions, summary
+- [x] Archive structure defined and implemented
+- [x] Archive index with metadata tracking
+- [x] Archival protocol documented
 - [x] Risk disclaimer placement cleaned up
 - [x] README minimized
 - [x] SPA UI enhancement requirements documented
@@ -679,9 +835,9 @@ On very first run of this prompt:
 3. [x] Ask 3-5 high-impact questions to confirm priorities
 4. [x] After confirmation, create new branch
 5. [x] Implement changes incrementally via GitHub MCP tools
-6. [ ] Open PR when phase complete
+6. [x] Open PR when phase complete
 
-**Current branch:** `dev/20260306-1120-bootstrap-migration`
+**Bootstrap complete.** Now operating in iterative enhancement mode.
 
 ---
 
