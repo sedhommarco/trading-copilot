@@ -1,144 +1,245 @@
-# Pre-Earnings Momentum
+# Pre-Earnings Momentum Strategy
 
-**Strategy Type:** Event-driven swing trade  
-**Typical Holding Period:** 2-5 days  
-**Target Instruments:** US equities (stocks, not CFDs)  
-**Platform:** Revolut (cash stocks, no leverage)
-
----
-
-## Strategy Purpose
-
-Capture momentum in stocks with strong analyst revisions and bullish technical setup ahead of quarterly earnings announcements. Enter 2-5 days before the earnings date and exit before or shortly after the report to avoid overnight gap risk.
+**Category:** Event-driven momentum  
+**Trade Horizon:** 1-7 days (pre-earnings run-up)  
+**Typical Holding Period:** 3-5 days  
+**Best Market Regime:** Bullish, Neutral
 
 ---
 
-## Entry Criteria
+## Purpose
 
-### Fundamental
+Capture momentum plays in stocks with strong pre-earnings run-ups. This strategy identifies stocks with positive earnings expectations, strong technical setups, and institutional buying ahead of quarterly earnings reports.
 
-- **Analyst estimate revisions:** +10% or more in past 2 weeks
-- **Earnings sentiment:** Majority of recent analyst notes bullish
-- **No major red flags:** No pending lawsuits, regulatory issues, or management changes
+**Core thesis:** Stocks with strong fundamentals and positive sentiment often experience buying pressure in the 1-2 weeks before earnings as:
+- Institutional investors position ahead of expected beats
+- Retail momentum follows technical breakouts
+- Options activity drives gamma squeezes
+- Analysts upgrade ahead of results
 
-### Technical
-
-- **Price action:** Above 20-day moving average
-- **RSI:** 55-70 range (momentum without overbought extremes)
-- **Options IV:** Rising but not extreme (avoid setups where IV is already priced in)
-
-### Timing
-
-- Entry window: 2-5 days before earnings date
-- Avoid entry <24 hours before earnings (gap risk too high)
+**Exit strategy:** Typically close 1-3 days before earnings to avoid binary event risk, or hold through if conviction is extremely high.
 
 ---
 
-## Exit Rules
+## Typical Instruments
 
-1. **Partial profit:** Close 50% of position the day before earnings
-2. **Gap exit:** 
-   - If stock gaps >5% up: close remainder immediately
-   - If stock gaps >3% down: close remainder immediately
-3. **Max hold:** Do not hold through earnings unless explicitly planned (rare)
+**Primary (Revolut X):**
+- US Large Cap Tech: AAPL, MSFT, GOOGL, AMZN, META, NVDA, TSLA
+- US Growth Stocks: CRM, ADBE, NOW, SNOW, PLTR
+- Sector Leaders: JPM, GS, UNH, LLY (healthcare), XOM, CVX (energy)
 
----
+**Secondary (Revolut CFDs):**
+- US500:CFD (S&P 500) for broad tech momentum
+- NSDQ:CFD (Nasdaq 100) for tech-heavy plays
 
-## Risk Profile
-
-**Strategy-level confidence:** Moderate to High (depends on setup quality)
-
-**Key risks:**
-- **Gap risk:** Stock can gap sharply on unexpected earnings results or guidance
-- **IV crush:** Options-related momentum can reverse quickly if IV collapses
-- **Estimate risk:** Analyst revisions may be wrong or already priced in
-
-**Typical drawdown:** 5-10% per trade if stop loss hit
+**Leverage:** Typically 5-10x for individual stocks, 10-20x for indices
 
 ---
 
-## JSON Watchlist Schema
+## Required JSON Schema Fields
 
-### File-level fields
+### Core Fields
 
 ```json
 {
   "file_type": "watchlist",
   "strategy": "pre_earnings_momentum",
   "last_updated": "ISO 8601 timestamp",
-  "week_start": "YYYY-MM-DD",
-  "week_end": "YYYY-MM-DD",
-  "opportunities": [ /* array of opportunity objects */ ],
-  "previous_week_outcomes": [ /* optional: outcomes from last week */ ]
+  "opportunities": [
+    {
+      "symbol": "string (e.g., AAPL)",
+      "name": "string (e.g., Apple Inc.)",
+      "earnings_date": "YYYY-MM-DD",
+      "days_to_earnings": "number (positive integer)",
+      "direction": "long | short",
+      "entry_zone": "number (price)",
+      "target": "number (price)",
+      "stop_loss": "number (price)",
+      "conviction": "high | moderate | low",
+      "setup_quality": "A+ | A | B+ | B | C",
+      "momentum_score": "number (0-100, optional)",
+      "reasoning": "string (1-3 sentences)",
+      "risks": "string (key risks)",
+      "position_size_pct": "number (% of capital, e.g., 5)",
+      "max_hold_days": "number (typically 3-7)",
+      "tags": ["array of strings, e.g., tech, growth, breakout"]
+    }
+  ]
 }
 ```
 
-### Opportunity object fields
+### Optional Enhancement Fields
 
-**Required:**
-- `ticker` (string): Stock ticker symbol
-- `company_name` (string): Full company name
-- `current_price` (number): Latest price in USD
-- `entry_zone` (string): Recommended entry range (e.g. "318-322")
-- `stop_loss` (number): Stop loss level
-- `take_profit` (number): Take profit target
-- `position_size_usd` (number): Suggested position size in USD
-- `risk_percent` (number): Risk as % of capital (2-5%)
-- `expected_holding_days` (number): Typical hold duration
-- `conviction` (string): "high", "moderate", or "low"
-- `rationale` (string): Trade thesis
-- `earnings_date` (string): "YYYY-MM-DD" format
-
-**Optional:**
-- `last_week_performance` (string or null): Outcome if this was a carry-over
-- `shares` (number): Number of shares for position sizing
+- `analyst_upgrades`: number (count of recent upgrades)
+- `earnings_surprise_history`: string (e.g., "4/4 beats")
+- `options_flow`: string (e.g., "heavy call buying")
+- `relative_strength`: number (vs SPY, 0-100)
+- `volume_surge`: boolean (true if volume > 2x average)
 
 ---
 
-## SPA UI Expectations
+## UI Expectations for SPA
 
-### Card Display
+### Card Header
+- **Symbol** (large, bold) + **Name** (smaller)
+- **Earnings date** badge (e.g., "📅 Earnings: Mar 15")
+- **Days to earnings** (e.g., "T-5 days" with urgency color: green >7 days, yellow 4-7, red <4)
 
-Each opportunity card should show:
+### Card Body
+- **Direction**: LONG/SHORT with color coding (green/red)
+- **Entry zone** → **Target** (with % gain calculation)
+- **Stop loss** (with % risk calculation)
+- **Conviction badge**: High (green), Moderate (yellow), Low (gray)
+- **Setup quality**: A+/A/B+/B/C as colored badge
+- **Reasoning**: 1-3 sentence summary
+- **Risks**: Brief bullet points
 
-1. **Header:** Ticker + Company Name (bold)
-2. **Price & Entry:** Current price, entry zone (highlighted)
-3. **Risk/Reward:** Stop loss, take profit, R:R ratio
-4. **Conviction badge:** Color-coded (high=green, moderate=yellow, low=gray)
-5. **Earnings date:** Prominent countdown or date label (e.g. "Earnings: Mar 5, 3 days")
-6. **Rationale:** Short description (1-2 sentences max)
-7. **Position size:** USD and suggested shares
+### Card Footer
+- **Position size**: X% of capital
+- **Max hold**: X days
+- **Tags**: Small pill badges (tech, growth, breakout, etc.)
 
-### Tab Header
-
-Show at the top of the Pre-Earnings Momentum tab:
-
-- **Strategy description:** "Capture pre-earnings momentum with tight risk control. Enter 2-5 days before earnings, exit before or shortly after report."
-- **Strategy confidence:** "Moderate to High"
-- **Key risks:** "Gap risk, IV crush, estimate risk"
-
----
-
-## Textbook Setup Example
-
-**Ticker:** NVDA  
-**Setup date:** 3 days before earnings  
-**Entry:** $875 (current price)  
-**Entry zone:** $870-880  
-**Stop loss:** $850 (-2.9%)  
-**Take profit:** $920 (+5.1%)  
-**Risk/Reward:** 1:1.8  
-**Conviction:** High  
-**Rationale:** Strong data center demand, analyst upgrades, RSI 62, above 20-day MA, options IV rising moderately. Earnings expected to beat on AI chip sales.
-
-**Exit plan:**
-- Sell 50% at $900 (day before earnings)
-- Close remainder on earnings gap (up or down)
+### Sorting
+- **Primary**: By conviction (high → moderate → low)
+- **Secondary**: By days_to_earnings (ascending - most urgent first)
 
 ---
 
-## Strategy Evolution Notes
+## Textbook Setup Examples
 
-- Monitor **win rate** over 20+ trades; if <60%, tighten entry criteria
-- Track **IV crush impact**; if consistent drag, reduce position size or exit earlier
-- Compare **analyst revision accuracy**; fade setups where revisions consistently wrong
+### Example 1: Classic Pre-Earnings Run-Up (Long)
+
+**Setup:**
+- **Symbol**: NVDA (NVIDIA)
+- **Earnings Date**: 2026-03-18 (T-8 days)
+- **Entry**: $920 (current price after consolidation)
+- **Target**: $960 (+4.3%)
+- **Stop Loss**: $895 (-2.7%)
+- **Conviction**: High
+- **Setup Quality**: A+
+
+**Reasoning:**
+- NVIDIA consolidating after strong rally
+- Analyst consensus upgrades ahead of AI data center earnings
+- Heavy call option buying (3:1 call/put ratio)
+- Technical: holding above 50-day MA, RSI neutral at 55
+- Sector strength: semiconductors outperforming
+
+**Risks:**
+- Broad market pullback could drag stock down despite fundamentals
+- High valuation (P/E 45x) sensitive to rate concerns
+- Crowded trade - many investors positioned for beat
+
+**Position Size**: 8% of capital  
+**Max Hold**: 5 days (close 3 days before earnings)
+
+---
+
+### Example 2: Earnings Downgrade Short (Short)
+
+**Setup:**
+- **Symbol**: NFLX (Netflix)
+- **Earnings Date**: 2026-03-20 (T-6 days)
+- **Entry**: $485 (short at current resistance)
+- **Target**: $460 (-5.2%)
+- **Stop Loss**: $495 (+2.1%)
+- **Conviction**: Moderate
+- **Setup Quality**: B+
+
+**Reasoning:**
+- Multiple analyst downgrades this week (3 cuts)
+- Subscriber growth concerns after weak Q4
+- Technical: failed breakout at $490, now rejecting resistance
+- Options flow: increasing put buying
+- Sector weakness: streaming stocks underperforming
+
+**Risks:**
+- Company could surprise with strong guidance
+- Streaming sector highly volatile - headlines can reverse sentiment
+- Short squeeze risk if unexpected positive news
+
+**Position Size**: 4% of capital (smaller size for short)  
+**Max Hold**: 4 days (close 2 days before earnings)
+
+---
+
+## Confidence Interpretation
+
+### High Conviction
+- **Criteria**: 
+  - Strong technical setup (A/A+ quality)
+  - Multiple confirming signals (upgrades, options flow, sector strength)
+  - Clear catalyst (earnings beat expected)
+  - Low headline risk
+- **Expected Hit Rate**: 65-70%
+- **Position Sizing**: 6-10% of capital
+
+### Moderate Conviction
+- **Criteria**:
+  - Decent technical setup (B+/A quality)
+  - Some confirming signals
+  - Less certain earnings outcome
+  - Moderate headline risk
+- **Expected Hit Rate**: 50-60%
+- **Position Sizing**: 3-6% of capital
+
+### Low Conviction
+- **Criteria**:
+  - Marginal technical setup (B/C quality)
+  - Mixed signals
+  - High uncertainty
+  - Significant headline risk
+- **Expected Hit Rate**: 40-50%
+- **Position Sizing**: 1-3% of capital (or skip)
+
+---
+
+## Risk Warnings
+
+### Binary Event Risk
+- **Gap Risk**: Earnings reports can cause 5-15% overnight gaps that blow through stop losses
+- **Mitigation**: Exit 1-3 days before earnings unless conviction is extremely high
+- **Never hold through earnings** with leveraged positions (5x+)
+
+### Momentum Reversal Risk
+- **Crowded Trades**: Popular pre-earnings plays can reverse violently if sentiment shifts
+- **Mitigation**: Tighten stops if position moves against you quickly
+- **Watch for:** Sudden analyst downgrades, sector rotation, broad market weakness
+
+### Leverage Risk
+- **5-10x leverage** amplifies both gains and losses
+- A 2% adverse move = 10-20% portfolio loss at max leverage
+- **Mitigation**: Use smaller position sizes with higher leverage, strict stop losses
+
+### Headline Risk
+- **Macro Events**: Fed announcements, geopolitical events can override earnings momentum
+- **Sector Rotation**: Sudden shift out of growth/tech can kill momentum plays
+- **Mitigation**: Monitor VIX and broad market sentiment daily, cut positions if regime shifts
+
+---
+
+## Strategy-Level Performance Notes
+
+**Best Market Conditions:**
+- Bull markets with low VIX (<18)
+- Strong sector momentum (tech, growth outperforming)
+- Positive earnings season sentiment (high beat rates)
+
+**Worst Market Conditions:**
+- High volatility (VIX >25)
+- Bear markets or correction phases
+- Earnings recession (companies missing estimates)
+
+**Typical Drawdowns:**
+- Individual position: -2% to -5% (stop loss hits)
+- Strategy monthly: -5% to -10% during rough earnings seasons
+
+**Expected Win Rate**: 55-65% (varies by market regime)
+
+---
+
+## Related Strategies
+
+- **Volatility Plays**: Can overlap with pre-earnings setups when IV is elevated
+- **Macro Events**: Coordinate with Fed/CPI events that may impact earnings sentiment
+- **Post-Crash Rebound**: Avoid pre-earnings momentum during post-crash periods (wait for stabilization)
