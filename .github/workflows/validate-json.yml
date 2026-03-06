@@ -1,0 +1,85 @@
+name: Validate JSON Files
+
+on:
+  pull_request:
+    paths:
+      - 'data/**/*.json'
+      - 'schemas/**/*.json'
+  workflow_dispatch:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    name: Validate JSON Data
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      
+      - name: Install dependencies
+        run: npm install -g ajv-cli ajv-formats
+      
+      - name: Validate watchlists
+        continue-on-error: true
+        id: validate_watchlists
+        run: |
+          echo "::group::Validating Watchlists"
+          FAILED=0
+          for file in data/watchlists/*.json; do
+            if [ -f "$file" ]; then
+              echo "Validating $file..."
+              if ! ajv validate -s schemas/watchlist.schema.json -d "$file" --spec=draft7 2>&1; then
+                echo "::warning file=$file::Validation failed for $file"
+                FAILED=1
+              else
+                echo "✓ $file is valid"
+              fi
+            fi
+          done
+          echo "::endgroup::"
+          exit 0
+      
+      - name: Validate transactions
+        continue-on-error: true
+        id: validate_transactions
+        run: |
+          echo "::group::Validating Transactions"
+          FILE="data/journal/transactions.json"
+          if [ -f "$FILE" ]; then
+            echo "Validating $FILE..."
+            if ! ajv validate -s schemas/transactions.schema.json -d "$FILE" --spec=draft7 2>&1; then
+              echo "::warning file=$FILE::Validation failed for $FILE"
+            else
+              echo "✓ $FILE is valid"
+            fi
+          fi
+          echo "::endgroup::"
+          exit 0
+      
+      - name: Validate positions
+        continue-on-error: true
+        id: validate_positions
+        run: |
+          echo "::group::Validating Positions"
+          FILE="data/journal/positions.json"
+          if [ -f "$FILE" ]; then
+            echo "Validating $FILE..."
+            if ! ajv validate -s schemas/positions.schema.json -d "$FILE" --spec=draft7 2>&1; then
+              echo "::warning file=$FILE::Validation failed for $FILE"
+            else
+              echo "✓ $FILE is valid"
+            fi
+          fi
+          echo "::endgroup::"
+          exit 0
+      
+      - name: Summary
+        if: always()
+        run: |
+          echo "::notice::JSON validation complete. Check warnings above for any schema violations."
+          echo "::notice::This workflow uses warnings-only mode and will not block PRs."
