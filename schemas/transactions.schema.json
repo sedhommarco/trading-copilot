@@ -1,0 +1,98 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Transactions Schema",
+  "description": "Schema for trade transactions log",
+  "type": "object",
+  "required": ["transactions", "summary"],
+  "properties": {
+    "transactions": {
+      "type": "array",
+      "description": "List of all transactions",
+      "items": {
+        "type": "object",
+        "required": ["datetime", "instrument", "side", "units", "price"],
+        "properties": {
+          "datetime": {
+            "type": "string",
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z$",
+            "description": "Transaction timestamp (ISO 8601 UTC)"
+          },
+          "instrument": {
+            "type": "string",
+            "description": "Instrument ticker/symbol"
+          },
+          "side": {
+            "type": "string",
+            "enum": ["BUY", "SELL"],
+            "description": "Transaction side"
+          },
+          "units": {
+            "type": "number",
+            "minimum": 0,
+            "exclusiveMinimum": true,
+            "description": "Number of units traded"
+          },
+          "price": {
+            "type": "number",
+            "minimum": 0,
+            "exclusiveMinimum": true,
+            "description": "Price per unit"
+          },
+          "exposure": {
+            "type": "number",
+            "minimum": 0,
+            "description": "Total exposure (units * price * leverage)"
+          },
+          "margin": {
+            "type": "number",
+            "minimum": 0,
+            "description": "Margin required"
+          },
+          "leverage": {
+            "type": "number",
+            "minimum": 1,
+            "description": "Leverage ratio"
+          },
+          "fees": {
+            "type": "number",
+            "minimum": 0,
+            "description": "Transaction fees"
+          },
+          "short_description": {
+            "type": "string",
+            "description": "Brief description of transaction"
+          },
+          "notes": {
+            "type": "string",
+            "description": "Optional notes"
+          },
+          "recommendations": {
+            "type": "string",
+            "description": "AI recommendations at time of trade"
+          }
+        }
+      }
+    },
+    "summary": {
+      "type": "object",
+      "required": ["total_transactions", "total_volume_usd"],
+      "properties": {
+        "total_transactions": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Total number of transactions"
+        },
+        "total_volume_usd": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Total trading volume in USD"
+        },
+        "last_transaction_date": {
+          "type": "string",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z$",
+          "description": "Most recent transaction timestamp"
+        }
+      }
+    }
+  }
+}
