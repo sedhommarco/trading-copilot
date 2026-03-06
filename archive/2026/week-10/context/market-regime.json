@@ -1,0 +1,26 @@
+{
+  "file_type": "market_regime",
+  "last_updated": "2026-03-06T11:00:00Z",
+  "current_regime": "cautious_bullish",
+  "vix": "14-16",
+  "trend": "upward_consolidation",
+  "sentiment": "neutral_optimistic",
+  "fed_policy": "wait_and_see",
+  "next_major_catalyst": "NFP March 7, FOMC Minutes March 12",
+  "sector_leaders": [
+    "Technology",
+    "Energy",
+    "Financials"
+  ],
+  "sector_laggards": [
+    "Healthcare",
+    "Consumer Staples"
+  ],
+  "strategy_adjustments": {
+    "pre_earnings_momentum": "Favor tech and energy stocks with strong momentum. Watch for earnings surprises.",
+    "volatility_plays": "VIX compressed - opportunities in mean reversion trades. Gold showing volatility around Iran risk.",
+    "crypto_opportunities": "BTC consolidating near highs - watch for breakout or rejection. ETH following closely.",
+    "macro_events": "NFP Friday is key catalyst. Position ahead for potential volatility spike."
+  },
+  "notes": "Markets in cautious bullish mode with VIX compressed. Iran geopolitical risk creating gold volatility. Tech sector leading with strong momentum. Watch NFP Friday for potential regime shift."
+}

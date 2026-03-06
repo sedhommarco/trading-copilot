@@ -1,0 +1,35 @@
+{
+  "file_type": "transactions_log",
+  "last_updated": "2026-03-06T11:20:00Z",
+  "version": "1.0.0",
+  "description": "Append-only log of all trade executions and position changes",
+  "transactions": [
+    {
+      "id": "txn_001",
+      "datetime": "2026-03-02T21:14:00Z",
+      "instrument": "XAU:CFD",
+      "side": "SELL",
+      "units": 2,
+      "price": 5140.0,
+      "leverage": "20x",
+      "exposure": 1285.0,
+      "fees": 0.0,
+      "margin": 64.25,
+      "strategy": "volatility_plays",
+      "short_description": "Sell 2 XAU:CFD +$1,285.00",
+      "notes": "Gold volatility play - technical resistance at 5140. VIX elevated. Exit strategy: take profit at 5000, stop loss at 5160.",
+      "recommendations": "Monitor VIX closely. If VIX drops below 15, consider closing early. Watch for USD strength as counter-signal.",
+      "tags": [
+        "gold",
+        "volatility",
+        "technical"
+      ]
+    }
+  ],
+  "summary": {
+    "total_transactions": 1,
+    "total_buy_transactions": 0,
+    "total_sell_transactions": 1,
+    "total_volume_usd": 1285.0
+  }
+}
