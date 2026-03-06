@@ -989,7 +989,7 @@
 
       function getConfidenceDisplay(trade) {
         if (typeof trade.confidence === 'number') {
-          return trade.confidence + '%';
+          return String(trade.confidence);
         }
         
         if (trade.confidence_label) return trade.confidence_label;
@@ -1809,7 +1809,7 @@
                 ${lastWeekPerf ? `<div class="performance-badge">Last Week: ${lastWeekPerf}</div>` : ""}
               </div>
               <div style="display: flex; align-items: center; gap: 0.5rem;">
-                <div class="confidence-badge ${confidenceClass}">${confidenceDisplay}</div>
+                <div class="confidence-badge ${confidenceClass}">${confidenceDisplay.toUpperCase()}</div>
                 <span class="expand-icon" id="${cardId}-icon">▼</span>
               </div>
             </div>
@@ -1911,7 +1911,7 @@
                 <div class="card-ticker">Pair Trade</div>
               </div>
               <div style="display: flex; align-items: center; gap: 0.5rem;">
-                <div class="confidence-badge ${confidenceClass}">${confidenceDisplay}</div>
+                <div class="confidence-badge ${confidenceClass}">${confidenceDisplay.toUpperCase()}</div>
                 <span class="expand-icon" id="${cardId}-icon">▼</span>
               </div>
             </div>
@@ -1987,7 +1987,7 @@
                 <div class="card-ticker">${eventDate} ${eventTime}</div>
               </div>
               <div style="display: flex; align-items: center; gap: 0.5rem;">
-                <div class="confidence-badge ${confidenceClass}">${confidenceDisplay}</div>
+                <div class="confidence-badge ${confidenceClass}">${confidenceDisplay.toUpperCase()}</div>
                 <span class="expand-icon" id="${cardId}-icon">▼</span>
               </div>
             </div>

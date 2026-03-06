@@ -290,7 +290,7 @@ Journal focuses on **forecasts, notes, and recommendations per transaction and p
 - `data/journal/transactions.json` (append-only log)
 - `data/journal/positions.json` (current open positions)
 
-**Old file (`trade-history.json`):** ERASED. Replaced with placeholder examples in new files.
+**Legacy file (`trade-history.json`):** Kept read-only for backward compatibility. SPA still supports it as a fallback, but all new journal data must go into `transactions.json` and `positions.json` only.
 
 **Transaction schema:**
 
