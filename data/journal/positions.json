@@ -1,0 +1,41 @@
+{
+  "file_type": "positions_snapshot",
+  "last_updated": "2026-03-06T11:20:00Z",
+  "version": "1.0.0",
+  "description": "Current state of all open trading positions",
+  "positions": [
+    {
+      "id": "pos_001",
+      "instrument": "XAU:CFD",
+      "side": "SHORT",
+      "units": 2,
+      "entry_price": 5372.99,
+      "current_price": 5000.99,
+      "current_price_datetime": "2026-03-06T10:05:00Z",
+      "unrealised_pnl": -547.44,
+      "margin": 510.17,
+      "exposure": 10193.0,
+      "leverage": "20x",
+      "strategy": "volatility_plays",
+      "exit_strategy": {
+        "take_profit": 5400.0,
+        "stop_loss": 5160.0,
+        "trailing_stop": null
+      },
+      "short_description": "XAU:CFD Short",
+      "notes": "Gold short position opened during high volatility period. Currently at resistance. Monitoring USD correlation.",
+      "recommendations": "Consider taking partial profits at current level. Move stop loss to breakeven if price reaches 5050. Watch for bullish divergence on RSI.",
+      "entry_datetime": "2026-03-02T21:14:00Z",
+      "holding_days": 3,
+      "tags": ["gold", "volatility", "active"]
+    }
+  ],
+  "summary": {
+    "total_positions": 1,
+    "total_unrealised_pnl": -547.44,
+    "total_margin_used": 510.17,
+    "total_exposure": 10193.0,
+    "long_positions": 0,
+    "short_positions": 1
+  }
+}
