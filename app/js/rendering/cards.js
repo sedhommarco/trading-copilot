@@ -71,31 +71,11 @@ export function getConfidenceBadgeClass(trade) {
 }
 
 /**
- * Toggle card details expansion
- * @param {Event} event - Click event
- * @param {string} cardId - Card element ID
- */
-export function toggleCardExpansion(event, cardId) {
-  event.stopPropagation();
-  const detailsDiv = document.getElementById(cardId);
-  const icon = document.getElementById(`${cardId}-icon`);
-
-  if (detailsDiv.style.display === 'none' || detailsDiv.style.display === '') {
-    detailsDiv.style.display = 'block';
-    icon.textContent = '▲';
-  } else {
-    detailsDiv.style.display = 'none';
-    icon.textContent = '▼';
-  }
-}
-
-/**
- * Render standard trade card
+ * Render standard trade card (always expanded)
  * @param {Object} trade - Trade data
  * @returns {string} HTML
  */
 export function renderTradeCard(trade) {
-  const cardId = `card-${Math.random().toString(36).substr(2, 9)}`;
   const ticker = trade.ticker || 'N/A';
   const company = trade.company_name || '';
   const confidenceDisplay = getConfidenceDisplay(trade);
@@ -129,16 +109,13 @@ export function renderTradeCard(trade) {
 
   return `
     <div class="trade-card">
-      <div class="card-header" id="${cardId}-header">
+      <div class="card-header-static">
         <div>
           <div class="card-title">${ticker}</div>
           <div class="card-ticker">${company}</div>
           ${lastWeekPerf ? `<div class="performance-badge">Last Week: ${lastWeekPerf}</div>` : ''}
         </div>
-        <div style="display: flex; align-items: center; gap: 0.5rem;">
-          <div class="confidence-badge ${confidenceClass}">${confidenceDisplay.toUpperCase()}</div>
-          <span class="expand-icon" id="${cardId}-icon">▼</span>
-        </div>
+        <div class="confidence-badge ${confidenceClass}">${confidenceDisplay.toUpperCase()}</div>
       </div>
 
       <div class="card-summary">
@@ -185,7 +162,8 @@ export function renderTradeCard(trade) {
         </div>
       </div>
 
-      <div class="card-details" id="${cardId}">
+      ${trade.rationale || trade.trade_setup || trade.entry_trigger || trade.crash_date ? `
+      <div class="card-details-always-visible">
         ${trade.rationale ? `
         <div class="detail-section">
           <h4>Full Rationale</h4>
@@ -214,17 +192,17 @@ export function renderTradeCard(trade) {
         </div>
         ` : ''}
       </div>
+      ` : ''}
     </div>
   `;
 }
 
 /**
- * Render pair trade card
+ * Render pair trade card (always expanded)
  * @param {Object} trade - Pair trade data
  * @returns {string} HTML
  */
 export function renderPairTradeCard(trade) {
-  const cardId = `card-${Math.random().toString(36).substr(2, 9)}`;
   const longTicker = trade.long_ticker || 'N/A';
   const shortTicker = trade.short_ticker || 'N/A';
   const longEntry = trade.long_entry || 0;
@@ -237,15 +215,12 @@ export function renderPairTradeCard(trade) {
 
   return `
     <div class="trade-card">
-      <div class="card-header" id="${cardId}-header">
+      <div class="card-header-static">
         <div>
           <div class="card-title">${longTicker} / ${shortTicker}</div>
           <div class="card-ticker">Pair Trade</div>
         </div>
-        <div style="display: flex; align-items: center; gap: 0.5rem;">
-          <div class="confidence-badge ${confidenceClass}">${confidenceDisplay.toUpperCase()}</div>
-          <span class="expand-icon" id="${cardId}-icon">▼</span>
-        </div>
+        <div class="confidence-badge ${confidenceClass}">${confidenceDisplay.toUpperCase()}</div>
       </div>
 
       <div class="card-summary">
@@ -282,25 +257,24 @@ export function renderPairTradeCard(trade) {
         </div>
       </div>
 
-      <div class="card-details" id="${cardId}">
-        ${trade.rationale ? `
+      ${trade.rationale ? `
+      <div class="card-details-always-visible">
         <div class="detail-section">
           <h4>Rationale</h4>
           <p>${trade.rationale}</p>
         </div>
-        ` : ''}
       </div>
+      ` : ''}
     </div>
   `;
 }
 
 /**
- * Render macro event card
+ * Render macro event card (always expanded)
  * @param {Object} trade - Macro event data
  * @returns {string} HTML
  */
 export function renderMacroEventCard(trade) {
-  const cardId = `card-${Math.random().toString(36).substr(2, 9)}`;
   const eventName = trade.event_name || 'Macro Event';
   const eventDate = trade.date || 'N/A';
   const eventTime = trade.time || '';
@@ -317,15 +291,12 @@ export function renderMacroEventCard(trade) {
 
   return `
     <div class="trade-card">
-      <div class="card-header" id="${cardId}-header">
+      <div class="card-header-static">
         <div>
           <div class="card-title">${eventName}</div>
           <div class="card-ticker">${eventDate} ${eventTime}</div>
         </div>
-        <div style="display: flex; align-items: center; gap: 0.5rem;">
-          <div class="confidence-badge ${confidenceClass}">${confidenceDisplay.toUpperCase()}</div>
-          <span class="expand-icon" id="${cardId}-icon">▼</span>
-        </div>
+        <div class="confidence-badge ${confidenceClass}">${confidenceDisplay.toUpperCase()}</div>
       </div>
 
       <div class="card-summary">
@@ -347,24 +318,14 @@ export function renderMacroEventCard(trade) {
         </div>
       </div>
 
-      <div class="card-details" id="${cardId}">
-        ${rationale ? `
+      ${rationale ? `
+      <div class="card-details-always-visible">
         <div class="detail-section">
           <h4>Event Analysis</h4>
           <p>${rationale}</p>
         </div>
-        ` : ''}
       </div>
+      ` : ''}
     </div>
   `;
-}
-
-/**
- * Attach event listeners to all card headers after rendering
- */
-export function attachCardEventListeners() {
-  document.querySelectorAll('[id$="-header"]').forEach(header => {
-    const cardId = header.id.replace('-header', '');
-    header.addEventListener('click', (e) => toggleCardExpansion(e, cardId));
-  });
 }
