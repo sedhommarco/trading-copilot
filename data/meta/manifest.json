@@ -3,6 +3,19 @@
   "last_global_update": "2026-03-02T20:00:00Z",
   "repository": "trading-copilot",
   "owner": "sedhommarco",
+  "ui": {
+    "tab_order": [
+      "journal",
+      "pre-earnings",
+      "volatility",
+      "post-crash",
+      "crypto",
+      "pair-trades",
+      "macro-events"
+    ],
+    "favorite_tabs": ["pre-earnings", "volatility"],
+    "market_regime_collapsed_by_default": true
+  },
   "files": {
     "watchlists/pre-earnings.json": {
       "last_updated": "2026-03-02T20:00:00Z",
