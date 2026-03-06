@@ -63,10 +63,14 @@
       "last_updated": "2026-03-02T20:00:00Z",
       "status": "fresh"
     },
-    "journal/trade-history.json": {
+    "journal/transactions.json": {
       "last_updated": "2026-03-02T20:00:00Z",
-      "total_trades": 1,
-      "capital_current": 1000.0,
+      "total_transactions": 0,
+      "status": "fresh"
+    },
+    "journal/positions.json": {
+      "last_updated": "2026-03-02T20:00:00Z",
+      "total_positions": 0,
       "status": "fresh"
     }
   },
@@ -80,5 +84,5 @@
   ],
   "status": "fresh",
   "stale_threshold_days": 10,
-  "notes": "Data automatically updated via Perplexity GitHub MCP tools every Sunday 8:00 PM CET"
+  "notes": "Data automatically updated via Perplexity GitHub MCP tools every Sunday 8:00 PM CET. Journal uses transactions.json and positions.json format (March 2026+)."
 }

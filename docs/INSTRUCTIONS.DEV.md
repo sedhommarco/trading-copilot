@@ -6,6 +6,25 @@
 
 ---
 
+## Recent Changes
+
+### 2026-03-06: Legacy Journal Fully Deprecated
+
+**What changed:**
+- `data/journal/trade-history.json` **removed from active data directory**
+- File moved to `archive/legacy/trade-history.json` for historical reference
+- Removed from `data/meta/manifest.json` file tracking
+- SPA no longer loads or renders legacy journal format
+
+**Migration for Trading Copilot space:**
+- **Only use `data/journal/transactions.json` and `data/journal/positions.json`** for all journal operations
+- Legacy format is no longer supported or loaded by the dashboard
+- Historical trade (XAUUSD T001) preserved in `archive/legacy/` for reference
+
+**Why:** Single-file journal format mixed open positions and closed trades, making real-time position tracking and recommendation updates cumbersome. New two-file format separates concerns cleanly.
+
+---
+
 ## I (Marco): Repository Owner
 
 - **GitHub repo:** `sedhommarco/trading-copilot`
@@ -139,15 +158,18 @@ trading-copilot/
 │   └── journal/
 │       ├── schema-transactions.md
 │       └── schema-positions.md
-└── archive/
-    ├── index.json
-    └── 2026/
-        └── week-XX/
-            ├── manifest.json
-            ├── watchlists/*.json
-            ├── context/market-regime.json
-            ├── journal/*.json
-            └── README.md
+├── archive/
+│   ├── index.json
+│   ├── legacy/
+│   │   ├── trade-history.json (deprecated format)
+│   │   └── README.md
+│   └── 2026/
+│       └── week-XX/
+│           ├── manifest.json
+│           ├── watchlists/*.json
+│           ├── context/market-regime.json
+│           ├── journal/*.json
+│           └── README.md
 ```
 
 ---
@@ -222,6 +244,7 @@ trading-copilot/
 {
   "ui": {
     "tab_order": [
+      "journal",
       "pre-earnings",
       "post-crash",
       "volatility",
@@ -235,10 +258,10 @@ trading-copilot/
 ```
 
 **Rules:**
-- **Trading Journal tab is always first** (fixed, not in scrollable array)
-- All other strategy tabs follow `ui.tab_order`
+- **Journal tab is first in `tab_order`** (remains scrollable with other tabs)
+- All strategy tabs follow the manifest-defined order
 - Tabs remain horizontally scrollable on small screens
-- Favorite tabs visually highlighted (bold, star, etc.)
+- Favorite tabs visually highlighted (star icon)
 
 ### 4. Market Regime Section Collapsed by Default
 
@@ -284,13 +307,13 @@ trading-copilot/
 
 Journal focuses on **forecasts, notes, and recommendations per transaction and per position**, with minimal in-app calculations. I update numbers from trading accounts; you must **not over-engineer P&L math**.
 
-### Journal JSON Design (NEW)
+### Journal JSON Design (Current)
 
 **Files:**
 - `data/journal/transactions.json` (append-only log)
 - `data/journal/positions.json` (current open positions)
 
-**Legacy file (`trade-history.json`):** Kept read-only for backward compatibility. SPA still supports it as a fallback, but all new journal data must go into `transactions.json` and `positions.json` only.
+**Legacy format fully deprecated:** `trade-history.json` moved to `archive/legacy/` (March 2026). SPA no longer supports it.
 
 **Transaction schema:**
 
@@ -337,8 +360,7 @@ Journal focuses on **forecasts, notes, and recommendations per transaction and p
 ```
 
 **Your tasks:**
-- Design and document clear JSON schema in `docs/journal/*.md`
-- Implement minimal migration path (or gracefully support legacy if needed)
+- Maintain clear JSON schema documentation in `docs/journal/*.md`
 - Ensure I can manually update numbers via JSON; your logic should NOT recompute them
 
 ### Journal UI Behavior
@@ -480,7 +502,10 @@ Journal focuses on **forecasts, notes, and recommendations per transaction and p
 
 ```
 archive/
-├── index.json                    # Master catalog of all archived weeks
+├── index.json                    # Master catalog (ISO 8601 week numbers)
+├── legacy/
+│   ├── trade-history.json        # Deprecated journal format
+│   └── README.md                 # Deprecation notes
 └── <year>/
     └── week-<XX>/
         ├── README.md              # Human-readable week summary
@@ -499,6 +524,8 @@ archive/
             └── positions.json     # Open positions snapshot
 ```
 
+**Note:** Week numbers follow **ISO 8601 week numbering** (week 1 = first week with Thursday in January).
+
 ### Archive Index Format
 
 **`archive/index.json` structure:**
@@ -508,6 +535,7 @@ archive/
   "file_type": "archive_index",
   "last_updated": "2026-03-06T11:35:00Z",
   "total_weeks_archived": 1,
+  "week_numbering": "ISO 8601",
   "archives": [
     {
       "year": 2026,
@@ -533,7 +561,7 @@ archive/
 
 #### Step 1: Determine Week Number
 
-- Use ISO week numbering (week 1 = first week with Thursday in January)
+- Use ISO 8601 week numbering (week 1 = first week with Thursday in January)
 - Current week can be determined from date: `YYYY-Www`
 - Example: March 3-9, 2026 = Week 10
 
@@ -566,7 +594,7 @@ archive/<year>/week-<XX>/
 
 **Generate `archive/<year>/week-<XX>/README.md`** with:
 
-- Week date range
+- Week date range (ISO 8601 week number)
 - Archive creation timestamp
 - Market regime summary
 - Trading activity summary (positions, transactions, P&L)
@@ -581,7 +609,7 @@ archive/<year>/week-<XX>/
 1. Increment `total_weeks_archived`
 2. Update `last_updated` timestamp
 3. Append new entry to `archives` array with:
-   - Year, week number, date range
+   - Year, week number (ISO 8601), date range
    - Creation timestamp
    - Path to archive folder
    - Summary metrics:
@@ -664,9 +692,9 @@ Opportunities: <total>
 - Change workflow or archive design
 - Change SPA behavior that Trading Copilot relies on
 
-**Summarize in commit message:**
-- "New strategy added: ..."
-- "Journal schema updated: now supports transactions/positions"
+**Add entry to "Recent Changes" section at top of `INSTRUCTIONS.TRADING.md`:**
+- "2026-03-06: Legacy journal deprecated — use transactions.json and positions.json only"
+- "Strategy added: ..."
 - "Tabs order now controlled by manifest.ui.tab_order"
 
 ### Separation of Concerns
@@ -708,7 +736,7 @@ Trading Copilot Development — Weekly Review [DATE RANGE]
 
 **Execute archival protocol (see Archive System section above):**
 
-1. Determine week number
+1. Determine week number (ISO 8601)
 2. Create archive directory structure
 3. Copy all data files from `data/` to archive folder
 4. Generate week README with summary
@@ -742,6 +770,7 @@ Trading Copilot Development — Weekly Review [DATE RANGE]
 ### 6. Update Dev Instructions
 
 **Keep `docs/INSTRUCTIONS.DEV.md` updated:**
+- Add entry to "Recent Changes" section for significant changes
 - Document new conventions (branch naming, schemas, archive layout)
 - Track outstanding TODOs / future backlog
 - Update completion status of initiatives
@@ -823,6 +852,8 @@ Trading Copilot Development — Weekly Review [DATE RANGE]
 - [x] Risk disclaimer placement cleaned up
 - [x] README minimized
 - [x] SPA UI enhancement requirements documented
+- [x] Legacy journal fully deprecated (March 2026)
+- [x] "Recent Changes" section added to both instruction files
 
 ---
 
