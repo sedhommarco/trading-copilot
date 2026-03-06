@@ -1,0 +1,59 @@
+{
+  "file_type": "manifest",
+  "version": "1.0.0",
+  "last_global_update": "2026-03-06T11:30:00Z",
+  "stale_threshold_days": 10,
+  "files": {
+    "watchlists/pre-earnings.json": {
+      "last_updated": "2026-03-06T11:00:00Z",
+      "opportunities_count": 5
+    },
+    "watchlists/post-crash.json": {
+      "last_updated": "2026-03-06T11:00:00Z",
+      "opportunities_count": 3
+    },
+    "watchlists/volatility.json": {
+      "last_updated": "2026-03-06T11:00:00Z",
+      "opportunities_count": 4
+    },
+    "watchlists/crypto.json": {
+      "last_updated": "2026-03-06T11:00:00Z",
+      "opportunities_count": 4
+    },
+    "watchlists/pair-trades.json": {
+      "last_updated": "2026-03-06T11:00:00Z",
+      "opportunities_count": 5
+    },
+    "watchlists/macro-events.json": {
+      "last_updated": "2026-03-06T11:00:00Z",
+      "opportunities_count": 4
+    },
+    "context/market-regime.json": {
+      "last_updated": "2026-03-06T11:00:00Z"
+    },
+    "journal/transactions.json": {
+      "last_updated": "2026-03-06T11:20:00Z",
+      "total_transactions": 1
+    },
+    "journal/positions.json": {
+      "last_updated": "2026-03-06T11:20:00Z",
+      "total_positions": 1
+    }
+  },
+  "ui": {
+    "tab_order": [
+      "journal",
+      "pre-earnings",
+      "volatility",
+      "post-crash",
+      "crypto",
+      "pair-trades",
+      "macro-events"
+    ],
+    "favorite_tabs": [
+      "pre-earnings",
+      "volatility"
+    ],
+    "market_regime_collapsed_by_default": true
+  }
+}
