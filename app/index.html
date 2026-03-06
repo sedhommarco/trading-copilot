@@ -227,6 +227,148 @@
         display: block;
       }
 
+      .journal-section {
+        background: var(--color-bg-secondary);
+        padding: 1.5rem;
+        border-radius: 8px;
+        margin-bottom: 1.5rem;
+        border: 1px solid var(--color-border);
+      }
+
+      .journal-section h3 {
+        color: var(--color-accent);
+        margin-bottom: 1rem;
+        font-size: 1.25rem;
+      }
+
+      .position-card {
+        background: var(--color-bg-tertiary);
+        border: 2px solid;
+        border-radius: 8px;
+        padding: 1.25rem;
+        margin-bottom: 1rem;
+        transition: all 0.2s;
+      }
+
+      .position-card.profit {
+        border-color: var(--color-success);
+      }
+
+      .position-card.loss {
+        border-color: var(--color-danger);
+      }
+
+      .position-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 1rem;
+      }
+
+      .position-title {
+        font-size: 1.25rem;
+        font-weight: 600;
+      }
+
+      .position-badge {
+        padding: 0.25rem 0.75rem;
+        border-radius: 4px;
+        font-size: 0.75rem;
+        font-weight: 600;
+      }
+
+      .position-metrics {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 0.75rem;
+        margin-bottom: 1rem;
+        font-size: 0.875rem;
+      }
+
+      .position-metric {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .position-metric-label {
+        color: var(--color-text-muted);
+        font-size: 0.75rem;
+        margin-bottom: 0.25rem;
+      }
+
+      .position-metric-value {
+        color: var(--color-text-primary);
+        font-weight: 600;
+      }
+
+      .commentary-box {
+        background: var(--color-bg-primary);
+        border: 1px solid var(--color-border);
+        border-radius: 6px;
+        padding: 1rem;
+        margin-top: 1rem;
+      }
+
+      .commentary-box h4 {
+        color: var(--color-accent);
+        font-size: 0.875rem;
+        text-transform: uppercase;
+        margin-bottom: 0.5rem;
+      }
+
+      .commentary-box p {
+        font-size: 0.875rem;
+        color: var(--color-text-secondary);
+        line-height: 1.6;
+      }
+
+      .transaction-list {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+      }
+
+      .transaction-item {
+        background: var(--color-bg-tertiary);
+        border-left: 3px solid;
+        border-radius: 6px;
+        padding: 1rem;
+      }
+
+      .transaction-item.buy {
+        border-left-color: var(--color-success);
+      }
+
+      .transaction-item.sell {
+        border-left-color: var(--color-danger);
+      }
+
+      .transaction-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 0.5rem;
+      }
+
+      .transaction-desc {
+        font-weight: 600;
+        font-size: 0.9375rem;
+      }
+
+      .transaction-datetime {
+        color: var(--color-text-muted);
+        font-size: 0.8125rem;
+      }
+
+      .transaction-details {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        gap: 0.5rem;
+        font-size: 0.8125rem;
+        color: var(--color-text-secondary);
+        margin-top: 0.5rem;
+      }
+
       .watchlist-header {
         background: var(--color-bg-secondary);
         padding: 1.5rem;
@@ -814,7 +956,7 @@
           return await response.json();
         } catch (error) {
           console.error(`Failed to fetch ${url}:`, error);
-          throw error;
+          return null;
         }
       }
 
@@ -875,7 +1017,9 @@
             pairTrades,
             macroEvents,
             marketRegime,
-            tradeJournal,
+            transactions,
+            positions,
+            tradeHistory
           ] = await Promise.all([
             fetchJSON(getDataUrl("meta/manifest.json")),
             fetchJSON(getDataUrl("watchlists/pre-earnings.json")),
@@ -885,10 +1029,12 @@
             fetchJSON(getDataUrl("watchlists/pair-trades.json")),
             fetchJSON(getDataUrl("watchlists/macro-events.json")),
             fetchJSON(getDataUrl("context/market-regime.json")),
-            fetchJSON(getDataUrl("journal/trade-history.json")),
+            fetchJSON(getDataUrl("journal/transactions.json")),
+            fetchJSON(getDataUrl("journal/positions.json")),
+            fetchJSON(getDataUrl("journal/trade-history.json"))
           ]);
 
-          if (manifest.ui) {
+          if (manifest && manifest.ui) {
             uiConfig = { ...uiConfig, ...manifest.ui };
           }
 
@@ -901,12 +1047,18 @@
             "pair-trades": pairTrades,
             "macro-events": macroEvents,
             "market-regime": marketRegime,
-            journal: tradeJournal,
+            journal: {
+              transactions,
+              positions,
+              legacy: tradeHistory
+            }
           };
 
           renderTabs();
           updateUI();
-          checkDataFreshness(manifest);
+          if (manifest) {
+            checkDataFreshness(manifest);
+          }
         } catch (error) {
           showError("Failed to load data. Check console for details.");
           console.error(error);
@@ -964,10 +1116,16 @@
       }
 
       function updateUI() {
-        if (currentData.journal) {
-          const capital = currentData.journal.capital_current || 1000;
-          document.getElementById("currentCapital").textContent = formatNumber(capital, 2);
+        const journal = currentData.journal;
+        let capital = 1000;
+        
+        if (journal.positions && journal.positions.summary) {
+          capital = journal.positions.summary.total_capital || 1000;
+        } else if (journal.legacy) {
+          capital = journal.legacy.capital_current || 1000;
         }
+        
+        document.getElementById("currentCapital").textContent = formatNumber(capital, 2);
 
         renderMarketRegime();
 
@@ -978,8 +1136,8 @@
           }
         });
 
-        if (currentData.journal) {
-          renderTradeJournal(currentData.journal);
+        if (journal) {
+          renderTradeJournal(journal);
         }
       }
 
@@ -1120,6 +1278,359 @@
           </div>
         `;
         document.getElementById("marketRegimeSection").innerHTML = html;
+      }
+
+      function renderTradeJournal(journal) {
+        const container = document.getElementById("journal");
+        const { transactions, positions, legacy } = journal;
+
+        if (transactions && positions) {
+          renderNewJournalFormat(container, transactions, positions);
+        } else if (legacy) {
+          renderLegacyJournal(container, legacy);
+        } else {
+          container.innerHTML = '<div class="error-message">No journal data available</div>';
+        }
+      }
+
+      function renderNewJournalFormat(container, transactionsData, positionsData) {
+        const positions = positionsData.positions || [];
+        const transactions = transactionsData.transactions || [];
+        const positionsSummary = positionsData.summary || {};
+        const transactionsSummary = transactionsData.summary || {};
+
+        let html = '<div class="watchlist-header"><h2>📓 Trade Journal</h2></div>';
+
+        if (positions.length > 0) {
+          html += '<div class="journal-section"><h3>💼 Open Positions</h3>';
+          positions.forEach(pos => {
+            const pnlClass = (pos.unrealised_pnl || 0) >= 0 ? 'profit' : 'loss';
+            const pnlColor = (pos.unrealised_pnl || 0) >= 0 ? 'var(--color-success)' : 'var(--color-danger)';
+            const sideColor = pos.side === 'LONG' ? 'var(--color-success)' : 'var(--color-danger)';
+            
+            html += `
+              <div class="position-card ${pnlClass}">
+                <div class="position-header">
+                  <div>
+                    <div class="position-title">${pos.instrument || pos.ticker || 'N/A'}</div>
+                    <div style="font-size: 0.875rem; color: var(--color-text-muted); margin-top: 0.25rem;">
+                      ${pos.short_description || ''}
+                    </div>
+                  </div>
+                  <div class="position-badge confidence-badge" style="background: ${pnlClass === 'profit' ? 'rgba(34, 197, 94, 0.2)' : 'rgba(239, 68, 68, 0.2)'}; color: ${pnlColor};">
+                    ${pnlClass === 'profit' ? '📈 PROFIT' : '📉 LOSS'}
+                  </div>
+                </div>
+
+                <div class="position-metrics">
+                  <div class="position-metric">
+                    <div class="position-metric-label">Side</div>
+                    <div class="position-metric-value" style="color: ${sideColor};">${pos.side || 'N/A'}</div>
+                  </div>
+                  <div class="position-metric">
+                    <div class="position-metric-label">Units</div>
+                    <div class="position-metric-value">${pos.units || 'N/A'}</div>
+                  </div>
+                  <div class="position-metric">
+                    <div class="position-metric-label">Entry Price</div>
+                    <div class="position-metric-value">$${formatNumber(pos.entry_price || 0, 2)}</div>
+                  </div>
+                  <div class="position-metric">
+                    <div class="position-metric-label">Current Price</div>
+                    <div class="position-metric-value">$${formatNumber(pos.current_price || 0, 2)}</div>
+                  </div>
+                  <div class="position-metric">
+                    <div class="position-metric-label">Unrealised P&L</div>
+                    <div class="position-metric-value" style="color: ${pnlColor}; font-size: 1.125rem;">
+                      $${formatNumber(pos.unrealised_pnl || 0, 2)}
+                    </div>
+                  </div>
+                  <div class="position-metric">
+                    <div class="position-metric-label">Exposure</div>
+                    <div class="position-metric-value">$${formatNumber(pos.exposure || 0, 2)}</div>
+                  </div>
+                  <div class="position-metric">
+                    <div class="position-metric-label">Margin</div>
+                    <div class="position-metric-value">$${formatNumber(pos.margin || 0, 2)}</div>
+                  </div>
+                  <div class="position-metric">
+                    <div class="position-metric-label">Leverage</div>
+                    <div class="position-metric-value">${pos.leverage || 'N/A'}</div>
+                  </div>
+                  <div class="position-metric">
+                    <div class="position-metric-label">Take Profit</div>
+                    <div class="position-metric-value" style="color: var(--color-success);">
+                      $${pos.exit_strategy && pos.exit_strategy.take_profit ? formatNumber(pos.exit_strategy.take_profit, 2) : 'N/A'}
+                    </div>
+                  </div>
+                  <div class="position-metric">
+                    <div class="position-metric-label">Stop Loss</div>
+                    <div class="position-metric-value" style="color: var(--color-danger);">
+                      $${pos.exit_strategy && pos.exit_strategy.stop_loss ? formatNumber(pos.exit_strategy.stop_loss, 2) : 'N/A'}
+                    </div>
+                  </div>
+                  <div class="position-metric">
+                    <div class="position-metric-label">Holding Days</div>
+                    <div class="position-metric-value">${pos.holding_days || 'N/A'}</div>
+                  </div>
+                  <div class="position-metric">
+                    <div class="position-metric-label">Strategy</div>
+                    <div class="position-metric-value">${pos.strategy || 'N/A'}</div>
+                  </div>
+                </div>
+
+                ${pos.notes ? `
+                <div class="commentary-box">
+                  <h4>📝 Notes</h4>
+                  <p>${pos.notes}</p>
+                </div>
+                ` : ''}
+
+                ${pos.recommendations ? `
+                <div class="commentary-box">
+                  <h4>💡 Recommendations</h4>
+                  <p>${pos.recommendations}</p>
+                </div>
+                ` : ''}
+              </div>
+            `;
+          });
+          html += '</div>';
+        }
+
+        if (transactions.length > 0) {
+          html += '<div class="journal-section"><h3>📜 Recent Transactions</h3><div class="transaction-list">';
+          
+          const recentTransactions = transactions.slice().reverse().slice(0, 20);
+          
+          recentTransactions.forEach(txn => {
+            const sideClass = (txn.side || '').toUpperCase() === 'BUY' ? 'buy' : 'sell';
+            const datetime = new Date(txn.datetime || '').toLocaleString();
+            
+            html += `
+              <div class="transaction-item ${sideClass}">
+                <div class="transaction-header">
+                  <div class="transaction-desc">${txn.short_description || txn.instrument || 'Transaction'}</div>
+                  <div class="transaction-datetime">${datetime}</div>
+                </div>
+                
+                <div class="transaction-details">
+                  <div><strong>Instrument:</strong> ${txn.instrument || 'N/A'}</div>
+                  <div><strong>Side:</strong> ${txn.side || 'N/A'}</div>
+                  <div><strong>Units:</strong> ${txn.units || 'N/A'}</div>
+                  <div><strong>Price:</strong> $${formatNumber(txn.price || 0, 2)}</div>
+                  <div><strong>Exposure:</strong> $${formatNumber(txn.exposure || 0, 2)}</div>
+                  <div><strong>Margin:</strong> $${formatNumber(txn.margin || 0, 2)}</div>
+                  <div><strong>Leverage:</strong> ${txn.leverage || 'N/A'}</div>
+                  <div><strong>Fees:</strong> $${formatNumber(txn.fees || 0, 2)}</div>
+                </div>
+
+                ${txn.notes ? `
+                <div class="commentary-box" style="margin-top: 0.75rem;">
+                  <h4>📝 Notes</h4>
+                  <p>${txn.notes}</p>
+                </div>
+                ` : ''}
+
+                ${txn.recommendations ? `
+                <div class="commentary-box" style="margin-top: 0.75rem;">
+                  <h4>💡 Recommendations</h4>
+                  <p>${txn.recommendations}</p>
+                </div>
+                ` : ''}
+              </div>
+            `;
+          });
+          
+          html += '</div></div>';
+        }
+
+        html += `
+          <div class="journal-section">
+            <h3>📊 Summary</h3>
+            <div class="position-metrics">
+              <div class="position-metric">
+                <div class="position-metric-label">Total Positions</div>
+                <div class="position-metric-value">${positionsSummary.total_positions || 0}</div>
+              </div>
+              <div class="position-metric">
+                <div class="position-metric-label">Long Positions</div>
+                <div class="position-metric-value" style="color: var(--color-success);">${positionsSummary.long_positions || 0}</div>
+              </div>
+              <div class="position-metric">
+                <div class="position-metric-label">Short Positions</div>
+                <div class="position-metric-value" style="color: var(--color-danger);">${positionsSummary.short_positions || 0}</div>
+              </div>
+              <div class="position-metric">
+                <div class="position-metric-label">Total Unrealised P&L</div>
+                <div class="position-metric-value" style="color: ${(positionsSummary.total_unrealised_pnl || 0) >= 0 ? 'var(--color-success)' : 'var(--color-danger)'}; font-size: 1.25rem;">
+                  $${formatNumber(positionsSummary.total_unrealised_pnl || 0, 2)}
+                </div>
+              </div>
+              <div class="position-metric">
+                <div class="position-metric-label">Total Exposure</div>
+                <div class="position-metric-value">$${formatNumber(positionsSummary.total_exposure || 0, 2)}</div>
+              </div>
+              <div class="position-metric">
+                <div class="position-metric-label">Total Margin Used</div>
+                <div class="position-metric-value">$${formatNumber(positionsSummary.total_margin_used || 0, 2)}</div>
+              </div>
+              <div class="position-metric">
+                <div class="position-metric-label">Total Transactions</div>
+                <div class="position-metric-value">${transactionsSummary.total_transactions || 0}</div>
+              </div>
+              <div class="position-metric">
+                <div class="position-metric-label">Total Volume</div>
+                <div class="position-metric-value">$${formatNumber(transactionsSummary.total_volume_usd || 0, 2)}</div>
+              </div>
+            </div>
+          </div>
+        `;
+
+        container.innerHTML = html;
+      }
+
+      function renderLegacyJournal(container, journal) {
+        const trades = journal.trades || journal.history || [];
+        const capitalStart = journal.capital_start || journal.capitalStart || 1000;
+        const capitalCurrent = journal.capital_current || journal.capitalCurrent || 1000;
+        const totalPnL = journal.total_profit_loss || capitalCurrent - capitalStart;
+        const winningTrades =
+          journal.winning_trades ||
+          trades.filter(
+            (t) =>
+              (t.outcome || t.result) === "WIN" || (t.pnl_dollars || t.pnl || 0) > 0
+          ).length;
+        const losingTrades =
+          journal.losing_trades ||
+          trades.filter(
+            (t) =>
+              (t.outcome || t.result) === "LOSS" || (t.pnl_dollars || t.pnl || 0) < 0
+          ).length;
+        const winRate =
+          journal.win_rate ||
+          (trades.length > 0 ? ((winningTrades / trades.length) * 100).toFixed(1) : "0.0");
+        const largestWin = journal.largest_win || null;
+        const largestLoss = journal.largest_loss || null;
+
+        const pnlColor = totalPnL >= 0 ? "var(--color-success)" : "var(--color-danger)";
+
+        const header = `
+          <div class="watchlist-header">
+            <h2>📓 Trade Journal (Legacy)</h2>
+            <div class="watchlist-meta">
+              <span>💰 Starting: $${formatNumber(capitalStart, 2)}</span>
+              <span>📈 Current: $${formatNumber(capitalCurrent, 2)}</span>
+              <span style="color: ${pnlColor}; font-weight: 600;">Total P&L: $${formatNumber(totalPnL, 2)}</span>
+              <span>📊 Trades: ${trades.length}</span>
+              <span>✅ Wins: ${winningTrades}</span>
+              <span>❌ Losses: ${losingTrades}</span>
+              <span>📈 Win Rate: ${winRate}%</span>
+              ${largestWin ? `<span style="color: var(--color-success);">💎 Best: $${formatNumber(largestWin, 2)}</span>` : ""}
+              ${largestLoss ? `<span style="color: var(--color-danger);">💸 Worst: $${formatNumber(largestLoss, 2)}</span>` : ""}
+            </div>
+          </div>
+        `;
+
+        const cards = trades
+          .map((trade) => {
+            const ticker = trade.ticker || trade.symbol || "N/A";
+            const entryDate =
+              trade.date_open || trade.entry_date || trade.entryDate || trade.date || "N/A";
+            const closeDate =
+              trade.date_close || trade.exit_date || trade.exitDate || "Open";
+            const strategy = trade.strategy || "N/A";
+            const direction = trade.direction || "N/A";
+            const entryPrice = trade.entry_price || trade.entryPrice || trade.entry || 0;
+            const exitPrice = trade.exit_price || trade.exitPrice || trade.exit || 0;
+            const pnlDollars =
+              trade.pnl_dollars ||
+              trade.pnlDollars ||
+              trade.pnl ||
+              trade.actual_profit_loss ||
+              0;
+            const pnlPercent = trade.pnl_percent || trade.pnlPercent || trade.pnl_pct || 0;
+            const rMultiple = trade.r_multiple || trade.rMultiple || null;
+            const holdingDays = trade.holding_days || trade.holdingDays || null;
+            const outcome =
+              trade.outcome || trade.result || (pnlDollars >= 0 ? "WIN" : "LOSS");
+            const notes = trade.notes || "";
+            const leverage = trade.leverage || null;
+            const rulesFollowed =
+              trade.rules_followed !== undefined ? trade.rules_followed : null;
+
+            return `
+              <div class="trade-card">
+                <div class="card-header">
+                  <div>
+                    <div class="card-title">${ticker}</div>
+                    <div class="card-ticker">${entryDate}${closeDate !== "Open" ? ` → ${closeDate}` : ""}</div>
+                  </div>
+                  <div class="confidence-badge ${outcome === "WIN" ? "confidence-high" : "confidence-medium"}">
+                    ${outcome.toUpperCase()}
+                  </div>
+                </div>
+                <div class="card-summary">
+                  <div class="info-row">
+                    <span class="info-label">Strategy</span>
+                    <span class="info-value">${strategy}</span>
+                  </div>
+                  <div class="info-row">
+                    <span class="info-label">Direction</span>
+                    <span class="info-value">${direction}</span>
+                  </div>
+                  ${leverage ? `
+                  <div class="info-row">
+                    <span class="info-label">Leverage</span>
+                    <span class="info-value">${leverage}x</span>
+                  </div>
+                  ` : ""}
+                  <div class="info-row">
+                    <span class="info-label">Entry</span>
+                    <span class="info-value">$${entryPrice > 0 ? formatNumber(entryPrice, 2) : "N/A"}</span>
+                  </div>
+                  ${exitPrice > 0 ? `
+                  <div class="info-row">
+                    <span class="info-label">Exit</span>
+                    <span class="info-value">$${formatNumber(exitPrice, 2)}</span>
+                  </div>
+                  ` : ""}
+                  <div class="info-row">
+                    <span class="info-label">P&L</span>
+                    <span class="info-value" style="color: ${pnlDollars >= 0 ? "var(--color-success)" : "var(--color-danger)"}">
+                      $${formatNumber(pnlDollars, 2)} ${pnlPercent ? `(${formatNumber(pnlPercent, 2)}%)` : ""}
+                    </span>
+                  </div>
+                  ${rMultiple !== null ? `
+                  <div class="info-row">
+                    <span class="info-label">R-Multiple</span>
+                    <span class="info-value">${formatNumber(rMultiple, 2)}R</span>
+                  </div>
+                  ` : ""}
+                  ${holdingDays !== null ? `
+                  <div class="info-row">
+                    <span class="info-label">Holding Period</span>
+                    <span class="info-value">${holdingDays} days</span>
+                  </div>
+                  ` : ""}
+                  ${rulesFollowed !== null ? `
+                  <div class="info-row">
+                    <span class="info-label">Rules Followed</span>
+                    <span class="info-value">${rulesFollowed === true ? "✅ Yes" : rulesFollowed === false ? "❌ No" : rulesFollowed}</span>
+                  </div>
+                  ` : ""}
+                </div>
+                ${notes ? `
+                <p style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--color-border); font-size: 0.875rem; color: var(--color-text-secondary);">
+                  ${notes}
+                </p>
+                ` : ""}
+              </div>
+            `;
+          })
+          .join("");
+
+        container.innerHTML = header + `<div class="cards-grid">${cards}</div>`;
       }
 
       function toggleCardExpansion(cardId) {
@@ -1510,150 +2021,6 @@
             </div>
           </div>
         `;
-      }
-
-      function renderTradeJournal(journal) {
-        const container = document.getElementById("journal");
-        const trades = journal.trades || journal.history || [];
-        const capitalStart = journal.capital_start || journal.capitalStart || 1000;
-        const capitalCurrent = journal.capital_current || journal.capitalCurrent || 1000;
-        const totalPnL = journal.total_profit_loss || capitalCurrent - capitalStart;
-        const winningTrades =
-          journal.winning_trades ||
-          trades.filter(
-            (t) =>
-              (t.outcome || t.result) === "WIN" || (t.pnl_dollars || t.pnl || 0) > 0
-          ).length;
-        const losingTrades =
-          journal.losing_trades ||
-          trades.filter(
-            (t) =>
-              (t.outcome || t.result) === "LOSS" || (t.pnl_dollars || t.pnl || 0) < 0
-          ).length;
-        const winRate =
-          journal.win_rate ||
-          (trades.length > 0 ? ((winningTrades / trades.length) * 100).toFixed(1) : "0.0");
-        const largestWin = journal.largest_win || null;
-        const largestLoss = journal.largest_loss || null;
-
-        const pnlColor = totalPnL >= 0 ? "var(--color-success)" : "var(--color-danger)";
-
-        const header = `
-          <div class="watchlist-header">
-            <h2>📓 Trade Journal</h2>
-            <div class="watchlist-meta">
-              <span>💰 Starting: $${formatNumber(capitalStart, 2)}</span>
-              <span>📈 Current: $${formatNumber(capitalCurrent, 2)}</span>
-              <span style="color: ${pnlColor}; font-weight: 600;">Total P&L: $${formatNumber(totalPnL, 2)}</span>
-              <span>📊 Trades: ${trades.length}</span>
-              <span>✅ Wins: ${winningTrades}</span>
-              <span>❌ Losses: ${losingTrades}</span>
-              <span>📈 Win Rate: ${winRate}%</span>
-              ${largestWin ? `<span style="color: var(--color-success);">💎 Best: $${formatNumber(largestWin, 2)}</span>` : ""}
-              ${largestLoss ? `<span style="color: var(--color-danger);">💸 Worst: $${formatNumber(largestLoss, 2)}</span>` : ""}
-            </div>
-          </div>
-        `;
-
-        const cards = trades
-          .map((trade) => {
-            const ticker = trade.ticker || trade.symbol || "N/A";
-            const entryDate =
-              trade.date_open || trade.entry_date || trade.entryDate || trade.date || "N/A";
-            const closeDate =
-              trade.date_close || trade.exit_date || trade.exitDate || "Open";
-            const strategy = trade.strategy || "N/A";
-            const direction = trade.direction || "N/A";
-            const entryPrice = trade.entry_price || trade.entryPrice || trade.entry || 0;
-            const exitPrice = trade.exit_price || trade.exitPrice || trade.exit || 0;
-            const pnlDollars =
-              trade.pnl_dollars ||
-              trade.pnlDollars ||
-              trade.pnl ||
-              trade.actual_profit_loss ||
-              0;
-            const pnlPercent = trade.pnl_percent || trade.pnlPercent || trade.pnl_pct || 0;
-            const rMultiple = trade.r_multiple || trade.rMultiple || null;
-            const holdingDays = trade.holding_days || trade.holdingDays || null;
-            const outcome =
-              trade.outcome || trade.result || (pnlDollars >= 0 ? "WIN" : "LOSS");
-            const notes = trade.notes || "";
-            const leverage = trade.leverage || null;
-            const rulesFollowed =
-              trade.rules_followed !== undefined ? trade.rules_followed : null;
-
-            return `
-              <div class="trade-card">
-                <div class="card-header">
-                  <div>
-                    <div class="card-title">${ticker}</div>
-                    <div class="card-ticker">${entryDate}${closeDate !== "Open" ? ` → ${closeDate}` : ""}</div>
-                  </div>
-                  <div class="confidence-badge ${outcome === "WIN" ? "confidence-high" : "confidence-medium"}">
-                    ${outcome.toUpperCase()}
-                  </div>
-                </div>
-                <div class="card-summary">
-                  <div class="info-row">
-                    <span class="info-label">Strategy</span>
-                    <span class="info-value">${strategy}</span>
-                  </div>
-                  <div class="info-row">
-                    <span class="info-label">Direction</span>
-                    <span class="info-value">${direction}</span>
-                  </div>
-                  ${leverage ? `
-                  <div class="info-row">
-                    <span class="info-label">Leverage</span>
-                    <span class="info-value">${leverage}x</span>
-                  </div>
-                  ` : ""}
-                  <div class="info-row">
-                    <span class="info-label">Entry</span>
-                    <span class="info-value">$${entryPrice > 0 ? formatNumber(entryPrice, 2) : "N/A"}</span>
-                  </div>
-                  ${exitPrice > 0 ? `
-                  <div class="info-row">
-                    <span class="info-label">Exit</span>
-                    <span class="info-value">$${formatNumber(exitPrice, 2)}</span>
-                  </div>
-                  ` : ""}
-                  <div class="info-row">
-                    <span class="info-label">P&L</span>
-                    <span class="info-value" style="color: ${pnlDollars >= 0 ? "var(--color-success)" : "var(--color-danger)"}">
-                      $${formatNumber(pnlDollars, 2)} ${pnlPercent ? `(${formatNumber(pnlPercent, 2)}%)` : ""}
-                    </span>
-                  </div>
-                  ${rMultiple !== null ? `
-                  <div class="info-row">
-                    <span class="info-label">R-Multiple</span>
-                    <span class="info-value">${formatNumber(rMultiple, 2)}R</span>
-                  </div>
-                  ` : ""}
-                  ${holdingDays !== null ? `
-                  <div class="info-row">
-                    <span class="info-label">Holding Period</span>
-                    <span class="info-value">${holdingDays} days</span>
-                  </div>
-                  ` : ""}
-                  ${rulesFollowed !== null ? `
-                  <div class="info-row">
-                    <span class="info-label">Rules Followed</span>
-                    <span class="info-value">${rulesFollowed === true ? "✅ Yes" : rulesFollowed === false ? "❌ No" : rulesFollowed}</span>
-                  </div>
-                  ` : ""}
-                </div>
-                ${notes ? `
-                <p style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--color-border); font-size: 0.875rem; color: var(--color-text-secondary);">
-                  ${notes}
-                </p>
-                ` : ""}
-              </div>
-            `;
-          })
-          .join("");
-
-        container.innerHTML = header + `<div class="cards-grid">${cards}</div>`;
       }
 
       function switchTab(tabName) {
