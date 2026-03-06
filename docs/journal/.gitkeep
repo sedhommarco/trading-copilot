@@ -1,0 +1,6 @@
+# Journal schema documentation will be created here
+
+Files to be added:
+- schema-transactions.md: Transaction log format and fields
+- schema-positions.md: Open positions snapshot format and fields
+- Migration guide from legacy trade-history.json
