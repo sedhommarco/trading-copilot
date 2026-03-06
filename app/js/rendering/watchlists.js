@@ -4,7 +4,7 @@
 
 import { formatNumber } from '../config.js';
 import { currentData } from '../state.js';
-import { normalizeTradeData, getConfidenceForSorting, renderTradeCard, renderPairTradeCard, renderMacroEventCard, attachCardEventListeners } from './cards.js';
+import { normalizeTradeData, getConfidenceForSorting, renderTradeCard, renderPairTradeCard, renderMacroEventCard } from './cards.js';
 
 const STRATEGY_NAMES = {
   pre_earnings_momentum: 'Pre-Earnings Momentum',
@@ -134,8 +134,7 @@ export function renderWatchlist(name, data) {
 
   container.innerHTML = header + `<div class="cards-grid">${cards}</div>`;
   
-  // Attach card click handlers
-  attachCardEventListeners();
+  // No event listeners needed - cards are always expanded
 }
 
 /**
