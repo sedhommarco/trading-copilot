@@ -1,48 +1,33 @@
 # 📈 Trading Copilot
 
-AI-powered trading system with automated watchlist generation, trade journaling, and position sizing for systematic swing trading strategies.
+AI-powered trading system with automated watchlist generation, trade journaling, and systematic strategy execution across multiple timeframes and instruments.
 
-> ⚠️ **HIGH RISK WARNING**: This system targets aggressive returns (100K from $1K in <5 years). You risk losing 100% of allocated capital. CFDs with leverage can amplify losses. Only risk money you can afford to lose.
+> ⚠️ **Trading involves substantial risk of loss.** This system targets aggressive returns, which requires aggressive risk-taking. You could lose 100% of allocated capital. See full disclaimer in SPA footer.
 
 ---
 
 ## 🚀 Quick Start
 
-### 1. Clone Repository
+### View the Dashboard
 
+**GitHub Pages (Recommended):**
+- Visit: [`https://sedhommarco.github.io/trading-copilot/app/`](https://sedhommarco.github.io/trading-copilot/app/)
+
+**Local:**
 ```bash
+# Clone and open
 git clone https://github.com/sedhommarco/trading-copilot.git
 cd trading-copilot
+open app/index.html  # macOS/Linux: xdg-open / Windows: start
 ```
 
-### 2. Open the SPA
+### Configure Perplexity Spaces
 
-**Option A - GitHub Pages (Recommended):**
+See complete setup guide: [`docs/setup/spaces-setup.md`](docs/setup/spaces-setup.md)
 
-1. Go to repo Settings → Pages
-2. Set Source to "main" branch, "/" root
-3. Visit: `https://sedhommarco.github.io/trading-copilot/app/`
-
-**Option B - Local:**
-
-```bash
-# Simply open app/index.html in your browser
-open app/index.html  # macOS
-start app/index.html  # Windows
-xdg-open app/index.html  # Linux
-```
-
-### 3. Weekly Refresh via Perplexity
-
-Every Sunday at 8:00 PM CET, run this command in Perplexity Trading Copilot Space:
-
-```
-Execute Weekly Refresh - Sunday [DATE]
-
-Load all JSON files from GitHub, compare predictions vs outcomes, generate new watchlists, and commit updates using GitHub MCP tools.
-
-Week: [MONDAY] to [SUNDAY]
-```
+**Two spaces required:**
+1. **Trading Copilot** (execution): Uses [`docs/INSTRUCTIONS.TRADING.md`](docs/INSTRUCTIONS.TRADING.md)
+2. **Trading Copilot Development** (architecture): Uses [`docs/INSTRUCTIONS.DEV.md`](docs/INSTRUCTIONS.DEV.md)
 
 ---
 
@@ -50,28 +35,26 @@ Week: [MONDAY] to [SUNDAY]
 
 ```
 trading-copilot/
-├── data/                          # All trading data (JSON files)
-│   ├── watchlists/                # 6 strategy watchlists
-│   │   ├── pre-earnings.json
-│   │   ├── post-crash.json
-│   │   ├── volatility.json
-│   │   ├── crypto.json
-│   │   ├── pair-trades.json
-│   │   └── macro-events.json
-│   ├── context/
-│   │   └── market-regime.json     # Current market assessment
-│   ├── journal/
-│   │   └── trade-history.json     # All closed trades
-│   └── meta/
-│       ├── manifest.json          # Data freshness tracker
-│       └── schema.json            # JSON validation schema
-├── archive/                       # Weekly snapshots (auto-archived)
-│   └── 2026/
-│       └── week-10/
-├── docs/
-│   └── INSTRUCTIONS.md            # Full instructions for Perplexity
 ├── app/
-│   └── index.html                 # Single-page application (HTML + Vanilla JS)
+│   └── index.html                 # Single-page dashboard (HTML + JS + CSS)
+├── data/
+│   ├── watchlists/                # Strategy opportunities (6 strategies)
+│   ├── context/                   # Market regime analysis
+│   ├── journal/                   # Transaction log & open positions
+│   └── meta/                      # Manifest, UI config, schemas
+├── archive/
+│   ├── index.json                 # Archive catalog
+│   └── 2026/week-XX/              # Weekly data snapshots
+├── docs/
+│   ├── INSTRUCTIONS.TRADING.md    # Trading space instructions
+│   ├── INSTRUCTIONS.DEV.md        # Development space instructions
+│   ├── INSTRUCTIONS.md            # Meta-file (navigation hub)
+│   ├── setup/                     # Configuration guides
+│   │   ├── spaces-setup.md
+│   │   ├── github-setup.md
+│   │   └── capital-and-user-profile.md
+│   ├── strategies/                # Per-strategy documentation
+│   └── journal/                   # Journal schema docs
 └── README.md                      # This file
 ```
 
@@ -79,266 +62,171 @@ trading-copilot/
 
 ## 🎯 Trading Strategies
 
-### 1. Pre-Earnings Momentum
+Six core strategies with dedicated watchlists:
 
-**Target**: Stocks 2-5 days before earnings with strong analyst upgrades and bullish momentum.
+1. **Pre-Earnings Momentum** — High-conviction plays 2-5 days before earnings
+2. **Post-Crash Rebound** — Oversold bounces after news-driven drops
+3. **Volatility Plays** — XAU, indices, commodities on macro events
+4. **Crypto Opportunities** — BTC, ETH, SOL breakouts with tight risk
+5. **Pair Trades** — Long/short pairs exploiting relative value
+6. **Macro Events** — FOMC, CPI, NFP reactions
 
-**Entry Criteria**:
+**Plus two new strategies in development:**
+7. **Revolut Tools (Intraday/Swing)** — Indicator-based setups using MACD, oscillators
+8. **Cycles/Sessions/Events** — Seasonal plays around Christmas, F1, sports finals
 
-- Estimate revisions +10% in past 2 weeks
-- Price above 20-day MA, RSI 55-70
-- Options IV rising but not extreme
-
-**Exit**: Close 50% day before earnings, exit remainder on gap (>5% up or >3% down).
-
----
-
-### 2. Post-Crash Rebound
-
-**Target**: Liquid large/mid-caps that dropped >8% in single session but fundamentals intact.
-
-**Entry Criteria**:
-
-- News-driven drop (not fraud/structural issues)
-- Technical support level nearby
-- High short interest (potential squeeze)
-
-**Exit**: 50% at +5% rebound, trail remainder at +3% for +10-15% target.
+Full strategy documentation: [`docs/strategies/`](docs/strategies/)
 
 ---
 
-### 3. Volatility Plays
+## 📊 How It Works
 
-**Target**: Gold, silver, indices, commodities around macro events or breakouts.
+### Weekly Workflow (Sunday 19:00 CET)
 
-**Instruments**: XAU/USD, US500, NAS100, DE40, USOIL
+1. **Trading Copilot Space**: Run weekly refresh command
+   - Analyzes market regime
+   - Generates/updates watchlists for all strategies
+   - Updates journal with notes and recommendations
+   - Commits changes via GitHub MCP tools
 
-**Setup**: Breakout triggers, mean-reversion fades, macro event reactions.
+2. **Trading Copilot Development Space**: Run weekly review command
+   - Compares predictions vs outcomes from archive
+   - Refactors code, schemas, and strategies
+   - Updates documentation
+   - Creates development branches and PRs
 
----
+3. **SPA Auto-Refreshes**: Dashboard pulls latest data from GitHub
 
-### 4. Crypto Opportunities
+### Daily Usage
 
-**Target**: BTC, ETH, SOL, XRP, ADA range breakouts with tight risk control.
-
-**Leverage**: Maximum 3x (extreme volatility).
-
-**Platform**: Revolut X (lower fees, limit orders, API access).
-
----
-
-### 5. Pair Trades
-
-**Target**: Long/short pairs where one name expected to outperform (earnings, sector rotation, quality vs distressed).
-
-**Example**: Long NVDA / Short AMD into earnings, Long COST / Short WMT on consumer trends.
-
----
-
-### 6. Macro Events
-
-**Target**: FOMC, NFP, CPI, PMI reactions. Setups include volatility spikes, directional breakouts, or staying flat.
-
-**Action**: Reduce exposure before high-impact events, trade post-data moves.
-
----
-
-## 💰 Risk Management
-
-### Position Sizing (Based on $1000 Capital)
-
-| Risk Level       | Max Loss | Use Case                |
-| ---------------- | -------- | ----------------------- |
-| **Conservative** | 2% ($20) | Uncertain setups        |
-| **Moderate**     | 3% ($30) | Default high-conviction |
-| **Aggressive**   | 5% ($50) | Exceptional edge only   |
-
-**Daily Limit**: 10% of capital ($100) across all trades.
-
-**Monthly Limit**: 20% drawdown ($200) triggers mandatory pause.
-
-### Leverage Guidelines
-
-- **CFDs (stocks)**: 5x leverage
-- **CFDs (indices/commodities)**: Up to 10x
-- **Cash stocks**: 1x (no leverage)
-- **Crypto**: Maximum 3x
-
----
-
-## 📊 Data Access for SPA
-
-### GitHub Raw URLs
-
-The SPA fetches JSON data from:
-
-```
-https://raw.githubusercontent.com/sedhommarco/trading-copilot/main/data/watchlists/pre-earnings.json
-```
-
-### Local Fallback
-
-If GitHub is unreachable, the SPA falls back to local `./data/` folder (when HTML opened from filesystem).
-
-### Data Freshness
-
-Check `data/meta/manifest.json` for last update timestamps. Data older than 10 days is considered stale.
-
----
-
-## 🔄 Weekly Workflow
-
-### Sunday 8:00 PM CET - Weekly Refresh
-
-1. **Perplexity Command**: Run "Execute Weekly Refresh" in Trading Copilot Space
-2. **Perplexity Actions**:
-   - Loads all JSON files from GitHub
-   - Compares predictions vs actual outcomes
-   - Generates new watchlists for upcoming week
-   - Uses GitHub MCP tools to commit updates directly
-3. **You Review**: Check GitHub commit history for changes
-4. **SPA Auto-Updates**: Refresh button in app pulls latest data
-
-### Daily Workflow (Optional)
-
-**Morning Scan (8:00 AM CET)**: EU session pre-market check.
-
-**Pre-US Open (3:00 PM CET)**: US futures, pre-market movers, earnings checks.
-
-**Trade Execution**: Via Revolut app (stocks, CFDs, crypto via Revolut X).
-
-**Evening Journal**: Log closed trades using Perplexity command to update `trade-history.json`.
+- Open SPA dashboard to view current opportunities
+- Execute trades via Revolut/Revolut X
+- Ask Trading Copilot ad-hoc questions about setups
+- Log completed trades (Perplexity updates journal JSON)
 
 ---
 
 ## 🛠️ Technical Details
 
-### SPA Technology Stack
+### SPA Technology
 
-- **Frontend**: Vanilla JavaScript (ES6+), HTML5, CSS3
-- **Data**: Fetched from GitHub raw URLs via `fetch()` API
+- **Stack**: Vanilla JavaScript (ES6+), HTML5, CSS3
+- **Data Source**: GitHub raw URLs via `fetch()` API
 - **Offline Support**: Falls back to local `./data/` folder
-- **No Dependencies**: Zero npm packages, runs anywhere
+- **Zero Dependencies**: No npm packages, runs anywhere
 
 ### GitHub Integration
 
-**Perplexity uses GitHub MCP tools to update files**:
+Perplexity spaces use GitHub MCP tools to read/write repository files directly:
+- `get_file_contents`: Read current data
+- `create_or_update_file`: Update single file
+- `push_files`: Batch update multiple files
 
-- `create_or_update_file`: Updates single JSON file
-- `push_files`: Batch updates multiple files
-- `get_file_contents`: Reads current data
+No manual copy-paste required.
 
-**No manual copy-paste required!**
+### Hosting
 
-### Hosting Options
+**GitHub Pages** (free, public):
+- Enable in repo Settings → Pages → Source: `main` branch, `/` root
+- Access at: `https://sedhommarco.github.io/trading-copilot/app/`
 
-**Option 1 - GitHub Pages (Free, Public):**
+**Local**: Simply open `app/index.html` in any browser
 
-```bash
-# Enable in repo Settings → Pages → Source: main branch, / root
-# Access at: https://sedhommarco.github.io/trading-copilot/app/
-```
+---
 
-**Option 2 - Local (Offline):**
+## 📚 Documentation
 
-```bash
-# Just open app/index.html in browser
-# Works on PC and smartphone (save to local folder)
-```
+### Essential Reading
+
+- **[INSTRUCTIONS.TRADING.md](docs/INSTRUCTIONS.TRADING.md)** — Full instructions for Trading Copilot space
+- **[INSTRUCTIONS.DEV.md](docs/INSTRUCTIONS.DEV.md)** — Full instructions for Development space
+- **[Spaces Setup Guide](docs/setup/spaces-setup.md)** — Complete A-Z configuration
+- **[Capital & Risk Profile](docs/setup/capital-and-user-profile.md)** — Trading constraints and platforms
+
+### Strategy Details
+
+Each strategy has dedicated documentation in [`docs/strategies/`](docs/strategies/) covering:
+- Purpose & trade horizon
+- Required JSON fields
+- SPA UI expectations
+- Confidence levels and risks
+- Textbook setup examples
+
+### Journal System
+
+- **[Transaction Schema](docs/journal/schema-transactions.md)** — Per-trade log format
+- **[Position Schema](docs/journal/schema-positions.md)** — Open positions snapshot format
+
+---
+
+## 💰 Risk Management
+
+**Starting Capital**: $1,000  
+**Position Sizing**: 2-5% risk per trade ($20-$50)  
+**Daily Limit**: 10% capital ($100)  
+**Monthly Drawdown Pause**: 20% ($200)
+
+**Leverage Guidelines**:
+- CFDs (stocks): 5x max
+- CFDs (indices/commodities): 10x max
+- Crypto: 3x max
+- Cash stocks: 1x (no leverage)
+
+Full risk framework: [`docs/setup/capital-and-user-profile.md`](docs/setup/capital-and-user-profile.md)
 
 ---
 
 ## 📱 Mobile Usage
 
-### Android/iOS
+1. Bookmark GitHub Pages URL in mobile browser
+2. Or save repo locally and open `app/index.html`
+3. Add to home screen for app-like experience
 
-1. **GitHub Pages**: Bookmark `https://sedhommarco.github.io/trading-copilot/app/` in mobile browser
-2. **Local**: Save repo to phone, open `app/index.html` in Chrome/Safari
-3. **Add to Home Screen**: Create app-like shortcut
-
-### Features
-
-- ✅ Responsive design (works on all screen sizes)
-- ✅ Manual refresh button
-- ✅ Auto-refresh toggle (optional)
-- ✅ Offline fallback to local data
+✅ Responsive design  
+✅ Manual & auto-refresh  
+✅ Offline fallback
 
 ---
 
-## 🔒 Security & Privacy
+## 🔒 Privacy
 
-### Public Repository Considerations
+**Public repository** = Anyone can see watchlists and trade history.
 
-- **Data Visible**: Anyone can see your watchlists and trade history
-- **No Sensitive Info**: JSON files contain only tickers, not account numbers or personal data
-- **Trade Execution**: Done externally via Revolut (not connected to this repo)
+To make private:
+- Settings → Danger Zone → Change visibility → Make private
+- GitHub Pages still works (requires authentication)
 
-### If You Prefer Privacy
-
-Make repository **private** (free on GitHub):
-
-```bash
-# Settings → Danger Zone → Change visibility → Make private
-```
-
-GitHub Pages still works with private repos (but requires authentication).
+No sensitive data (account numbers, passwords) is stored in JSON files.
 
 ---
 
 ## 🤝 Contributing
 
-This is a personal trading system, but if you want to fork and adapt:
+This is a personal trading system. To adapt for your use:
 
 1. Fork the repository
-2. Modify strategies in `docs/INSTRUCTIONS.md`
-3. Adjust JSON schemas in `data/meta/schema.json`
-4. Customize SPA in `app/index.html`
+2. Modify strategies in `docs/strategies/`
+3. Adjust JSON schemas
+4. Customize SPA UI
+
+See [`docs/INSTRUCTIONS.DEV.md`](docs/INSTRUCTIONS.DEV.md) for development guidelines.
 
 ---
 
 ## 📜 License
 
-MIT License - Use at your own risk. No warranties or guarantees.
+MIT License — Use at your own risk. No warranties or guarantees.
 
 ---
 
 ## 📞 Support
 
-**Issues with Perplexity Integration?**
-
-- Check `docs/INSTRUCTIONS.md` for full instructions
-- Verify GitHub MCP tools are enabled in Perplexity Space settings
-
-**Issues with SPA?**
-
-- Check browser console for fetch errors
-- Verify GitHub raw URL is correct
-- Test local fallback by opening `app/index.html` directly
+**Questions about:**
+- Trading logic: [`docs/INSTRUCTIONS.TRADING.md`](docs/INSTRUCTIONS.TRADING.md)
+- Development: [`docs/INSTRUCTIONS.DEV.md`](docs/INSTRUCTIONS.DEV.md)
+- Setup: [`docs/setup/spaces-setup.md`](docs/setup/spaces-setup.md)
+- GitHub integration: [`docs/setup/github-setup.md`](docs/setup/github-setup.md)
 
 ---
 
-## 🎯 Path to $100K Goal
-
-**Starting Capital**: $1,000
-**Target**: $100,000 in <5 years
-**Required Annual Return**: ~100% compounded
-
-**Realistic Probability**: <5% (most retail traders fail)
-
-**Success Requirements**:
-
-- 70-75% win rate with 2:1 risk/reward
-- Zero catastrophic losses (no single trade >20% loss)
-- 250+ trades over 5 years
-- Survive multiple 20-30% drawdowns
-- Discipline to follow system (no revenge trading, FOMO)
-
-**Early Warning Triggers**:
-
-- 3 consecutive losses → Reduce position size to 1%
-- 10% monthly drawdown → Pause new trades
-- Win rate <50% for 20 trades → System may be broken
-
----
-
-**Built with ❤️ for systematic swing trading. Trade smart, manage risk, survive.**
+**Built for systematic swing trading. Trade smart, manage risk, survive.**
