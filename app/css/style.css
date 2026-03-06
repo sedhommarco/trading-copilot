@@ -464,12 +464,12 @@ input:checked + .toggle-slider:before {
   transform: translateY(-2px);
 }
 
-.card-header {
+/* Card header for always-expanded cards (no click handler) */
+.card-header-static {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
   margin-bottom: 1rem;
-  cursor: pointer;
 }
 
 .card-title {
@@ -482,14 +482,6 @@ input:checked + .toggle-slider:before {
   font-size: 0.875rem;
   color: var(--color-text-muted);
   margin-top: 0.25rem;
-}
-
-.expand-icon {
-  cursor: pointer;
-  font-size: 0.875rem;
-  color: var(--color-text-secondary);
-  transition: transform 0.2s;
-  user-select: none;
 }
 
 .confidence-badge {
@@ -531,8 +523,8 @@ input:checked + .toggle-slider:before {
   font-size: 0.875rem;
 }
 
-.card-details {
-  display: none;
+/* Always visible details section (no expand/collapse) */
+.card-details-always-visible {
   margin-top: 1rem;
   padding-top: 1rem;
   border-top: 1px solid var(--color-border);
@@ -648,6 +640,7 @@ input:checked + .toggle-slider:before {
   }
 }
 
+/* Market Regime Section - KEEP expand/collapse functionality */
 .market-regime {
   padding: 1.5rem;
   border-radius: 8px;
