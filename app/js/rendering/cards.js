@@ -71,17 +71,55 @@ export function getConfidenceBadgeClass(trade) {
 }
 
 /**
+ * Calculate trade age and determine if stale
+ * @param {Object} trade - Trade object
+ * @param {Object} watchlistData - Watchlist metadata for fallback dates
+ * @returns {Object} { daysOld, isStale, staleBadge }
+ */
+export function calculateTradeAge(trade, watchlistData = {}) {
+  const now = new Date();
+  let referenceDate = null;
+
+  // Try to get reference date from trade
+  if (trade.recommended_date) {
+    referenceDate = new Date(trade.recommended_date);
+  } else if (trade.created_date) {
+    referenceDate = new Date(trade.created_date);
+  } else if (watchlistData.last_updated) {
+    referenceDate = new Date(watchlistData.last_updated);
+  } else if (watchlistData.week_start) {
+    referenceDate = new Date(watchlistData.week_start);
+  }
+
+  if (!referenceDate || isNaN(referenceDate.getTime())) {
+    return { daysOld: null, isStale: false, staleBadge: '' };
+  }
+
+  const daysOld = Math.floor((now - referenceDate) / (1000 * 60 * 60 * 24));
+  const expectedHoldingDays = trade.expected_holding_days || 7; // default 7 days
+  const isStale = daysOld > expectedHoldingDays;
+
+  const staleBadge = isStale 
+    ? `<span class="stale-badge">⏰ ${daysOld}d old (expected ${expectedHoldingDays}d)</span>`
+    : '';
+
+  return { daysOld, isStale, staleBadge };
+}
+
+/**
  * Render standard trade card (always expanded)
  * @param {Object} trade - Trade data
+ * @param {Object} watchlistData - Watchlist metadata (optional)
  * @returns {string} HTML
  */
-export function renderTradeCard(trade) {
+export function renderTradeCard(trade, watchlistData = {}) {
   const ticker = trade.ticker || 'N/A';
   const company = trade.company_name || '';
   const confidenceDisplay = getConfidenceDisplay(trade);
   const confidenceClass = getConfidenceBadgeClass(trade);
   const direction = trade.direction || 'LONG';
   const lastWeekPerf = trade.last_week_performance || null;
+  const { isStale, staleBadge } = calculateTradeAge(trade, watchlistData);
 
   let entry = trade.current_price || 0;
   if (trade.entry_zone) {
@@ -107,13 +145,16 @@ export function renderTradeCard(trade) {
   const earningsDate = trade.earnings_date || null;
   const positionSize = trade.position_size_usd ? trade.position_size_usd : null;
 
+  const staleClass = isStale ? 'trade-card-stale' : '';
+
   return `
-    <div class="trade-card">
+    <div class="trade-card ${staleClass}">
       <div class="card-header-static">
         <div>
           <div class="card-title">${ticker}</div>
           <div class="card-ticker">${company}</div>
           ${lastWeekPerf ? `<div class="performance-badge">Last Week: ${lastWeekPerf}</div>` : ''}
+          ${staleBadge}
         </div>
         <div class="confidence-badge ${confidenceClass}">${confidenceDisplay.toUpperCase()}</div>
       </div>
@@ -200,9 +241,10 @@ export function renderTradeCard(trade) {
 /**
  * Render pair trade card (always expanded)
  * @param {Object} trade - Pair trade data
+ * @param {Object} watchlistData - Watchlist metadata (optional)
  * @returns {string} HTML
  */
-export function renderPairTradeCard(trade) {
+export function renderPairTradeCard(trade, watchlistData = {}) {
   const longTicker = trade.long_ticker || 'N/A';
   const shortTicker = trade.short_ticker || 'N/A';
   const longEntry = trade.long_entry || 0;
@@ -212,13 +254,17 @@ export function renderPairTradeCard(trade) {
   const timeframe = trade.expected_holding_days ? `${trade.expected_holding_days}d` : 'N/A';
   const confidenceDisplay = getConfidenceDisplay(trade);
   const confidenceClass = getConfidenceBadgeClass(trade);
+  const { isStale, staleBadge } = calculateTradeAge(trade, watchlistData);
+
+  const staleClass = isStale ? 'trade-card-stale' : '';
 
   return `
-    <div class="trade-card">
+    <div class="trade-card ${staleClass}">
       <div class="card-header-static">
         <div>
           <div class="card-title">${longTicker} / ${shortTicker}</div>
           <div class="card-ticker">Pair Trade</div>
+          ${staleBadge}
         </div>
         <div class="confidence-badge ${confidenceClass}">${confidenceDisplay.toUpperCase()}</div>
       </div>
@@ -272,9 +318,10 @@ export function renderPairTradeCard(trade) {
 /**
  * Render macro event card (always expanded)
  * @param {Object} trade - Macro event data
+ * @param {Object} watchlistData - Watchlist metadata (optional)
  * @returns {string} HTML
  */
-export function renderMacroEventCard(trade) {
+export function renderMacroEventCard(trade, watchlistData = {}) {
   const eventName = trade.event_name || 'Macro Event';
   const eventDate = trade.date || 'N/A';
   const eventTime = trade.time || '';
@@ -288,13 +335,29 @@ export function renderMacroEventCard(trade) {
 
   const confidenceDisplay = getConfidenceDisplay(trade);
   const confidenceClass = getConfidenceBadgeClass(trade);
+  
+  // For macro events, check if event date has passed
+  let isPast = false;
+  let pastBadge = '';
+  if (eventDate !== 'N/A') {
+    const evtDate = new Date(eventDate);
+    const now = new Date();
+    isPast = evtDate < now;
+    if (isPast) {
+      const daysAgo = Math.floor((now - evtDate) / (1000 * 60 * 60 * 24));
+      pastBadge = `<span class="stale-badge">✓ Occurred ${daysAgo}d ago</span>`;
+    }
+  }
+
+  const staleClass = isPast ? 'trade-card-stale' : '';
 
   return `
-    <div class="trade-card">
+    <div class="trade-card ${staleClass}">
       <div class="card-header-static">
         <div>
           <div class="card-title">${eventName}</div>
           <div class="card-ticker">${eventDate} ${eventTime}</div>
+          ${pastBadge}
         </div>
         <div class="confidence-badge ${confidenceClass}">${confidenceDisplay.toUpperCase()}</div>
       </div>
