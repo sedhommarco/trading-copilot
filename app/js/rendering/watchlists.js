@@ -118,16 +118,23 @@ export function renderWatchlist(name, data) {
     ${renderPreviousOutcomes(previousOutcomes)}
   `;
 
+  // Prepare watchlist metadata for card age calculations
+  const watchlistMetadata = {
+    week_start: data.week_start,
+    week_end: data.week_end,
+    last_updated: data.last_updated
+  };
+
   const cards = trades
     .map(trade => {
       const normalizedTrade = normalizeTradeData(trade);
 
       if (normalizedTrade.long_ticker && normalizedTrade.short_ticker) {
-        return renderPairTradeCard(normalizedTrade);
+        return renderPairTradeCard(normalizedTrade, watchlistMetadata);
       } else if (normalizedTrade.event_name) {
-        return renderMacroEventCard(normalizedTrade);
+        return renderMacroEventCard(normalizedTrade, watchlistMetadata);
       } else {
-        return renderTradeCard(normalizedTrade);
+        return renderTradeCard(normalizedTrade, watchlistMetadata);
       }
     })
     .join('');
