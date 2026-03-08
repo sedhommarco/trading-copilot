@@ -486,6 +486,25 @@ input:checked + .toggle-slider:before {
   font-weight: 600;
 }
 
+/* Live price styling */
+.live-price-row {
+  background: rgba(56, 189, 248, 0.05);
+  padding: 0.5rem;
+  border-radius: 4px;
+  border: 1px solid rgba(56, 189, 248, 0.2);
+}
+
+.live-price-loading {
+  color: var(--color-text-muted);
+  font-size: 0.875rem;
+  font-style: italic;
+}
+
+.live-price-error {
+  color: var(--color-danger);
+  font-size: 0.875rem;
+}
+
 /* Card header for always-expanded cards (no click handler) */
 .card-header-static {
   display: flex;
