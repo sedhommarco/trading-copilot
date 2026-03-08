@@ -141,8 +141,12 @@ export function renderWatchlist(name, data) {
 
   container.innerHTML = header + `<div class="cards-grid">${cards}</div>`;
   
-  // Load live prices asynchronously after rendering
-  loadLivePrices();
+  // Load live prices asynchronously after rendering (only for crypto tab)
+  // Mark container to prevent duplicate calls
+  if (!container.dataset.livePricesLoaded) {
+    container.dataset.livePricesLoaded = 'true';
+    loadLivePrices();
+  }
 }
 
 /**
