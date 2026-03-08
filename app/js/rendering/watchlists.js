@@ -4,7 +4,7 @@
 
 import { formatNumber } from '../config.js';
 import { currentData } from '../state.js';
-import { normalizeTradeData, getConfidenceForSorting, renderTradeCard, renderPairTradeCard, renderMacroEventCard } from './cards.js';
+import { normalizeTradeData, getConfidenceForSorting, renderTradeCard, renderPairTradeCard, renderMacroEventCard, loadLivePrices } from './cards.js';
 
 const STRATEGY_NAMES = {
   pre_earnings_momentum: 'Pre-Earnings Momentum',
@@ -141,7 +141,8 @@ export function renderWatchlist(name, data) {
 
   container.innerHTML = header + `<div class="cards-grid">${cards}</div>`;
   
-  // No event listeners needed - cards are always expanded
+  // Load live prices asynchronously after rendering
+  loadLivePrices();
 }
 
 /**

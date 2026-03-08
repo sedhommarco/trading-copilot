@@ -3,6 +3,7 @@
  */
 
 import { formatNumber } from '../config.js';
+import { fetchCryptoPrice, isCryptoTicker } from '../api.js';
 
 /**
  * Normalize trade data from various formats
@@ -107,6 +108,31 @@ export function calculateTradeAge(trade, watchlistData = {}) {
 }
 
 /**
+ * Generate live price HTML placeholder with data attributes for async loading
+ * @param {string} ticker - Ticker symbol
+ * @param {number} entryPrice - Entry price for comparison
+ * @param {string} direction - Trade direction (LONG/SHORT)
+ * @returns {string} HTML with placeholder
+ */
+function generateLivePriceRow(ticker, entryPrice, direction) {
+  if (!isCryptoTicker(ticker)) {
+    return ''; // Only show for crypto
+  }
+
+  return `
+    <div class="info-row live-price-row" 
+         data-ticker="${ticker}" 
+         data-entry="${entryPrice}" 
+         data-direction="${direction}">
+      <span class="info-label">Live Price</span>
+      <span class="info-value live-price-value">
+        <span class="live-price-loading">⌛ Loading...</span>
+      </span>
+    </div>
+  `;
+}
+
+/**
  * Render standard trade card (always expanded)
  * @param {Object} trade - Trade data
  * @param {Object} watchlistData - Watchlist metadata (optional)
@@ -166,6 +192,7 @@ export function renderTradeCard(trade, watchlistData = {}) {
             ${direction}
           </span>
         </div>
+        ${generateLivePriceRow(ticker, entry, direction)}
         ${earningsDate ? `
         <div class="info-row">
           <span class="info-label">Earnings</span>
@@ -391,4 +418,71 @@ export function renderMacroEventCard(trade, watchlistData = {}) {
       ` : ''}
     </div>
   `;
+}
+
+/**
+ * Load live prices for all crypto cards on the page
+ * Called after cards are rendered to populate live price placeholders
+ */
+export async function loadLivePrices() {
+  const livePriceRows = document.querySelectorAll('.live-price-row');
+  
+  if (livePriceRows.length === 0) {
+    return; // No crypto cards on this tab
+  }
+
+  console.log(`Loading live prices for ${livePriceRows.length} crypto cards...`);
+
+  for (const row of livePriceRows) {
+    const ticker = row.dataset.ticker;
+    const entryPrice = parseFloat(row.dataset.entry);
+    const direction = row.dataset.direction;
+    const valueSpan = row.querySelector('.live-price-value');
+
+    try {
+      const priceData = await fetchCryptoPrice(ticker);
+      
+      if (!priceData) {
+        valueSpan.innerHTML = '<span class="live-price-error">Unavailable</span>';
+        continue;
+      }
+
+      const livePrice = priceData.price;
+      const change24h = priceData.change24h;
+
+      // Calculate vs entry
+      let vsEntry = 0;
+      let vsEntryColor = 'var(--color-text-secondary)';
+      if (entryPrice > 0) {
+        vsEntry = ((livePrice - entryPrice) / entryPrice) * 100;
+        
+        // Color based on direction and movement
+        if (direction === 'LONG') {
+          vsEntryColor = vsEntry >= 0 ? 'var(--color-success)' : 'var(--color-danger)';
+        } else {
+          vsEntryColor = vsEntry <= 0 ? 'var(--color-success)' : 'var(--color-danger)';
+        }
+      }
+
+      const change24hIcon = change24h >= 0 ? '▲' : '▼';
+      const change24hColor = change24h >= 0 ? 'var(--color-success)' : 'var(--color-danger)';
+
+      valueSpan.innerHTML = `
+        <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 0.25rem;">
+          <span style="font-weight: 600;">$${formatNumber(livePrice, 2)}</span>
+          <span style="font-size: 0.75rem; color: ${change24hColor};">
+            ${change24hIcon} ${Math.abs(change24h).toFixed(2)}% (24h)
+          </span>
+          ${entryPrice > 0 ? `
+          <span style="font-size: 0.75rem; color: ${vsEntryColor};">
+            ${vsEntry >= 0 ? '+' : ''}${vsEntry.toFixed(2)}% vs entry
+          </span>
+          ` : ''}
+        </div>
+      `;
+    } catch (error) {
+      console.error(`Failed to load price for ${ticker}:`, error);
+      valueSpan.innerHTML = '<span class="live-price-error">Error</span>';
+    }
+  }
 }
