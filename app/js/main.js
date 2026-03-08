@@ -28,7 +28,18 @@ function updateStatusBar(manifest) {
 
   const isFresh = dataAge <= staleThreshold;
   const statusClass = isFresh ? 'status-fresh' : 'status-stale';
-  const statusText = isFresh ? 'Data is fresh' : `Data is ${dataAge} days old (stale)`;
+  
+  // Enhanced status text
+  let statusText;
+  if (dataAge === 0) {
+    statusText = 'Data is current (today)';
+  } else if (dataAge === 1) {
+    statusText = 'Data is 1 day old';
+  } else if (isFresh) {
+    statusText = `Data is ${dataAge} days old (within ${staleThreshold}d window)`;
+  } else {
+    statusText = `⚠️ Data is ${dataAge} days old (overdue by ${dataAge - staleThreshold}d)`;
+  }
 
   statusBar.innerHTML = `
     <div class="status-item">
@@ -38,7 +49,10 @@ function updateStatusBar(manifest) {
     <div class="status-item">
       <span>Last update: ${lastUpdate}</span>
     </div>
-    ${autoRefreshTimer ? '<div class="status-item"><span>Auto-refresh: ON</span></div>' : ''}
+    <div class="status-item" style="color: var(--color-text-muted); font-size: 0.8125rem;">
+      <span>📅 Next expected: Sunday 20:00 CET</span>
+    </div>
+    ${autoRefreshTimer ? '<div class="status-item"><span>🔄 Auto-refresh: ON</span></div>' : ''}
   `;
 }
 
@@ -53,7 +67,7 @@ async function refreshData() {
   
   isRefreshing = true;
   refreshBtn.disabled = true;
-  refreshBtn.textContent = '⏳ Refreshing...';
+  refreshBtn.textContent = '⌛ Refreshing...';
 
   try {
     const result = await loadAllData();
