@@ -6,6 +6,7 @@ export const CONFIG = {
   githubUser: 'sedhommarco',
   repo: 'trading-copilot',
   branch: 'main',
+  dataPath: '../data/',
   autoRefreshInterval: 5 * 60 * 1000 // 5 minutes
 };
 
