@@ -5,81 +5,86 @@ on:
     paths:
       - 'data/**/*.json'
       - 'schemas/**/*.json'
+      - '.github/workflows/validate-json.yml'
   workflow_dispatch:
 
 jobs:
   validate:
+    name: JSON Schema Validation
     runs-on: ubuntu-latest
-    name: Validate JSON Data
     
     steps:
-      - name: Checkout repository
+      - name: Checkout code
         uses: actions/checkout@v4
-      
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-      
-      - name: Install dependencies
+
+      - name: Install AJV (JSON Schema Validator)
         run: npm install -g ajv-cli ajv-formats
-      
-      - name: Validate watchlists
+
+      - name: Validate Manifest
         continue-on-error: true
-        id: validate_watchlists
         run: |
-          echo "::group::Validating Watchlists"
-          FAILED=0
+          echo "::group::Validating manifest.json"
+          ajv validate \
+            -s schemas/manifest.schema.json \
+            -d data/meta/manifest.json \
+            --strict=false \
+            --allow-union-types \
+            || echo "::warning file=data/meta/manifest.json::Validation failed for manifest.json"
+          echo "::endgroup::"
+
+      - name: Validate Watchlists
+        continue-on-error: true
+        run: |
+          echo "::group::Validating watchlist files"
           for file in data/watchlists/*.json; do
-            if [ -f "$file" ]; then
-              echo "Validating $file..."
-              if ! ajv validate -s schemas/watchlist.schema.json -d "$file" --spec=draft7 2>&1; then
-                echo "::warning file=$file::Validation failed for $file"
-                FAILED=1
-              else
-                echo "✓ $file is valid"
-              fi
-            fi
+            echo "Validating $file..."
+            ajv validate \
+              -s schemas/watchlist.schema.json \
+              -d "$file" \
+              --strict=false \
+              --allow-union-types \
+              || echo "::warning file=$file::Validation failed for $file"
           done
           echo "::endgroup::"
-          exit 0
-      
-      - name: Validate transactions
+
+      - name: Validate Transactions
         continue-on-error: true
-        id: validate_transactions
         run: |
-          echo "::group::Validating Transactions"
-          FILE="data/journal/transactions.json"
-          if [ -f "$FILE" ]; then
-            echo "Validating $FILE..."
-            if ! ajv validate -s schemas/transactions.schema.json -d "$FILE" --spec=draft7 2>&1; then
-              echo "::warning file=$FILE::Validation failed for $FILE"
-            else
-              echo "✓ $FILE is valid"
-            fi
+          echo "::group::Validating transactions.json"
+          if [ -f data/journal/transactions.json ]; then
+            ajv validate \
+              -s schemas/transactions.schema.json \
+              -d data/journal/transactions.json \
+              --strict=false \
+              --allow-union-types \
+              || echo "::warning file=data/journal/transactions.json::Validation failed for transactions.json"
+          else
+            echo "transactions.json not found, skipping"
           fi
           echo "::endgroup::"
-          exit 0
-      
-      - name: Validate positions
+
+      - name: Validate Positions
         continue-on-error: true
-        id: validate_positions
         run: |
-          echo "::group::Validating Positions"
-          FILE="data/journal/positions.json"
-          if [ -f "$FILE" ]; then
-            echo "Validating $FILE..."
-            if ! ajv validate -s schemas/positions.schema.json -d "$FILE" --spec=draft7 2>&1; then
-              echo "::warning file=$FILE::Validation failed for $FILE"
-            else
-              echo "✓ $FILE is valid"
-            fi
+          echo "::group::Validating positions.json"
+          if [ -f data/journal/positions.json ]; then
+            ajv validate \
+              -s schemas/positions.schema.json \
+              -d data/journal/positions.json \
+              --strict=false \
+              --allow-union-types \
+              || echo "::warning file=data/journal/positions.json::Validation failed for positions.json"
+          else
+            echo "positions.json not found, skipping"
           fi
           echo "::endgroup::"
-          exit 0
-      
+
       - name: Summary
-        if: always()
         run: |
           echo "::notice::JSON validation complete. Check warnings above for any schema violations."
-          echo "::notice::This workflow uses warnings-only mode and will not block PRs."
+          echo "::notice::This workflow does not block merges - warnings are informational only."

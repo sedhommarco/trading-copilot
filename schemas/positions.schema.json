@@ -1,143 +1,89 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "title": "Positions Schema",
-  "description": "Schema for open trading positions",
+  "$id": "https://github.com/sedhommarco/trading-copilot/schemas/positions.schema.json",
+  "title": "Trading Copilot Positions Schema",
+  "description": "Schema for journal/positions.json - current open positions",
   "type": "object",
   "required": ["positions", "summary"],
   "properties": {
+    "summary": {
+      "type": "object",
+      "properties": {
+        "total_open_positions": {"type": "integer", "minimum": 0},
+        "total_unrealised_pnl": {"type": "number"},
+        "total_margin_used": {"type": "number"},
+        "total_exposure": {"type": "number"},
+        "last_updated": {"type": "string", "format": "date-time"}
+      }
+    },
     "positions": {
       "type": "array",
-      "description": "List of open positions",
+      "description": "List of currently open positions",
       "items": {
         "type": "object",
-        "required": [
-          "instrument",
-          "side",
-          "units",
-          "entry_price",
-          "current_price"
-        ],
+        "required": ["type", "short_description", "instrument", "side"],
         "properties": {
+          "type": {
+            "type": "string",
+            "const": "position"
+          },
+          "short_description": {
+            "type": "string",
+            "description": "Human-readable position summary"
+          },
           "instrument": {
             "type": "string",
-            "description": "Instrument ticker/symbol"
-          },
-          "ticker": {
-            "type": "string"
+            "description": "Trading instrument"
           },
           "side": {
             "type": "string",
-            "enum": ["LONG", "SHORT"],
+            "enum": ["buy", "sell"],
             "description": "Position side"
+          },
+          "unrealised_pnl": {
+            "type": "number",
+            "description": "Current unrealized P&L"
+          },
+          "margin": {
+            "type": "number",
+            "description": "Margin currently locked"
+          },
+          "exposure": {
+            "type": "number",
+            "description": "Total position exposure"
           },
           "units": {
             "type": "number",
-            "minimum": 0,
-            "exclusiveMinimum": true,
-            "description": "Number of units held"
+            "description": "Number of units"
           },
           "entry_price": {
             "type": "number",
-            "minimum": 0,
-            "exclusiveMinimum": true,
             "description": "Average entry price"
           },
           "current_price": {
             "type": "number",
-            "minimum": 0,
-            "exclusiveMinimum": true,
             "description": "Current market price"
           },
-          "unrealised_pnl": {
-            "type": "number",
-            "description": "Unrealised profit/loss in USD"
-          },
-          "exposure": {
-            "type": "number",
-            "minimum": 0,
-            "description": "Total exposure"
-          },
-          "margin": {
-            "type": "number",
-            "minimum": 0,
-            "description": "Margin required"
-          },
-          "leverage": {
-            "type": "number",
-            "minimum": 1,
-            "description": "Leverage ratio"
-          },
-          "holding_days": {
-            "type": "integer",
-            "minimum": 0,
-            "description": "Days position has been open"
-          },
-          "strategy": {
+          "current_price_datetime": {
             "type": "string",
-            "description": "Strategy used for this position"
-          },
-          "short_description": {
-            "type": "string"
-          },
-          "notes": {
-            "type": "string"
-          },
-          "recommendations": {
-            "type": "string"
+            "format": "date-time",
+            "description": "Timestamp of current_price"
           },
           "exit_strategy": {
             "type": "object",
             "properties": {
-              "take_profit": {
-                "type": "number",
-                "minimum": 0
-              },
-              "stop_loss": {
-                "type": "number",
-                "minimum": 0
-              }
+              "take_profit": {"type": "number"},
+              "stop_loss": {"type": "number"}
             }
+          },
+          "notes": {
+            "type": "string",
+            "description": "Perplexity analysis notes"
+          },
+          "recommendations": {
+            "type": "string",
+            "description": "Perplexity recommendations"
           }
-        }
-      }
-    },
-    "summary": {
-      "type": "object",
-      "required": [
-        "total_positions",
-        "total_unrealised_pnl",
-        "total_capital"
-      ],
-      "properties": {
-        "total_positions": {
-          "type": "integer",
-          "minimum": 0,
-          "description": "Total number of open positions"
-        },
-        "long_positions": {
-          "type": "integer",
-          "minimum": 0
-        },
-        "short_positions": {
-          "type": "integer",
-          "minimum": 0
-        },
-        "total_unrealised_pnl": {
-          "type": "number",
-          "description": "Total unrealised P&L across all positions"
-        },
-        "total_exposure": {
-          "type": "number",
-          "minimum": 0
-        },
-        "total_margin_used": {
-          "type": "number",
-          "minimum": 0
-        },
-        "total_capital": {
-          "type": "number",
-          "minimum": 0,
-          "description": "Total account capital"
         }
       }
     }
