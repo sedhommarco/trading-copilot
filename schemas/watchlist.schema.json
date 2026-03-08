@@ -1,9 +1,10 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "title": "Watchlist Schema",
-  "description": "Schema for trading strategy watchlists",
+  "$id": "https://github.com/sedhommarco/trading-copilot/schemas/watchlist.schema.json",
+  "title": "Trading Copilot Watchlist Schema",
+  "description": "Schema for strategy watchlist JSON files",
   "type": "object",
-  "required": ["strategy", "opportunities"],
+  "required": ["strategy", "week_start", "week_end", "opportunities"],
   "properties": {
     "strategy": {
       "type": "string",
@@ -17,37 +18,34 @@
         "macro_events"
       ]
     },
-    "strategy_name": {
+    "description": {
       "type": "string",
-      "description": "Human-readable strategy name"
+      "description": "Human-readable strategy description"
     },
     "strategy_description": {
       "type": "string",
-      "description": "Strategy overview"
-    },
-    "description": {
-      "type": "string"
+      "description": "Detailed strategy explanation"
     },
     "week_start": {
       "type": "string",
-      "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+      "format": "date",
       "description": "Week start date (YYYY-MM-DD)"
     },
     "week_end": {
       "type": "string",
-      "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+      "format": "date",
       "description": "Week end date (YYYY-MM-DD)"
     },
     "last_updated": {
       "type": "string",
-      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z$",
-      "description": "Last update timestamp (ISO 8601)"
+      "format": "date",
+      "description": "Last update timestamp (YYYY-MM-DD)"
     },
     "risk_per_trade": {
       "type": "number",
       "minimum": 0,
       "maximum": 1,
-      "description": "Risk per trade as fraction (0.02 = 2%)"
+      "description": "Risk per trade as decimal (e.g., 0.02 = 2%)"
     },
     "strategy_confidence": {
       "type": "string",
@@ -55,7 +53,7 @@
     },
     "strategy_risks": {
       "type": "string",
-      "description": "Strategy-specific risks"
+      "description": "Key risks for this strategy"
     },
     "opportunities": {
       "type": "array",
@@ -66,30 +64,21 @@
         "properties": {
           "ticker": {
             "type": "string",
-            "pattern": "^[A-Z0-9.\\-/]+$",
-            "description": "Stock ticker symbol"
-          },
-          "symbol": {
-            "type": "string"
+            "description": "Stock/crypto ticker symbol"
           },
           "company_name": {
             "type": "string"
           },
           "direction": {
             "type": "string",
-            "enum": ["LONG", "SHORT", "NEUTRAL"]
+            "enum": ["LONG", "SHORT"]
           },
           "confidence": {
-            "anyOf": [
-              {
-                "type": "number",
-                "minimum": 0,
-                "maximum": 100
-              },
-              {
-                "type": "string"
-              }
-            ]
+            "oneOf": [
+              {"type": "number", "minimum": 0, "maximum": 100},
+              {"type": "string"}
+            ],
+            "description": "Confidence score or label"
           },
           "confidence_label": {
             "type": "string"
@@ -98,26 +87,19 @@
             "type": "string"
           },
           "current_price": {
-            "type": "number",
-            "minimum": 0
+            "type": "number"
           },
           "entry_zone": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "number"
-              }
+            "oneOf": [
+              {"type": "string"},
+              {"type": "number"}
             ]
           },
           "stop_loss": {
-            "type": "number",
-            "minimum": 0
+            "type": "number"
           },
           "take_profit": {
-            "type": "number",
-            "minimum": 0
+            "type": "number"
           },
           "expected_holding_days": {
             "type": "integer",
@@ -139,60 +121,48 @@
           "earnings_date": {
             "type": "string"
           },
+          "crash_date": {
+            "type": "string"
+          },
+          "drop_percent": {
+            "type": "number"
+          },
           "last_week_performance": {
             "type": "string"
           },
           "recommended_date": {
             "type": "string",
-            "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+            "format": "date"
+          },
+          "created_date": {
+            "type": "string",
+            "format": "date"
           }
         }
       }
     },
     "events": {
       "type": "array",
-      "description": "List of macro events (for macro_events strategy)",
+      "description": "Macro events (for macro-events.json)",
       "items": {
         "type": "object",
         "required": ["event_name", "date"],
         "properties": {
-          "event_name": {
-            "type": "string"
-          },
-          "date": {
-            "type": "string",
-            "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
-          },
-          "time": {
-            "type": "string"
-          },
-          "impact": {
-            "type": "string",
-            "enum": ["low", "medium", "high", "very high"]
-          },
+          "event_name": {"type": "string"},
+          "date": {"type": "string", "format": "date"},
+          "time": {"type": "string"},
+          "impact": {"type": "string"},
           "tradeable_instruments": {
             "type": "array",
-            "items": {
-              "type": "string"
-            }
+            "items": {"type": "string"}
           },
-          "trade_setup": {
-            "type": "string"
-          },
-          "recommended_action": {
-            "type": "string"
-          },
-          "rationale": {
-            "type": "string"
-          },
+          "trade_setup": {"type": "string"},
+          "recommended_action": {"type": "string"},
+          "rationale": {"type": "string"},
           "confidence": {
-            "anyOf": [
-              {
-                "type": "number"
-              },
-              {
-                "type": "string"
-              }
+            "oneOf": [
+              {"type": "number"},
+              {"type": "string"}
             ]
           }
         }
@@ -200,57 +170,31 @@
     },
     "candidates": {
       "type": "array",
-      "description": "List of pair trade candidates",
+      "description": "Pair trade candidates (for pair-trades.json)",
       "items": {
         "type": "object",
         "required": ["long_ticker", "short_ticker"],
         "properties": {
-          "long_ticker": {
-            "type": "string"
-          },
-          "short_ticker": {
-            "type": "string"
-          },
-          "long_entry": {
-            "type": "number"
-          },
-          "short_entry": {
-            "type": "number"
-          },
-          "long_stop": {
-            "type": "number"
-          },
-          "short_stop": {
-            "type": "number"
-          },
+          "long_ticker": {"type": "string"},
+          "short_ticker": {"type": "string"},
+          "long_entry": {"type": "number"},
+          "short_entry": {"type": "number"},
           "target_spread": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "number"
-              }
+            "oneOf": [
+              {"type": "string"},
+              {"type": "number"}
             ]
           },
-          "position_size_usd_each": {
-            "type": "number",
-            "minimum": 0
-          },
-          "expected_holding_days": {
-            "type": "integer"
-          },
-          "rationale": {
-            "type": "string"
-          },
+          "position_size_usd_each": {"type": "number"},
+          "position_size_usd": {"type": "number"},
+          "expected_holding_days": {"type": "integer"},
+          "long_stop": {"type": "number"},
+          "short_stop": {"type": "number"},
+          "rationale": {"type": "string"},
           "confidence": {
-            "anyOf": [
-              {
-                "type": "number"
-              },
-              {
-                "type": "string"
-              }
+            "oneOf": [
+              {"type": "number"},
+              {"type": "string"}
             ]
           }
         }
@@ -258,25 +202,17 @@
     },
     "previous_week_outcomes": {
       "type": "array",
-      "description": "Previous week's results for learning",
+      "description": "Last week's trade outcomes",
       "items": {
         "type": "object",
         "properties": {
-          "ticker": {
-            "type": "string"
-          },
-          "predicted_direction": {
-            "type": "string"
-          },
-          "actual_outcome": {
-            "type": "string"
-          },
-          "hit_target": {
-            "type": "boolean"
-          },
-          "accuracy": {
-            "type": "string"
-          }
+          "ticker": {"type": "string"},
+          "predicted_direction": {"type": "string"},
+          "predicted": {"type": "string"},
+          "actual_outcome": {"type": "string"},
+          "actual": {"type": "string"},
+          "hit_target": {"type": "boolean"},
+          "accuracy": {"type": "string"}
         }
       }
     }
