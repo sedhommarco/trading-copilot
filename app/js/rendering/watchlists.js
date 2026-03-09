@@ -4,7 +4,7 @@
 
 import { formatNumber } from '../config.js';
 import { currentData } from '../state.js';
-import { normalizeTradeData, getConfidenceForSorting, renderTradeCard, renderPairTradeCard, renderMacroEventCard, loadLivePrices } from './cards.js';
+import { normalizeTradeData, getConfidenceForSorting, renderTradeCard, renderPairTradeCard, renderMacroEventCard, loadLivePrices, loadSparklines } from './cards.js';
 
 const STRATEGY_NAMES = {
   pre_earnings_momentum: 'Pre-Earnings Momentum',
@@ -118,7 +118,6 @@ export function renderWatchlist(name, data) {
     ${renderPreviousOutcomes(previousOutcomes)}
   `;
 
-  // Prepare watchlist metadata for card age calculations
   const watchlistMetadata = {
     week_start: data.week_start,
     week_end: data.week_end,
@@ -141,11 +140,13 @@ export function renderWatchlist(name, data) {
 
   container.innerHTML = header + `<div class="cards-grid">${cards}</div>`;
   
-  // Load live prices asynchronously after rendering (only for crypto tab)
-  // Mark container to prevent duplicate calls
+  // Load live prices and sparklines asynchronously
   if (!container.dataset.livePricesLoaded) {
     container.dataset.livePricesLoaded = 'true';
-    loadLivePrices();
+    Promise.all([
+      loadLivePrices(),
+      loadSparklines()
+    ]).catch(err => console.error('Failed to load live data:', err));
   }
 }
 

@@ -3,7 +3,8 @@
  */
 
 import { formatNumber } from '../config.js';
-import { fetchCryptoPrice, isCryptoTicker } from '../api.js';
+import { fetchLivePrice, isCryptoTicker, isFxMetalSymbol } from '../api.js';
+import { renderSparkline } from './sparkline.js';
 
 /**
  * Normalize trade data from various formats
@@ -81,7 +82,6 @@ export function calculateTradeAge(trade, watchlistData = {}) {
   const now = new Date();
   let referenceDate = null;
 
-  // Try to get reference date from trade
   if (trade.recommended_date) {
     referenceDate = new Date(trade.recommended_date);
   } else if (trade.created_date) {
@@ -97,7 +97,7 @@ export function calculateTradeAge(trade, watchlistData = {}) {
   }
 
   const daysOld = Math.floor((now - referenceDate) / (1000 * 60 * 60 * 24));
-  const expectedHoldingDays = trade.expected_holding_days || 7; // default 7 days
+  const expectedHoldingDays = trade.expected_holding_days || 7;
   const isStale = daysOld > expectedHoldingDays;
 
   const staleBadge = isStale 
@@ -108,6 +108,15 @@ export function calculateTradeAge(trade, watchlistData = {}) {
 }
 
 /**
+ * Check if ticker/symbol supports live prices
+ * @param {string} tickerOrSymbol - Ticker or symbol
+ * @returns {boolean}
+ */
+function supportsLivePrice(tickerOrSymbol) {
+  return isCryptoTicker(tickerOrSymbol) || isFxMetalSymbol(tickerOrSymbol);
+}
+
+/**
  * Generate live price HTML placeholder with data attributes for async loading
  * @param {string} ticker - Ticker symbol
  * @param {number} entryPrice - Entry price for comparison
@@ -115,8 +124,8 @@ export function calculateTradeAge(trade, watchlistData = {}) {
  * @returns {string} HTML with placeholder
  */
 function generateLivePriceRow(ticker, entryPrice, direction) {
-  if (!isCryptoTicker(ticker)) {
-    return ''; // Only show for crypto
+  if (!supportsLivePrice(ticker)) {
+    return '';
   }
 
   return `
@@ -128,6 +137,24 @@ function generateLivePriceRow(ticker, entryPrice, direction) {
       <span class="info-value live-price-value">
         <span class="live-price-loading">⌛ Loading...</span>
       </span>
+    </div>
+  `;
+}
+
+/**
+ * Generate sparkline placeholder for async rendering
+ * @param {string} ticker - Ticker/symbol
+ * @returns {string} HTML with placeholder container
+ */
+function generateSparklinePlaceholder(ticker) {
+  if (!isFxMetalSymbol(ticker)) {
+    return '';
+  }
+
+  return `
+    <div class="sparkline-container" data-symbol="${ticker}">
+      <span class="info-label">7d Trend:</span>
+      <span class="sparkline-placeholder"></span>
     </div>
   `;
 }
@@ -177,7 +204,10 @@ export function renderTradeCard(trade, watchlistData = {}) {
     <div class="trade-card ${staleClass}">
       <div class="card-header-static">
         <div>
-          <div class="card-title">${ticker}</div>
+          <div class="card-title">
+            ${ticker}
+            ${generateSparklinePlaceholder(ticker)}
+          </div>
           <div class="card-ticker">${company}</div>
           ${lastWeekPerf ? `<div class="performance-badge">Last Week: ${lastWeekPerf}</div>` : ''}
           ${staleBadge}
@@ -363,7 +393,6 @@ export function renderMacroEventCard(trade, watchlistData = {}) {
   const confidenceDisplay = getConfidenceDisplay(trade);
   const confidenceClass = getConfidenceBadgeClass(trade);
   
-  // For macro events, check if event date has passed
   let isPast = false;
   let pastBadge = '';
   if (eventDate !== 'N/A') {
@@ -421,17 +450,18 @@ export function renderMacroEventCard(trade, watchlistData = {}) {
 }
 
 /**
- * Load live prices for all crypto cards on the page
- * Called after cards are rendered to populate live price placeholders
+ * Load live prices and sparklines for all cards on the page
+ * Called after cards are rendered
  */
 export async function loadLivePrices() {
   const livePriceRows = document.querySelectorAll('.live-price-row');
   
   if (livePriceRows.length === 0) {
-    return; // No crypto cards on this tab
+    console.log('No cards with live price support on this tab');
+    return;
   }
 
-  console.log(`Loading live prices for ${livePriceRows.length} crypto cards...`);
+  console.log(`Loading live prices for ${livePriceRows.length} cards...`);
 
   for (const row of livePriceRows) {
     const ticker = row.dataset.ticker;
@@ -440,7 +470,7 @@ export async function loadLivePrices() {
     const valueSpan = row.querySelector('.live-price-value');
 
     try {
-      const priceData = await fetchCryptoPrice(ticker);
+      const priceData = await fetchLivePrice(ticker);
       
       if (!priceData) {
         valueSpan.innerHTML = '<span class="live-price-error">Unavailable</span>';
@@ -449,6 +479,7 @@ export async function loadLivePrices() {
 
       const livePrice = priceData.price;
       const change24h = priceData.change24h;
+      const source = priceData.source;
 
       // Calculate vs entry
       let vsEntry = 0;
@@ -456,7 +487,6 @@ export async function loadLivePrices() {
       if (entryPrice > 0) {
         vsEntry = ((livePrice - entryPrice) / entryPrice) * 100;
         
-        // Color based on direction and movement
         if (direction === 'LONG') {
           vsEntryColor = vsEntry >= 0 ? 'var(--color-success)' : 'var(--color-danger)';
         } else {
@@ -464,25 +494,61 @@ export async function loadLivePrices() {
         }
       }
 
-      const change24hIcon = change24h >= 0 ? '▲' : '▼';
-      const change24hColor = change24h >= 0 ? 'var(--color-success)' : 'var(--color-danger)';
-
-      valueSpan.innerHTML = `
+      // Build HTML based on data source
+      let priceHtml = `
         <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 0.25rem;">
           <span style="font-weight: 600;">$${formatNumber(livePrice, 2)}</span>
+      `;
+
+      // Show 24h change for crypto (has change24h)
+      if (change24h !== undefined) {
+        const change24hIcon = change24h >= 0 ? '▲' : '▼';
+        const change24hColor = change24h >= 0 ? 'var(--color-success)' : 'var(--color-danger)';
+        priceHtml += `
           <span style="font-size: 0.75rem; color: ${change24hColor};">
             ${change24hIcon} ${Math.abs(change24h).toFixed(2)}% (24h)
           </span>
-          ${entryPrice > 0 ? `
+        `;
+      }
+
+      // Show vs entry for all
+      if (entryPrice > 0) {
+        priceHtml += `
           <span style="font-size: 0.75rem; color: ${vsEntryColor};">
             ${vsEntry >= 0 ? '+' : ''}${vsEntry.toFixed(2)}% vs entry
           </span>
-          ` : ''}
-        </div>
-      `;
+        `;
+      }
+
+      priceHtml += `</div>`;
+      valueSpan.innerHTML = priceHtml;
     } catch (error) {
       console.error(`Failed to load price for ${ticker}:`, error);
       valueSpan.innerHTML = '<span class="live-price-error">Error</span>';
+    }
+  }
+}
+
+/**
+ * Load sparklines for all FX/metals cards
+ * Called after cards are rendered
+ */
+export async function loadSparklines() {
+  const sparklineContainers = document.querySelectorAll('.sparkline-container');
+  
+  if (sparklineContainers.length === 0) {
+    console.log('No sparkline containers on this tab');
+    return;
+  }
+
+  console.log(`Loading sparklines for ${sparklineContainers.length} FX/metals cards...`);
+
+  for (const container of sparklineContainers) {
+    const symbol = container.dataset.symbol;
+    const placeholder = container.querySelector('.sparkline-placeholder');
+    
+    if (placeholder) {
+      await renderSparkline(symbol, placeholder);
     }
   }
 }
