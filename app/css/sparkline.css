@@ -1,0 +1,77 @@
+/**
+ * Sparkline chart styles
+ */
+
+.sparkline {
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: 8px;
+}
+
+.sparkline-container {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sparkline-loading,
+.sparkline-error {
+  display: inline-block;
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  font-style: italic;
+}
+
+.sparkline-error {
+  color: var(--color-error);
+}
+
+/* Live price display */
+.live-price {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.875rem;
+  margin-top: 6px;
+}
+
+.live-price-value {
+  font-weight: 600;
+  font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', monospace;
+}
+
+.live-price-positive {
+  color: var(--color-success);
+}
+
+.live-price-negative {
+  color: var(--color-error);
+}
+
+.live-price-neutral {
+  color: var(--color-text);
+}
+
+.live-price-vs-entry {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+}
+
+.price-change-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.price-change-positive {
+  background-color: rgba(16, 185, 129, 0.1);
+  color: var(--color-success);
+}
+
+.price-change-negative {
+  background-color: rgba(239, 68, 68, 0.1);
+  color: var(--color-error);
+}

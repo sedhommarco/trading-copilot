@@ -10,6 +10,34 @@ import { renderTradeJournal } from './rendering/journal.js';
 import { renderAllWatchlists } from './rendering/watchlists.js';
 
 let isRefreshing = false;
+let lastRefreshTime = null;
+let timerInterval = null;
+
+/**
+ * Update "Last refreshed" live counter
+ */
+function updateRefreshCounter() {
+  if (!lastRefreshTime) return;
+
+  const counterElement = document.getElementById('refreshCounter');
+  if (!counterElement) return;
+
+  const now = Date.now();
+  const secondsAgo = Math.floor((now - lastRefreshTime) / 1000);
+
+  let text;
+  if (secondsAgo < 60) {
+    text = `${secondsAgo}s ago`;
+  } else if (secondsAgo < 3600) {
+    const minutes = Math.floor(secondsAgo / 60);
+    text = `${minutes}m ago`;
+  } else {
+    const hours = Math.floor(secondsAgo / 3600);
+    text = `${hours}h ago`;
+  }
+
+  counterElement.textContent = text;
+}
 
 /**
  * Update status bar with data freshness
@@ -29,7 +57,6 @@ function updateStatusBar(manifest) {
   const isFresh = dataAge <= staleThreshold;
   const statusClass = isFresh ? 'status-fresh' : 'status-stale';
   
-  // Enhanced status text
   let statusText;
   if (dataAge === 0) {
     statusText = 'Data is current (today)';
@@ -40,6 +67,10 @@ function updateStatusBar(manifest) {
   } else {
     statusText = `⚠️ Data is ${dataAge} days old (overdue by ${dataAge - staleThreshold}d)`;
   }
+
+  const refreshCounterHtml = lastRefreshTime 
+    ? `<div class="status-item"><span>🔄 Last refreshed: <span id="refreshCounter"></span></span></div>`
+    : '';
 
   statusBar.innerHTML = `
     <div class="status-item">
@@ -52,8 +83,13 @@ function updateStatusBar(manifest) {
     <div class="status-item" style="color: var(--color-text-muted); font-size: 0.8125rem;">
       <span>📅 Next expected: Sunday 20:00 CET</span>
     </div>
+    ${refreshCounterHtml}
     ${autoRefreshTimer ? '<div class="status-item"><span>🔄 Auto-refresh: ON</span></div>' : ''}
   `;
+
+  if (lastRefreshTime) {
+    updateRefreshCounter();
+  }
 }
 
 /**
@@ -67,7 +103,7 @@ async function refreshData() {
   
   isRefreshing = true;
   refreshBtn.disabled = true;
-  refreshBtn.textContent = '⌛ Refreshing...';
+  refreshBtn.textContent = '⏳ Refreshing...';
 
   try {
     const result = await loadAllData();
@@ -77,6 +113,9 @@ async function refreshData() {
     renderMarketRegime();
     renderTradeJournal(currentData.journal);
     renderAllWatchlists();
+    
+    // Update last refresh time
+    lastRefreshTime = Date.now();
     updateStatusBar(result.manifest);
 
     console.log('Data refreshed successfully');
@@ -118,10 +157,13 @@ function toggleAutoRefresh(enabled) {
 async function init() {
   try {
     // Show loading state
-    document.getElementById('statusBar').innerHTML = '<div class="loading">Loading data</div>';
+    document.getElementById('statusBar').innerHTML = '<div class="loading">Loading data...</div>';
 
     // Load all data
     const result = await loadAllData();
+
+    // Set initial refresh time
+    lastRefreshTime = Date.now();
 
     // Render all components
     renderTabs();
@@ -129,6 +171,9 @@ async function init() {
     renderTradeJournal(currentData.journal);
     renderAllWatchlists();
     updateStatusBar(result.manifest);
+
+    // Start live refresh counter (updates every second)
+    timerInterval = setInterval(updateRefreshCounter, 1000);
 
     // Attach event listeners
     document.getElementById('refreshBtn').addEventListener('click', refreshData);
