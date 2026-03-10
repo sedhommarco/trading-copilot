@@ -3,34 +3,11 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Trading Copilot - Dashboard</title>
-    <link rel="icon" type="image/x-icon" href="./favicon.ico" />
-    <link rel="stylesheet" href="./css/style.css" />
-    <link rel="stylesheet" href="./css/sparkline.css" />
+    <title>Trading Copilot</title>
+    <link rel="icon" type="image/x-icon" href="/trading-copilot/favicon.ico" />
   </head>
   <body>
-    <div class="container">
-      <header>
-        <h1>📊 Trading A¡dvisor</h1>
-      </header>
-
-      <div id="marketRegimeSection"></div>
-
-      <div class="tabs" id="tabsContainer"></div>
-
-      <div id="pre-earnings" class="tab-content"></div>
-      <div id="post-crash" class="tab-content"></div>
-      <div id="volatility" class="tab-content"></div>
-      <div id="crypto" class="tab-content"></div>
-      <div id="pair-trades" class="tab-content"></div>
-      <div id="macro-events" class="tab-content"></div>
-    </div>
-
-    <footer class="site-footer">
-      <p>⚠️ Trading involves substantial risk of loss. For educational purposes only — not financial advice.</p>
-      <p>© 2026 Trading Copilot</p>
-    </footer>
-
-    <script type="module" src="./js/main.js"></script>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
