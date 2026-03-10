@@ -1,21 +1,11 @@
 import { useEffect, useState } from 'react';
 import { loadAllData, AppData } from './state';
+import { TAB_ORDER, TabId } from './types';
 import Header from './components/Header';
 import Tabs from './components/Tabs';
 import MarketRegime from './components/MarketRegime';
 import WatchlistPanel from './components/WatchlistPanel';
 import Footer from './components/Footer';
-
-const TAB_ORDER = [
-  'pre-earnings',
-  'post-crash',
-  'volatility',
-  'crypto',
-  'pair-trades',
-  'macro-events',
-] as const;
-
-export type TabId = typeof TAB_ORDER[number];
 
 const TAB_LABELS: Record<TabId, string> = {
   'pre-earnings': 'Pre-Earnings',
