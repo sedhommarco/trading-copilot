@@ -28,17 +28,6 @@ export function renderWatchlist(name, data) {
   // Sort by confidence descending
   trades = trades.slice().sort((a, b) => getConfidenceForSorting(b) - getConfidenceForSorting(a));
 
-  const strategyCode = data.strategy || data.strategy_name || '';
-  const strategyName = STRATEGY_NAMES[strategyCode] || strategyCode || 'Trading Strategy';
-  const description = data.description || '';
-
-  const header = `
-    <div class="watchlist-header">
-      <h2>${strategyName}</h2>
-      ${description ? `<p style="color: var(--color-text-secondary); margin-top: 0.25rem;">${description}</p>` : ''}
-    </div>
-  `;
-
   const watchlistMetadata = { last_updated: data.last_updated };
 
   const cards = trades
@@ -50,7 +39,7 @@ export function renderWatchlist(name, data) {
     })
     .join('');
 
-  container.innerHTML = header + `<div class="cards-grid">${cards}</div>`;
+  container.innerHTML = `<div class="cards-grid">${cards}</div>`;
 
   if (!container.dataset.livePricesLoaded) {
     container.dataset.livePricesLoaded = 'true';
