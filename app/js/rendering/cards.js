@@ -3,7 +3,7 @@
  */
 
 import { formatNumber } from '../config.js';
-import { fetchLivePrice, isCryptoTicker, isFxMetalSymbol } from '../api.js';
+import { fetchLivePrice, isCryptoTicker, isFxMetalSymbol, isEquityTicker } from '../api.js';
 import { renderSparkline } from './sparkline.js';
 
 export function normalizeTradeData(trade) {
@@ -35,16 +35,14 @@ export function getConfidenceDisplay(trade) {
 }
 
 export function getConfidenceBadgeClass(trade) {
-  const sortValue = getConfidenceForSorting(trade);
-  if (sortValue >= 75) return 'confidence-high';
-  if (sortValue >= 50) return 'confidence-medium';
+  const v = getConfidenceForSorting(trade);
+  if (v >= 75) return 'confidence-high';
+  if (v >= 50) return 'confidence-medium';
   return 'confidence-low';
 }
 
 export function calculateTradeAge(trade, watchlistData = {}) {
-  const now = new Date();
   let referenceDate = null;
-
   if (trade.recommended_date) referenceDate = new Date(trade.recommended_date);
   else if (trade.created_date) referenceDate = new Date(trade.created_date);
   else if (watchlistData.last_updated) referenceDate = new Date(watchlistData.last_updated);
@@ -53,18 +51,17 @@ export function calculateTradeAge(trade, watchlistData = {}) {
     return { daysOld: null, isStale: false, staleBadge: '' };
   }
 
-  const daysOld = Math.floor((now - referenceDate) / (1000 * 60 * 60 * 24));
+  const daysOld = Math.floor((Date.now() - referenceDate) / (1000 * 60 * 60 * 24));
   const expectedHoldingDays = trade.expected_holding_days || 7;
   const isStale = daysOld > expectedHoldingDays;
   const staleBadge = isStale
     ? `<span class="stale-badge">⏰ ${daysOld}d old (expected ${expectedHoldingDays}d)</span>`
     : '';
-
   return { daysOld, isStale, staleBadge };
 }
 
-function supportsLivePrice(tickerOrSymbol) {
-  return isCryptoTicker(tickerOrSymbol) || isFxMetalSymbol(tickerOrSymbol);
+function supportsLivePrice(ticker) {
+  return isCryptoTicker(ticker) || isFxMetalSymbol(ticker) || isEquityTicker(ticker);
 }
 
 function generateLivePriceRow(ticker, entryPrice, direction) {
@@ -110,7 +107,6 @@ export function renderTradeCard(trade, watchlistData = {}) {
 
   const stopLoss = trade.stop_loss || 0;
   const target = trade.take_profit || 0;
-
   let riskRewardRatio = 'N/A';
   if (entry > 0 && stopLoss > 0 && target > 0) {
     const risk = Math.abs(entry - stopLoss);
@@ -120,7 +116,7 @@ export function renderTradeCard(trade, watchlistData = {}) {
 
   const timeframe = trade.expected_holding_days ? `${trade.expected_holding_days}d` : 'N/A';
   const earningsDate = trade.earnings_date || null;
-  const riskPct = trade.risk_pct != null ? trade.risk_pct : (trade.risk_percent != null ? trade.risk_percent : null);
+  const riskPct = trade.risk_pct ?? trade.risk_percent ?? null;
   const staleClass = isStale ? 'trade-card-stale' : '';
 
   return `
@@ -140,9 +136,7 @@ export function renderTradeCard(trade, watchlistData = {}) {
       <div class="card-summary">
         <div class="info-row">
           <span class="info-label">Direction</span>
-          <span class="info-value" style="color: ${direction === 'LONG' ? 'var(--color-success)' : 'var(--color-danger)'}">
-            ${direction}
-          </span>
+          <span class="info-value" style="color: ${direction === 'LONG' ? 'var(--color-success)' : 'var(--color-danger)'}">${direction}</span>
         </div>
         ${generateLivePriceRow(ticker, entry, direction)}
         ${earningsDate ? `
@@ -158,26 +152,11 @@ export function renderTradeCard(trade, watchlistData = {}) {
       </div>
 
       <div class="card-metrics">
-        <div class="metric">
-          <div class="metric-label">Entry</div>
-          <div class="metric-value">$${entry > 0 ? formatNumber(entry, 2) : 'N/A'}</div>
-        </div>
-        <div class="metric">
-          <div class="metric-label">Target</div>
-          <div class="metric-value" style="color: var(--color-success)">$${target > 0 ? formatNumber(target, 2) : 'N/A'}</div>
-        </div>
-        <div class="metric">
-          <div class="metric-label">Stop Loss</div>
-          <div class="metric-value" style="color: var(--color-danger)">$${stopLoss > 0 ? formatNumber(stopLoss, 2) : 'N/A'}</div>
-        </div>
-        <div class="metric">
-          <div class="metric-label">Risk:Reward</div>
-          <div class="metric-value">${riskRewardRatio}</div>
-        </div>
-        <div class="metric">
-          <div class="metric-label">Timeframe</div>
-          <div class="metric-value">${timeframe}</div>
-        </div>
+        <div class="metric"><div class="metric-label">Entry</div><div class="metric-value">$${entry > 0 ? formatNumber(entry, 2) : 'N/A'}</div></div>
+        <div class="metric"><div class="metric-label">Target</div><div class="metric-value" style="color: var(--color-success)">$${target > 0 ? formatNumber(target, 2) : 'N/A'}</div></div>
+        <div class="metric"><div class="metric-label">Stop Loss</div><div class="metric-value" style="color: var(--color-danger)">$${stopLoss > 0 ? formatNumber(stopLoss, 2) : 'N/A'}</div></div>
+        <div class="metric"><div class="metric-label">Risk:Reward</div><div class="metric-value">${riskRewardRatio}</div></div>
+        <div class="metric"><div class="metric-label">Timeframe</div><div class="metric-value">${timeframe}</div></div>
       </div>
 
       ${trade.rationale || trade.trade_setup || trade.entry_trigger || trade.crash_date ? `
@@ -213,41 +192,17 @@ export function renderPairTradeCard(trade, watchlistData = {}) {
         </div>
         <div class="confidence-badge ${confidenceClass}">${confidenceDisplay.toUpperCase()}</div>
       </div>
-
       <div class="card-summary">
-        <div class="info-row">
-          <span class="info-label">Long</span>
-          <span class="info-value" style="color: var(--color-success)">${longTicker} @ $${longEntry > 0 ? formatNumber(longEntry, 2) : 'N/A'}</span>
-        </div>
-        <div class="info-row">
-          <span class="info-label">Short</span>
-          <span class="info-value" style="color: var(--color-danger)">${shortTicker} @ $${shortEntry > 0 ? formatNumber(shortEntry, 2) : 'N/A'}</span>
-        </div>
-        <div class="info-row">
-          <span class="info-label">Spread Target</span>
-          <span class="info-value">${spreadTarget}</span>
-        </div>
+        <div class="info-row"><span class="info-label">Long</span><span class="info-value" style="color: var(--color-success)">${longTicker} @ $${longEntry > 0 ? formatNumber(longEntry, 2) : 'N/A'}</span></div>
+        <div class="info-row"><span class="info-label">Short</span><span class="info-value" style="color: var(--color-danger)">${shortTicker} @ $${shortEntry > 0 ? formatNumber(shortEntry, 2) : 'N/A'}</span></div>
+        <div class="info-row"><span class="info-label">Spread Target</span><span class="info-value">${spreadTarget}</span></div>
       </div>
-
       <div class="card-metrics">
-        <div class="metric">
-          <div class="metric-label">Timeframe</div>
-          <div class="metric-value">${timeframe}</div>
-        </div>
-        <div class="metric">
-          <div class="metric-label">Long Stop</div>
-          <div class="metric-value">$${trade.long_stop ? formatNumber(trade.long_stop, 2) : 'N/A'}</div>
-        </div>
-        <div class="metric">
-          <div class="metric-label">Short Stop</div>
-          <div class="metric-value">$${trade.short_stop ? formatNumber(trade.short_stop, 2) : 'N/A'}</div>
-        </div>
+        <div class="metric"><div class="metric-label">Timeframe</div><div class="metric-value">${timeframe}</div></div>
+        <div class="metric"><div class="metric-label">Long Stop</div><div class="metric-value">$${trade.long_stop ? formatNumber(trade.long_stop, 2) : 'N/A'}</div></div>
+        <div class="metric"><div class="metric-label">Short Stop</div><div class="metric-value">$${trade.short_stop ? formatNumber(trade.short_stop, 2) : 'N/A'}</div></div>
       </div>
-
-      ${trade.rationale ? `
-      <div class="card-details-always-visible">
-        <div class="detail-section"><h4>Rationale</h4><p>${trade.rationale}</p></div>
-      </div>` : ''}
+      ${trade.rationale ? `<div class="card-details-always-visible"><div class="detail-section"><h4>Rationale</h4><p>${trade.rationale}</p></div></div>` : ''}
     </div>
   `;
 }
@@ -269,18 +224,15 @@ export function renderMacroEventCard(trade, watchlistData = {}) {
   let pastBadge = '';
   if (eventDate !== 'N/A') {
     const evtDate = new Date(eventDate);
-    const now = new Date();
-    isPast = evtDate < now;
+    isPast = evtDate < new Date();
     if (isPast) {
-      const daysAgo = Math.floor((now - evtDate) / (1000 * 60 * 60 * 24));
+      const daysAgo = Math.floor((Date.now() - evtDate) / (1000 * 60 * 60 * 24));
       pastBadge = `<span class="stale-badge">✓ Occurred ${daysAgo}d ago</span>`;
     }
   }
 
-  const staleClass = isPast ? 'trade-card-stale' : '';
-
   return `
-    <div class="trade-card ${staleClass}">
+    <div class="trade-card ${isPast ? 'trade-card-stale' : ''}">
       <div class="card-header-static">
         <div>
           <div class="card-title">${eventName}</div>
@@ -289,39 +241,22 @@ export function renderMacroEventCard(trade, watchlistData = {}) {
         </div>
         <div class="confidence-badge ${confidenceClass}">${confidenceDisplay.toUpperCase()}</div>
       </div>
-
       <div class="card-summary">
-        <div class="info-row">
-          <span class="info-label">Impact</span>
-          <span class="info-value confidence-badge ${impactClass}">${impact.toUpperCase()}</span>
-        </div>
-        <div class="info-row">
-          <span class="info-label">Trade Setup</span>
-          <span class="info-value">${setup}</span>
-        </div>
-        <div class="info-row">
-          <span class="info-label">Action</span>
-          <span class="info-value">${action.replace(/_/g, ' ')}</span>
-        </div>
-        <div class="info-row">
-          <span class="info-label">Instruments</span>
-          <span class="info-value">${instruments.join(', ')}</span>
-        </div>
+        <div class="info-row"><span class="info-label">Impact</span><span class="info-value confidence-badge ${impactClass}">${impact.toUpperCase()}</span></div>
+        <div class="info-row"><span class="info-label">Trade Setup</span><span class="info-value">${setup}</span></div>
+        <div class="info-row"><span class="info-label">Action</span><span class="info-value">${action.replace(/_/g, ' ')}</span></div>
+        <div class="info-row"><span class="info-label">Instruments</span><span class="info-value">${instruments.join(', ')}</span></div>
       </div>
-
-      ${rationale ? `
-      <div class="card-details-always-visible">
-        <div class="detail-section"><h4>Event Analysis</h4><p>${rationale}</p></div>
-      </div>` : ''}
+      ${rationale ? `<div class="card-details-always-visible"><div class="detail-section"><h4>Event Analysis</h4><p>${rationale}</p></div></div>` : ''}
     </div>
   `;
 }
 
 export async function loadLivePrices() {
-  const livePriceRows = document.querySelectorAll('.live-price-row');
-  if (livePriceRows.length === 0) return;
+  const rows = document.querySelectorAll('.live-price-row');
+  if (!rows.length) return;
 
-  for (const row of livePriceRows) {
+  for (const row of rows) {
     const ticker = row.dataset.ticker;
     const entryPrice = parseFloat(row.dataset.entry);
     const direction = row.dataset.direction;
@@ -334,27 +269,36 @@ export async function loadLivePrices() {
         continue;
       }
 
-      const { price: livePrice, change24h } = priceData;
+      const { price: livePrice, change24h, changePct, change, source } = priceData;
+
       let vsEntry = 0;
       let vsEntryColor = 'var(--color-text-secondary)';
       if (entryPrice > 0) {
         vsEntry = ((livePrice - entryPrice) / entryPrice) * 100;
-        if (direction === 'LONG') {
-          vsEntryColor = vsEntry >= 0 ? 'var(--color-success)' : 'var(--color-danger)';
-        } else {
-          vsEntryColor = vsEntry <= 0 ? 'var(--color-success)' : 'var(--color-danger)';
-        }
+        vsEntryColor = direction === 'LONG'
+          ? (vsEntry >= 0 ? 'var(--color-success)' : 'var(--color-danger)')
+          : (vsEntry <= 0 ? 'var(--color-success)' : 'var(--color-danger)');
       }
 
       let priceHtml = `<div style="display: flex; flex-direction: column; align-items: flex-end; gap: 0.25rem;">
         <span style="font-weight: 600;">$${formatNumber(livePrice, 2)}</span>`;
 
-      if (change24h !== undefined) {
+      // Crypto: show 24h % change
+      if (change24h !== undefined && change24h !== null) {
         const icon = change24h >= 0 ? '▲' : '▼';
         const color = change24h >= 0 ? 'var(--color-success)' : 'var(--color-danger)';
         priceHtml += `<span style="font-size: 0.75rem; color: ${color};">${icon} ${Math.abs(change24h).toFixed(2)}% (24h)</span>`;
       }
 
+      // Equity: show day change and %
+      if (source === 'yahoo' && changePct !== null) {
+        const icon = changePct >= 0 ? '▲' : '▼';
+        const color = changePct >= 0 ? 'var(--color-success)' : 'var(--color-danger)';
+        const changeAbs = change !== null ? ` (${change >= 0 ? '+' : ''}${formatNumber(change, 2)})` : '';
+        priceHtml += `<span style="font-size: 0.75rem; color: ${color};">${icon} ${Math.abs(changePct).toFixed(2)}%${changeAbs} today</span>`;
+      }
+
+      // All: show vs entry
       if (entryPrice > 0) {
         priceHtml += `<span style="font-size: 0.75rem; color: ${vsEntryColor};">${vsEntry >= 0 ? '+' : ''}${vsEntry.toFixed(2)}% vs entry</span>`;
       }
@@ -362,16 +306,16 @@ export async function loadLivePrices() {
       priceHtml += `</div>`;
       valueSpan.innerHTML = priceHtml;
     } catch (error) {
-      console.error(`Failed to load price for ${ticker}:`, error);
+      console.error(`loadLivePrices failed for ${ticker}:`, error);
       valueSpan.innerHTML = '<span class="live-price-error">Error</span>';
     }
   }
 }
 
 export async function loadSparklines() {
-  const sparklineContainers = document.querySelectorAll('.sparkline-container');
-  if (sparklineContainers.length === 0) return;
-  for (const container of sparklineContainers) {
+  const containers = document.querySelectorAll('.sparkline-container');
+  if (!containers.length) return;
+  for (const container of containers) {
     const symbol = container.dataset.symbol;
     const placeholder = container.querySelector('.sparkline-placeholder');
     if (placeholder) await renderSparkline(symbol, placeholder);
