@@ -11,52 +11,39 @@ export let uiConfig = {
   market_regime_collapsed_by_default: true
 };
 
-export let autoRefreshTimer = null;
-
 export async function loadAllData() {
-  try {
-    const [
-      manifest,
-      preEarnings,
-      postCrash,
-      volatility,
-      crypto,
-      pairTrades,
-      macroEvents,
-      marketRegime
-    ] = await Promise.all([
-      fetchJSON(getDataUrl('meta/manifest.json')),
-      fetchJSON(getDataUrl('watchlists/pre-earnings.json')),
-      fetchJSON(getDataUrl('watchlists/post-crash.json')),
-      fetchJSON(getDataUrl('watchlists/volatility.json')),
-      fetchJSON(getDataUrl('watchlists/crypto.json')),
-      fetchJSON(getDataUrl('watchlists/pair-trades.json')),
-      fetchJSON(getDataUrl('watchlists/macro-events.json')),
-      fetchJSON(getDataUrl('context/market-regime.json'))
-    ]);
+  const [
+    manifest,
+    preEarnings,
+    postCrash,
+    volatility,
+    crypto,
+    pairTrades,
+    macroEvents,
+    marketRegime
+  ] = await Promise.all([
+    fetchJSON(getDataUrl('meta/manifest.json')),
+    fetchJSON(getDataUrl('watchlists/pre-earnings.json')),
+    fetchJSON(getDataUrl('watchlists/post-crash.json')),
+    fetchJSON(getDataUrl('watchlists/volatility.json')),
+    fetchJSON(getDataUrl('watchlists/crypto.json')),
+    fetchJSON(getDataUrl('watchlists/pair-trades.json')),
+    fetchJSON(getDataUrl('watchlists/macro-events.json')),
+    fetchJSON(getDataUrl('context/market-regime.json'))
+  ]);
 
-    if (manifest && manifest.ui) {
-      uiConfig = { ...uiConfig, ...manifest.ui };
-    }
-
-    currentData = {
-      manifest,
-      'pre-earnings': preEarnings,
-      'post-crash': postCrash,
-      volatility,
-      crypto,
-      'pair-trades': pairTrades,
-      'macro-events': macroEvents,
-      'market-regime': marketRegime
-    };
-
-    return { manifest, success: true };
-  } catch (error) {
-    console.error('Failed to load data:', error);
-    throw error;
+  if (manifest?.ui) {
+    uiConfig = { ...uiConfig, ...manifest.ui };
   }
-}
 
-export function setAutoRefreshTimer(timerId) {
-  autoRefreshTimer = timerId;
+  currentData = {
+    manifest,
+    'pre-earnings': preEarnings,
+    'post-crash': postCrash,
+    volatility,
+    crypto,
+    'pair-trades': pairTrades,
+    'macro-events': macroEvents,
+    'market-regime': marketRegime
+  };
 }
