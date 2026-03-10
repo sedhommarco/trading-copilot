@@ -1,5 +1,7 @@
-import { AnyTrade, Trade, PairTrade } from '../types';
+import { AnyTrade, Trade, PairTrade, MacroEvent } from '../types';
 import { formatNumber } from '../config';
+
+// ─── Confidence ───────────────────────────────────────────────────────────────
 
 export function getConfidenceScore(trade: AnyTrade): number {
   if (typeof trade.confidence === 'number') return trade.confidence;
@@ -9,6 +11,7 @@ export function getConfidenceScore(trade: AnyTrade): number {
     (trade as Trade).confidence_string ||
     ''
   ).toLowerCase();
+  if (raw.includes('very high')) return 90;
   if (raw.includes('high')) return 80;
   if (raw.includes('moderate') || raw.includes('medium')) return 60;
   if (raw.includes('low')) return 40;
@@ -27,6 +30,36 @@ export function getConfidenceBadgeClass(trade: AnyTrade): string {
   if (v >= 50) return 'confidence-badge confidence-medium';
   return 'confidence-badge confidence-low';
 }
+
+// ─── Impact ───────────────────────────────────────────────────────────────────
+
+const IMPACT_ORDER: Record<string, number> = {
+  'very high': 4,
+  high: 3,
+  medium: 2,
+  moderate: 2,
+  low: 1,
+};
+
+export function getImpactScore(trade: AnyTrade): number {
+  const raw = ((trade as MacroEvent).impact ?? '').toLowerCase().trim();
+  return IMPACT_ORDER[raw] ?? 0;
+}
+
+export function getImpactLabel(trade: AnyTrade): string {
+  const raw = ((trade as MacroEvent).impact ?? '').trim();
+  return raw ? raw.toUpperCase() : '';
+}
+
+export function getImpactBadgeClass(trade: AnyTrade): string {
+  const score = getImpactScore(trade);
+  if (score >= 4) return 'confidence-badge confidence-high';
+  if (score >= 3) return 'confidence-badge confidence-high';
+  if (score >= 2) return 'confidence-badge confidence-medium';
+  return 'confidence-badge confidence-low';
+}
+
+// ─── Trade age / stale ────────────────────────────────────────────────────────
 
 export interface TradeAge {
   daysOld: number | null;
@@ -49,6 +82,8 @@ export function getTradeAge(
   const expectedHoldingDays = (trade as Trade).expected_holding_days ?? 7;
   return { daysOld, isStale: daysOld > expectedHoldingDays };
 }
+
+// ─── Trade maths ──────────────────────────────────────────────────────────────
 
 export function calcEntryPrice(trade: Trade): number {
   if (trade.entry_zone) {

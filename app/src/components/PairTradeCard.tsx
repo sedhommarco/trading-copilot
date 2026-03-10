@@ -1,4 +1,4 @@
-import { PairTrade } from '../types';
+import { PairTrade, AppSettings } from '../types';
 import {
   getConfidenceLabel,
   getConfidenceBadgeClass,
@@ -9,9 +9,10 @@ import {
 interface Props {
   trade: PairTrade;
   lastUpdated?: string;
+  settings: AppSettings;
 }
 
-export default function PairTradeCard({ trade, lastUpdated }: Props) {
+export default function PairTradeCard({ trade, lastUpdated, settings: _settings }: Props) {
   const longT = trade.long_ticker ?? 'N/A';
   const shortT = trade.short_ticker ?? 'N/A';
   const confidenceLabel = getConfidenceLabel(trade);
@@ -21,18 +22,23 @@ export default function PairTradeCard({ trade, lastUpdated }: Props) {
 
   return (
     <div className={`trade-card${isStale ? ' stale' : ''}`}>
+      {/* Line 1: STALE badge */}
       {isStale && daysOld != null && (
         <div className="stale-badge">
           ⏰ {daysOld}d old (expected {trade.expected_holding_days ?? 7}d)
         </div>
       )}
 
+      {/* Line 2: Confidence badge */}
+      <div className="badge-row">
+        <span className={confidenceClass}>{confidenceLabel.toUpperCase()} Confidence</span>
+      </div>
+
       <div className="card-header">
         <div>
           <div className="card-title">{longT} / {shortT}</div>
           <div className="card-name">Pair Trade</div>
         </div>
-        <span className={confidenceClass}>{confidenceLabel.toUpperCase()}</span>
       </div>
 
       <div className="card-meta-row">
