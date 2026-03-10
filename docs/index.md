@@ -142,7 +142,7 @@ JSON Schema files used by the validation workflow. One schema per data type.
 
 ### Layout
 
-- **Header:** `📊 Trading Copilot` (left) + settings icon (right, stubbed)
+- **Header:** `📊 Trading A¡dvisor` (left) + settings icon (right, stubbed)
 - **Body:** Strategy tabs, each containing opportunity cards
 - **Footer:** Risk disclaimer + copyright (centered, small text)
 
