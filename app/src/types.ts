@@ -91,6 +91,18 @@ export interface LivePriceData {
   source: 'coinlore' | 'fawazahmed0' | 'yahoo';
 }
 
+// ─── App Settings ─────────────────────────────────────────────────────────
+
+export interface AppSettings {
+  showLivePrices: boolean;
+  showPriceCharts: boolean;
+}
+
+export const DEFAULT_SETTINGS: AppSettings = {
+  showLivePrices: true,
+  showPriceCharts: true,
+};
+
 // ─── Navigation ──────────────────────────────────────────────────────────
 
 export const TAB_ORDER = [

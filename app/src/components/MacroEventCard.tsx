@@ -1,5 +1,10 @@
 import { MacroEvent } from '../types';
-import { getConfidenceLabel, getConfidenceBadgeClass } from '../utils/trade';
+import {
+  getConfidenceLabel,
+  getConfidenceBadgeClass,
+  getImpactLabel,
+  getImpactBadgeClass,
+} from '../utils/trade';
 
 interface Props {
   trade: MacroEvent;
@@ -8,13 +13,10 @@ interface Props {
 export default function MacroEventCard({ trade }: Props) {
   const eventName = trade.event_name ?? 'Macro Event';
   const eventDate = trade.date ?? 'N/A';
-  const impact = trade.impact ?? 'medium';
-  const impactClass =
-    impact === 'high' || impact === 'very high'
-      ? 'confidence-badge confidence-high'
-      : 'confidence-badge confidence-medium';
   const confidenceLabel = getConfidenceLabel(trade);
   const confidenceClass = getConfidenceBadgeClass(trade);
+  const impactLabel = getImpactLabel(trade);
+  const impactClass = getImpactBadgeClass(trade);
 
   let isPast = false;
   let daysAgo = 0;
@@ -28,9 +30,21 @@ export default function MacroEventCard({ trade }: Props) {
 
   return (
     <div className={`trade-card${isPast ? ' stale' : ''}`}>
+      {/* Line 1: STALE badge (only when past) */}
       {isPast && (
         <div className="stale-badge">✓ Occurred {daysAgo}d ago</div>
       )}
+
+      {/* Line 2: Confidence · Impact on one line (Impact only if present) */}
+      <div className="badge-row">
+        <span className={confidenceClass}>{confidenceLabel.toUpperCase()} Confidence</span>
+        {impactLabel && (
+          <>
+            <span className="badge-separator">·</span>
+            <span className={impactClass}>{impactLabel} IMPACT</span>
+          </>
+        )}
+      </div>
 
       <div className="card-header">
         <div>
@@ -39,17 +53,15 @@ export default function MacroEventCard({ trade }: Props) {
             {eventDate}{trade.time ? ` · ${trade.time}` : ''}
           </div>
         </div>
-        <span className={confidenceClass}>{confidenceLabel.toUpperCase()}</span>
       </div>
 
-      <div className="card-meta-row">
-        <span className={impactClass}>{impact.toUpperCase()} IMPACT</span>
-        {trade.recommended_action && (
+      {trade.recommended_action && (
+        <div className="card-meta-row">
           <span className="card-meta-item">
             {trade.recommended_action.replace(/_/g, ' ')}
           </span>
-        )}
-      </div>
+        </div>
+      )}
 
       <div className="card-metrics" style={{ borderTop: '1px solid var(--color-border)', paddingTop: '0.75rem' }}>
         {instruments.length > 0 && (

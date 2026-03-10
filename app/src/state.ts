@@ -1,5 +1,6 @@
+import { createContext, useContext } from 'react';
 import { CONFIG } from './config';
-import { WatchlistData, MarketRegimeData } from './types';
+import { WatchlistData, MarketRegimeData, AppSettings, DEFAULT_SETTINGS } from './types';
 
 export interface AppData {
   'pre-earnings': WatchlistData;
@@ -49,4 +50,20 @@ export async function loadAllData(): Promise<AppData> {
     'macro-events': macroEvents,
     'market-regime': marketRegime,
   };
+}
+
+// ─── Settings Context ─────────────────────────────────────────────────────────
+
+export interface SettingsContextValue {
+  settings: AppSettings;
+  setSettings: React.Dispatch<React.SetStateAction<AppSettings>>;
+}
+
+export const SettingsContext = createContext<SettingsContextValue>({
+  settings: DEFAULT_SETTINGS,
+  setSettings: () => undefined,
+});
+
+export function useSettings() {
+  return useContext(SettingsContext);
 }

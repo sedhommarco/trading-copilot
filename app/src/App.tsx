@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import { loadAllData, AppData } from './state';
-import { TAB_ORDER, TabId } from './types';
+import { loadAllData, AppData, SettingsContext } from './state';
+import { TAB_ORDER, TabId, AppSettings, DEFAULT_SETTINGS } from './types';
 import Header from './components/Header';
 import Tabs from './components/Tabs';
 import MarketRegime from './components/MarketRegime';
@@ -20,6 +20,7 @@ export default function App() {
   const [data, setData] = useState<AppData | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<TabId>('pre-earnings');
+  const [settings, setSettings] = useState<AppSettings>(DEFAULT_SETTINGS);
 
   useEffect(() => {
     loadAllData()
@@ -32,24 +33,28 @@ export default function App() {
 
   if (error) {
     return (
-      <div className="container">
-        <Header />
-        <div className="error-message">{error}</div>
-      </div>
+      <SettingsContext.Provider value={{ settings, setSettings }}>
+        <div className="container">
+          <Header />
+          <div className="error-message">{error}</div>
+        </div>
+      </SettingsContext.Provider>
     );
   }
 
   if (!data) {
     return (
-      <div className="container">
-        <Header />
-        <div className="loading">Loading</div>
-      </div>
+      <SettingsContext.Provider value={{ settings, setSettings }}>
+        <div className="container">
+          <Header />
+          <div className="loading">Loading</div>
+        </div>
+      </SettingsContext.Provider>
     );
   }
 
   return (
-    <>
+    <SettingsContext.Provider value={{ settings, setSettings }}>
       <div className="container">
         <Header />
         <MarketRegime regime={data['market-regime']} />
@@ -65,10 +70,11 @@ export default function App() {
             tabId={tab}
             watchlistData={data[tab]}
             active={tab === activeTab}
+            settings={settings}
           />
         ))}
       </div>
       <Footer />
-    </>
+    </SettingsContext.Provider>
   );
 }

@@ -1,33 +1,29 @@
 import { useMemo } from 'react';
-import { TabId, WatchlistData, AnyTrade } from '../types';
-import { getConfidenceScore, isPairTrade, isMacroEvent } from '../utils/trade';
+import { TabId, WatchlistData, AnyTrade, AppSettings } from '../types';
+import { getConfidenceScore, getImpactScore, isPairTrade, isMacroEvent } from '../utils/trade';
 import TradeCard from './TradeCard';
 import PairTradeCard from './PairTradeCard';
 import MacroEventCard from './MacroEventCard';
-
-const STRATEGY_NAMES: Record<string, string> = {
-  pre_earnings_momentum: 'Pre-Earnings Momentum',
-  post_crash_rebound: 'Post-Crash Rebound',
-  pair_trades: 'Pair Trading',
-  macro_events: 'Macro Event Plays',
-  volatility_plays: 'Volatility Plays',
-  crypto_opportunities: 'Crypto Opportunities',
-};
 
 interface Props {
   tabId: TabId;
   watchlistData: WatchlistData | undefined;
   active: boolean;
+  settings: AppSettings;
 }
 
-export default function WatchlistPanel({ tabId: _tabId, watchlistData, active }: Props) {
+export default function WatchlistPanel({ tabId: _tabId, watchlistData, active, settings }: Props) {
   const trades = useMemo(() => {
     const raw: AnyTrade[] = [
       ...(watchlistData?.opportunities ?? []),
       ...(watchlistData?.events ?? []),
       ...(watchlistData?.candidates ?? []),
     ];
-    return raw.slice().sort((a, b) => getConfidenceScore(b) - getConfidenceScore(a));
+    return raw.slice().sort((a, b) => {
+      const confDiff = getConfidenceScore(b) - getConfidenceScore(a);
+      if (confDiff !== 0) return confDiff;
+      return getImpactScore(b) - getImpactScore(a);
+    });
   }, [watchlistData]);
 
   if (!active) return null;
@@ -37,12 +33,19 @@ export default function WatchlistPanel({ tabId: _tabId, watchlistData, active }:
       <div className="cards-grid">
         {trades.map((trade, i) => {
           if (isPairTrade(trade)) {
-            return <PairTradeCard key={i} trade={trade} />;
+            return <PairTradeCard key={i} trade={trade} settings={settings} />;
           }
           if (isMacroEvent(trade)) {
             return <MacroEventCard key={i} trade={trade} />;
           }
-          return <TradeCard key={i} trade={trade} lastUpdated={watchlistData?.last_updated} />;
+          return (
+            <TradeCard
+              key={i}
+              trade={trade}
+              lastUpdated={watchlistData?.last_updated}
+              settings={settings}
+            />
+          );
         })}
       </div>
     </section>

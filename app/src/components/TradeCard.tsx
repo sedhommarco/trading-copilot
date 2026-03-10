@@ -1,4 +1,4 @@
-import { Trade } from '../types';
+import { Trade, AppSettings } from '../types';
 import { isFxMetalSymbol } from '../api';
 import {
   getConfidenceLabel,
@@ -14,9 +14,10 @@ import SparklineChart from './SparklineChart';
 interface Props {
   trade: Trade;
   lastUpdated?: string;
+  settings: AppSettings;
 }
 
-export default function TradeCard({ trade, lastUpdated }: Props) {
+export default function TradeCard({ trade, lastUpdated, settings }: Props) {
   const ticker = trade.ticker ?? trade.symbol ?? trade.instrument ?? 'N/A';
   const company = trade.company_name ?? trade.company ?? trade.name ?? '';
   const direction = (trade.direction ?? 'LONG').toUpperCase();
@@ -34,22 +35,29 @@ export default function TradeCard({ trade, lastUpdated }: Props) {
 
   return (
     <div className={`trade-card${isStale ? ' stale' : ''}`}>
+      {/* Line 1: STALE badge */}
       {isStale && daysOld != null && (
         <div className="stale-badge">
           ⏰ {daysOld}d old (expected {trade.expected_holding_days ?? 7}d)
         </div>
       )}
 
+      {/* Line 2: Confidence badge (no Impact on trade cards) */}
+      <div className="badge-row">
+        <span className={confidenceClass}>{confidenceLabel.toUpperCase()} Confidence</span>
+      </div>
+
       <div className="card-header">
         <div>
           <div className="card-title">{ticker}</div>
           {company && <div className="card-name">{company}</div>}
-          {isFx && <SparklineChart symbol={ticker} />}
         </div>
-        <span className={confidenceClass}>{confidenceLabel.toUpperCase()}</span>
+        {isFx && settings.showPriceCharts && <SparklineChart symbol={ticker} />}
       </div>
 
-      <LivePriceRow ticker={ticker} entryPrice={entry} direction={direction} />
+      {settings.showLivePrices && (
+        <LivePriceRow ticker={ticker} entryPrice={entry} direction={direction} />
+      )}
 
       <div className="card-meta-row">
         <span className={`card-meta-item ${direction === 'LONG' ? 'long' : 'short'}`}>
