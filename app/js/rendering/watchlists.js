@@ -2,9 +2,16 @@
  * Watchlist rendering
  */
 
-import { formatNumber } from '../config.js';
 import { currentData } from '../state.js';
-import { normalizeTradeData, getConfidenceForSorting, renderTradeCard, renderPairTradeCard, renderMacroEventCard, loadLivePrices, loadSparklines } from './cards.js';
+import {
+  normalizeTradeData,
+  getConfidenceForSorting,
+  renderTradeCard,
+  renderPairTradeCard,
+  renderMacroEventCard,
+  loadLivePrices,
+  loadSparklines
+} from './cards.js';
 
 const STRATEGY_NAMES = {
   pre_earnings_momentum: 'Pre-Earnings Momentum',
@@ -15,90 +22,35 @@ const STRATEGY_NAMES = {
   crypto_opportunities: 'Crypto Opportunities'
 };
 
-/**
- * Render previous week outcomes
- * @param {Array} previousOutcomes - Array of outcome objects
- * @returns {string} HTML
- */
-function renderPreviousOutcomes(previousOutcomes) {
-  if (!previousOutcomes || previousOutcomes.length === 0) return '';
-
-  const outcomesHtml = previousOutcomes
-    .map(outcome => {
-      const ticker = outcome.ticker || 'N/A';
-      const predicted = outcome.predicted_direction || outcome.predicted || 'N/A';
-      const actual = outcome.actual_outcome || outcome.actual || 'N/A';
-      const hitTarget = outcome.hit_target !== undefined ? outcome.hit_target : null;
-      const accuracy = outcome.accuracy || '';
-
-      const outcomeClass = (hitTarget === true || accuracy.toLowerCase().includes('hit')) ? 'outcome-hit' : 'outcome-miss';
-
-      return `
-        <div class="outcome-item ${outcomeClass}">
-          <div style="font-weight: 600; margin-bottom: 0.25rem;">${ticker}</div>
-          <div style="font-size: 0.8125rem; color: var(--color-text-muted);">
-            Predicted: ${predicted}<br>
-            Actual: ${actual}
-            ${accuracy ? `<br><strong style="color: var(--color-text-primary);">${accuracy}</strong>` : ''}
-          </div>
-        </div>
-      `;
-    })
-    .join('');
-
-  return `
-    <div class="previous-outcomes">
-      <h3>📊 Previous Week Outcomes</h3>
-      <div class="outcomes-grid">
-        ${outcomesHtml}
-      </div>
-    </div>
-  `;
-}
-
-/**
- * Render a watchlist tab
- * @param {string} name - Watchlist identifier
- * @param {Object} data - Watchlist data
- */
 export function renderWatchlist(name, data) {
   const container = document.getElementById(name);
   let trades = data.opportunities || data.events || data.candidates || [];
-  const previousOutcomes = data.previous_week_outcomes || [];
 
-  // Sort by confidence (descending)
-  trades = trades.slice().sort((a, b) => {
-    const confA = getConfidenceForSorting(a);
-    const confB = getConfidenceForSorting(b);
-    return confB - confA;
-  });
+  // Sort by confidence descending
+  trades = trades.slice().sort((a, b) => getConfidenceForSorting(b) - getConfidenceForSorting(a));
 
-  const strategyCode = data.strategy || data.strategy_name || data.strategyName || '';
+  const strategyCode = data.strategy || data.strategy_name || '';
   const strategyName = STRATEGY_NAMES[strategyCode] || strategyCode || 'Trading Strategy';
-  const description = data.description || `Strategy: ${strategyCode}`;
-  const weekStart = data.week_start || data.weekStart || 'N/A';
-  const weekEnd = data.week_end || data.weekEnd || 'N/A';
-  const riskPerTrade = data.risk_per_trade || data.riskPerTrade || 0.02;
-  const strategyConfidence = data.strategy_confidence || 'N/A';
-  const strategyRisks = data.strategy_risks || 'Standard market risks apply';
+  const description = data.description || '';
+  const lastUpdated = data.last_updated || 'N/A';
 
   let strategyInfoHtml = '';
-  if (data.strategy_description || strategyConfidence !== 'N/A' || strategyRisks) {
+  if (data.strategy_description || data.strategy_confidence || data.strategy_risks) {
     strategyInfoHtml = `
       <div class="strategy-info">
         <h4>Strategy Overview</h4>
         ${data.strategy_description ? `<p>${data.strategy_description}</p>` : ''}
         <div class="strategy-info-grid">
-          ${strategyConfidence !== 'N/A' ? `
+          ${data.strategy_confidence ? `
           <div>
             <div style="font-size: 0.75rem; color: var(--color-text-muted); margin-bottom: 0.25rem;">Strategy Confidence</div>
-            <div style="font-weight: 600;">${strategyConfidence}</div>
-          </div>
-          ` : ''}
+            <div style="font-weight: 600;">${data.strategy_confidence}</div>
+          </div>` : ''}
+          ${data.strategy_risks ? `
           <div>
             <div style="font-size: 0.75rem; color: var(--color-text-muted); margin-bottom: 0.25rem;">Key Risks</div>
-            <div>${strategyRisks}</div>
-          </div>
+            <div>${data.strategy_risks}</div>
+          </div>` : ''}
         </div>
       </div>
     `;
@@ -107,57 +59,39 @@ export function renderWatchlist(name, data) {
   const header = `
     <div class="watchlist-header">
       <h2>${strategyName}</h2>
-      <p style="color: var(--color-text-secondary);">${description}</p>
+      ${description ? `<p style="color: var(--color-text-secondary);">${description}</p>` : ''}
       <div class="watchlist-meta">
-        <span>📅 Week: ${weekStart} to ${weekEnd}</span>
+        <span>📅 Last updated: ${lastUpdated}</span>
         <span>🎯 Trades: ${trades.length}</span>
-        <span>📊 Capital per trade: $${formatNumber(1000 * riskPerTrade, 2)}</span>
       </div>
       ${strategyInfoHtml}
     </div>
-    ${renderPreviousOutcomes(previousOutcomes)}
   `;
 
-  const watchlistMetadata = {
-    week_start: data.week_start,
-    week_end: data.week_end,
-    last_updated: data.last_updated
-  };
+  const watchlistMetadata = { last_updated: data.last_updated };
 
   const cards = trades
     .map(trade => {
-      const normalizedTrade = normalizeTradeData(trade);
-
-      if (normalizedTrade.long_ticker && normalizedTrade.short_ticker) {
-        return renderPairTradeCard(normalizedTrade, watchlistMetadata);
-      } else if (normalizedTrade.event_name) {
-        return renderMacroEventCard(normalizedTrade, watchlistMetadata);
-      } else {
-        return renderTradeCard(normalizedTrade, watchlistMetadata);
-      }
+      const t = normalizeTradeData(trade);
+      if (t.long_ticker && t.short_ticker) return renderPairTradeCard(t, watchlistMetadata);
+      if (t.event_name) return renderMacroEventCard(t, watchlistMetadata);
+      return renderTradeCard(t, watchlistMetadata);
     })
     .join('');
 
   container.innerHTML = header + `<div class="cards-grid">${cards}</div>`;
-  
-  // Load live prices and sparklines asynchronously
+
   if (!container.dataset.livePricesLoaded) {
     container.dataset.livePricesLoaded = 'true';
-    Promise.all([
-      loadLivePrices(),
-      loadSparklines()
-    ]).catch(err => console.error('Failed to load live data:', err));
+    Promise.all([loadLivePrices(), loadSparklines()]).catch(err =>
+      console.error('Failed to load live data:', err)
+    );
   }
 }
 
-/**
- * Render all watchlists
- */
 export function renderAllWatchlists() {
   const watchlists = ['pre-earnings', 'post-crash', 'volatility', 'crypto', 'pair-trades', 'macro-events'];
   watchlists.forEach(name => {
-    if (currentData[name]) {
-      renderWatchlist(name, currentData[name]);
-    }
+    if (currentData[name]) renderWatchlist(name, currentData[name]);
   });
 }
