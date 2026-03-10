@@ -1,78 +1,65 @@
 {
-  "file_type": "watchlist",
-  "strategy": "post_crash_rebound",
   "last_updated": "2026-03-01T21:30:00Z",
-  "week_start": "2026-03-02",
-  "week_end": "2026-03-08",
   "opportunities": [
     {
       "ticker": "RUN",
       "company_name": "Sunrun Inc.",
+      "direction": "long",
+      "conviction": "low",
       "current_price": 13.29,
       "entry_zone": "13.0-13.5",
       "stop_loss": 12.65,
       "take_profit": 14.63,
-      "position_size_usd": 400.0,
       "risk_percent": 2,
       "expected_holding_days": 3,
-      "conviction": "low",
-      "rationale": "Massive post-earnings single-session selloff on mixed growth metrics; high volatility solar name with potential for sharp short-covering bounces, but structurally risky.",
-      "last_week_performance": null,
       "crash_date": "2026-02-27",
       "drop_percent": -30.0,
-      "shares": 30.1
+      "rationale": "Massive post-earnings single-session selloff on mixed growth metrics; high volatility solar name with potential for sharp short-covering bounces, but structurally risky."
     },
     {
       "ticker": "CRWV",
       "company_name": "CoreWeave, Inc.",
+      "direction": "long",
+      "conviction": "moderate",
       "current_price": 79.56,
       "entry_zone": "78-82",
       "stop_loss": 75.5,
       "take_profit": 87.5,
-      "position_size_usd": 400.0,
       "risk_percent": 2,
       "expected_holding_days": 3,
-      "conviction": "moderate",
-      "rationale": "AI cloud infrastructure provider sold off on weak margin guidance and large 2026 capex; revenue and backlog still strong, making it a candidate for technical rebound.",
-      "last_week_performance": null,
       "crash_date": "2026-02-27",
       "drop_percent": -18.5,
-      "shares": 5.03
+      "rationale": "AI cloud infrastructure provider sold off on weak margin guidance and large 2026 capex; revenue and backlog still strong, making it a candidate for technical rebound."
     },
     {
       "ticker": "NVO",
       "company_name": "Novo Nordisk A/S ADR",
+      "direction": "long",
+      "conviction": "moderate",
       "current_price": 37.45,
       "entry_zone": "37-38",
       "stop_loss": 35.6,
       "take_profit": 41.25,
-      "position_size_usd": 600.0,
       "risk_percent": 3,
       "expected_holding_days": 5,
-      "conviction": "moderate",
-      "rationale": "Quality pharma leader repriced lower after weak 2026 guidance and obesity-drug trial disappointment; oversold technicals with intact long-term franchise.",
-      "last_week_performance": null,
       "crash_date": "2026-02-23",
       "drop_percent": -16.4,
-      "shares": 16.0
+      "rationale": "Quality pharma leader repriced lower after weak 2026 guidance and obesity-drug trial disappointment; oversold technicals with intact long-term franchise."
     },
     {
       "ticker": "APO",
       "company_name": "Apollo Global Management Inc.",
+      "direction": "long",
+      "conviction": "moderate",
       "current_price": 105.0,
       "entry_zone": "103-107",
       "stop_loss": 99.75,
       "take_profit": 115.5,
-      "position_size_usd": 600.0,
       "risk_percent": 3,
       "expected_holding_days": 5,
-      "conviction": "moderate",
-      "rationale": "Alternative asset manager caught in private-credit and AI scare trade; fundamentals solid, making it a candidate for rebound as fears normalize.",
-      "last_week_performance": null,
       "crash_date": "2026-02-03",
       "drop_percent": -11.96,
-      "shares": 5.71
+      "rationale": "Alternative asset manager caught in private-credit and AI scare trade; fundamentals solid, making it a candidate for rebound as fears normalize."
     }
-  ],
-  "previous_week_outcomes": []
+  ]
 }

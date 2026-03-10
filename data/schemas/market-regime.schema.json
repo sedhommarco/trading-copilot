@@ -1,0 +1,30 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/sedhommarco/trading-copilot/data/schemas/market-regime.schema.json",
+  "title": "Trading Copilot Market Regime",
+  "description": "Schema for data/context/market-regime.json",
+  "type": "object",
+  "required": ["regime", "updated", "strategy_adjustments"],
+  "properties": {
+    "regime": {
+      "type": "string",
+      "enum": [
+        "trending_bullish",
+        "trending_bearish",
+        "choppy",
+        "high_volatility",
+        "low_volatility",
+        "range_bound"
+      ]
+    },
+    "vix_range": { "type": "string", "description": "VIX range, e.g. '14-16'" },
+    "sentiment": { "type": "string" },
+    "updated": { "type": "string", "description": "ISO 8601 date or datetime" },
+    "strategy_adjustments": {
+      "type": "object",
+      "description": "Per-strategy plain-text adjustment notes for current regime",
+      "additionalProperties": { "type": "string" }
+    }
+  },
+  "additionalProperties": false
+}

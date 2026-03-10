@@ -1,0 +1,46 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/sedhommarco/trading-copilot/data/schemas/manifest.schema.json",
+  "title": "Trading Copilot Manifest",
+  "description": "Schema for data/meta/manifest.json",
+  "type": "object",
+  "required": ["ui", "files"],
+  "properties": {
+    "version": { "type": "string" },
+    "last_global_update": { "type": "string" },
+    "ui": {
+      "type": "object",
+      "required": ["tab_order"],
+      "properties": {
+        "tab_order": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      },
+      "additionalProperties": false
+    },
+    "files": {
+      "type": "object",
+      "description": "Registry of managed data files",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["last_updated", "status"],
+        "properties": {
+          "last_updated": { "type": "string" },
+          "record_count": { "type": "integer" },
+          "status": {
+            "type": "string",
+            "enum": ["fresh", "stale"]
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "data_sources": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "stale_threshold_days": { "type": "integer" }
+  },
+  "additionalProperties": false
+}

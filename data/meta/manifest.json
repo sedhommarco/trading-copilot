@@ -1,77 +1,50 @@
 {
-  "version": "1.0.0",
-  "last_global_update": "2026-03-02T20:00:00Z",
-  "repository": "trading-copilot",
-  "owner": "sedhommarco",
+  "version": "2.0.0",
+  "last_global_update": "2026-03-10T16:00:00Z",
   "ui": {
     "tab_order": [
-      "journal",
       "pre-earnings",
       "volatility",
       "post-crash",
       "crypto",
       "pair-trades",
       "macro-events"
-    ],
-    "favorite_tabs": ["pre-earnings", "volatility"],
-    "market_regime_collapsed_by_default": true
+    ]
   },
   "files": {
     "watchlists/pre-earnings.json": {
-      "last_updated": "2026-03-02T20:00:00Z",
-      "week_start": "2026-03-02",
-      "week_end": "2026-03-08",
+      "last_updated": "2026-03-01T21:30:00Z",
       "record_count": 3,
-      "status": "fresh"
+      "status": "stale"
     },
     "watchlists/post-crash.json": {
-      "last_updated": "2026-03-02T20:00:00Z",
-      "week_start": "2026-03-02",
-      "week_end": "2026-03-08",
+      "last_updated": "2026-03-01T21:30:00Z",
       "record_count": 4,
-      "status": "fresh"
+      "status": "stale"
     },
     "watchlists/volatility.json": {
-      "last_updated": "2026-03-02T20:00:00Z",
-      "week_start": "2026-03-02",
-      "week_end": "2026-03-08",
+      "last_updated": "2026-03-01T21:30:00Z",
       "record_count": 5,
-      "status": "fresh"
+      "status": "stale"
     },
     "watchlists/crypto.json": {
-      "last_updated": "2026-03-02T20:00:00Z",
-      "week_start": "2026-03-02",
-      "week_end": "2026-03-08",
+      "last_updated": "2026-03-01T21:30:00Z",
       "record_count": 5,
-      "status": "fresh"
+      "status": "stale"
     },
     "watchlists/pair-trades.json": {
-      "last_updated": "2026-03-02T20:00:00Z",
-      "week_start": "2026-03-02",
-      "week_end": "2026-03-08",
+      "last_updated": "2026-03-01T21:30:00Z",
       "record_count": 5,
-      "status": "fresh"
+      "status": "stale"
     },
     "watchlists/macro-events.json": {
-      "last_updated": "2026-03-02T20:00:00Z",
-      "week_start": "2026-03-02",
-      "week_end": "2026-03-08",
+      "last_updated": "2026-03-01T21:30:00Z",
       "record_count": 5,
-      "status": "fresh"
+      "status": "stale"
     },
     "context/market-regime.json": {
-      "last_updated": "2026-03-02T20:00:00Z",
-      "status": "fresh"
-    },
-    "journal/transactions.json": {
-      "last_updated": "2026-03-02T20:00:00Z",
-      "total_transactions": 0,
-      "status": "fresh"
-    },
-    "journal/positions.json": {
-      "last_updated": "2026-03-02T20:00:00Z",
-      "total_positions": 0,
-      "status": "fresh"
+      "last_updated": "2026-03-01T21:30:00Z",
+      "status": "stale"
     }
   },
   "data_sources": [
@@ -82,7 +55,5 @@
     "StockAnalysis",
     "Seeking Alpha"
   ],
-  "status": "fresh",
-  "stale_threshold_days": 10,
-  "notes": "Data automatically updated via Perplexity GitHub MCP tools every Sunday 8:00 PM CET. Journal uses transactions.json and positions.json format (March 2026+)."
+  "stale_threshold_days": 10
 }

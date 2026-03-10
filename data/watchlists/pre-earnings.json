@@ -1,58 +1,47 @@
 {
-  "file_type": "watchlist",
-  "strategy": "pre_earnings_momentum",
   "last_updated": "2026-03-01T21:30:00Z",
-  "week_start": "2026-03-02",
-  "week_end": "2026-03-08",
   "opportunities": [
     {
       "ticker": "AVGO",
       "company_name": "Broadcom Inc.",
+      "direction": "long",
+      "conviction": "high",
       "current_price": 320.0,
       "entry_zone": "318-322",
       "stop_loss": 300.0,
       "take_profit": 345.0,
-      "position_size_usd": 1312.5,
       "risk_percent": 3,
       "expected_holding_days": 3,
-      "conviction": "high",
-      "rationale": "AI infrastructure leader with strong Q1 expectations; positive momentum ahead of Mar 5 earnings.",
-      "last_week_performance": null,
       "earnings_date": "2026-03-05",
-      "shares": 4.1
+      "rationale": "AI infrastructure leader with strong Q1 expectations; positive momentum ahead of Mar 5 earnings."
     },
     {
       "ticker": "MRVL",
       "company_name": "Marvell Technology Inc.",
+      "direction": "long",
+      "conviction": "high",
       "current_price": 98.0,
       "entry_zone": "96-100",
       "stop_loss": 92.0,
       "take_profit": 108.0,
-      "position_size_usd": 1300.0,
       "risk_percent": 3,
       "expected_holding_days": 3,
-      "conviction": "high",
-      "rationale": "Data center and AI chip exposure; earnings expected to beat on strong cloud capex trends.",
-      "last_week_performance": null,
       "earnings_date": "2026-03-04",
-      "shares": 13.3
+      "rationale": "Data center and AI chip exposure; earnings expected to beat on strong cloud capex trends."
     },
     {
       "ticker": "COST",
       "company_name": "Costco Wholesale Corp.",
+      "direction": "long",
+      "conviction": "moderate",
       "current_price": 1010.0,
       "entry_zone": "1005-1015",
       "stop_loss": 975.0,
       "take_profit": 1080.0,
-      "position_size_usd": 1400.0,
       "risk_percent": 3,
       "expected_holding_days": 5,
-      "conviction": "moderate",
-      "rationale": "Membership model resilient; strong February sales comp data suggests beat potential for Q2.",
-      "last_week_performance": null,
       "earnings_date": "2026-03-07",
-      "shares": 1.4
+      "rationale": "Membership model resilient; strong February sales comp data suggests beat potential for Q2."
     }
-  ],
-  "previous_week_outcomes": []
+  ]
 }
