@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, type ReactNode } from 'react';
 import { fetchLivePrice } from '../api';
 import { LivePriceData } from '../types';
 import { formatNumber } from '../config';
@@ -24,7 +24,7 @@ export default function LivePriceRow({ ticker, entryPrice, direction }: Props) {
 
   if (data === null) return null; // equities — no row at all
 
-  let vsEntryEl: React.ReactNode = null;
+  let vsEntryEl: ReactNode = null;
   if (data !== 'loading' && entryPrice > 0) {
     const vsEntry = ((data.price - entryPrice) / entryPrice) * 100;
     const positive = direction === 'LONG' ? vsEntry >= 0 : vsEntry <= 0;
@@ -38,33 +38,25 @@ export default function LivePriceRow({ ticker, entryPrice, direction }: Props) {
     );
   }
 
-  let changeEl: React.ReactNode = null;
-  if (data !== 'loading' && data?.change24h != null) {
-    const up = data.change24h >= 0;
-    changeEl = (
-      <span
-        className="live-price-change"
-        style={{ color: up ? 'var(--color-success)' : 'var(--color-danger)' }}
-      >
-        {up ? '▲' : '▼'} {Math.abs(data.change24h).toFixed(2)}% 24h
-      </span>
-    );
-  }
-
   return (
     <div className="live-price-row">
-      <span className="live-price-label">Live Price</span>
-      <span className="live-price-value">
-        {data === 'loading' ? (
-          <span className="live-price-loading">Loading…</span>
-        ) : (
-          <>
-            <span style={{ fontWeight: 600 }}>${formatNumber(data.price, 2)}</span>
-            {changeEl}
-            {vsEntryEl}
-          </>
-        )}
-      </span>
+      <span className="live-price-label">Live</span>
+      {data === 'loading' ? (
+        <span className="live-price-loading">…</span>
+      ) : (
+        <span className="live-price-value">
+          {formatNumber(data.price)}
+          {data.change24h != null && (
+            <span
+              className="live-price-change"
+              style={{ color: data.change24h >= 0 ? 'var(--color-success)' : 'var(--color-danger)' }}
+            >
+              {data.change24h >= 0 ? ' +' : ' '}{data.change24h.toFixed(2)}%
+            </span>
+          )}
+          {vsEntryEl && <> {vsEntryEl}</>}
+        </span>
+      )}
     </div>
   );
 }
