@@ -54,7 +54,7 @@ export interface MacroEvent extends BaseTrade {
 
 export type AnyTrade = Trade | PairTrade | MacroEvent;
 
-// ─── Watchlist ───────────────────────────────────────────────────────────────
+// ─── Watchlist ──────────────────────────────────────────────────────────────
 
 export interface WatchlistData {
   strategy?: string;
@@ -66,7 +66,7 @@ export interface WatchlistData {
   candidates?: AnyTrade[];
 }
 
-// ─── Market Regime ───────────────────────────────────────────────────────────
+// ─── Market Regime ────────────────────────────────────────────────────────
 
 export interface MarketRegimeData {
   current_regime?: string;
@@ -81,7 +81,7 @@ export interface MarketRegimeData {
   strategy_adjustments?: Record<string, string>;
 }
 
-// ─── Live Price ──────────────────────────────────────────────────────────────
+// ─── Live Price ───────────────────────────────────────────────────────────
 
 export interface LivePriceData {
   price: number;
@@ -90,3 +90,16 @@ export interface LivePriceData {
   change?: number;
   source: 'coinlore' | 'fawazahmed0' | 'yahoo';
 }
+
+// ─── Navigation ──────────────────────────────────────────────────────────
+
+export const TAB_ORDER = [
+  'pre-earnings',
+  'post-crash',
+  'volatility',
+  'crypto',
+  'pair-trades',
+  'macro-events',
+] as const;
+
+export type TabId = typeof TAB_ORDER[number];
