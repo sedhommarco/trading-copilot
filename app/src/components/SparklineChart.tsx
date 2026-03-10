@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, type ReactNode } from 'react';
 import { fetchFxMetalHistory } from '../api';
 import '../styles/sparkline.css';
 
@@ -6,7 +6,7 @@ interface Props {
   symbol: string;
 }
 
-function buildSVG(prices: number[], width = 80, height = 28): React.ReactNode {
+function buildSVG(prices: number[], width = 80, height = 28): ReactNode {
   if (prices.length < 2) return null;
   const min = Math.min(...prices);
   const max = Math.max(...prices);
@@ -40,7 +40,11 @@ export default function SparklineChart({ symbol }: Props) {
     return () => { cancelled = true; };
   }, [symbol]);
 
-  if (prices === null) return <span className="sparkline-error">—</span>;
-  if (prices === 'loading') return <span className="sparkline-loading">Loading…</span>;
-  return <span className="sparkline-wrapper">{buildSVG(prices)}</span>;
+  if (prices === 'loading' || prices === null) return null;
+
+  return (
+    <div className="sparkline-container">
+      {buildSVG(prices)}
+    </div>
+  );
 }
