@@ -1,4 +1,4 @@
-import { TabId } from '../App';
+import { TabId } from '../types';
 
 interface Props {
   tabs: readonly TabId[];
