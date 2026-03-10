@@ -52,55 +52,91 @@ Types: `feat`, `refactor`, `fix`, `docs`, `chore`, `ci`
 
 ---
 
-## Repository Structure (target state)
+## Repository Structure
 
 ```
 trading-copilot/
 ├── README.md
-├── app/
-│   ├── index.html                 # Vanilla SPA (current); Vite/React/TS (future)
-│   └── favicon.ico
+├── app/                               # React + Vite + TypeScript SPA
+│   ├── index.html                     # Vite entry point
+│   ├── favicon.ico
+│   ├── package.json
+│   ├── vite.config.ts
+│   ├── tsconfig.json
+│   └── src/
+│       ├── main.tsx
+│       ├── App.tsx
+│       ├── api.ts
+│       ├── config.ts
+│       ├── state.ts
+│       ├── types.ts
+│       ├── components/
+│       │   ├── Header.tsx
+│       │   ├── Footer.tsx
+│       │   ├── Tabs.tsx
+│       │   ├── MarketRegime.tsx
+│       │   ├── WatchlistPanel.tsx
+│       │   ├── TradeCard.tsx
+│       │   ├── PairTradeCard.tsx
+│       │   ├── MacroEventCard.tsx
+│       │   ├── LivePriceRow.tsx
+│       │   └── SparklineChart.tsx
+│       ├── utils/
+│       │   └── trade.ts
+│       └── styles/
+│           ├── index.css
+│           └── sparkline.css
 ├── data/
-│   ├── watchlists/*.json          # Per-strategy opportunities (overwritten on refresh)
-│   ├── context/market-regime.json # Market regime + strategy adjustments
-│   ├── schemas/                   # JSON Schema definitions
-│   └── meta/manifest.json         # Tab order, file registry
+│   ├── watchlists/*.json
+│   ├── context/market-regime.json
+│   ├── schemas/
+│   └── meta/manifest.json
 ├── docs/
-│   ├── index.md                   # Main technical documentation
-│   ├── INSTRUCTIONS.DEV.md        # This file
-│   ├── INSTRUCTIONS.TRADING.md    # Trading Space instructions
+│   ├── index.md
+│   ├── INSTRUCTIONS.DEV.md
+│   ├── INSTRUCTIONS.TRADING.md
 │   ├── setup/
-│   │   ├── spaces-setup.md
-│   │   └── github-setup.md
 │   └── strategies/
-│       └── *.md
 └── .github/
     └── workflows/
         ├── validate-json.yml
-        └── deploy.yml
+        └── deploy.yml             # npm ci → tsc → vite build → deploy dist/
 ```
 
 **Permanently removed:**
-- `archive/` — no weekly snapshots, no archive index
-- `data/journal/` — no trade journal
-- `docs/journal/` — no journal schema docs
-- `docs/setup/capital-and-user-profile.md` — no user profiling
-- `schemas/` root-level directory (migrated to `data/schemas/`)
-- `tools/` — archive scripts removed
+- `app/css/` — vanilla CSS directory (migrated to `app/src/styles/`)
+- `app/js/` — vanilla JS directory (migrated to `app/src/`)
+- `archive/`, `data/journal/`, `docs/journal/`, `tools/` — removed in Phase 2
 
 ---
 
 ## How the App Works
 
-- The SPA loads JSON from `data/` at runtime (no backend)
+- Built with **React 18 + Vite + TypeScript** (strict mode)
+- Data is fetched from `data/` on GitHub raw URLs at runtime (no backend)
 - On each Trading Copilot refresh, watchlist files are **overwritten in place** — no archival
-- The app renders opportunity cards per strategy tab
-- The user refreshes the browser to get the latest data
-- **Live prices (vanilla SPA):** crypto via Coinlore, FX/metals via fawazahmed0. Equities have no live price in the vanilla app — Yahoo Finance blocks browser requests via CORS. Equity live prices will be added in the React/Vite phase via a backend proxy.
+- GitHub Actions builds the Vite app and deploys `dist/` to GitHub Pages on every push to `main`
+- **Live prices (SPA):**
+  - Crypto → Coinlore API (CORS-friendly)
+  - FX/Metals → fawazahmed0 via jsDelivr (CORS-friendly)
+  - Equities → disabled; Yahoo Finance blocks browser requests via CORS. Planned for a future backend proxy phase.
+- **Sparklines:** 7-day SVG trend line for FX/metals symbols only (via `SparklineChart` component + `fetchFxMetalHistory`). Equities/crypto sparklines planned for the backend proxy phase.
 
 ---
 
-## SPA Card Layout (target)
+## Local Development
+
+```bash
+cd app
+npm install
+npm run dev        # Vite dev server at http://localhost:5173/trading-copilot/
+npm run typecheck  # TypeScript strict check
+npm run build      # Production build → dist/
+```
+
+---
+
+## SPA Card Layout
 
 Each opportunity card renders:
 
@@ -108,14 +144,15 @@ Each opportunity card renders:
 [ STALE badge ]                      (only when data is outdated)
 [ TICKER ]                           (large, bold)
 [ Full instrument name ]             (muted, smaller)
-[ Live price · 24h% · vs entry% ]   (crypto + FX/metals only in vanilla)
+[ Sparkline ]                        (FX/metals only)
+[ Live price · 24h% · vs entry% ]   (crypto + FX/metals only)
 ─────────────────────────────────
 [ LONG/SHORT ] [ Xd ] [ Y% risk ] [ R:R 1:N ]
 Entry / Target / Stop Loss / Earnings date
 Rationale / Setup / Entry Trigger
 ```
 
-**Not in cards:** strategy description line, week range, trade counts, favourites/stars, position sizes.
+**Not in cards:** strategy description line, week range, trade counts.
 
 ---
 
@@ -135,26 +172,16 @@ Rationale / Setup / Entry Trigger
 - [x] Phase 1: Docs refactor — INSTRUCTIONS.DEV, INSTRUCTIONS.TRADING, README, docs/index.md
 - [x] Phase 2: Data and schema clean-up — deleted archive, journal, tools; moved schemas to data/schemas/
 - [x] Phase 3: SPA clean-up — removed journal tab, status bar, dead JS/CSS
-- [x] Phase 4: Live prices wired — crypto (Coinlore) + FX/metals (fawazahmed0) working; equities deferred (CORS)
-- [x] Phase 4b: Polish — removed header meta line, minimal footer, new card layout, disabled Yahoo CORS errors, added XRP to Coinlore map
+- [x] Phase 4: Live prices wired — crypto (Coinlore) + FX/metals (fawazahmed0) working
+- [x] Phase 4b: Polish — removed header meta, minimal footer, new card layout, disabled Yahoo CORS errors
+- [x] Phase 5: React + Vite + TypeScript migration — all 6 vanilla modules ported to typed components;
+              GitHub Actions updated to build + deploy Vite bundle;
+              vanilla app/css/ and app/js/ directories removed
 
-### Next (Phase 5 — React + Vite migration)
+### Next — Phase 6 (future)
 
-- Scaffold Vite + React + TypeScript
-- Port all 6 rendering modules as React components
-- Preserve dark theme via CSS variables (unchanged color palette)
-- Wire `api.js` as a plain utility module (no rewrite needed)
-- Re-enable equity live prices via backend proxy or serverless function
-- Add sparklines / mini charts for all asset classes
-- ESLint + Prettier
-- TypeScript strict mode
-- Minimal smoke tests for critical render paths
-
----
-
-## Related Docs
-
-- `docs/index.md` — main technical reference
-- `docs/INSTRUCTIONS.TRADING.md` — Trading Space behaviour
-- `docs/setup/spaces-setup.md` — Perplexity Spaces configuration
-- `docs/setup/github-setup.md` — GitHub Actions and Pages
+- Equity live prices via backend proxy or serverless function (re-enable Yahoo)
+- Sparklines / mini charts for crypto and equities
+- ESLint config
+- Smoke tests for critical render paths
+- Dark/light theme toggle

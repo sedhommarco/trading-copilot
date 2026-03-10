@@ -1,90 +1,22 @@
-name: Validate JSON Files
+name: Validate JSON
 
 on:
+  push:
+    paths:
+      - 'data/**/*.json'
   pull_request:
     paths:
       - 'data/**/*.json'
-      - 'schemas/**/*.json'
-      - '.github/workflows/validate-json.yml'
-  workflow_dispatch:
 
 jobs:
   validate:
-    name: JSON Schema Validation
     runs-on: ubuntu-latest
-    
     steps:
-      - name: Checkout code
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-
-      - name: Install AJV (JSON Schema Validator)
-        run: npm install -g ajv-cli ajv-formats
-
-      - name: Validate Manifest
-        continue-on-error: true
+      - name: Validate JSON files
         run: |
-          echo "::group::Validating manifest.json"
-          ajv validate \
-            -s schemas/manifest.schema.json \
-            -d data/meta/manifest.json \
-            --strict=false \
-            --allow-union-types \
-            || echo "::warning file=data/meta/manifest.json::Validation failed for manifest.json"
-          echo "::endgroup::"
-
-      - name: Validate Watchlists
-        continue-on-error: true
-        run: |
-          echo "::group::Validating watchlist files"
-          for file in data/watchlists/*.json; do
-            echo "Validating $file..."
-            ajv validate \
-              -s schemas/watchlist.schema.json \
-              -d "$file" \
-              --strict=false \
-              --allow-union-types \
-              || echo "::warning file=$file::Validation failed for $file"
+          find data -name '*.json' | while read f; do
+            python3 -m json.tool "$f" > /dev/null && echo "✓ $f" || { echo "✗ $f"; exit 1; }
           done
-          echo "::endgroup::"
-
-      - name: Validate Transactions
-        continue-on-error: true
-        run: |
-          echo "::group::Validating transactions.json"
-          if [ -f data/journal/transactions.json ]; then
-            ajv validate \
-              -s schemas/transactions.schema.json \
-              -d data/journal/transactions.json \
-              --strict=false \
-              --allow-union-types \
-              || echo "::warning file=data/journal/transactions.json::Validation failed for transactions.json"
-          else
-            echo "transactions.json not found, skipping"
-          fi
-          echo "::endgroup::"
-
-      - name: Validate Positions
-        continue-on-error: true
-        run: |
-          echo "::group::Validating positions.json"
-          if [ -f data/journal/positions.json ]; then
-            ajv validate \
-              -s schemas/positions.schema.json \
-              -d data/journal/positions.json \
-              --strict=false \
-              --allow-union-types \
-              || echo "::warning file=data/journal/positions.json::Validation failed for positions.json"
-          else
-            echo "positions.json not found, skipping"
-          fi
-          echo "::endgroup::"
-
-      - name: Summary
-        run: |
-          echo "::notice::JSON validation complete. Check warnings above for any schema violations."
-          echo "::notice::This workflow does not block merges - warnings are informational only."
