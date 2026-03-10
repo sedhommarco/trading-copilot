@@ -1,0 +1,116 @@
+import { Trade } from '../types';
+import { isFxMetalSymbol } from '../api';
+import {
+  getConfidenceLabel,
+  getConfidenceBadgeClass,
+  getTradeAge,
+  calcEntryPrice,
+  calcRiskReward,
+  fmt,
+} from '../utils/trade';
+import LivePriceRow from './LivePriceRow';
+import SparklineChart from './SparklineChart';
+
+interface Props {
+  trade: Trade;
+  lastUpdated?: string;
+}
+
+export default function TradeCard({ trade, lastUpdated }: Props) {
+  const ticker = trade.ticker ?? trade.symbol ?? trade.instrument ?? 'N/A';
+  const company = trade.company_name ?? trade.company ?? trade.name ?? '';
+  const direction = (trade.direction ?? 'LONG').toUpperCase();
+  const confidenceLabel = getConfidenceLabel(trade);
+  const confidenceClass = getConfidenceBadgeClass(trade);
+  const { isStale, daysOld } = getTradeAge(trade, lastUpdated);
+
+  const entry = calcEntryPrice(trade);
+  const stop = trade.stop_loss ?? 0;
+  const target = trade.take_profit ?? 0;
+  const rrRatio = calcRiskReward(entry, stop, target);
+  const timeframe = trade.expected_holding_days ? `${trade.expected_holding_days}d` : 'N/A';
+  const riskPct = trade.risk_pct ?? trade.risk_percent ?? null;
+  const isFx = isFxMetalSymbol(ticker);
+
+  return (
+    <div className={`trade-card${isStale ? ' stale' : ''}`}>
+      {isStale && daysOld != null && (
+        <div className="stale-badge">
+          ⏰ {daysOld}d old (expected {trade.expected_holding_days ?? 7}d)
+        </div>
+      )}
+
+      <div className="card-header">
+        <div>
+          <div className="card-title">{ticker}</div>
+          {company && <div className="card-name">{company}</div>}
+          {isFx && <SparklineChart symbol={ticker} />}
+        </div>
+        <span className={confidenceClass}>{confidenceLabel.toUpperCase()}</span>
+      </div>
+
+      <LivePriceRow ticker={ticker} entryPrice={entry} direction={direction} />
+
+      <div className="card-meta-row">
+        <span className={`card-meta-item ${direction === 'LONG' ? 'long' : 'short'}`}>
+          {direction}
+        </span>
+        <span className="card-meta-item">{timeframe}</span>
+        {riskPct != null && (
+          <span className="card-meta-item">{(riskPct * 100).toFixed(1)}% risk</span>
+        )}
+        <span className="card-meta-item">R:R {rrRatio}</span>
+      </div>
+
+      <div className="card-metrics">
+        <div>
+          <div className="metric-label">Entry</div>
+          <div className="metric-value">{fmt(entry)}</div>
+        </div>
+        <div>
+          <div className="metric-label">Target</div>
+          <div className="metric-value" style={{ color: 'var(--color-success)' }}>{fmt(target)}</div>
+        </div>
+        <div>
+          <div className="metric-label">Stop Loss</div>
+          <div className="metric-value" style={{ color: 'var(--color-danger)' }}>{fmt(stop)}</div>
+        </div>
+        {trade.earnings_date && (
+          <div>
+            <div className="metric-label">Earnings</div>
+            <div className="metric-value">{trade.earnings_date}</div>
+          </div>
+        )}
+      </div>
+
+      {(trade.rationale || trade.trade_setup || trade.entry_trigger || trade.crash_date) && (
+        <div className="card-details">
+          {trade.rationale && (
+            <div className="detail-section">
+              <h4>Rationale</h4>
+              <p>{trade.rationale}</p>
+            </div>
+          )}
+          {trade.trade_setup && (
+            <div className="detail-section">
+              <h4>Setup</h4>
+              <p>{trade.trade_setup}</p>
+            </div>
+          )}
+          {trade.entry_trigger && (
+            <div className="detail-section">
+              <h4>Entry Trigger</h4>
+              <p>{trade.entry_trigger}</p>
+            </div>
+          )}
+          {trade.crash_date && (
+            <div className="detail-section">
+              <h4>Crash Details</h4>
+              <p>Date: {trade.crash_date} · Drop: {trade.drop_percent}%</p>
+            </div>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
