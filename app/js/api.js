@@ -25,7 +25,8 @@ const coinloreIds = {
   'ADA': '257',
   'MATIC': '44870',
   'DOT': '9295',
-  'AVAX': '44883'
+  'AVAX': '44883',
+  'XRP': '58'
 };
 
 export function isCryptoTicker(ticker) {
@@ -147,89 +148,36 @@ export async function fetchFxMetalHistory(symbol) {
 }
 
 // ============================================================================
-// EQUITY PRICE API (Yahoo Finance)
-// Uses the unofficial chart endpoint — no API key, CORS-friendly from browser
-// Swap interface: replace fetchYahooPrice with any other provider without
-// touching the unified fetchLivePrice dispatcher below.
+// EQUITY PRICE API — DISABLED in vanilla SPA
+// Yahoo Finance's chart endpoint blocks browser requests with CORS.
+// This function is preserved for the React/Vite phase where calls will be
+// proxied via a small backend or serverless function.
 // ============================================================================
 
 /**
- * Non-equity, non-FX tickers that should NOT go to Yahoo Finance.
- * Equity indices and commodities traded as CFDs (US500, NAS100, USOIL, DE40)
- * have no Yahoo Finance listing — skip live price for these.
+ * @deprecated Do not call directly from browser — CORS blocked.
+ * Re-enable in React/Vite phase via backend proxy.
  */
-const YAHOO_UNSUPPORTED = new Set([
-  'US500', 'NAS100', 'DE40', 'USOIL',
-  'BTC-USD', 'SOL-USD' // pair-trade legs expressed as Yahoo symbols — handled by Coinlore instead
-]);
-
-const equityPriceCache = {};
-const EQUITY_CACHE_TTL = 5 * 60 * 1000;
+export async function fetchYahooPrice(_ticker) {
+  // CORS-blocked on GitHub Pages; disabled until backend proxy is available.
+  return null;
+}
 
 /**
- * Returns true if ticker should be routed to Yahoo Finance.
- * Residual: not crypto, not FX/metal, not a known CFD index/commodity.
+ * Returns true if ticker is a known equity (not crypto, not FX/metal).
+ * Kept for future use in React/Vite phase.
  */
 export function isEquityTicker(ticker) {
   if (!ticker) return false;
   const upper = ticker.toUpperCase();
-  return !isCryptoTicker(upper) && !isFxMetalSymbol(upper) && !YAHOO_UNSUPPORTED.has(upper);
-}
-
-/**
- * Fetch live equity price from Yahoo Finance chart API.
- * Returns { price, change, changePct, currency } or null on failure.
- * @param {string} ticker - Standard equity ticker (e.g. "AAPL", "AVGO", "NVO")
- */
-export async function fetchYahooPrice(ticker) {
-  const upperTicker = ticker.toUpperCase();
-
-  const now = Date.now();
-  if (equityPriceCache[upperTicker] && (now - equityPriceCache[upperTicker].timestamp < EQUITY_CACHE_TTL)) {
-    return equityPriceCache[upperTicker].data;
-  }
-
-  try {
-    // Yahoo Finance unofficial chart endpoint — returns JSON, CORS-allowed from browsers
-    const url = `https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(ticker)}?interval=1d&range=1d`;
-    const response = await fetch(url, {
-      headers: { 'Accept': 'application/json' }
-    });
-
-    if (!response.ok) throw new Error(`HTTP ${response.status}`);
-
-    const json = await response.json();
-    const result = json?.chart?.result?.[0];
-    if (!result) throw new Error('No result in Yahoo Finance response');
-
-    const meta = result.meta;
-    const price = meta.regularMarketPrice ?? meta.previousClose;
-    const prevClose = meta.chartPreviousClose ?? meta.previousClose;
-    const currency = meta.currency ?? 'USD';
-
-    if (price == null || isNaN(price)) throw new Error('Invalid price in Yahoo Finance response');
-
-    const change = prevClose ? price - prevClose : null;
-    const changePct = prevClose ? ((price - prevClose) / prevClose) * 100 : null;
-
-    const data = { price, change, changePct, currency, source: 'yahoo' };
-    equityPriceCache[upperTicker] = { data, timestamp: now };
-    return data;
-  } catch (error) {
-    console.error(`Yahoo Finance fetch failed for ${ticker}:`, error);
-    return null;
-  }
+  return !isCryptoTicker(upper) && !isFxMetalSymbol(upper);
 }
 
 // ============================================================================
 // UNIFIED LIVE PRICE DISPATCHER
+// Crypto → Coinlore | FX/metals → fawazahmed0 | Equities → skipped (CORS)
 // ============================================================================
 
-/**
- * Fetch live price for any ticker/symbol.
- * Routes: crypto → Coinlore | FX/metals → fawazahmed0 | equity → Yahoo Finance
- * Returns null (not thrown) for unsupported or failed tickers.
- */
 export async function fetchLivePrice(tickerOrSymbol) {
   if (isCryptoTicker(tickerOrSymbol)) {
     const result = await fetchCryptoPrice(tickerOrSymbol);
@@ -239,9 +187,7 @@ export async function fetchLivePrice(tickerOrSymbol) {
     const result = await fetchFxMetalPrice(tickerOrSymbol);
     return result ? { ...result, source: 'fawazahmed0' } : null;
   }
-  if (isEquityTicker(tickerOrSymbol)) {
-    return await fetchYahooPrice(tickerOrSymbol); // already includes source: 'yahoo'
-  }
-  console.warn(`fetchLivePrice: unsupported ticker/symbol — ${tickerOrSymbol}`);
+  // Equities: no live price in vanilla SPA — silently return null.
+  // Yahoo Finance will be re-wired via backend proxy in React/Vite phase.
   return null;
 }

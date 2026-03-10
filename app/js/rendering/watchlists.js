@@ -9,8 +9,7 @@ import {
   renderTradeCard,
   renderPairTradeCard,
   renderMacroEventCard,
-  loadLivePrices,
-  loadSparklines
+  loadLivePrices
 } from './cards.js';
 
 const STRATEGY_NAMES = {
@@ -32,39 +31,11 @@ export function renderWatchlist(name, data) {
   const strategyCode = data.strategy || data.strategy_name || '';
   const strategyName = STRATEGY_NAMES[strategyCode] || strategyCode || 'Trading Strategy';
   const description = data.description || '';
-  const lastUpdated = data.last_updated || 'N/A';
-
-  let strategyInfoHtml = '';
-  if (data.strategy_description || data.strategy_confidence || data.strategy_risks) {
-    strategyInfoHtml = `
-      <div class="strategy-info">
-        <h4>Strategy Overview</h4>
-        ${data.strategy_description ? `<p>${data.strategy_description}</p>` : ''}
-        <div class="strategy-info-grid">
-          ${data.strategy_confidence ? `
-          <div>
-            <div style="font-size: 0.75rem; color: var(--color-text-muted); margin-bottom: 0.25rem;">Strategy Confidence</div>
-            <div style="font-weight: 600;">${data.strategy_confidence}</div>
-          </div>` : ''}
-          ${data.strategy_risks ? `
-          <div>
-            <div style="font-size: 0.75rem; color: var(--color-text-muted); margin-bottom: 0.25rem;">Key Risks</div>
-            <div>${data.strategy_risks}</div>
-          </div>` : ''}
-        </div>
-      </div>
-    `;
-  }
 
   const header = `
     <div class="watchlist-header">
       <h2>${strategyName}</h2>
-      ${description ? `<p style="color: var(--color-text-secondary);">${description}</p>` : ''}
-      <div class="watchlist-meta">
-        <span>📅 Last updated: ${lastUpdated}</span>
-        <span>🎯 Trades: ${trades.length}</span>
-      </div>
-      ${strategyInfoHtml}
+      ${description ? `<p style="color: var(--color-text-secondary); margin-top: 0.25rem;">${description}</p>` : ''}
     </div>
   `;
 
@@ -83,9 +54,7 @@ export function renderWatchlist(name, data) {
 
   if (!container.dataset.livePricesLoaded) {
     container.dataset.livePricesLoaded = 'true';
-    Promise.all([loadLivePrices(), loadSparklines()]).catch(err =>
-      console.error('Failed to load live data:', err)
-    );
+    loadLivePrices().catch(err => console.error('Failed to load live prices:', err));
   }
 }
 

@@ -95,8 +95,8 @@ trading-copilot/
 - The SPA loads JSON from `data/` at runtime (no backend)
 - On each Trading Copilot refresh, watchlist files are **overwritten in place** — no archival
 - The app renders opportunity cards per strategy tab
-- Live prices are fetched from Yahoo Finance at page load (no refresh button needed)
 - The user refreshes the browser to get the latest data
+- **Live prices (vanilla SPA):** crypto via Coinlore, FX/metals via fawazahmed0. Equities have no live price in the vanilla app — Yahoo Finance blocks browser requests via CORS. Equity live prices will be added in the React/Vite phase via a backend proxy.
 
 ---
 
@@ -106,13 +106,13 @@ Each opportunity card renders:
 
 ```
 [ STALE badge ]                      (only when data is outdated)
-[ TICKER ]         [ sparkline □ ]   (sparkline in bordered rect with grid)
-[ Full instrument name ]
-[ Live price — e.g. 178.25 USD ]
+[ TICKER ]                           (large, bold)
+[ Full instrument name ]             (muted, smaller)
+[ Live price · 24h% · vs entry% ]   (crypto + FX/metals only in vanilla)
 ─────────────────────────────────
-Direction | Timeframe | Confidence
-Risk: 1–2% of capital  |  R:R: 1:3
-Catalyst / notes
+[ LONG/SHORT ] [ Xd ] [ Y% risk ] [ R:R 1:N ]
+Entry / Target / Stop Loss / Earnings date
+Rationale / Setup / Entry Trigger
 ```
 
 **Not in cards:** strategy description line, week range, trade counts, favourites/stars, position sizes.
@@ -129,20 +129,25 @@ Catalyst / notes
 
 ## Technical Backlog
 
-### In Progress (Phase 1–4 refactor, March 2026)
+### Completed (March 2026)
 
 - [x] Phase 0: Clarification and plan (confirmed 2026-03-10)
-- [x] Phase 1: Docs refactor (this commit)
-- [ ] Phase 2: Data and schema clean-up (delete archive, journal, tools; move schemas)
-- [ ] Phase 3: SPA UI/UX redesign (new card layout, remove journal tab, status bar)
-- [ ] Phase 4: Live prices (Yahoo Finance), sparklines, GitHub Actions CI/CD
+- [x] Phase 1: Docs refactor — INSTRUCTIONS.DEV, INSTRUCTIONS.TRADING, README, docs/index.md
+- [x] Phase 2: Data and schema clean-up — deleted archive, journal, tools; moved schemas to data/schemas/
+- [x] Phase 3: SPA clean-up — removed journal tab, status bar, dead JS/CSS
+- [x] Phase 4: Live prices wired — crypto (Coinlore) + FX/metals (fawazahmed0) working; equities deferred (CORS)
+- [x] Phase 4b: Polish — removed header meta line, minimal footer, new card layout, disabled Yahoo CORS errors, added XRP to Coinlore map
 
-### Future (post-Vite migration)
+### Next (Phase 5 — React + Vite migration)
 
-- Migrate SPA to React + TypeScript + Vite
-- Add dark theme with preserved color palette
-- TypeScript strict mode
+- Scaffold Vite + React + TypeScript
+- Port all 6 rendering modules as React components
+- Preserve dark theme via CSS variables (unchanged color palette)
+- Wire `api.js` as a plain utility module (no rewrite needed)
+- Re-enable equity live prices via backend proxy or serverless function
+- Add sparklines / mini charts for all asset classes
 - ESLint + Prettier
+- TypeScript strict mode
 - Minimal smoke tests for critical render paths
 
 ---

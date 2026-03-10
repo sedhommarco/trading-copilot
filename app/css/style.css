@@ -103,38 +103,6 @@ h1 {
   font-size: 1.5rem;
 }
 
-.strategy-info {
-  background: var(--color-bg-tertiary);
-  border: 1px solid var(--color-border);
-  border-radius: 6px;
-  padding: 1rem;
-  margin-top: 1rem;
-  font-size: 0.875rem;
-}
-
-.strategy-info h4 {
-  color: var(--color-accent);
-  font-size: 0.875rem;
-  text-transform: uppercase;
-  margin-bottom: 0.5rem;
-}
-
-.strategy-info-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 0.75rem;
-  margin-top: 0.75rem;
-}
-
-.watchlist-meta {
-  display: flex;
-  gap: 1.5rem;
-  flex-wrap: wrap;
-  font-size: 0.875rem;
-  color: var(--color-text-secondary);
-  margin-top: 0.75rem;
-}
-
 .cards-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
@@ -175,41 +143,40 @@ h1 {
   font-weight: 600;
 }
 
+/* Live price — inline, not a box */
 .live-price-row {
-  background: rgba(56, 189, 248, 0.05);
-  padding: 0.5rem;
-  border-radius: 4px;
-  border: 1px solid rgba(56, 189, 248, 0.2);
-}
-
-.live-price-loading {
-  color: var(--color-text-muted);
-  font-size: 0.875rem;
-  font-style: italic;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 0.375rem 0;
+  border-bottom: 1px solid var(--color-border);
+  margin-bottom: 0.5rem;
 }
 
 .live-price-error {
-  color: var(--color-danger);
-  font-size: 0.875rem;
+  color: var(--color-text-muted);
+  font-size: 0.8125rem;
+  font-style: italic;
 }
 
 .card-header-static {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  margin-bottom: 1rem;
+  margin-bottom: 0.75rem;
 }
 
 .card-title {
-  font-size: 1.25rem;
-  font-weight: 600;
+  font-size: 1.375rem;
+  font-weight: 700;
   color: var(--color-text-primary);
+  letter-spacing: 0.01em;
 }
 
-.card-ticker {
+.card-name {
   font-size: 0.875rem;
-  color: var(--color-text-muted);
-  margin-top: 0.25rem;
+  color: var(--color-text-secondary);
+  margin-top: 0.2rem;
 }
 
 .confidence-badge {
@@ -232,11 +199,37 @@ h1 {
   color: var(--color-text-muted);
 }
 
+/* Compact direction / timeframe / confidence row */
+.card-meta-row {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.75rem;
+  font-size: 0.8125rem;
+}
+
+.card-meta-item {
+  background: var(--color-bg-tertiary);
+  border-radius: 4px;
+  padding: 0.2rem 0.5rem;
+  color: var(--color-text-secondary);
+}
+
+.card-meta-item.direction-long {
+  color: var(--color-success);
+  background: rgba(34, 197, 94, 0.1);
+}
+
+.card-meta-item.direction-short {
+  color: var(--color-danger);
+  background: rgba(239, 68, 68, 0.1);
+}
+
 .card-summary {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
-  margin-bottom: 1rem;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
   font-size: 0.875rem;
 }
 
@@ -247,7 +240,7 @@ h1 {
 }
 
 .detail-section {
-  margin-bottom: 1rem;
+  margin-bottom: 0.875rem;
 }
 
 .detail-section:last-child {
@@ -258,7 +251,8 @@ h1 {
   font-size: 0.75rem;
   color: var(--color-text-muted);
   text-transform: uppercase;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.4rem;
+  letter-spacing: 0.05em;
 }
 
 .detail-section p {
@@ -286,7 +280,7 @@ h1 {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 0.75rem;
-  padding-top: 1rem;
+  padding-top: 0.75rem;
   border-top: 1px solid var(--color-border);
   font-size: 0.875rem;
 }
@@ -299,7 +293,7 @@ h1 {
 .metric-label {
   color: var(--color-text-muted);
   font-size: 0.75rem;
-  margin-bottom: 0.25rem;
+  margin-bottom: 0.2rem;
 }
 
 .metric-value {
@@ -501,25 +495,18 @@ h1 {
   line-height: 1.5;
 }
 
-footer {
-  background: var(--color-bg-secondary);
-  border: 1px solid var(--color-border);
-  border-radius: 8px;
-  padding: 1.5rem;
-  margin-top: 2rem;
-  font-size: 0.875rem;
-  color: var(--color-text-secondary);
+/* Minimal site footer */
+.site-footer {
+  margin-top: 2.5rem;
+  padding: 0.75rem 0 1rem;
+  text-align: center;
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  border-top: 1px solid var(--color-border);
 }
 
-footer h3 {
-  color: var(--color-danger);
-  font-size: 1rem;
-  margin-bottom: 0.75rem;
-}
-
-footer p {
-  line-height: 1.6;
-  margin-bottom: 0.5rem;
+.site-footer p {
+  margin: 0.2rem 0;
 }
 
 @media (max-width: 768px) {
