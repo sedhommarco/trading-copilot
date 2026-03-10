@@ -1,6 +1,5 @@
 import { useMemo } from 'react';
-import { TabId } from '../App';
-import { WatchlistData, AnyTrade } from '../types';
+import { TabId, WatchlistData, AnyTrade } from '../types';
 import { getConfidenceScore, isPairTrade, isMacroEvent } from '../utils/trade';
 import TradeCard from './TradeCard';
 import PairTradeCard from './PairTradeCard';
@@ -21,7 +20,7 @@ interface Props {
   active: boolean;
 }
 
-export default function WatchlistPanel({ watchlistData, active }: Props) {
+export default function WatchlistPanel({ tabId: _tabId, watchlistData, active }: Props) {
   const trades = useMemo(() => {
     const raw: AnyTrade[] = [
       ...(watchlistData?.opportunities ?? []),
@@ -36,25 +35,24 @@ export default function WatchlistPanel({ watchlistData, active }: Props) {
   const stratCode = watchlistData?.strategy ?? watchlistData?.strategy_name ?? '';
   const stratName = STRATEGY_NAMES[stratCode] ?? stratCode ?? 'Trading Strategy';
   const description = watchlistData?.description;
-  const lastUpdated = watchlistData?.last_updated;
 
   return (
-    <div>
+    <section className="watchlist-panel">
       <div className="watchlist-header">
         <h2>{stratName}</h2>
-        {description && <p>{description}</p>}
+        {description && <p className="watchlist-description">{description}</p>}
       </div>
       <div className="cards-grid">
         {trades.map((trade, i) => {
           if (isPairTrade(trade)) {
-            return <PairTradeCard key={i} trade={trade} lastUpdated={lastUpdated} />;
+            return <PairTradeCard key={i} trade={trade} />;
           }
           if (isMacroEvent(trade)) {
-            return <MacroEventCard key={i} trade={trade as import('../types').MacroEvent} />;
+            return <MacroEventCard key={i} trade={trade} />;
           }
-          return <TradeCard key={i} trade={trade as import('../types').Trade} lastUpdated={lastUpdated} />;
+          return <TradeCard key={i} trade={trade} lastUpdated={watchlistData?.last_updated} />;
         })}
       </div>
-    </div>
+    </section>
   );
 }
