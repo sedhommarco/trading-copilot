@@ -32,16 +32,8 @@ export default function WatchlistPanel({ tabId: _tabId, watchlistData, active }:
 
   if (!active) return null;
 
-  const stratCode = watchlistData?.strategy ?? watchlistData?.strategy_name ?? '';
-  const stratName = STRATEGY_NAMES[stratCode] ?? stratCode ?? 'Trading Strategy';
-  const description = watchlistData?.description;
-
   return (
     <section className="watchlist-panel">
-      <div className="watchlist-header">
-        <h2>{stratName}</h2>
-        {description && <p className="watchlist-description">{description}</p>}
-      </div>
       <div className="cards-grid">
         {trades.map((trade, i) => {
           if (isPairTrade(trade)) {
