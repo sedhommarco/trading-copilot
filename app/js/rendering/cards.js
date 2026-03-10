@@ -3,8 +3,7 @@
  */
 
 import { formatNumber } from '../config.js';
-import { fetchLivePrice, isCryptoTicker, isFxMetalSymbol, isEquityTicker } from '../api.js';
-import { renderSparkline } from './sparkline.js';
+import { fetchLivePrice, isCryptoTicker, isFxMetalSymbol } from '../api.js';
 
 export function normalizeTradeData(trade) {
   const normalized = { ...trade };
@@ -60,31 +59,26 @@ export function calculateTradeAge(trade, watchlistData = {}) {
   return { daysOld, isStale, staleBadge };
 }
 
+/**
+ * Live price is supported only for crypto (Coinlore) and FX/metals (fawazahmed0).
+ * Equities via Yahoo Finance are blocked by CORS on GitHub Pages.
+ * Yahoo will be re-enabled via a backend proxy in the React/Vite phase.
+ */
 function supportsLivePrice(ticker) {
-  return isCryptoTicker(ticker) || isFxMetalSymbol(ticker) || isEquityTicker(ticker);
+  return isCryptoTicker(ticker) || isFxMetalSymbol(ticker);
 }
 
 function generateLivePriceRow(ticker, entryPrice, direction) {
   if (!supportsLivePrice(ticker)) return '';
   return `
-    <div class="info-row live-price-row"
+    <div class="live-price-row"
          data-ticker="${ticker}"
          data-entry="${entryPrice}"
          data-direction="${direction}">
       <span class="info-label">Live Price</span>
-      <span class="info-value live-price-value">
-        <span class="live-price-loading">⌛ Loading...</span>
+      <span class="live-price-value">
+        <span style="color: var(--color-text-muted); font-size: 0.8125rem;">Loading…</span>
       </span>
-    </div>
-  `;
-}
-
-function generateSparklinePlaceholder(ticker) {
-  if (!isFxMetalSymbol(ticker)) return '';
-  return `
-    <div class="sparkline-container" data-symbol="${ticker}">
-      <span class="info-label">7d Trend:</span>
-      <span class="sparkline-placeholder"></span>
     </div>
   `;
 }
@@ -111,61 +105,56 @@ export function renderTradeCard(trade, watchlistData = {}) {
   if (entry > 0 && stopLoss > 0 && target > 0) {
     const risk = Math.abs(entry - stopLoss);
     const reward = Math.abs(target - entry);
-    riskRewardRatio = risk > 0 ? `1:${(reward / risk).toFixed(2)}` : 'N/A';
+    riskRewardRatio = risk > 0 ? `1:${(reward / risk).toFixed(1)}` : 'N/A';
   }
 
   const timeframe = trade.expected_holding_days ? `${trade.expected_holding_days}d` : 'N/A';
   const earningsDate = trade.earnings_date || null;
   const riskPct = trade.risk_pct ?? trade.risk_percent ?? null;
+  const riskPctDisplay = riskPct != null
+    ? `${(riskPct * 100).toFixed(1)}% risk`
+    : null;
   const staleClass = isStale ? 'trade-card-stale' : '';
+
+  const directionClass = direction === 'LONG' ? 'direction-long' : 'direction-short';
 
   return `
     <div class="trade-card ${staleClass}">
+
+      ${staleBadge ? `<div style="margin-bottom: 0.5rem;">${staleBadge}</div>` : ''}
+
       <div class="card-header-static">
         <div>
-          <div class="card-title">
-            ${ticker}
-            ${generateSparklinePlaceholder(ticker)}
-          </div>
-          <div class="card-ticker">${company}</div>
-          ${staleBadge}
+          <div class="card-title">${ticker}</div>
+          ${company ? `<div class="card-name">${company}</div>` : ''}
         </div>
         <div class="confidence-badge ${confidenceClass}">${confidenceDisplay.toUpperCase()}</div>
       </div>
 
-      <div class="card-summary">
-        <div class="info-row">
-          <span class="info-label">Direction</span>
-          <span class="info-value" style="color: ${direction === 'LONG' ? 'var(--color-success)' : 'var(--color-danger)'}">${direction}</span>
-        </div>
-        ${generateLivePriceRow(ticker, entry, direction)}
-        ${earningsDate ? `
-        <div class="info-row">
-          <span class="info-label">Earnings</span>
-          <span class="info-value">${earningsDate}</span>
-        </div>` : ''}
-        ${riskPct != null ? `
-        <div class="info-row">
-          <span class="info-label">Risk %</span>
-          <span class="info-value">${(riskPct * 100).toFixed(1)}%</span>
-        </div>` : ''}
+      ${generateLivePriceRow(ticker, entry, direction)}
+
+      <div class="card-meta-row">
+        <span class="card-meta-item ${directionClass}">${direction}</span>
+        <span class="card-meta-item">${timeframe}</span>
+        ${riskPctDisplay ? `<span class="card-meta-item">${riskPctDisplay}</span>` : ''}
+        <span class="card-meta-item">R:R ${riskRewardRatio}</span>
       </div>
 
       <div class="card-metrics">
         <div class="metric"><div class="metric-label">Entry</div><div class="metric-value">$${entry > 0 ? formatNumber(entry, 2) : 'N/A'}</div></div>
         <div class="metric"><div class="metric-label">Target</div><div class="metric-value" style="color: var(--color-success)">$${target > 0 ? formatNumber(target, 2) : 'N/A'}</div></div>
         <div class="metric"><div class="metric-label">Stop Loss</div><div class="metric-value" style="color: var(--color-danger)">$${stopLoss > 0 ? formatNumber(stopLoss, 2) : 'N/A'}</div></div>
-        <div class="metric"><div class="metric-label">Risk:Reward</div><div class="metric-value">${riskRewardRatio}</div></div>
-        <div class="metric"><div class="metric-label">Timeframe</div><div class="metric-value">${timeframe}</div></div>
+        ${earningsDate ? `<div class="metric"><div class="metric-label">Earnings</div><div class="metric-value">${earningsDate}</div></div>` : ''}
       </div>
 
       ${trade.rationale || trade.trade_setup || trade.entry_trigger || trade.crash_date ? `
       <div class="card-details-always-visible">
-        ${trade.rationale ? `<div class="detail-section"><h4>Full Rationale</h4><p>${trade.rationale}</p></div>` : ''}
-        ${trade.trade_setup ? `<div class="detail-section"><h4>Trade Setup</h4><p>${trade.trade_setup}</p></div>` : ''}
+        ${trade.rationale ? `<div class="detail-section"><h4>Rationale</h4><p>${trade.rationale}</p></div>` : ''}
+        ${trade.trade_setup ? `<div class="detail-section"><h4>Setup</h4><p>${trade.trade_setup}</p></div>` : ''}
         ${trade.entry_trigger ? `<div class="detail-section"><h4>Entry Trigger</h4><p>${trade.entry_trigger}</p></div>` : ''}
-        ${trade.crash_date ? `<div class="detail-section"><h4>Crash Details</h4><p>Date: ${trade.crash_date}<br>Drop: ${trade.drop_percent}%</p></div>` : ''}
+        ${trade.crash_date ? `<div class="detail-section"><h4>Crash Details</h4><p>Date: ${trade.crash_date} · Drop: ${trade.drop_percent}%</p></div>` : ''}
       </div>` : ''}
+
     </div>
   `;
 }
@@ -184,21 +173,23 @@ export function renderPairTradeCard(trade, watchlistData = {}) {
 
   return `
     <div class="trade-card ${staleClass}">
+      ${staleBadge ? `<div style="margin-bottom: 0.5rem;">${staleBadge}</div>` : ''}
       <div class="card-header-static">
         <div>
           <div class="card-title">${longTicker} / ${shortTicker}</div>
-          <div class="card-ticker">Pair Trade</div>
-          ${staleBadge}
+          <div class="card-name">Pair Trade</div>
         </div>
         <div class="confidence-badge ${confidenceClass}">${confidenceDisplay.toUpperCase()}</div>
       </div>
-      <div class="card-summary">
-        <div class="info-row"><span class="info-label">Long</span><span class="info-value" style="color: var(--color-success)">${longTicker} @ $${longEntry > 0 ? formatNumber(longEntry, 2) : 'N/A'}</span></div>
-        <div class="info-row"><span class="info-label">Short</span><span class="info-value" style="color: var(--color-danger)">${shortTicker} @ $${shortEntry > 0 ? formatNumber(shortEntry, 2) : 'N/A'}</span></div>
-        <div class="info-row"><span class="info-label">Spread Target</span><span class="info-value">${spreadTarget}</span></div>
+      <div class="card-meta-row">
+        <span class="card-meta-item direction-long">LONG ${longTicker}</span>
+        <span class="card-meta-item direction-short">SHORT ${shortTicker}</span>
+        <span class="card-meta-item">${timeframe}</span>
       </div>
       <div class="card-metrics">
-        <div class="metric"><div class="metric-label">Timeframe</div><div class="metric-value">${timeframe}</div></div>
+        <div class="metric"><div class="metric-label">Long Entry</div><div class="metric-value">$${longEntry > 0 ? formatNumber(longEntry, 2) : 'N/A'}</div></div>
+        <div class="metric"><div class="metric-label">Short Entry</div><div class="metric-value">$${shortEntry > 0 ? formatNumber(shortEntry, 2) : 'N/A'}</div></div>
+        <div class="metric"><div class="metric-label">Spread Target</div><div class="metric-value">${spreadTarget}</div></div>
         <div class="metric"><div class="metric-label">Long Stop</div><div class="metric-value">$${trade.long_stop ? formatNumber(trade.long_stop, 2) : 'N/A'}</div></div>
         <div class="metric"><div class="metric-label">Short Stop</div><div class="metric-value">$${trade.short_stop ? formatNumber(trade.short_stop, 2) : 'N/A'}</div></div>
       </div>
@@ -233,27 +224,29 @@ export function renderMacroEventCard(trade, watchlistData = {}) {
 
   return `
     <div class="trade-card ${isPast ? 'trade-card-stale' : ''}">
+      ${pastBadge ? `<div style="margin-bottom: 0.5rem;">${pastBadge}</div>` : ''}
       <div class="card-header-static">
         <div>
           <div class="card-title">${eventName}</div>
-          <div class="card-ticker">${eventDate} ${eventTime}</div>
-          ${pastBadge}
+          <div class="card-name">${eventDate}${eventTime ? ' · ' + eventTime : ''}</div>
         </div>
         <div class="confidence-badge ${confidenceClass}">${confidenceDisplay.toUpperCase()}</div>
       </div>
-      <div class="card-summary">
-        <div class="info-row"><span class="info-label">Impact</span><span class="info-value confidence-badge ${impactClass}">${impact.toUpperCase()}</span></div>
-        <div class="info-row"><span class="info-label">Trade Setup</span><span class="info-value">${setup}</span></div>
-        <div class="info-row"><span class="info-label">Action</span><span class="info-value">${action.replace(/_/g, ' ')}</span></div>
-        <div class="info-row"><span class="info-label">Instruments</span><span class="info-value">${instruments.join(', ')}</span></div>
+      <div class="card-meta-row">
+        <span class="card-meta-item confidence-badge ${impactClass}">${impact.toUpperCase()} IMPACT</span>
+        <span class="card-meta-item">${action.replace(/_/g, ' ')}</span>
       </div>
-      ${rationale ? `<div class="card-details-always-visible"><div class="detail-section"><h4>Event Analysis</h4><p>${rationale}</p></div></div>` : ''}
+      <div class="card-summary">
+        ${instruments.length ? `<div class="info-row"><span class="info-label">Instruments</span><span class="info-value">${instruments.join(', ')}</span></div>` : ''}
+        <div class="info-row"><span class="info-label">Setup</span><span class="info-value">${setup}</span></div>
+      </div>
+      ${rationale ? `<div class="card-details-always-visible"><div class="detail-section"><h4>Analysis</h4><p>${rationale}</p></div></div>` : ''}
     </div>
   `;
 }
 
 export async function loadLivePrices() {
-  const rows = document.querySelectorAll('.live-price-row');
+  const rows = document.querySelectorAll('[data-ticker]');
   if (!rows.length) return;
 
   for (const row of rows) {
@@ -261,15 +254,16 @@ export async function loadLivePrices() {
     const entryPrice = parseFloat(row.dataset.entry);
     const direction = row.dataset.direction;
     const valueSpan = row.querySelector('.live-price-value');
+    if (!valueSpan) continue;
 
     try {
       const priceData = await fetchLivePrice(ticker);
       if (!priceData) {
-        valueSpan.innerHTML = '<span class="live-price-error">Unavailable</span>';
+        valueSpan.innerHTML = '<span class="live-price-error">—</span>';
         continue;
       }
 
-      const { price: livePrice, change24h, changePct, change, source } = priceData;
+      const { price: livePrice, change24h, source } = priceData;
 
       let vsEntry = 0;
       let vsEntryColor = 'var(--color-text-secondary)';
@@ -280,44 +274,22 @@ export async function loadLivePrices() {
           : (vsEntry <= 0 ? 'var(--color-success)' : 'var(--color-danger)');
       }
 
-      let priceHtml = `<div style="display: flex; flex-direction: column; align-items: flex-end; gap: 0.25rem;">
-        <span style="font-weight: 600;">$${formatNumber(livePrice, 2)}</span>`;
+      let priceHtml = `<span style="font-weight: 600;">$${formatNumber(livePrice, 2)}</span>`;
 
-      // Crypto: show 24h % change
       if (change24h !== undefined && change24h !== null) {
         const icon = change24h >= 0 ? '▲' : '▼';
         const color = change24h >= 0 ? 'var(--color-success)' : 'var(--color-danger)';
-        priceHtml += `<span style="font-size: 0.75rem; color: ${color};">${icon} ${Math.abs(change24h).toFixed(2)}% (24h)</span>`;
+        priceHtml += ` <span style="font-size: 0.75rem; color: ${color};">${icon} ${Math.abs(change24h).toFixed(2)}% 24h</span>`;
       }
 
-      // Equity: show day change and %
-      if (source === 'yahoo' && changePct !== null) {
-        const icon = changePct >= 0 ? '▲' : '▼';
-        const color = changePct >= 0 ? 'var(--color-success)' : 'var(--color-danger)';
-        const changeAbs = change !== null ? ` (${change >= 0 ? '+' : ''}${formatNumber(change, 2)})` : '';
-        priceHtml += `<span style="font-size: 0.75rem; color: ${color};">${icon} ${Math.abs(changePct).toFixed(2)}%${changeAbs} today</span>`;
-      }
-
-      // All: show vs entry
       if (entryPrice > 0) {
-        priceHtml += `<span style="font-size: 0.75rem; color: ${vsEntryColor};">${vsEntry >= 0 ? '+' : ''}${vsEntry.toFixed(2)}% vs entry</span>`;
+        priceHtml += ` <span style="font-size: 0.75rem; color: ${vsEntryColor};">(${vsEntry >= 0 ? '+' : ''}${vsEntry.toFixed(2)}% vs entry)</span>`;
       }
 
-      priceHtml += `</div>`;
       valueSpan.innerHTML = priceHtml;
     } catch (error) {
       console.error(`loadLivePrices failed for ${ticker}:`, error);
-      valueSpan.innerHTML = '<span class="live-price-error">Error</span>';
+      valueSpan.innerHTML = '<span class="live-price-error">—</span>';
     }
-  }
-}
-
-export async function loadSparklines() {
-  const containers = document.querySelectorAll('.sparkline-container');
-  if (!containers.length) return;
-  for (const container of containers) {
-    const symbol = container.dataset.symbol;
-    const placeholder = container.querySelector('.sparkline-placeholder');
-    if (placeholder) await renderSparkline(symbol, placeholder);
   }
 }
