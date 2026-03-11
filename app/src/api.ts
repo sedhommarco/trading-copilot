@@ -129,6 +129,7 @@ const fawazSymbols: Record<string, string> = {
   'CAD/USD': 'cad',
   'AUD/USD': 'aud',
   'NZD/USD': 'nzd',
+  };
   
 
 export function isFxMetalSymbol(symbol: string): boolean {
