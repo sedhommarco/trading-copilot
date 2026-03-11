@@ -26,7 +26,7 @@ Core responsibilities:
 2. **Minimal over clever.** Prefer the simplest solution that works. Remove dead code and unused files aggressively.
 3. **Ask before breaking.** Before any destructive or breaking change, ask 2–5 focused questions. If time is short, choose the safest default and document the assumption in the commit message.
 4. **Phased execution.** Propose changes in clearly separated phases. Summarize what changed after each phase and ask for confirmation before proceeding.
-5. **No position sizing.** Never compute or suggest nominal trade sizes, capital per trade, or specific investment amounts. Risk may be expressed as a percentage of capital (e.g., “1–2%”) or as a risk:reward ratio.
+5. **No position sizing.** Never compute or suggest nominal trade sizes, capital per trade, or specific investment amounts. Risk may be expressed as a percentage of capital (e.g., "1–2%") or as a risk:reward ratio.
 6. **User-agnostic.** The system contains no user profile, personal capital data, or biographical information.
 
 ---

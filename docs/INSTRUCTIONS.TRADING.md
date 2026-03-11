@@ -39,6 +39,8 @@ Trading Copilot uses exactly **5 strategy families**. Each maps to one SPA tab a
 - `strategies/revolut-tools-intraday-swing.md` — platform execution techniques
 - `strategies/cycles-sessions-events.md` — seasonal and calendar timing layer
 
+> **Important:** Execution and calendar overlays do **not** produce separate JSON files, additional top-level arrays, or new schema fields. Their output always flows through the standard `opportunities` array of the relevant strategy family. Overlay guidance influences which opportunities are included, what their `rationale` and `trade_setup` say, and how the Trading Copilot formats entry triggers — nothing more.
+
 ---
 
 ## Refresh Workflow
@@ -77,19 +79,19 @@ All five strategy families share the same base schema. Strategy-specific optiona
 
 ### Field reference
 
-| Field                   | Type                                | Required                         | Notes                                                                           |
-| ----------------------- | ----------------------------------- | -------------------------------- | ------------------------------------------------------------------------------- |
-| `ticker`                | string                              | yes                              | Exchange symbol or instrument code. Use `"N/A"` for pure macro calendar events. |
-| `company_name`          | string                              | yes                              | Full name or event display name                                                 |
-| `direction`             | `"long"` \| `"short"`               | yes (omit for pure macro events) |                                                                                 |
-| `conviction`            | `"high"` \| `"moderate"` \| `"low"` | yes                              | Maps directly to Confidence badge in SPA                                        |
-| `current_price`         | number                              | recommended                      | Snapshot price at time of refresh                                               |
-| `entry_zone`            | string \| number                    | recommended                      | Price range or exact level                                                      |
-| `stop_loss`             | number                              | recommended                      |                                                                                 |
-| `take_profit`           | number                              | recommended                      |                                                                                 |
-| `risk_percent`          | number                              | recommended                      | % of capital at risk                                                            |
-| `expected_holding_days` | number                              | yes                              | Drives stale badge logic in SPA                                                 |
-| `rationale`             | string                              | yes                              | 1-3 sentences                                                                   |
+| Field                   | Type                                | Required                           | Notes                                                                                                                   |
+| ----------------------- | ----------------------------------- | ---------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| `ticker`                | string                              | yes                                | Exchange symbol or instrument code. Use `"N/A"` for pure macro calendar events.                                         |
+| `company_name`          | string                              | yes                                | Full name or event display name                                                                                         |
+| `direction`             | `"long"` \| `"short"`               | yes for Trade; omit for MacroEvent | Direction of the trade                                                                                                  |
+| `conviction`            | `"high"` \| `"moderate"` \| `"low"` | yes                                | Maps directly to Confidence badge in SPA                                                                                |
+| `current_price`         | number                              | recommended                        | Snapshot price at time of refresh                                                                                       |
+| `entry_zone`            | string \| number                    | recommended                        | Price range or exact level                                                                                              |
+| `stop_loss`             | number                              | recommended                        |                                                                                                                         |
+| `take_profit`           | number                              | recommended                        |                                                                                                                         |
+| `risk_percent`          | number (whole integer)              | recommended                        | **Whole integer** percentage of capital at risk. E.g. `2` means 2% of capital. Do **not** use decimal fractions (0.02). |
+| `expected_holding_days` | number                              | yes                                | Drives stale badge logic in SPA                                                                                         |
+| `rationale`             | string                              | yes                                | 1-3 sentences                                                                                                           |
 
 ### Strategy-specific optional fields
 
