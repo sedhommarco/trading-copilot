@@ -31,6 +31,7 @@ export interface AuthUser {
 
 interface AuthContextValue {
   user: AuthUser | null;
+  googleEnabled: boolean;
   signInWithGoogle: () => void;
   signOut: () => void;
 }
@@ -39,6 +40,7 @@ interface AuthContextValue {
 
 const AuthContext = createContext<AuthContextValue>({
   user: null,
+  googleEnabled: false,
   signInWithGoogle: () => {},
   signOut: () => {},
 });
@@ -68,67 +70,78 @@ function persistUser(user: AuthUser | null) {
   }
 }
 
-// ─── Inner provider (needs to be inside GoogleOAuthProvider) ─────────────────
+// ─── Provider with Google (must be inside GoogleOAuthProvider) ────────────────
 
-function AuthProviderInner({ children }: { children: ReactNode }) {
+function AuthProviderWithGoogle({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<AuthUser | null>(loadPersistedUser);
 
-  useEffect(() => {
-    persistUser(user);
-  }, [user]);
+  useEffect(() => { persistUser(user); }, [user]);
 
-  const handleSuccess = useCallback(async (tokenResponse: { access_token: string }) => {
-    try {
-      const res = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
-        headers: { Authorization: `Bearer ${tokenResponse.access_token}` },
-      });
-      const info = await res.json() as {
-        name?: string;
-        email?: string;
-        picture?: string;
-      };
-      const authUser: AuthUser = {
-        name: info.name ?? 'User',
-        email: info.email ?? '',
-        avatarUrl: info.picture,
-      };
-      setUser(authUser);
-    } catch (err) {
-      console.error('Failed to fetch Google user info', err);
-    }
-  }, []);
+  const handleSuccess = useCallback(
+    async (tokenResponse: { access_token: string }) => {
+      try {
+        const res = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
+          headers: { Authorization: `Bearer ${tokenResponse.access_token}` },
+        });
+        const info = (await res.json()) as {
+          name?: string; email?: string; picture?: string;
+        };
+        setUser({ name: info.name ?? 'User', email: info.email ?? '', avatarUrl: info.picture });
+      } catch (err) {
+        console.error('Failed to fetch Google user info', err);
+      }
+    },
+    [],
+  );
 
   const googleLogin = useGoogleLogin({
     onSuccess: handleSuccess,
     onError: (err) => console.error('Google login error', err),
   });
 
-  const signInWithGoogle = useCallback(() => {
-    googleLogin();
-  }, [googleLogin]);
-
-  const signOut = useCallback(() => {
-    googleLogout();
-    setUser(null);
-  }, []);
+  const signInWithGoogle = useCallback(() => googleLogin(), [googleLogin]);
+  const signOut = useCallback(() => { googleLogout(); setUser(null); }, []);
 
   return (
-    <AuthContext.Provider value={{ user, signInWithGoogle, signOut }}>
+    <AuthContext.Provider value={{ user, googleEnabled: true, signInWithGoogle, signOut }}>
       {children}
     </AuthContext.Provider>
   );
 }
 
-// ─── Public AuthProvider (wraps GoogleOAuthProvider) ─────────────────────────
+// ─── Provider without Google (no-op sign-in) ──────────────────────────────
 
-const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID as string | undefined;
+function AuthProviderNoGoogle({ children }: { children: ReactNode }) {
+  const [user, setUser] = useState<AuthUser | null>(loadPersistedUser);
+
+  useEffect(() => { persistUser(user); }, [user]);
+
+  const signOut = useCallback(() => { setUser(null); }, []);
+  const signInWithGoogle = useCallback(() => {
+    console.warn('Google Sign-In not configured. Set VITE_GOOGLE_CLIENT_ID.');
+  }, []);
+
+  return (
+    <AuthContext.Provider value={{ user, googleEnabled: false, signInWithGoogle, signOut }}>
+      {children}
+    </AuthContext.Provider>
+  );
+}
+
+// ─── Public AuthProvider ────────────────────────────────────────────────────────
+
+const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID;
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  return (
-    <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID ?? ''}>
-      <AuthProviderInner>{children}</AuthProviderInner>
-    </GoogleOAuthProvider>
-  );
+  if (GOOGLE_CLIENT_ID) {
+    return (
+      <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
+        <AuthProviderWithGoogle>{children}</AuthProviderWithGoogle>
+      </GoogleOAuthProvider>
+    );
+  }
+  // No Google client ID configured — app still works, sign-in is disabled.
+  return <AuthProviderNoGoogle>{children}</AuthProviderNoGoogle>;
 }
 
 // ─── RequireAuth guard ────────────────────────────────────────────────────────
