@@ -396,7 +396,7 @@ body {
 }
 
 /* info rows (pair/macro cards) */
-.info-row {
+.info-row {   display: flex;   justify-content: space-between;   align-items: flex-start;   gap: 0.5rem;   font-size: 0.875rem;   padding: 0.375rem 0;   flex-wrap: wrap; }   display: flex;   justify-content: space-between;   align-items: flex-start;   gap: 0.5rem;   font-size: 0.875rem;   padding: 0.375rem 0;   flex-wrap: wrap; }
   display: flex;
   justify-content: space-between;
   align-items: center;
