@@ -1,4 +1,4 @@
-import { MacroEvent } from '../types';
+import { MacroEvent, AppSettings } from '../types';
 import {
   getConfidenceLabel,
   getConfidenceBadgeClass,
@@ -8,6 +8,10 @@ import {
 
 interface Props {
   trade: MacroEvent;
+  /** ISO 8601 last_updated string from the watchlist file (passed for API consistency). */
+  lastUpdated?: string;
+  /** App-level display settings (passed for API consistency with TradeCard/PairTradeCard). */
+  settings: AppSettings;
 }
 
 export default function MacroEventCard({ trade }: Props) {
@@ -37,53 +41,46 @@ export default function MacroEventCard({ trade }: Props) {
 
       {/* Line 2: Confidence · Impact on one line (Impact only if present) */}
       <div className="badge-row">
-        <span className={confidenceClass}>{confidenceLabel.toUpperCase()} Confidence</span>
+        <span className={confidenceClass}>
+          {confidenceLabel.toUpperCase()} Confidence
+        </span>
         {impactLabel && (
           <>
-            <span className="badge-separator">·</span>
+            <span className="badge-sep">·</span>
             <span className={impactClass}>{impactLabel} Impact</span>
           </>
         )}
       </div>
 
-      <div className="card-header">
-        <div>
-          <div className="card-title">{eventName}</div>
-          <div className="card-name">
-            {eventDate}{trade.time ? ` · ${trade.time}` : ''}
-          </div>
-        </div>
+      <div className="card-ticker">{eventName}</div>
+      <div className="card-meta">
+        {eventDate}{trade.time ? ` · ${trade.time}` : ''}
       </div>
 
       {trade.recommended_action && (
-        <div className="card-meta-row">
-          <span className="card-meta-item">
-            {trade.recommended_action.replace(/_/g, ' ')}
-          </span>
+        <div className="direction-badge">
+          {trade.recommended_action.replace(/_/g, ' ')}
         </div>
       )}
 
-      <div className="card-metrics" style={{ borderTop: '1px solid var(--color-border)', paddingTop: '0.75rem' }}>
-        {instruments.length > 0 && (
-          <div style={{ gridColumn: '1 / -1' }}>
-            <div className="metric-label">Instruments</div>
-            <div className="metric-value">{instruments.join(', ')}</div>
-          </div>
-        )}
-        {trade.trade_setup && (
-          <div style={{ gridColumn: '1 / -1' }}>
-            <div className="metric-label">Setup</div>
-            <div className="metric-value" style={{ fontWeight: 400, fontSize: '0.875rem' }}>{trade.trade_setup}</div>
-          </div>
-        )}
-      </div>
+      {instruments.length > 0 && (
+        <div className="card-detail">
+          <span className="detail-label">Instruments</span>
+          <span>{instruments.join(', ')}</span>
+        </div>
+      )}
+
+      {trade.trade_setup && (
+        <div className="card-notes">
+          <h4>Setup</h4>
+          <p>{trade.trade_setup}</p>
+        </div>
+      )}
 
       {trade.rationale && (
-        <div className="card-details">
-          <div className="detail-section">
-            <h4>Analysis</h4>
-            <p>{trade.rationale}</p>
-          </div>
+        <div className="card-notes">
+          <h4>Analysis</h4>
+          <p>{trade.rationale}</p>
         </div>
       )}
     </div>
