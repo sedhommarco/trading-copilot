@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://github.com/sedhommarco/trading-copilot/data/schemas/manifest.schema.json",
-  "title": "Trading Copilot Manifest",
+    "title": "Trading A¡dvisor Manifest",
   "description": "Schema for data/meta/manifest.json",
   "type": "object",
   "required": ["ui", "files"],
