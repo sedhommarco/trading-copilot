@@ -28,6 +28,11 @@ const TICKERS = {
   NVO:    'NVO',
   WMT:    'WMT',
   SOXX:   'SOXX',
+    APO: 'APO',
+    RUN: 'RUN',
+    LLY: 'LLY',
+    CRWD: 'CRWD',
+    QQQ: 'QQQ',
   // Indices (Yahoo Finance uses ^ prefix)
   US500:  '^GSPC',
   NAS100: '^NDX',
