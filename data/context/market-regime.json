@@ -6,18 +6,15 @@
   "vix": 19.9,
   "sentiment": "cautiously optimistic",
   "sector_leaders": ["Energy", "Semiconductors", "Communication Services"],
-  "sector_laggards": [
-    "Speculative Tech",
-    "Some Healthtech",
-    "Select Financials"
-  ],
+  "sector_laggards": ["Speculative Tech", "Some Healthtech", "Select Financials"],
   "fed_policy": "data dependent",
   "next_major_catalyst": "US Non-Farm Payrolls (Mar 6)",
   "strategy_adjustments": {
-    "pre_earnings_momentum": "normal operation but reduce size around macro events",
-    "post_crash_rebound": "normal operation focus on liquid names",
-    "volatility_plays": "increase opportunity",
-    "crypto": "small size only sub 3x leverage"
+    "earnings-momentum": "Normal operation but reduce size around macro events; favour long setups on high-conviction names only.",
+    "post-shock": "Normal operation; focus on liquid names with clear fundamental thesis for mean-reversion.",
+    "macro-volatility": "Increased opportunity window; favour volatility event plays around NFP, CPI, ISM; tight stops on directional index trades.",
+    "crypto": "Small size only; sub-3x leverage; BTC above key support, altcoin momentum fragile.",
+    "pair-trades": "Sector rotation active — tech/energy and pharma relative-value pairs most interesting."
   },
   "notes": "S&P 500 near record highs but February finished as only the second losing month in the last ten; VIX just under 20 with elevated geopolitical and macro risk. AI infrastructure remains a key driver of single-name volatility. Jobs data and Iran headlines are primary risk factors this week."
 }
