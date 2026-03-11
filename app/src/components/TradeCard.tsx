@@ -30,10 +30,9 @@ export default function TradeCard({ trade, lastUpdated, settings }: Props) {
   const target = trade.take_profit ?? 0;
   const rrRatio = calcRiskReward(entry, stop, target);
   const timeframe = trade.expected_holding_days ? `${trade.expected_holding_days}d` : 'N/A';
-  const riskPct = trade.risk_pct ?? trade.risk_percent ?? null;
+  // risk_percent is a whole integer, e.g. 3 means "3% of capital"
+  const riskPct = trade.risk_percent ?? null;
 
-  // Show sparkline grid for FX/metals (with data) and crypto (grid only).
-  // Equities: also show grid placeholder. Chart toggle hides the whole container.
   const hasLivePrice = isFxMetalSymbol(ticker) || isCryptoTicker(ticker);
 
   return (
@@ -68,7 +67,7 @@ export default function TradeCard({ trade, lastUpdated, settings }: Props) {
         </span>
         <span className="card-meta-item">{timeframe}</span>
         {riskPct != null && (
-          <span className="card-meta-item">{(riskPct * 100).toFixed(1)}% risk</span>
+          <span className="card-meta-item">{riskPct}% risk</span>
         )}
         <span className="card-meta-item">R:R {rrRatio}</span>
       </div>
