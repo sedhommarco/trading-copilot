@@ -1,20 +1,22 @@
 /**
  * Live price API utilities.
  *
- * Crypto    → Coinlore  (CORS-friendly, public)
+ * Crypto    → Coinlore (CORS-friendly, public) for live price
+ *             CoinGecko public API (CORS-friendly, no key) for 7-day sparkline history
  * FX/Metals → fawazahmed0 via jsDelivr (CORS-friendly, public)
- * Equities  → disabled in SPA; planned for backend proxy in future phase
+ * Equities  → Static JSON served from GitHub Pages (updated by scheduled GH Action)
+ *             Fallback: no live price shown in SPA (graceful degradation)
  *
  * ─── fawazahmed0 API semantics (IMPORTANT) ───
  * The CDN returns data[code].usd = how many USD one unit of `code` is worth.
- * e.g. xau.usd ≈ 2900  means 1 troy oz gold = $2,900
+ * e.g. xau.usd ≈ 2900 means 1 troy oz gold = $2,900
  * e.g. eur.usd ≈ 1.08  means 1 EUR = $1.08
  * Therefore: price = data[code].usd directly — NO inversion needed.
  */
 
 import { LivePriceData } from './types';
 
-// ─── Crypto (Coinlore) ───────────────────────────────────────────────────────────────
+// ─── Crypto (Coinlore — live price) ──────────────────────────────────────────────────────
 
 const coinloreIds: Record<string, string> = {
   BTC: '90',
@@ -65,7 +67,54 @@ export async function fetchCryptoPrice(ticker: string): Promise<LivePriceData | 
   }
 }
 
-// ─── FX & Metals (fawazahmed0 via jsDelivr) ─────────────────────────────────────────────
+// ─── Crypto (CoinGecko — 7-day sparkline history) ────────────────────────────────────────
+
+const coingeckoIds: Record<string, string> = {
+  BTC: 'bitcoin',
+  ETH: 'ethereum',
+  SOL: 'solana',
+  ADA: 'cardano',
+  MATIC: 'matic-network',
+  DOT: 'polkadot',
+  AVAX: 'avalanche-2',
+  XRP: 'ripple',
+};
+
+const cryptoHistoryCache = new Map<string, { data: Array<{ date: string; price: number }>; ts: number }>();
+const CRYPTO_HISTORY_TTL = 15 * 60_000; // 15 minutes
+
+export async function fetchCryptoHistory(
+  ticker: string,
+): Promise<Array<{ date: string; price: number }> | null> {
+  const key = normaliseCryptoTicker(ticker);
+  const geckoId = coingeckoIds[key];
+  if (!geckoId) return null;
+
+  const cached = cryptoHistoryCache.get(key);
+  if (cached && Date.now() - cached.ts < CRYPTO_HISTORY_TTL) {
+    return cached.data;
+  }
+
+  try {
+    const url = `https://api.coingecko.com/api/v3/coins/${geckoId}/market_chart?vs_currency=usd&days=7&interval=daily`;
+    const res = await fetch(url);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const json = await res.json() as { prices: Array<[number, number]> };
+    if (!json?.prices?.length) throw new Error('No price data');
+    // CoinGecko returns [timestamp_ms, price] pairs
+    const data = json.prices.map(([ts, price]) => ({
+      date: new Date(ts).toISOString().split('T')[0],
+      price,
+    }));
+    cryptoHistoryCache.set(key, { data, ts: Date.now() });
+    return data;
+  } catch (err) {
+    console.error(`CoinGecko history fetch failed for ${ticker}:`, err);
+    return null;
+  }
+}
+
+// ─── FX & Metals (fawazahmed0 via jsDelivr) ───────────────────────────────────────────────
 
 const fawazSymbols: Record<string, string> = {
   'XAU/USD': 'xau',
@@ -79,6 +128,7 @@ const fawazSymbols: Record<string, string> = {
   'CAD/USD': 'cad',
   'AUD/USD': 'aud',
   'NZD/USD': 'nzd',
+  'USOIL': 'oil',
 };
 
 export function isFxMetalSymbol(symbol: string): boolean {
@@ -157,18 +207,68 @@ export async function fetchFxMetalHistory(
   return results.length > 0 ? results : null;
 }
 
-// ─── Equities ───────────────────────────────────────────────────────────────────────
-// Disabled: Yahoo Finance blocks browser requests via CORS on GitHub Pages.
-// Will be re-enabled in a future phase via a backend proxy / serverless function.
+// ─── Equities (static JSON from GitHub Pages, updated by scheduled GH Action) ─────────────
+
+/** Fetches pre-built equity price snapshot served from GitHub Pages. */
+const equityHistoryCache = new Map<string, { data: Array<{ date: string; price: number }>; ts: number }>();
+const EQUITY_HISTORY_TTL = 30 * 60_000; // 30 minutes (data updated ~daily by GH Action)
+
+export async function fetchEquityHistory(
+  ticker: string,
+): Promise<Array<{ date: string; price: number }> | null> {
+  const key = ticker.toUpperCase();
+  const cached = equityHistoryCache.get(key);
+  if (cached && Date.now() - cached.ts < EQUITY_HISTORY_TTL) return cached.data;
+
+  try {
+    const base = import.meta.env.BASE_URL ?? '/';
+    const url = `${base}prices/${key}.json`;
+    const res = await fetch(url);
+    if (!res.ok) return null;
+    const data = await res.json() as Array<{ date: string; price: number }>;
+    if (!Array.isArray(data) || data.length === 0) return null;
+    equityHistoryCache.set(key, { data, ts: Date.now() });
+    return data;
+  } catch {
+    return null;
+  }
+}
+
+/** Latest equity price from pre-built JSON (last data point). */
+const equityPriceCache = new Map<string, { price: number; ts: number }>();
+
+export async function fetchEquityPrice(ticker: string): Promise<LivePriceData | null> {
+  const key = ticker.toUpperCase();
+  const cached = equityPriceCache.get(key);
+  if (cached && Date.now() - cached.ts < EQUITY_HISTORY_TTL) {
+    return { price: cached.price, source: 'static-json' };
+  }
+
+  const history = await fetchEquityHistory(key);
+  if (!history || history.length === 0) return null;
+  const price = history[history.length - 1].price;
+  equityPriceCache.set(key, { price, ts: Date.now() });
+  return { price, source: 'static-json' };
+}
+
 export function isEquityTicker(ticker: string): boolean {
   return !isCryptoTicker(ticker) && !isFxMetalSymbol(ticker);
 }
 
-// ─── Unified dispatcher ────────────────────────────────────────────────────────────────────
+// ─── Unified dispatcher ──────────────────────────────────────────────────────────────────────
 
 export async function fetchLivePrice(tickerOrSymbol: string): Promise<LivePriceData | null> {
   if (isCryptoTicker(tickerOrSymbol)) return fetchCryptoPrice(tickerOrSymbol);
   if (isFxMetalSymbol(tickerOrSymbol)) return fetchFxMetalPrice(tickerOrSymbol);
-  // Equities: silently skip — no CORS-safe provider available in the SPA.
-  return null;
+  // Equities: try static JSON (served from GitHub Pages, updated daily by GH Action)
+  return fetchEquityPrice(tickerOrSymbol);
+}
+
+/** Unified history fetcher for sparklines. */
+export async function fetchPriceHistory(
+  tickerOrSymbol: string,
+): Promise<Array<{ date: string; price: number }> | null> {
+  if (isCryptoTicker(tickerOrSymbol)) return fetchCryptoHistory(tickerOrSymbol);
+  if (isFxMetalSymbol(tickerOrSymbol)) return fetchFxMetalHistory(tickerOrSymbol);
+  return fetchEquityHistory(tickerOrSymbol);
 }
