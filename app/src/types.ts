@@ -1,4 +1,4 @@
-// ─── Core Trade Types ────────────────────────────────────────────────────────────────────────
+// ─── Core Trade Types ──────────────────────────────────────────────────────────────────────
 
 export interface BaseTrade {
   /** Trade direction: 'long' or 'short'. Required for Trade items; omit for MacroEvent. */
@@ -40,6 +40,10 @@ export interface Trade extends BaseTrade {
   crash_date?: string;
   drop_percent?: number;
   event_tag?: string;
+  /** @deprecated Legacy confidence label strings — use `conviction` instead. */
+  confidence_label?: string;
+  /** @deprecated Legacy confidence label strings — use `conviction` instead. */
+  confidence_string?: string;
 }
 
 export interface PairTrade extends BaseTrade {
@@ -66,18 +70,20 @@ export interface MacroEvent extends BaseTrade {
 
 export type AnyTrade = Trade | PairTrade | MacroEvent;
 
-// ─── Watchlist ────────────────────────────────────────────────────────────────────
+// ─── Watchlist ──────────────────────────────────────────────────────────────────
 
 export interface WatchlistData {
   strategy?: string;
   strategy_name?: string;
   description?: string;
   last_updated?: string;
-  /** All opportunities for this strategy family. Items are Trade, MacroEvent, or PairTrade. */
+  /** All opportunities for this strategy family. Items are Trade, MacroEvent, or PairTrade.
+   * Events and calendar overlays are NOT separate top-level arrays — they flow here.
+   */
   opportunities?: AnyTrade[];
 }
 
-// ─── Market Regime ───────────────────────────────────────────────────────────────────
+// ─── Market Regime ─────────────────────────────────────────────────────────────────
 
 export interface MarketRegimeData {
   file_type?: string;
@@ -94,17 +100,17 @@ export interface MarketRegimeData {
   strategy_adjustments?: Record<string, string>;
 }
 
-// ─── Live Price ──────────────────────────────────────────────────────────────────────
+// ─── Live Price ────────────────────────────────────────────────────────────────────
 
 export interface LivePriceData {
   price: number;
   change24h?: number;
   changePct?: number;
   change?: number;
-  source: 'coinlore' | 'fawazahmed0' | 'yahoo';
+  source: 'coinlore' | 'fawazahmed0' | 'yahoo' | 'yfinance-proxy';
 }
 
-// ─── App Settings ──────────────────────────────────────────────────────────────────
+// ─── App Settings ────────────────────────────────────────────────────────────────
 
 export interface AppSettings {
   showLivePrices: boolean;
@@ -116,8 +122,7 @@ export const DEFAULT_SETTINGS: AppSettings = {
   showPriceCharts: true,
 };
 
-// ─── Navigation ───────────────────────────────────────────────────────────────────
-
+// ─── Navigation ─────────────────────────────────────────────────────────────────
 // The 5 canonical strategy families — everything else is an overlay or sub-type.
 export const TAB_ORDER = [
   'macro-volatility',
