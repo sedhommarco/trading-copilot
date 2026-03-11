@@ -49,6 +49,28 @@ body {
 .header h1 {
   color: var(--color-accent);
   font-size: 1.75rem;
+  
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.ci-badge-link {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  transition: opacity 0.2s;
+}
+
+.ci-badge-link:hover {
+  opacity: 0.85;
+}
+
+.ci-badge {
+  height: 20px;
+  border-radius: 3px;
+}
   font-weight: 600;
 }
 
