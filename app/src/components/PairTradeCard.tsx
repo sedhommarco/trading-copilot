@@ -1,11 +1,5 @@
 import { PairTrade, AppSettings } from '../types';
-import { isCryptoTicker, isFxMetalSymbol } from '../api';
-import {
-  getConfidenceLabel,
-  getConfidenceBadgeClass,
-  getTradeAge,
-  fmt,
-} from '../utils/trade';
+import { getConfidenceLabel, getConfidenceBadgeClass, getTradeAge, fmt } from '../utils/trade';
 import LivePriceRow from './LivePriceRow';
 import SparklineChart from './SparklineChart';
 
@@ -23,8 +17,9 @@ export default function PairTradeCard({ trade, lastUpdated, settings }: Props) {
   const { isStale, daysOld } = getTradeAge(trade, lastUpdated);
   const timeframe = trade.expected_holding_days ? `${trade.expected_holding_days}d` : 'N/A';
 
-  const longHasLive = isFxMetalSymbol(longT) || isCryptoTicker(longT);
-  const shortHasLive = isFxMetalSymbol(shortT) || isCryptoTicker(shortT);
+  // Show live prices for both legs (all asset classes — crypto, FX/metals, equities)
+  const longHasLive = longT !== 'N/A';
+  const shortHasLive = shortT !== 'N/A';
 
   return (
     <div className={`trade-card${isStale ? ' stale' : ''}`}>
@@ -37,18 +32,26 @@ export default function PairTradeCard({ trade, lastUpdated, settings }: Props) {
 
       {/* Line 2: Confidence badge */}
       <div className="badge-row">
-        <span className={confidenceClass}>{confidenceLabel.toUpperCase()} Confidence</span>
+        <span className={confidenceClass}>
+          {confidenceLabel.toUpperCase()} Confidence
+        </span>
       </div>
 
+      {/* Line 3: Pair title + dual sparklines */}
       <div className="card-header">
         <div>
           <div className="card-title">{longT} / {shortT}</div>
           <div className="card-name">Pair Trade</div>
         </div>
-        {settings.showPriceCharts && <SparklineChart symbol={longT} />}
+        {settings.showPriceCharts && (
+          <div className="sparkline-pair">
+            <SparklineChart symbol={longT} label={longT} />
+            <SparklineChart symbol={shortT} label={shortT} />
+          </div>
+        )}
       </div>
 
-      {/* Live prices for each leg if available */}
+      {/* Live prices for each leg */}
       {settings.showLivePrices && longHasLive && (
         <LivePriceRow ticker={longT} entryPrice={trade.long_entry ?? 0} direction="LONG" />
       )}
