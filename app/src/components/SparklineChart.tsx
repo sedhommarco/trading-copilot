@@ -4,6 +4,8 @@ import '../styles/sparkline.css';
 
 interface Props {
   symbol: string;
+  /** Optional label rendered in the bottom-left corner of the chart (e.g. ticker name). */
+  label?: string;
 }
 
 const CHART_W = 80;
@@ -38,16 +40,18 @@ function buildSVG(prices: number[]): ReactNode {
 
 /**
  * Renders a 7-day sparkline for any supported symbol:
- *   - FX/Metals  : fawazahmed0 CDN (7 daily data points)
- *   - Crypto     : CoinGecko public API (7+ daily data points)
- *   - Equities   : static JSON served from GitHub Pages (updated daily by GH Action)
+ * - FX/Metals  : fawazahmed0 CDN (7 daily data points)
+ * - Crypto     : CoinGecko public API (7+ daily data points)
+ * - Equities   : static JSON served from GitHub Pages (updated daily by GH Action)
  *
  * Always renders a fixed-size container so card layout is stable.
  * If no data is available the container stays empty (no broken UI).
+ *
+ * The optional `label` prop overlays a tiny ticker name in the bottom-left corner
+ * of the chart — used by PairTradeCard to distinguish the two sparklines.
  */
-export default function SparklineChart({ symbol }: Props) {
-  const [prices, setPrices] = useState<number[] | 'loading' | null>('loading');
-
+export default function SparklineChart({ symbol, label }: Props) {
+  const [prices, setPrices] = useState<number[] | null | 'loading'>('loading');
   useEffect(() => {
     let cancelled = false;
     setPrices('loading');
@@ -64,6 +68,9 @@ export default function SparklineChart({ symbol }: Props) {
   return (
     <div className="sparkline-container">
       {prices !== 'loading' && prices !== null && buildSVG(prices)}
+      {label && (
+        <span className="sparkline-label">{label}</span>
+      )}
     </div>
   );
 }
