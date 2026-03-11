@@ -122,6 +122,10 @@ Canonical opportunity shape (full field reference in `INSTRUCTIONS.TRADING.md`):
 }
 ```
 
+> **`risk_percent` semantics:** always a **whole integer** representing percentage of capital. `2` means 2%, not 0.02. The SPA renders it directly as `"2% risk"`.
+
+> **Execution and calendar overlays** (`revolut-tools-intraday-swing.md`, `cycles-sessions-events.md`) are narrative guidance only. They produce **no separate JSON files and no additional arrays**. All actionable items they inform flow through the standard `opportunities` array of the relevant strategy family.
+
 ### Market Regime (`data/context/market-regime.json`)
 
 Contains the current market regime and per-strategy adjustments. The `strategy_adjustments` keys **must exactly match** the 5 tab IDs: `macro-volatility`, `earnings-momentum`, `post-shock`, `crypto`, `pair-trades`.
@@ -132,7 +136,11 @@ Controls tab order and file registry. Version `3.0.0` reflects the 5-family taxo
 
 ### Schemas (`data/schemas/`)
 
-JSON Schema files used by the validation workflow. One schema per data type.
+JSON Schema files used by the validation workflow. One schema per data type:
+
+- `watchlist.schema.json` — validates all 5 watchlist files
+- `market-regime.schema.json` — validates `data/context/market-regime.json`
+- `manifest.schema.json` — validates `data/meta/manifest.json`
 
 ---
 
