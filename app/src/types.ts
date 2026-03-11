@@ -1,19 +1,25 @@
 // ─── Core Trade Types ────────────────────────────────────────────────────────────────────────
 
 export interface BaseTrade {
+  /** Trade direction: 'long' or 'short'. Required for Trade items; omit for MacroEvent. */
   direction?: string;
-  confidence?: number | string;
-  confidence_label?: string;
-  confidence_string?: string;
+  /** Numeric confidence score (legacy, prefer `conviction` string). */
+  confidence?: number;
+  /** Canonical confidence level string. Maps to Confidence badge in the SPA. */
   conviction?: string;
+  /** Expected hold duration in calendar days. Drives STALE badge. */
   expected_holding_days?: number;
+  /** ISO 8601 date the opportunity was originally recommended (optional override for stale logic). */
   recommended_date?: string;
+  /** ISO 8601 date the opportunity was created (fallback for stale logic). */
   created_date?: string;
+  /** 1-3 sentences: catalyst + setup + key risk. */
   rationale?: string;
 }
 
 export interface Trade extends BaseTrade {
   ticker?: string;
+  /** Legacy field aliases — prefer `ticker` and `company_name`. */
   symbol?: string;
   instrument?: string;
   company_name?: string;
@@ -24,7 +30,10 @@ export interface Trade extends BaseTrade {
   stop_loss?: number;
   take_profit?: number;
   earnings_date?: string;
-  risk_pct?: number;
+  /**
+   * Risk as a whole integer percentage of capital, e.g. 3 means "3% of capital".
+   * Do NOT store as a decimal fraction (0.03). Rendered directly as "3% risk" in TradeCard.
+   */
   risk_percent?: number;
   trade_setup?: string;
   entry_trigger?: string;
@@ -50,6 +59,7 @@ export interface MacroEvent extends BaseTrade {
   tradeable_instruments?: string[];
   trade_setup?: string;
   recommended_action?: string;
+  /** Impact level for the Impact badge. 'very high' | 'high' | 'medium' | 'low' */
   impact?: string;
   event_tag?: string;
 }
@@ -63,16 +73,16 @@ export interface WatchlistData {
   strategy_name?: string;
   description?: string;
   last_updated?: string;
+  /** All opportunities for this strategy family. Items are Trade, MacroEvent, or PairTrade. */
   opportunities?: AnyTrade[];
-  events?: AnyTrade[];
-  candidates?: AnyTrade[];
 }
 
 // ─── Market Regime ───────────────────────────────────────────────────────────────────
 
 export interface MarketRegimeData {
+  file_type?: string;
   current_regime?: string;
-  vix?: string | number;
+  vix?: number;
   trend?: string;
   sentiment?: string;
   notes?: string;
@@ -80,6 +90,7 @@ export interface MarketRegimeData {
   sector_laggards?: string[];
   next_major_catalyst?: string;
   fed_policy?: string;
+  last_updated?: string;
   strategy_adjustments?: Record<string, string>;
 }
 
