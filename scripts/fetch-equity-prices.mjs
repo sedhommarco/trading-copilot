@@ -43,6 +43,13 @@ const TICKERS = {
   SE:    'SE',
   MDB:   'MDB',
   BLK:   'BLK',
+    // Equities - added 11 Mar 2026 new opportunities refresh
+    DG: 'DG',
+    WSM: 'WSM',
+    BNTX: 'BNTX',
+    AMZN: 'AMZN',
+    MSFT: 'MSFT',
+    UAL: 'UAL',
   // Indices (Yahoo Finance uses ^ prefix)
   US500:  '^GSPC',
   NAS100: '^NDX',
