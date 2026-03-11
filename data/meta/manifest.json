@@ -64,5 +64,8 @@
     "StockAnalysis",
     "Seeking Alpha"
   ],
-  "stale_threshold_days": 7
+  "stale_threshold_days": 7,
+    "name": "Trading A¡dvisor",
+  "description": "A minimal SPA for surfacing trading opportunities and strategy-level context.",
+  "app_version": "0.2.0"
 }
