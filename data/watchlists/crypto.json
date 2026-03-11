@@ -2,21 +2,6 @@
   "last_updated": "2026-03-11T16:00:00Z",
   "opportunities": [
     {
-      "ticker": "BTC",
-      "company_name": "Bitcoin",
-      "direction": "long",
-      "conviction": "moderate",
-      "current_price": 69883.0,
-      "entry_zone": "67000-69500",
-      "stop_loss": 63000.0,
-      "take_profit": 77000.0,
-      "risk_percent": 2,
-      "expected_holding_days": 5,
-      "trade_setup": "range breakout continuation",
-      "entry_trigger": "Enter long on dip to 67000-69500 if BTC holds above 63k support; or on clean 4h close above 71k for breakout entry.",
-      "rationale": "BTC has rallied from ~67k to ~69,883, confirming strength as the risk complex stabilises post-VIX spike. Macro risk-off (VIX 24.9) caps upside but BTC is outperforming high-beta alts. Target 77k on trend continuation. Invalidated if risk-off accelerates and BTC breaks below 63k."
-    },
-    {
       "ticker": "ETH",
       "company_name": "Ethereum",
       "direction": "long",
@@ -30,21 +15,6 @@
       "trade_setup": "support bounce",
       "entry_trigger": "Enter near 1960-2000 if price holds 1900 on next correction and BTC is stable above 67k.",
       "rationale": "ETH recovered to ~$2,028 from prior lows. Risk/reward is acceptable for a small swing position but conviction is low given ETH's underperformance vs BTC YTD and macro headwinds. Position size kept minimal."
-    },
-        {
-      "ticker": "BTC",
-      "company_name": "Bitcoin",
-      "direction": "long",
-      "conviction": "high",
-      "current_price": 69883.0,
-      "entry_zone": "break above 70500",
-      "stop_loss": 67000.0,
-      "take_profit": 77000.0,
-      "risk_percent": 2,
-      "expected_holding_days": 5,
-      "trade_setup": "range_breakout",
-      "entry_trigger": "Enter on a daily or clean 4h close above 70,500 with volume expansion; invalidate if price loses 67,000 support on a daily close.",
-      "rationale": "BTC trading around 69,883 and pressing the 70k-70.5k psychological resistance zone. A convincing breakout with strong volume in the absence of new macro shocks supports continuation toward the 72k-77k resistance band. BTC is outperforming high-beta alts in the current high-vol regime, reinforcing the breakout thesis over alternatives."
     },
     {
       "ticker": "BTC",

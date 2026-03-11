@@ -81,7 +81,7 @@
       "expected_holding_days": 5,
       "rationale": "In risk-off high-vol regimes BTC tends to outperform high-beta L1s like SOL. Updated BTC entry to current ~69,883 level. Conviction kept low; position size 2%."
     },
-        {
+    {
       "ticker": "MSFT/AMZN",
       "company_name": "Microsoft vs Amazon",
       "direction": "long",

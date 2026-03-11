@@ -6,7 +6,12 @@
   "trend": "Short-term correction within a longer-term uptrend; S&P 500 off ~3% from recent highs, NAS100 ~4% off peak.",
   "sentiment": "Defensive and headline-driven. Oil shock from US-Iran conflict, VIX back near 25, and February CPI in-line at 2.4% YoY provide modest relief — but forward inflation fears from energy persist. Risk appetite fragile.",
   "sector_leaders": ["Energy", "Defense", "Gold / Commodities"],
-  "sector_laggards": ["Airlines", "Cyclical Consumer", "Industrials", "Speculative AI Hardware"],
+  "sector_laggards": [
+    "Airlines",
+    "Cyclical Consumer",
+    "Industrials",
+    "Speculative AI Hardware"
+  ],
   "fed_policy": "data dependent — FOMC meets 18-19 Mar; CPI in-line reduces urgency to hike but oil-driven inflation risk keeps cuts off table",
   "next_major_catalyst": "FOMC decision (18-19 Mar 2026) + Adobe earnings (12 Mar, after close)",
   "strategy_adjustments": {

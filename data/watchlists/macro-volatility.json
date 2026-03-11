@@ -10,7 +10,13 @@
       "time": "14:30 CET",
       "impact": "very high",
       "event_tag": "cpi",
-      "tradeable_instruments": ["US500", "NAS100", "XAU/USD", "EUR/USD", "USOIL"],
+      "tradeable_instruments": [
+        "US500",
+        "NAS100",
+        "XAU/USD",
+        "EUR/USD",
+        "USOIL"
+      ],
       "trade_setup": "mean reversion fade",
       "recommended_action": "wait for data",
       "expected_holding_days": 1,
@@ -40,7 +46,13 @@
       "time": "20:00 CET",
       "impact": "very high",
       "event_tag": "fomc",
-      "tradeable_instruments": ["US500", "NAS100", "XAU/USD", "EUR/USD", "USOIL"],
+      "tradeable_instruments": [
+        "US500",
+        "NAS100",
+        "XAU/USD",
+        "EUR/USD",
+        "USOIL"
+      ],
       "trade_setup": "volatility breakout",
       "recommended_action": "reduce exposure",
       "expected_holding_days": 1,
@@ -141,7 +153,7 @@
       "entry_trigger": "Enter on dips toward 23500-23800 if US-Iran tensions show signs of easing; exit on re-escalation headlines.",
       "rationale": "DAX recovered ~2.4% to ~23,935 on Trump comments hinting at Middle East de-escalation. German equities are heavily leveraged to energy prices and European export demand; any credible ceasefire catalyst could drive a sharp relief bounce toward prior highs."
     },
-        {
+    {
       "ticker": "N/A",
       "company_name": "US PPI — February 2026",
       "conviction": "high",
@@ -150,7 +162,13 @@
       "time": "14:30 CET",
       "impact": "high",
       "event_tag": "cpi",
-      "tradeable_instruments": ["US500", "NAS100", "XAU/USD", "EUR/USD", "USOIL"],
+      "tradeable_instruments": [
+        "US500",
+        "NAS100",
+        "XAU/USD",
+        "EUR/USD",
+        "USOIL"
+      ],
       "trade_setup": "direction dependent",
       "recommended_action": "wait for data",
       "expected_holding_days": 1,

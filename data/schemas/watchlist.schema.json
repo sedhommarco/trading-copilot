@@ -15,7 +15,13 @@
       "description": "List of current trading opportunities for this strategy. Each item is either a Trade, MacroEvent, or PairTrade as defined in INSTRUCTIONS.TRADING.md.",
       "items": {
         "type": "object",
-        "required": ["ticker", "company_name", "conviction", "expected_holding_days", "rationale"],
+        "required": [
+          "ticker",
+          "company_name",
+          "conviction",
+          "expected_holding_days",
+          "rationale"
+        ],
         "properties": {
           "ticker": {
             "type": "string",
