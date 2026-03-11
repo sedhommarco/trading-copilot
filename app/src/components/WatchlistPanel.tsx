@@ -29,39 +29,36 @@ export default function WatchlistPanel({ tabId: _tabId, watchlistData, active, s
   if (!active) return null;
 
   return (
-    <section className="watchlist-panel">
-      <div className="cards-grid">
-        {trades.map((trade, i) => {
-          if (isPairTrade(trade)) {
-            return (
-              <PairTradeCard
-                key={i}
-                trade={trade}
-                lastUpdated={watchlistData?.last_updated}
-                settings={settings}
-              />
-            );
-          }
-          if (isMacroEvent(trade)) {
-            return (
-              <MacroEventCard
-                key={i}
-                trade={trade}
-                lastUpdated={watchlistData?.last_updated}
-                settings={settings}
-              />
-            );
-          }
+    <div className="cards-grid">
+      {trades.map((trade, i) => {
+        if (isPairTrade(trade)) {
           return (
-            <TradeCard
+            <PairTradeCard
               key={i}
               trade={trade}
               lastUpdated={watchlistData?.last_updated}
               settings={settings}
             />
           );
-        })}
-      </div>
-    </section>
+        }
+        if (isMacroEvent(trade)) {
+          return (
+            <MacroEventCard
+              key={i}
+              trade={trade}
+              lastUpdated={watchlistData?.last_updated}
+            />
+          );
+        }
+        return (
+          <TradeCard
+            key={i}
+            trade={trade}
+            lastUpdated={watchlistData?.last_updated}
+            settings={settings}
+          />
+        );
+      })}
+    </div>
   );
 }
