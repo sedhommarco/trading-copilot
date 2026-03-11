@@ -1,5 +1,5 @@
 import { Trade, AppSettings } from '../types';
-import { isCryptoTicker, isFxMetalSymbol } from '../api';
+// api imports used elsewhere (SparklineChart, LivePriceRow)
 import {
   getConfidenceLabel,
   getConfidenceBadgeClass,
@@ -33,7 +33,7 @@ export default function TradeCard({ trade, lastUpdated, settings }: Props) {
   // risk_percent is a whole integer, e.g. 3 means "3% of capital"
   const riskPct = trade.risk_percent ?? null;
 
-  const hasLivePrice = isFxMetalSymbol(ticker) || isCryptoTicker(ticker);
+    const hasLivePrice = ticker !== 'N/A';
 
   return (
     <div className={`trade-card${isStale ? ' stale' : ''}`}>
