@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-03-11T15:08:00Z",
+  "last_updated": "2026-03-11T16:00:00Z",
   "opportunities": [
     {
       "ticker": "N/A",
@@ -140,6 +140,36 @@
       "trade_setup": "geopolitical de-escalation bounce",
       "entry_trigger": "Enter on dips toward 23500-23800 if US-Iran tensions show signs of easing; exit on re-escalation headlines.",
       "rationale": "DAX recovered ~2.4% to ~23,935 on Trump comments hinting at Middle East de-escalation. German equities are heavily leveraged to energy prices and European export demand; any credible ceasefire catalyst could drive a sharp relief bounce toward prior highs."
+    },
+        {
+      "ticker": "N/A",
+      "company_name": "US PPI — February 2026",
+      "conviction": "high",
+      "event_name": "US Producer Price Index — February 2026",
+      "date": "2026-03-18",
+      "time": "14:30 CET",
+      "impact": "high",
+      "event_tag": "cpi",
+      "tradeable_instruments": ["US500", "NAS100", "XAU/USD", "EUR/USD", "USOIL"],
+      "trade_setup": "direction dependent",
+      "recommended_action": "wait for data",
+      "expected_holding_days": 1,
+      "rationale": "US PPI on 18 Mar lands hours before the FOMC decision, making it the final read on upstream inflation. Prior monthly prints running ~0.4-0.5% MoM and ~2.9-3.0% YoY. A material upside surprise reinforces higher-for-longer Fed expectations, weighing on indices and supporting USD; a soft print eases pressure and favours a relief bid in risk assets. High conviction given FOMC co-scheduling — directional bias set at print."
+    },
+    {
+      "ticker": "N/A",
+      "company_name": "ECB Interest Rate Decision — March 2026",
+      "conviction": "high",
+      "event_name": "European Central Bank Rate Decision & Press Conference",
+      "date": "2026-03-19",
+      "time": "13:45 CET",
+      "impact": "high",
+      "event_tag": "ecb",
+      "tradeable_instruments": ["EUR/USD", "DE40", "EU50"],
+      "trade_setup": "volatility spike",
+      "recommended_action": "wait for data",
+      "expected_holding_days": 1,
+      "rationale": "ECB meets 19 Mar in a week dense with central-bank decisions (Fed, BoC, SNB, BoE also meeting). Rates around 2.15-2.00% with a weak Eurozone growth backdrop. Market balanced between further dovish guidance and a prolonged pause. Any surprise on rate path or Lagarde tone produces outsized moves in EUR and Eurozone indices given already elevated global VIX. Reduce exposure ahead; re-enter on confirmed direction post-press conference."
     }
   ]
 }
