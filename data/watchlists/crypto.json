@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-03-11T15:08:00Z",
+  "last_updated": "2026-03-11T16:00:00Z",
   "opportunities": [
     {
       "ticker": "BTC",
@@ -30,6 +30,36 @@
       "trade_setup": "support bounce",
       "entry_trigger": "Enter near 1960-2000 if price holds 1900 on next correction and BTC is stable above 67k.",
       "rationale": "ETH recovered to ~$2,028 from prior lows. Risk/reward is acceptable for a small swing position but conviction is low given ETH's underperformance vs BTC YTD and macro headwinds. Position size kept minimal."
+    },
+        {
+      "ticker": "BTC",
+      "company_name": "Bitcoin",
+      "direction": "long",
+      "conviction": "high",
+      "current_price": 69883.0,
+      "entry_zone": "break above 70500",
+      "stop_loss": 67000.0,
+      "take_profit": 77000.0,
+      "risk_percent": 2,
+      "expected_holding_days": 5,
+      "trade_setup": "range_breakout",
+      "entry_trigger": "Enter on a daily or clean 4h close above 70,500 with volume expansion; invalidate if price loses 67,000 support on a daily close.",
+      "rationale": "BTC trading around 69,883 and pressing the 70k-70.5k psychological resistance zone. A convincing breakout with strong volume in the absence of new macro shocks supports continuation toward the 72k-77k resistance band. BTC is outperforming high-beta alts in the current high-vol regime, reinforcing the breakout thesis over alternatives."
+    },
+    {
+      "ticker": "BTC",
+      "company_name": "Bitcoin",
+      "direction": "long",
+      "conviction": "high",
+      "current_price": 69883.0,
+      "entry_zone": "67000-69000",
+      "stop_loss": 65000.0,
+      "take_profit": 72000.0,
+      "risk_percent": 2,
+      "expected_holding_days": 4,
+      "trade_setup": "support_bounce",
+      "entry_trigger": "Stagger entries between 67,000-69,000 on dips, provided daily closes remain above 65,000 and macro risk-off does not accelerate. Invalidate on daily close below 65,000.",
+      "rationale": "67,000 and 65,000 are key BTC support zones, with resistance at 70,500-77,000. In a regime where BTC is outperforming alts and broader risk assets, buying controlled dips into the 67k area with tight invalidation under 65k offers a clean R:R toward the upper resistance band. Complements the breakout setup above as a lower-entry alternative."
     }
   ]
 }
