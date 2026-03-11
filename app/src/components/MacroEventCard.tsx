@@ -13,7 +13,8 @@ interface Props {
 }
 
 export default function MacroEventCard({ trade }: Props) {
-  const eventName  = trade.event_name ?? trade.company_name ?? 'Macro Event';
+  // event_name is the canonical title field for MacroEvent
+  const eventName  = trade.event_name ?? 'Macro Event';
   const eventDate  = trade.date ?? 'N/A';
   const eventTime  = trade.time ?? '';
 
@@ -22,7 +23,6 @@ export default function MacroEventCard({ trade }: Props) {
   const impactLabel     = getImpactLabel(trade);
   const impactClass     = getImpactBadgeClass(trade);
 
-  // Determine if the event is in the past
   let isPast  = false;
   let daysAgo = 0;
   if (eventDate !== 'N/A') {
@@ -33,7 +33,6 @@ export default function MacroEventCard({ trade }: Props) {
 
   const instruments = trade.tradeable_instruments ?? [];
 
-  // Normalise recommended_action to a human-readable string
   const action = trade.recommended_action
     ? trade.recommended_action.replace(/_/g, ' ')
     : null;
@@ -61,7 +60,7 @@ export default function MacroEventCard({ trade }: Props) {
       {/* Row 3 — Event title */}
       <div className="card-title">{eventName}</div>
 
-      {/* Row 4 — Date + time meta chip */}
+      {/* Row 4 — Date + time + action meta chips */}
       {eventDate !== 'N/A' && (
         <div className="card-meta-row">
           <span className="card-meta-item">
@@ -81,7 +80,7 @@ export default function MacroEventCard({ trade }: Props) {
         </div>
       )}
 
-      {/* Row 6 — Setup + Analysis detail sections */}
+      {/* Row 6 — Setup + Analysis */}
       {(trade.trade_setup || trade.rationale) && (
         <div className="card-details">
           {trade.trade_setup && (
