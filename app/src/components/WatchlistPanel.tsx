@@ -14,10 +14,10 @@ interface Props {
 
 export default function WatchlistPanel({ tabId: _tabId, watchlistData, active, settings }: Props) {
   const trades = useMemo(() => {
+    // All items — Trade, MacroEvent, PairTrade — arrive via opportunities[].
+    // Events and calendar overlays are NOT separate top-level arrays.
     const raw: AnyTrade[] = [
       ...(watchlistData?.opportunities ?? []),
-      ...(watchlistData?.events ?? []),
-      ...(watchlistData?.candidates ?? []),
     ];
     return raw.slice().sort((a, b) => {
       const confDiff = getConfidenceScore(b) - getConfidenceScore(a);
@@ -43,7 +43,14 @@ export default function WatchlistPanel({ tabId: _tabId, watchlistData, active, s
             );
           }
           if (isMacroEvent(trade)) {
-            return <MacroEventCard key={i} trade={trade} />;
+            return (
+              <MacroEventCard
+                key={i}
+                trade={trade}
+                lastUpdated={watchlistData?.last_updated}
+                settings={settings}
+              />
+            );
           }
           return (
             <TradeCard
