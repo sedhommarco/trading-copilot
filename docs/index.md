@@ -1,4 +1,4 @@
-# Trading Copilot — Technical Documentation
+# Trading A¡dvisor — Technical Documentation
 
 **Repository:** `sedhommarco/trading-copilot`
 **Live app:** https://sedhommarco.github.io/trading-copilot/
@@ -8,7 +8,7 @@
 
 ## Overview
 
-Trading Copilot is a minimal, static SPA that surfaces current trading opportunities and strategy-level context. It is a **recommendation viewer / playbook**, not a trading platform or P&L engine.
+Trading A¡dvisor is a minimal, static SPA that surfaces current trading opportunities and strategy-level context. It is a **recommendation viewer / playbook**, not a trading platform or P&L engine.
 
 The system is driven by two Perplexity Spaces:
 
