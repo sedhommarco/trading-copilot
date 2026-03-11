@@ -8,7 +8,7 @@
 
 import { LivePriceData } from './types';
 
-// ─── Crypto (Coinlore) ───────────────────────────────────────────────────────
+// ─── Crypto (Coinlore) ─────────────────────────────────────────────────────────────
 
 const coinloreIds: Record<string, string> = {
   BTC: '90',
@@ -21,15 +21,20 @@ const coinloreIds: Record<string, string> = {
   XRP: '58',
 };
 
+/** Normalise BTC-USD → BTC, ETH-USD → ETH, etc. */
+function normaliseCryptoTicker(ticker: string): string {
+  return ticker.toUpperCase().replace(/-USD$/, '').replace(/USD$/, '');
+}
+
 export function isCryptoTicker(ticker: string): boolean {
-  return Object.prototype.hasOwnProperty.call(coinloreIds, ticker.toUpperCase());
+  return Object.prototype.hasOwnProperty.call(coinloreIds, normaliseCryptoTicker(ticker));
 }
 
 const cryptoCache = new Map<string, { price: number; change24h: number; ts: number }>();
 const CRYPTO_TTL = 60_000;
 
 export async function fetchCryptoPrice(ticker: string): Promise<LivePriceData | null> {
-  const key = ticker.toUpperCase();
+  const key = normaliseCryptoTicker(ticker);
   const coinId = coinloreIds[key];
   if (!coinId) return null;
 
@@ -54,7 +59,7 @@ export async function fetchCryptoPrice(ticker: string): Promise<LivePriceData | 
   }
 }
 
-// ─── FX & Metals (fawazahmed0 via jsDelivr) ──────────────────────────────────
+// ─── FX & Metals (fawazahmed0 via jsDelivr) ────────────────────────────────────────────
 
 const fawazSymbols: Record<string, string> = {
   'XAU/USD': 'xau',
@@ -77,6 +82,20 @@ export function isFxMetalSymbol(symbol: string): boolean {
 const fxCache = new Map<string, { rate: number; ts: number; apiDate: string }>();
 const FX_TTL = 5 * 60_000;
 
+async function fawazFetch(code: string, dateTag: string): Promise<number | null> {
+  try {
+    const url = `https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@${dateTag}/v1/currencies/${code}.json`;
+    const res = await fetch(url);
+    if (!res.ok) return null;
+    const data = await res.json() as { [key: string]: Record<string, number> };
+    const rateVsUsd = (data[code] as Record<string, number> | undefined)?.usd;
+    if (!rateVsUsd || isNaN(rateVsUsd)) return null;
+    return rateVsUsd;
+  } catch {
+    return null;
+  }
+}
+
 export async function fetchFxMetalPrice(symbol: string): Promise<LivePriceData | null> {
   const key = symbol.toUpperCase();
   const code = fawazSymbols[key];
@@ -88,17 +107,11 @@ export async function fetchFxMetalPrice(symbol: string): Promise<LivePriceData |
   }
 
   try {
-    const url = `https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/${code}.json`;
-    const res = await fetch(url);
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    const data = await res.json() as { date: string; [key: string]: unknown };
-    const currencyData = data[code] as Record<string, number> | undefined;
-    if (!currencyData?.usd) throw new Error('Invalid response structure');
-    const rateVsUsd = parseFloat(String(currencyData.usd));
-    if (isNaN(rateVsUsd)) throw new Error('Invalid rate');
+    const rateVsUsd = await fawazFetch(code, 'latest');
+    if (rateVsUsd === null) throw new Error('No rate from latest');
     const isMetal = code.startsWith('x');
     const price = isMetal ? 1 / rateVsUsd : rateVsUsd;
-    fxCache.set(key, { rate: price, ts: Date.now(), apiDate: data.date as string });
+    fxCache.set(key, { rate: price, ts: Date.now(), apiDate: 'latest' });
     return { price, source: 'fawazahmed0' };
   } catch (err) {
     console.error(`fawazahmed0 fetch failed for ${symbol}:`, err);
@@ -115,29 +128,25 @@ export async function fetchFxMetalHistory(
 
   const today = new Date();
   const results: Array<{ date: string; price: number }> = [];
+  const isMetal = code.startsWith('x');
 
   for (let i = 6; i >= 0; i--) {
     const d = new Date(today);
     d.setDate(d.getDate() - i);
     const dateStr = d.toISOString().split('T')[0];
-    try {
-      const res = await fetch(
-        `https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@${dateStr}/v1/currencies/${code}.json`,
-      );
-      if (!res.ok) continue;
-      const data = await res.json() as { [key: string]: Record<string, number> };
-      const rateVsUsd = data[code]?.usd;
-      if (!rateVsUsd || isNaN(rateVsUsd)) continue;
-      const isMetal = code.startsWith('x');
-      results.push({ date: dateStr, price: isMetal ? 1 / rateVsUsd : rateVsUsd });
-    } catch {
-      // skip this day silently
+    // Try exact date first; fall back to 'latest' only for today (i === 0)
+    let rateVsUsd = await fawazFetch(code, dateStr);
+    if (rateVsUsd === null && i === 0) {
+      rateVsUsd = await fawazFetch(code, 'latest');
     }
+    if (rateVsUsd === null) continue;
+    results.push({ date: dateStr, price: isMetal ? 1 / rateVsUsd : rateVsUsd });
   }
+
   return results.length > 0 ? results : null;
 }
 
-// ─── Equities ────────────────────────────────────────────────────────────────
+// ─── Equities ────────────────────────────────────────────────────────────────────────
 // Disabled: Yahoo Finance blocks browser requests via CORS on GitHub Pages.
 // Will be re-enabled in a future phase via a backend proxy / serverless function.
 
@@ -145,7 +154,7 @@ export function isEquityTicker(ticker: string): boolean {
   return !isCryptoTicker(ticker) && !isFxMetalSymbol(ticker);
 }
 
-// ─── Unified dispatcher ──────────────────────────────────────────────────────
+// ─── Unified dispatcher ───────────────────────────────────────────────────────────────────
 
 export async function fetchLivePrice(tickerOrSymbol: string): Promise<LivePriceData | null> {
   if (isCryptoTicker(tickerOrSymbol)) return fetchCryptoPrice(tickerOrSymbol);

@@ -1,5 +1,5 @@
 import { Trade, AppSettings } from '../types';
-import { isFxMetalSymbol } from '../api';
+import { isCryptoTicker, isFxMetalSymbol } from '../api';
 import {
   getConfidenceLabel,
   getConfidenceBadgeClass,
@@ -31,7 +31,10 @@ export default function TradeCard({ trade, lastUpdated, settings }: Props) {
   const rrRatio = calcRiskReward(entry, stop, target);
   const timeframe = trade.expected_holding_days ? `${trade.expected_holding_days}d` : 'N/A';
   const riskPct = trade.risk_pct ?? trade.risk_percent ?? null;
-  const isFx = isFxMetalSymbol(ticker);
+
+  // Show sparkline grid for FX/metals (with data) and crypto (grid only).
+  // Equities: also show grid placeholder. Chart toggle hides the whole container.
+  const hasLivePrice = isFxMetalSymbol(ticker) || isCryptoTicker(ticker);
 
   return (
     <div className={`trade-card${isStale ? ' stale' : ''}`}>
@@ -42,7 +45,7 @@ export default function TradeCard({ trade, lastUpdated, settings }: Props) {
         </div>
       )}
 
-      {/* Line 2: Confidence badge (no Impact on trade cards) */}
+      {/* Line 2: Confidence badge */}
       <div className="badge-row">
         <span className={confidenceClass}>{confidenceLabel.toUpperCase()} Confidence</span>
       </div>
@@ -52,10 +55,10 @@ export default function TradeCard({ trade, lastUpdated, settings }: Props) {
           <div className="card-title">{ticker}</div>
           {company && <div className="card-name">{company}</div>}
         </div>
-        {isFx && settings.showPriceCharts && <SparklineChart symbol={ticker} />}
+        {settings.showPriceCharts && <SparklineChart symbol={ticker} />}
       </div>
 
-      {settings.showLivePrices && (
+      {settings.showLivePrices && hasLivePrice && (
         <LivePriceRow ticker={ticker} entryPrice={entry} direction={direction} />
       )}
 

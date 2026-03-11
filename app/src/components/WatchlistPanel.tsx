@@ -33,7 +33,14 @@ export default function WatchlistPanel({ tabId: _tabId, watchlistData, active, s
       <div className="cards-grid">
         {trades.map((trade, i) => {
           if (isPairTrade(trade)) {
-            return <PairTradeCard key={i} trade={trade} settings={settings} />;
+            return (
+              <PairTradeCard
+                key={i}
+                trade={trade}
+                lastUpdated={watchlistData?.last_updated}
+                settings={settings}
+              />
+            );
           }
           if (isMacroEvent(trade)) {
             return <MacroEventCard key={i} trade={trade} />;

@@ -1,10 +1,13 @@
 import { PairTrade, AppSettings } from '../types';
+import { isCryptoTicker, isFxMetalSymbol } from '../api';
 import {
   getConfidenceLabel,
   getConfidenceBadgeClass,
   getTradeAge,
   fmt,
 } from '../utils/trade';
+import LivePriceRow from './LivePriceRow';
+import SparklineChart from './SparklineChart';
 
 interface Props {
   trade: PairTrade;
@@ -12,13 +15,16 @@ interface Props {
   settings: AppSettings;
 }
 
-export default function PairTradeCard({ trade, lastUpdated, settings: _settings }: Props) {
+export default function PairTradeCard({ trade, lastUpdated, settings }: Props) {
   const longT = trade.long_ticker ?? 'N/A';
   const shortT = trade.short_ticker ?? 'N/A';
   const confidenceLabel = getConfidenceLabel(trade);
   const confidenceClass = getConfidenceBadgeClass(trade);
   const { isStale, daysOld } = getTradeAge(trade, lastUpdated);
   const timeframe = trade.expected_holding_days ? `${trade.expected_holding_days}d` : 'N/A';
+
+  const longHasLive = isFxMetalSymbol(longT) || isCryptoTicker(longT);
+  const shortHasLive = isFxMetalSymbol(shortT) || isCryptoTicker(shortT);
 
   return (
     <div className={`trade-card${isStale ? ' stale' : ''}`}>
@@ -39,7 +45,16 @@ export default function PairTradeCard({ trade, lastUpdated, settings: _settings 
           <div className="card-title">{longT} / {shortT}</div>
           <div className="card-name">Pair Trade</div>
         </div>
+        {settings.showPriceCharts && <SparklineChart symbol={longT} />}
       </div>
+
+      {/* Live prices for each leg if available */}
+      {settings.showLivePrices && longHasLive && (
+        <LivePriceRow ticker={longT} entryPrice={trade.long_entry ?? 0} direction="LONG" />
+      )}
+      {settings.showLivePrices && shortHasLive && (
+        <LivePriceRow ticker={shortT} entryPrice={trade.short_entry ?? 0} direction="SHORT" />
+      )}
 
       <div className="card-meta-row">
         <span className="card-meta-item long">LONG {longT}</span>
