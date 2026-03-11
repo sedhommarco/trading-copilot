@@ -1,4 +1,4 @@
-// ─── Core Trade Types ──────────────────────────────────────────────────────────────────────
+// ─── Core Trade Types ──────────────────────────────────────────────────────────────────────────────────────
 
 export interface BaseTrade {
   /** Trade direction: 'long' or 'short'. Required for Trade items; omit for MacroEvent. */
@@ -70,20 +70,21 @@ export interface MacroEvent extends BaseTrade {
 
 export type AnyTrade = Trade | PairTrade | MacroEvent;
 
-// ─── Watchlist ──────────────────────────────────────────────────────────────────
+// ─── Watchlist ─────────────────────────────────────────────────────────────────────────────────────
 
 export interface WatchlistData {
   strategy?: string;
   strategy_name?: string;
   description?: string;
   last_updated?: string;
-  /** All opportunities for this strategy family. Items are Trade, MacroEvent, or PairTrade.
+  /**
+   * All opportunities for this strategy family. Items are Trade, MacroEvent, or PairTrade.
    * Events and calendar overlays are NOT separate top-level arrays — they flow here.
    */
   opportunities?: AnyTrade[];
 }
 
-// ─── Market Regime ─────────────────────────────────────────────────────────────────
+// ─── Market Regime ──────────────────────────────────────────────────────────────────────────────────
 
 export interface MarketRegimeData {
   file_type?: string;
@@ -100,17 +101,22 @@ export interface MarketRegimeData {
   strategy_adjustments?: Record<string, string>;
 }
 
-// ─── Live Price ────────────────────────────────────────────────────────────────────
+// ─── Live Price ─────────────────────────────────────────────────────────────────────────────────────
 
 export interface LivePriceData {
   price: number;
   change24h?: number;
   changePct?: number;
   change?: number;
-  source: 'coinlore' | 'fawazahmed0' | 'yahoo' | 'yfinance-proxy';
+  source:
+    | 'coinlore'      // crypto live price (Coinlore)
+    | 'fawazahmed0'   // FX/metals live price (fawazahmed0 CDN)
+    | 'static-json'   // equities/indices/commodities from static JSON (GH Action)
+    | 'yahoo'         // reserved for future direct Yahoo Finance integration
+    | 'yfinance-proxy'; // reserved for future proxy
 }
 
-// ─── App Settings ────────────────────────────────────────────────────────────────
+// ─── App Settings ────────────────────────────────────────────────────────────────────────────────
 
 export interface AppSettings {
   showLivePrices: boolean;
@@ -122,7 +128,7 @@ export const DEFAULT_SETTINGS: AppSettings = {
   showPriceCharts: true,
 };
 
-// ─── Navigation ─────────────────────────────────────────────────────────────────
+// ─── Navigation ──────────────────────────────────────────────────────────────────────────────────
 // The 5 canonical strategy families — everything else is an overlay or sub-type.
 export const TAB_ORDER = [
   'macro-volatility',
