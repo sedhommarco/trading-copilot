@@ -41,7 +41,7 @@ export default function MacroEventCard({ trade }: Props) {
         {impactLabel && (
           <>
             <span className="badge-separator">·</span>
-            <span className={impactClass}>{impactLabel} IMPACT</span>
+            <span className={impactClass}>{impactLabel} Impact</span>
           </>
         )}
       </div>

@@ -57,16 +57,16 @@ export default function PairTradeCard({ trade, lastUpdated, settings: _settings 
           <div className="metric-value">{fmt(trade.short_entry)}</div>
         </div>
         <div>
-          <div className="metric-label">Spread Target</div>
-          <div className="metric-value">{trade.target_spread ?? 'N/A'}</div>
-        </div>
-        <div>
           <div className="metric-label">Long Stop</div>
           <div className="metric-value">{fmt(trade.long_stop)}</div>
         </div>
         <div>
           <div className="metric-label">Short Stop</div>
           <div className="metric-value">{fmt(trade.short_stop)}</div>
+        </div>
+        <div>
+          <div className="metric-label">Spread Target</div>
+          <div className="metric-value">{trade.target_spread ?? 'N/A'}</div>
         </div>
       </div>
 
