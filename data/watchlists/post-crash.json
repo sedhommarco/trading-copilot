@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-03-11T15:00:00Z",
+  "last_updated": "2026-03-11T16:00:00Z",
   "opportunities": [
     {
       "ticker": "SE",
@@ -60,6 +60,36 @@
       "crash_date": "2026-02-27",
       "drop_percent": -18.5,
       "rationale": "CoreWeave dropped ~18.5% in late Feb on weak margin guidance and large 2026 capex. Revenue backlog remains strong and AI cloud infrastructure demand is structural. Conviction downgraded to low: no clean stabilisation base yet and elevated VIX reduces speculative rebound probability. Only enter on confirmed bounce above 78 with volume."
+    },
+        {
+      "ticker": "BNTX",
+      "company_name": "BioNTech SE",
+      "direction": "long",
+      "conviction": "high",
+      "current_price": 79.99,
+      "entry_zone": "77-83",
+      "stop_loss": 70.0,
+      "take_profit": 96.0,
+      "risk_percent": 2,
+      "expected_holding_days": 7,
+      "crash_date": "2026-03-10",
+      "drop_percent": -17.0,
+      "rationale": "BioNTech fell ~17% on 10 Mar after Q4 earnings guided to lower Covid-19 vaccine revenue, overshadowing a sizeable oncology and mRNA pipeline. The single-session gap-down into deeply oversold territory (~RSI 28) fits the panic-stabilisation rebound pattern. Fundamental balance sheet remains strong; selloff is revenue-mix sentiment-driven. Citi PT $130. Require stabilisation above 77 before entry; invalidated below 70."
+    },
+    {
+      "ticker": "AMZN",
+      "company_name": "Amazon.com, Inc.",
+      "direction": "long",
+      "conviction": "high",
+      "current_price": 214.33,
+      "entry_zone": "210-217",
+      "stop_loss": 200.0,
+      "take_profit": 238.0,
+      "risk_percent": 2,
+      "expected_holding_days": 5,
+      "crash_date": "2026-02-06",
+      "drop_percent": -9.0,
+      "rationale": "Amazon dropped ~9% in early Feb after guiding for ~$200B of 2026 capex, far above prior expectations, despite strong Q4 revenue and re-accelerating AWS. Since the selloff, stock has partially recovered but remains below pre-report levels. Capex shock and AI-spending fatigue drove the move, not demand deterioration. AWS re-acceleration and e-commerce strength provide fundamental support for mean-reversion back toward 238 resistance. Invalidated on daily close below 200."
     }
   ]
 }
