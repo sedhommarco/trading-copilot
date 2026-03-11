@@ -129,8 +129,7 @@ const fawazSymbols: Record<string, string> = {
   'CAD/USD': 'cad',
   'AUD/USD': 'aud',
   'NZD/USD': 'nzd',
-  'USOIL': 'oil',
-};
+  
 
 export function isFxMetalSymbol(symbol: string): boolean {
   return Object.prototype.hasOwnProperty.call(fawazSymbols, symbol.toUpperCase());
