@@ -1,5 +1,5 @@
 import { useEffect, useState, type ReactNode } from 'react';
-import { fetchFxMetalHistory, isFxMetalSymbol } from '../api';
+import { fetchPriceHistory } from '../api';
 import '../styles/sparkline.css';
 
 interface Props {
@@ -37,20 +37,21 @@ function buildSVG(prices: number[]): ReactNode {
 }
 
 /**
- * Always renders a fixed-size grid container.
- * For FX/metals symbols it fetches 7-day history and draws an SVG line.
- * For all other symbols the container renders empty (grid placeholder).
- * Toggling is handled by the parent (don't render this component at all to hide).
+ * Renders a 7-day sparkline for any supported symbol:
+ *   - FX/Metals  : fawazahmed0 CDN (7 daily data points)
+ *   - Crypto     : CoinGecko public API (7+ daily data points)
+ *   - Equities   : static JSON served from GitHub Pages (updated daily by GH Action)
+ *
+ * Always renders a fixed-size container so card layout is stable.
+ * If no data is available the container stays empty (no broken UI).
  */
 export default function SparklineChart({ symbol }: Props) {
-  const [prices, setPrices] = useState<number[] | null | 'loading'>(
-    isFxMetalSymbol(symbol) ? 'loading' : null,
-  );
+  const [prices, setPrices] = useState<number[] | 'loading' | null>('loading');
 
   useEffect(() => {
-    if (!isFxMetalSymbol(symbol)) return;
     let cancelled = false;
-    fetchFxMetalHistory(symbol)
+    setPrices('loading');
+    fetchPriceHistory(symbol)
       .then(data => {
         if (!cancelled) setPrices(data ? data.map(d => d.price) : null);
       })
@@ -61,7 +62,7 @@ export default function SparklineChart({ symbol }: Props) {
   }, [symbol]);
 
   return (
-    <div className="sparkline-container" aria-label="Price chart">
+    <div className="sparkline-container">
       {prices !== 'loading' && prices !== null && buildSVG(prices)}
     </div>
   );
