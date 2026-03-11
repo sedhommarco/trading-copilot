@@ -4,11 +4,16 @@
   "title": "Trading Copilot Market Regime",
   "description": "Schema for data/context/market-regime.json",
   "type": "object",
-  "required": ["regime", "updated", "strategy_adjustments"],
+  "required": ["current_regime", "last_updated", "strategy_adjustments"],
   "properties": {
-    "regime": {
+    "file_type": {
       "type": "string",
-      "enum": [
+      "description": "Always 'market_regime'"
+    },
+    "current_regime": {
+      "type": "string",
+      "description": "Current market regime label. Use canonical values where possible.",
+      "examples": [
         "trending_bullish",
         "trending_bearish",
         "choppy",
@@ -17,13 +22,55 @@
         "range_bound"
       ]
     },
-    "vix_range": { "type": "string", "description": "VIX range, e.g. '14-16'" },
-    "sentiment": { "type": "string" },
-    "updated": { "type": "string", "description": "ISO 8601 date or datetime" },
+    "last_updated": {
+      "type": "string",
+      "description": "ISO 8601 datetime of last update"
+    },
+    "vix": {
+      "type": "number",
+      "description": "VIX spot value at time of refresh"
+    },
+    "trend": {
+      "type": "string",
+      "description": "Short trend description, e.g. 'uptrend', 'downtrend', 'sideways'"
+    },
+    "sentiment": {
+      "type": "string",
+      "description": "1-2 sentence market sentiment summary"
+    },
+    "sector_leaders": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Top performing sectors this week"
+    },
+    "sector_laggards": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Worst performing sectors this week"
+    },
+    "fed_policy": {
+      "type": "string",
+      "description": "Current Fed stance, e.g. 'data dependent', 'hawkish', 'dovish'"
+    },
+    "next_major_catalyst": {
+      "type": "string",
+      "description": "Next high-impact macro event or catalyst"
+    },
     "strategy_adjustments": {
       "type": "object",
-      "description": "Per-strategy plain-text adjustment notes for current regime",
-      "additionalProperties": { "type": "string" }
+      "description": "Per-strategy plain-text adjustment notes. Keys must match the 5 canonical tab IDs.",
+      "properties": {
+        "macro-volatility": { "type": "string" },
+        "earnings-momentum": { "type": "string" },
+        "post-shock": { "type": "string" },
+        "crypto": { "type": "string" },
+        "pair-trades": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "notes": {
+      "type": "string",
+      "description": "Free-text weekly context note"
     }
   },
   "additionalProperties": false
