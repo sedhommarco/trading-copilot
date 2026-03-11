@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-03-11T15:08:00Z",
+  "last_updated": "2026-03-11T16:00:00Z",
   "opportunities": [
     {
       "ticker": "ORCL",
@@ -64,6 +64,38 @@
       "trade_setup": "pre-earnings run-up",
       "entry_trigger": "Enter near 150-156 if homebuilder sector holds up; exit before 12 Mar close.",
       "rationale": "Lennar reporting Thursday 12 Mar. Homebuilder segment faces macro headwinds (elevated mortgage rates), but strong order data may support a pre-earnings drift. Low conviction given rate sensitivity; small size only."
+    },
+        {
+      "ticker": "DG",
+      "company_name": "Dollar General Corporation",
+      "direction": "long",
+      "conviction": "high",
+      "current_price": 146.31,
+      "entry_zone": "142-148",
+      "stop_loss": 136.0,
+      "take_profit": 163.0,
+      "risk_percent": 2,
+      "expected_holding_days": 1,
+      "earnings_date": "2026-03-12",
+      "trade_setup": "pre-earnings run-up",
+      "entry_trigger": "Enter on intraday consolidation or shallow dip on 11-12 Mar above 142; EXIT ALL POSITIONS BEFORE CLOSE ON 12 MAR.",
+      "rationale": "Dollar General reports 12 Mar with consensus expecting ~+86% EPS YoY rebound and mid-single-digit revenue growth as its turnaround gains traction. Stock recovered strongly from 52-week low. Pre-earnings drift captures momentum into the print. CRITICAL: exit entirely before 12 Mar close to avoid binary earnings risk."
+    },
+    {
+      "ticker": "WSM",
+      "company_name": "Williams-Sonoma, Inc.",
+      "direction": "long",
+      "conviction": "high",
+      "current_price": 199.63,
+      "entry_zone": "193-202",
+      "stop_loss": 185.0,
+      "take_profit": 222.0,
+      "risk_percent": 2,
+      "expected_holding_days": 5,
+      "earnings_date": "2026-03-18",
+      "trade_setup": "pre-earnings run-up",
+      "entry_trigger": "Build position on pullbacks to 193-202 that hold recent support; exit all before 18 Mar close.",
+      "rationale": "Williams-Sonoma reports ~18 Mar with consensus expecting solid profitability and resilient margins despite softer consumer backdrop. WSM historically sees pre-earnings accumulation given quality retail positioning and strong loyalty. 3-7 day run-up window with clean exit before the binary event."
     }
   ]
 }
