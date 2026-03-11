@@ -1,8 +1,8 @@
 # Pair Trades
 
-**Strategy Type:** Market-neutral relative value  
-**Typical Holding Period:** 5-14 days  
-**Target Instruments:** US equities (stocks or CFDs)  
+**Strategy Type:** Market-neutral relative value
+**Typical Holding Period:** 5-14 days
+**Target Instruments:** US equities (stocks or CFDs)
 **Platform:** Revolut (long stock cash + short CFD, or both CFDs)
 
 ---
@@ -49,6 +49,7 @@ Profit from relative performance divergence between two correlated stocks or ass
 **Strategy-level confidence:** Moderate to High (depends on catalyst clarity)
 
 **Key risks:**
+
 - **Beta risk:** If market moves sharply, both legs may move in same direction (pair "breaks")
 - **Execution risk:** Hard to execute both legs simultaneously; slippage and timing mismatch
 - **Shorting constraints:** Revolut may not always have shares available to short via CFDs
@@ -109,6 +110,7 @@ Profit from relative performance divergence between two correlated stocks or ass
 ```
 
 **Pair types:**
+
 - `earnings_divergence`: One leg beats, other misses
 - `sector_rotation`: One subsector outperforms (e.g. semis vs hardware)
 - `quality_vs_distressed`: High-quality name vs lower-quality peer
@@ -140,17 +142,18 @@ Profit from relative performance divergence between two correlated stocks or ass
 
 ## Textbook Setup Example
 
-**Pair:** Long COST / Short WMT  
-**Thesis:** Costco's premium membership model and strong comp sales data suggest Q2 beat. Walmart facing margin pressure from e-commerce investments and wage inflation.  
-**Long leg:** COST @ $1010, entry $1005-1015, size $1000 (1.0 shares)  
-**Short leg:** WMT @ $89, entry $88-90, size $1000 CFD (11.2 units)  
-**Spread target:** +12% relative outperformance (COST +6%, WMT -6%)  
-**Spread stop:** -5% (exit if WMT outperforms COST by 5%)  
-**Catalyst:** COST earnings Mar 7, WMT earnings Mar 14  
-**Expected hold:** 7-10 days  
-**Conviction:** High  
+**Pair:** Long COST / Short WMT
+**Thesis:** Costco's premium membership model and strong comp sales data suggest Q2 beat. Walmart facing margin pressure from e-commerce investments and wage inflation.
+**Long leg:** COST @ $1010, entry $1005-1015, size $1000 (1.0 shares)
+**Short leg:** WMT @ $89, entry $88-90, size $1000 CFD (11.2 units)
+**Spread target:** +12% relative outperformance (COST +6%, WMT -6%)
+**Spread stop:** -5% (exit if WMT outperforms COST by 5%)
+**Catalyst:** COST earnings Mar 7, WMT earnings Mar 14
+**Expected hold:** 7-10 days
+**Conviction:** High
 
 **Exit plan:**
+
 - Close both legs when spread hits +12%
 - If COST earnings disappoints, exit immediately (thesis invalid)
 - Max hold 14 days

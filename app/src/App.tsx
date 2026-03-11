@@ -8,9 +8,9 @@ import WatchlistPanel from './components/WatchlistPanel';
 import Footer from './components/Footer';
 
 const TAB_LABELS: Record<TabId, string> = {
+  'macro-volatility':  '🌊 Macro & Volatility',
   'earnings-momentum': '📈 Earnings Momentum',
   'post-shock':        '⚡ Post-Shock Rebounds',
-  'macro-volatility':  '🌍 Macro & Volatility',
   'crypto':            '🪙 Crypto',
   'pair-trades':       '↔️ Pair Trades',
 };
@@ -18,7 +18,7 @@ const TAB_LABELS: Record<TabId, string> = {
 export default function App() {
   const [data, setData] = useState<AppData | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [activeTab, setActiveTab] = useState<TabId>('earnings-momentum');
+  const [activeTab, setActiveTab] = useState<TabId>('macro-volatility');
   const [settings, setSettings] = useState<AppSettings>(DEFAULT_SETTINGS);
 
   useEffect(() => {

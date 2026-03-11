@@ -46,7 +46,7 @@ export default function Header() {
                 checked={settings.showPriceCharts}
                 onChange={e => setSettings(s => ({ ...s, showPriceCharts: e.target.checked }))}
               />
-              Price Charts
+              Sparklines
             </label>
           </div>
         )}

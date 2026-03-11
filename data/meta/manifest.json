@@ -1,45 +1,54 @@
 {
-  "version": "2.0.0",
-  "last_global_update": "2026-03-10T16:00:00Z",
+  "version": "3.0.0",
+  "last_global_update": "2026-03-11T01:20:00Z",
   "ui": {
     "tab_order": [
-      "pre-earnings",
-      "volatility",
-      "post-crash",
+      "macro-volatility",
+      "earnings-momentum",
+      "post-shock",
       "crypto",
-      "pair-trades",
-      "macro-events"
+      "pair-trades"
     ]
   },
   "files": {
+    "watchlists/macro-volatility.json": {
+      "strategy_family": "macro-volatility",
+      "label": "Macro & Volatility Events",
+      "last_updated": "2026-03-01T21:30:00Z",
+      "record_count": 10,
+      "opportunity_count_guidance": "5-10",
+      "status": "stale"
+    },
     "watchlists/pre-earnings.json": {
+      "strategy_family": "earnings-momentum",
+      "label": "Earnings Momentum & Gaps",
       "last_updated": "2026-03-01T21:30:00Z",
       "record_count": 3,
+      "opportunity_count_guidance": "5-10",
       "status": "stale"
     },
     "watchlists/post-crash.json": {
+      "strategy_family": "post-shock",
+      "label": "Post-Shock Rebounds",
       "last_updated": "2026-03-01T21:30:00Z",
       "record_count": 4,
-      "status": "stale"
-    },
-    "watchlists/volatility.json": {
-      "last_updated": "2026-03-01T21:30:00Z",
-      "record_count": 5,
+      "opportunity_count_guidance": "5-10",
       "status": "stale"
     },
     "watchlists/crypto.json": {
+      "strategy_family": "crypto",
+      "label": "Crypto & Digital Assets",
       "last_updated": "2026-03-01T21:30:00Z",
       "record_count": 5,
+      "opportunity_count_guidance": "5-10",
       "status": "stale"
     },
     "watchlists/pair-trades.json": {
+      "strategy_family": "pair-trades",
+      "label": "Relative Value & Pairs",
       "last_updated": "2026-03-01T21:30:00Z",
       "record_count": 5,
-      "status": "stale"
-    },
-    "watchlists/macro-events.json": {
-      "last_updated": "2026-03-01T21:30:00Z",
-      "record_count": 5,
+      "opportunity_count_guidance": "5-10",
       "status": "stale"
     },
     "context/market-regime.json": {
@@ -55,5 +64,5 @@
     "StockAnalysis",
     "Seeking Alpha"
   ],
-  "stale_threshold_days": 10
+  "stale_threshold_days": 7
 }

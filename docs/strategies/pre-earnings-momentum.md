@@ -1,6 +1,5 @@
 # Earnings Momentum & Gaps
 
-**Replaces:** `pre-earnings-momentum.md` (renamed and broadened)
 **Category:** Event-driven momentum
 **Trade Horizon:** 1–10 days
 **Best Market Regime:** Bullish, Neutral
@@ -16,11 +15,11 @@ Capture momentum in stocks where a known earnings catalyst creates a high-probab
 
 **Core sub-types:**
 
-| Sub-type | Entry timing | Exit timing |
-|---|---|---|
-| Pre-earnings run-up | 1–7 days before earnings | 1–3 days before (avoid binary risk) |
-| Earnings gap follow-through | Day after earnings print | 1–3 days post-gap |
-| Analyst revision momentum | After upgrade/downgrade catalyst | 3–7 days |
+| Sub-type                    | Entry timing                     | Exit timing                         |
+| --------------------------- | -------------------------------- | ----------------------------------- |
+| Pre-earnings run-up         | 1–7 days before earnings         | 1–3 days before (avoid binary risk) |
+| Earnings gap follow-through | Day after earnings print         | 1–3 days post-gap                   |
+| Analyst revision momentum   | After upgrade/downgrade catalyst | 3–7 days                            |
 
 ---
 
@@ -54,6 +53,7 @@ All fields follow the **canonical Trading Copilot schema**. Key fields for this 
 ```
 
 **Optional enrichment fields** (include when available, omit when not):
+
 - `trade_setup` — e.g. `"pre-earnings run-up"`, `"gap follow-through"`
 - `entry_trigger` — specific price/condition to enter
 - `crash_date` — for post-shock earnings sub-type setups that belong here
@@ -64,13 +64,13 @@ All fields follow the **canonical Trading Copilot schema**. Key fields for this 
 
 ## Regime guidance
 
-| Regime | Guidance |
-|---|---|
-| `trending_bullish` | Highest edge window — widen targets, favour long setups |
+| Regime             | Guidance                                                     |
+| ------------------ | ------------------------------------------------------------ |
+| `trending_bullish` | Highest edge window — widen targets, favour long setups      |
 | `trending_bearish` | Skip unless strong sector-specific catalyst overrides market |
-| `choppy` | Reduce size; require strong options flow or upgrade signal |
-| `high_volatility` | Avoid; binary event risk compounds with market vol |
-| `low_volatility` | Reliable breakout setups; tighter spreads |
+| `choppy`           | Reduce size; require strong options flow or upgrade signal   |
+| `high_volatility`  | Avoid; binary event risk compounds with market vol           |
+| `low_volatility`   | Reliable breakout setups; tighter spreads                    |
 
 ---
 

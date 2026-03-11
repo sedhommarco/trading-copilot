@@ -10,9 +10,9 @@
   "fed_policy": "data dependent",
   "next_major_catalyst": "US Non-Farm Payrolls (Mar 6)",
   "strategy_adjustments": {
+    "macro-volatility": "Increased opportunity window; favour volatility event plays around NFP, CPI, ISM; tight stops on directional index trades.",
     "earnings-momentum": "Normal operation but reduce size around macro events; favour long setups on high-conviction names only.",
     "post-shock": "Normal operation; focus on liquid names with clear fundamental thesis for mean-reversion.",
-    "macro-volatility": "Increased opportunity window; favour volatility event plays around NFP, CPI, ISM; tight stops on directional index trades.",
     "crypto": "Small size only; sub-3x leverage; BTC above key support, altcoin momentum fragile.",
     "pair-trades": "Sector rotation active — tech/energy and pharma relative-value pairs most interesting."
   },

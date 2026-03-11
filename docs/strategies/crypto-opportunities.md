@@ -1,8 +1,8 @@
 # Crypto Opportunities
 
-**Strategy Type:** Range breakout / momentum swing  
-**Typical Holding Period:** 1-7 days  
-**Target Instruments:** BTC, ETH, SOL, XRP, ADA  
+**Strategy Type:** Range breakout / momentum swing
+**Typical Holding Period:** 1-7 days
+**Target Instruments:** BTC, ETH, SOL, XRP, ADA
 **Platform:** Revolut X (lower fees, limit orders, API access)
 
 ---
@@ -48,6 +48,7 @@ Capture range breakouts and momentum plays in major cryptocurrencies with tight 
 **Strategy-level confidence:** Low to Moderate (extreme volatility)
 
 **Key risks:**
+
 - **Extreme volatility:** 10-20% intraday swings are common
 - **Leverage danger:** Maximum 3x leverage (Revolut X caps at 3x); higher leverage = wipeout risk
 - **Liquidity gaps:** Thin order books can cause slippage on market orders
@@ -77,9 +78,11 @@ Capture range breakouts and momentum plays in major cryptocurrencies with tight 
 ### Opportunity object fields
 
 **Required:**
+
 - Standard fields: `ticker`, `company_name`, `current_price`, `entry_zone`, `stop_loss`, `take_profit`, `position_size_usd`, `risk_percent`, `expected_holding_days`, `conviction`, `rationale`
 
 **Strategy-specific:**
+
 - `crypto_type` (string): "layer1", "defi", "meme", "payment"
 - `market_cap_rank` (number): CoinGecko/CoinMarketCap rank
 - `btc_correlation` (string): "high", "moderate", "low"
@@ -111,19 +114,20 @@ Capture range breakouts and momentum plays in major cryptocurrencies with tight 
 
 ## Textbook Setup Example
 
-**Ticker:** ETH (Ethereum)  
-**Setup:** Range breakout after 2-week consolidation  
-**Entry trigger:** Daily close above $4200 with volume >2x average  
-**Entry:** $4210  
-**Stop loss:** $3900 (-7.4%)  
-**Take profit:** $4800 (+14.0%)  
-**Risk/Reward:** 1:1.9  
-**Conviction:** Moderate  
-**Leverage:** 2x (Revolut X)  
-**Position size:** $600 (0.14 ETH with 2x leverage = $1200 exposure)  
+**Ticker:** ETH (Ethereum)
+**Setup:** Range breakout after 2-week consolidation
+**Entry trigger:** Daily close above $4200 with volume >2x average
+**Entry:** $4210
+**Stop loss:** $3900 (-7.4%)
+**Take profit:** $4800 (+14.0%)
+**Risk/Reward:** 1:1.9
+**Conviction:** Moderate
+**Leverage:** 2x (Revolut X)
+**Position size:** $600 (0.14 ETH with 2x leverage = $1200 exposure)
 **Rationale:** ETH consolidating in $3900-4200 range for 2 weeks. Breakout above resistance on strong volume suggests continuation to $4800 (previous high). BTC trending up (supportive backdrop).
 
 **Exit plan:**
+
 - Sell 50% at $4500 (+6.9%)
 - Trail remainder with stop at $4300, targeting $4800
 

@@ -1,6 +1,5 @@
 # Macro & Volatility Events
 
-**Replaces:** `volatility-plays.md` + `macro-events.md` (both deprecated as standalone docs)
 **Category:** Macro-driven & volatility event plays
 **Trade Horizon:** Intraday to 5 days
 **Best Market Regime:** High Volatility, Trending (any direction), Range-Bound
@@ -11,8 +10,9 @@
 ## Why merged
 
 Volatility Plays and Macro Events were describing the same thing from two angles:
-- *Macro Events* named the calendar trigger (NFP, CPI, ISM, earnings).
-- *Volatility Plays* named the instruments and setups triggered by those same events (US500, XAU/USD, USOIL, NAS100).
+
+- _Macro Events_ named the calendar trigger (NFP, CPI, ISM, earnings).
+- _Volatility Plays_ named the instruments and setups triggered by those same events (US500, XAU/USD, USOIL, NAS100).
 
 Every item in the old `volatility.json` was anchored to a specific macro event. Every item in the old `macro-events.json` specified tradeable instruments and setups. Keeping them separate forced duplication in every refresh and confused the SPA tab count. One family, one file.
 
@@ -22,18 +22,18 @@ Every item in the old `volatility.json` was anchored to a specific macro event. 
 
 Capture short-to-medium-term directional or volatility-expansion opportunities triggered by known macro calendar events (NFP, CPI, ISM, Fed, ECB) and geopolitical catalysts (oil supply shocks, safe-haven flows). Both pre-event positioning and post-event fade/breakout plays belong here.
 
-**Core thesis:** High-impact macro events reliably move certain instruments by predictable amounts in predictable directions depending on the surprise direction. The edge is knowing *which* instruments to watch, *when* to enter (before, at, or after the event), and having a clear stop anchored to the pre-event level.
+**Core thesis:** High-impact macro events reliably move certain instruments by predictable amounts in predictable directions depending on the surprise direction. The edge is knowing _which_ instruments to watch, _when_ to enter (before, at, or after the event), and having a clear stop anchored to the pre-event level.
 
 ---
 
 ## Sub-types in this family
 
-| Sub-type | Description | `event_tag` values |
-|---|---|---|
-| Calendar event plays | Position around scheduled data releases | `nfp`, `cpi`, `ism`, `adp_ism`, `fomc`, `ecb` |
-| Earnings volatility | Single-name or sector volatility around major earnings | `earnings` |
-| Geopolitical/commodity | Oil, gold, FX driven by geopolitical headlines | `geopolitical`, `oil`, `safe_haven` |
-| Post-event mean reversion | Fade the initial overreaction after a release | any of the above |
+| Sub-type                  | Description                                            | `event_tag` values                            |
+| ------------------------- | ------------------------------------------------------ | --------------------------------------------- |
+| Calendar event plays      | Position around scheduled data releases                | `nfp`, `cpi`, `ism`, `adp_ism`, `fomc`, `ecb` |
+| Earnings volatility       | Single-name or sector volatility around major earnings | `earnings`                                    |
+| Geopolitical/commodity    | Oil, gold, FX driven by geopolitical headlines         | `geopolitical`, `oil`, `safe_haven`           |
+| Post-event mean reversion | Fade the initial overreaction after a release          | any of the above                              |
 
 ---
 
@@ -53,6 +53,7 @@ All opportunities follow the **canonical Trading Copilot schema** (see `INSTRUCT
 Macro calendar events use the `MacroEvent` sub-type; instrument/price plays use the `Trade` sub-type:
 
 ### Calendar event (`MacroEvent` fields used)
+
 ```json
 {
   "ticker": "N/A",
@@ -72,6 +73,7 @@ Macro calendar events use the `MacroEvent` sub-type; instrument/price plays use 
 ```
 
 ### Instrument/price play (`Trade` fields used)
+
 ```json
 {
   "ticker": "XAU/USD",
@@ -101,14 +103,14 @@ Cards are sorted first by **conviction** (high → moderate → low), then by **
 
 ## Regime guidance
 
-| Regime | Guidance |
-|---|---|
-| `high_volatility` | Prime window — most calendar events produce outsized moves. Widen stops or reduce size. |
-| `trending_bullish` | Fade bearish overreactions on strong data; ride momentum on risk-on surprises. |
-| `trending_bearish` | Favour downside breaks on weak data; tight stops on any long counter-trend. |
-| `choppy` | Reduce frequency; only trade the highest-impact events (NFP, CPI, FOMC). |
-| `low_volatility` | Pre-event positioning for IV expansion plays; smaller size. |
-| `range_bound` | Fade extremes post-event; mean-reversion setups most reliable. |
+| Regime             | Guidance                                                                                |
+| ------------------ | --------------------------------------------------------------------------------------- |
+| `high_volatility`  | Prime window — most calendar events produce outsized moves. Widen stops or reduce size. |
+| `trending_bullish` | Fade bearish overreactions on strong data; ride momentum on risk-on surprises.          |
+| `trending_bearish` | Favour downside breaks on weak data; tight stops on any long counter-trend.             |
+| `choppy`           | Reduce frequency; only trade the highest-impact events (NFP, CPI, FOMC).                |
+| `low_volatility`   | Pre-event positioning for IV expansion plays; smaller size.                             |
+| `range_bound`      | Fade extremes post-event; mean-reversion setups most reliable.                          |
 
 ---
 

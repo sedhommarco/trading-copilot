@@ -109,9 +109,9 @@ export const DEFAULT_SETTINGS: AppSettings = {
 
 // The 5 canonical strategy families — everything else is an overlay or sub-type.
 export const TAB_ORDER = [
+  'macro-volatility',
   'earnings-momentum',
   'post-shock',
-  'macro-volatility',
   'crypto',
   'pair-trades',
 ] as const;

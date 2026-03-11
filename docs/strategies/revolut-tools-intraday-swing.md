@@ -1,7 +1,7 @@
 # Revolut Tools — Execution Overlay
 
 > **Status: Execution Overlay — not a strategy tab.**
-> This document describes *how* to implement signals inside the Revolut platform using technical indicators. It is not a standalone strategy with its own watchlist. Apply these techniques when executing any of the five strategy families.
+> This document describes _how_ to implement signals inside the Revolut platform using technical indicators. It is not a standalone strategy with its own watchlist. Apply these techniques when executing any of the five strategy families.
 
 **Applies to:** All 5 strategy families
 **Platform:** Revolut, Revolut X (CFDs up to 5–10x leverage on stocks; 20x on indices/FX/commodities)
@@ -18,14 +18,17 @@ Revólut's built-in chart tools (MACD, RSI, Stochastic, trendlines, support/resi
 ## Entry signals (by regime)
 
 ### Trending market
+
 - **MACD crossover:** Bullish cross above signal line + histogram positive. Confirm price above 50-day MA.
 - **Trendline breakout:** Price closes above resistance trendline on above-average volume. Enter on retest.
 
 ### Choppy / range-bound market
+
 - **RSI/Stochastic extremes:** Enter at RSI <30 (long) or >70 (short) with divergence.
 - **Support/resistance bounce:** Enter on rejection candle (hammer, engulfing) at key level.
 
 ### High volatility (around macro events)
+
 - **Intraday 15-min:** Wait for event; enter only after first 5-min candle post-release closes beyond the pre-event range.
 - **Fade:** Enter counter-trend after >1.5% spike that then reverses within 15–30 min.
 
@@ -33,12 +36,12 @@ Revólut's built-in chart tools (MACD, RSI, Stochastic, trendlines, support/resi
 
 ## Session timing
 
-| Session | CET hours | Use |
-|---|---|---|
-| London open | 09:00–11:00 | Highest liquidity; best for breakouts |
+| Session           | CET hours   | Use                                        |
+| ----------------- | ----------- | ------------------------------------------ |
+| London open       | 09:00–11:00 | Highest liquidity; best for breakouts      |
 | London/NY overlap | 14:30–17:00 | Peak volume; macro data usually drops here |
-| NY close | 21:00–22:30 | Trend exhaustion, fade setups |
-| Asian session | 02:00–08:00 | Low liquidity; avoid unless FX-focused |
+| NY close          | 21:00–22:30 | Trend exhaustion, fade setups              |
+| Asian session     | 02:00–08:00 | Low liquidity; avoid unless FX-focused     |
 
 ---
 
@@ -52,10 +55,10 @@ Revólut's built-in chart tools (MACD, RSI, Stochastic, trendlines, support/resi
 
 ## Revolut indicator reference
 
-| Indicator | Best use |
-|---|---|
-| MACD | Trend confirmation, swing entries |
-| RSI | Overbought/oversold reversals |
-| Stochastic | Short-term extremes |
-| 20/50/200-day MA | Trend filter, dynamic support |
-| Bollinger Bands | Volatility squeeze breakouts |
+| Indicator        | Best use                          |
+| ---------------- | --------------------------------- |
+| MACD             | Trend confirmation, swing entries |
+| RSI              | Overbought/oversold reversals     |
+| Stochastic       | Short-term extremes               |
+| 20/50/200-day MA | Trend filter, dynamic support     |
+| Bollinger Bands  | Volatility squeeze breakouts      |

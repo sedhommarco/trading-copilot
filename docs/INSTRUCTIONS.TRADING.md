@@ -26,15 +26,16 @@ This space produces **current trading recommendations and market context** for t
 
 Trading Copilot uses exactly **5 strategy families**. Each maps to one SPA tab and one JSON file.
 
-| # | Family name | SPA tab id | JSON file | Detailed doc |
-|---|---|---|---|---|
-| 1 | Earnings Momentum & Gaps | `earnings-momentum` | `watchlists/pre-earnings.json` | `strategies/pre-earnings-momentum.md` |
-| 2 | Post-Shock Rebounds | `post-shock` | `watchlists/post-crash.json` | `strategies/post-crash-rebound.md` |
-| 3 | Macro & Volatility Events | `macro-volatility` | `watchlists/macro-volatility.json` | `strategies/macro-volatility.md` |
-| 4 | Crypto & Digital Assets | `crypto` | `watchlists/crypto.json` | `strategies/crypto-opportunities.md` |
-| 5 | Relative Value & Pairs | `pair-trades` | `watchlists/pair-trades.json` | `strategies/pair-trades.md` |
+| #   | Family name               | SPA tab id          | JSON file                          | Detailed doc                          |
+| --- | ------------------------- | ------------------- | ---------------------------------- | ------------------------------------- |
+| 1   | Macro & Volatility Events | `macro-volatility`  | `watchlists/macro-volatility.json` | `strategies/macro-volatility.md`      |
+| 2   | Earnings Momentum & Gaps  | `earnings-momentum` | `watchlists/pre-earnings.json`     | `strategies/pre-earnings-momentum.md` |
+| 3   | Post-Shock Rebounds       | `post-shock`        | `watchlists/post-crash.json`       | `strategies/post-crash-rebound.md`    |
+| 4   | Crypto & Digital Assets   | `crypto`            | `watchlists/crypto.json`           | `strategies/crypto-opportunities.md`  |
+| 5   | Relative Value & Pairs    | `pair-trades`       | `watchlists/pair-trades.json`      | `strategies/pair-trades.md`           |
 
 **Execution overlays** (not strategy tabs — apply on top of the above):
+
 - `strategies/revolut-tools-intraday-swing.md` — platform execution techniques
 - `strategies/cycles-sessions-events.md` — seasonal and calendar timing layer
 
@@ -76,45 +77,43 @@ All five strategy families share the same base schema. Strategy-specific optiona
 
 ### Field reference
 
-| Field | Type | Required | Notes |
-|---|---|---|---|
-| `ticker` | string | yes | Exchange symbol or instrument code. Use `"N/A"` for pure macro calendar events. |
-| `company_name` | string | yes | Full name or event display name |
-| `direction` | `"long"` \| `"short"` | yes (omit for pure macro events) | |
-| `conviction` | `"high"` \| `"moderate"` \| `"low"` | yes | Maps directly to Confidence badge in SPA |
-| `current_price` | number | recommended | Snapshot price at time of refresh |
-| `entry_zone` | string \| number | recommended | Price range or exact level |
-| `stop_loss` | number | recommended | |
-| `take_profit` | number | recommended | |
-| `risk_percent` | number | recommended | % of capital at risk |
-| `expected_holding_days` | number | yes | Drives stale badge logic in SPA |
-| `rationale` | string | yes | 1-3 sentences |
+| Field                   | Type                                | Required                         | Notes                                                                           |
+| ----------------------- | ----------------------------------- | -------------------------------- | ------------------------------------------------------------------------------- |
+| `ticker`                | string                              | yes                              | Exchange symbol or instrument code. Use `"N/A"` for pure macro calendar events. |
+| `company_name`          | string                              | yes                              | Full name or event display name                                                 |
+| `direction`             | `"long"` \| `"short"`               | yes (omit for pure macro events) |                                                                                 |
+| `conviction`            | `"high"` \| `"moderate"` \| `"low"` | yes                              | Maps directly to Confidence badge in SPA                                        |
+| `current_price`         | number                              | recommended                      | Snapshot price at time of refresh                                               |
+| `entry_zone`            | string \| number                    | recommended                      | Price range or exact level                                                      |
+| `stop_loss`             | number                              | recommended                      |                                                                                 |
+| `take_profit`           | number                              | recommended                      |                                                                                 |
+| `risk_percent`          | number                              | recommended                      | % of capital at risk                                                            |
+| `expected_holding_days` | number                              | yes                              | Drives stale badge logic in SPA                                                 |
+| `rationale`             | string                              | yes                              | 1-3 sentences                                                                   |
 
 ### Strategy-specific optional fields
 
-| Field | Used by | Notes |
-|---|---|---|
-| `earnings_date` | Earnings Momentum | `"YYYY-MM-DD"` |
-| `crash_date` | Post-Shock | `"YYYY-MM-DD"` of the original shock |
-| `drop_percent` | Post-Shock | Negative number, e.g. `-18.5` |
-| `trade_setup` | Any | Short label, e.g. `"macro breakout"` |
-| `entry_trigger` | Any | Specific condition to enter |
-| `event_name` | Macro & Vol | Full event name for calendar entries |
-| `date` | Macro & Vol | `"YYYY-MM-DD"` of the event |
-| `time` | Macro & Vol | `"HH:MM CET"` |
-| `impact` | Macro & Vol | `"very high" \| "high" \| "medium" \| "low"` — drives Impact badge |
-| `event_tag` | Macro & Vol | `"nfp"`, `"cpi"`, `"ism"`, `"fomc"`, `"ecb"`, `"earnings"`, `"geopolitical"` |
-| `tradeable_instruments` | Macro & Vol | Array of instrument codes |
-| `recommended_action` | Macro & Vol | `"wait for data"`, `"reduce exposure"`, `"partial de-risk"` |
-| `long_ticker` | Pair Trades | |
-| `short_ticker` | Pair Trades | |
-| `long_entry` | Pair Trades | |
-| `short_entry` | Pair Trades | |
-| `long_stop` | Pair Trades | |
-| `short_stop` | Pair Trades | |
-| `target_spread` | Pair Trades | e.g. `"+8%"` |
-
-**Do not include:** `file_type`, `strategy`, `setup_quality`, `momentum_score`, `position_size_pct`, `position_size_usd`, `week_start`, `week_end`, `previous_week_outcomes` — these are legacy fields from earlier schema versions and are not used by the SPA.
+| Field                   | Used by           | Notes                                                                        |
+| ----------------------- | ----------------- | ---------------------------------------------------------------------------- |
+| `earnings_date`         | Earnings Momentum | `"YYYY-MM-DD"`                                                               |
+| `crash_date`            | Post-Shock        | `"YYYY-MM-DD"` of the original shock                                         |
+| `drop_percent`          | Post-Shock        | Negative number, e.g. `-18.5`                                                |
+| `trade_setup`           | Any               | Short label, e.g. `"macro breakout"`                                         |
+| `entry_trigger`         | Any               | Specific condition to enter                                                  |
+| `event_name`            | Macro & Vol       | Full event name for calendar entries                                         |
+| `date`                  | Macro & Vol       | `"YYYY-MM-DD"` of the event                                                  |
+| `time`                  | Macro & Vol       | `"HH:MM CET"`                                                                |
+| `impact`                | Macro & Vol       | `"very high" \| "high" \| "medium" \| "low"` — drives Impact badge           |
+| `event_tag`             | Macro & Vol       | `"nfp"`, `"cpi"`, `"ism"`, `"fomc"`, `"ecb"`, `"earnings"`, `"geopolitical"` |
+| `tradeable_instruments` | Macro & Vol       | Array of instrument codes                                                    |
+| `recommended_action`    | Macro & Vol       | `"wait for data"`, `"reduce exposure"`, `"partial de-risk"`                  |
+| `long_ticker`           | Pair Trades       |                                                                              |
+| `short_ticker`          | Pair Trades       |                                                                              |
+| `long_entry`            | Pair Trades       |                                                                              |
+| `short_entry`           | Pair Trades       |                                                                              |
+| `long_stop`             | Pair Trades       |                                                                              |
+| `short_stop`            | Pair Trades       |                                                                              |
+| `target_spread`         | Pair Trades       | e.g. `"+8%"`                                                                 |
 
 ---
 
@@ -133,9 +132,9 @@ All five strategy families share the same base schema. Strategy-specific optiona
   "fed_policy": "data dependent",
   "next_major_catalyst": "string",
   "strategy_adjustments": {
+    "macro-volatility": "string",
     "earnings-momentum": "string",
     "post-shock": "string",
-    "macro-volatility": "string",
     "crypto": "string",
     "pair-trades": "string"
   },
@@ -143,7 +142,7 @@ All five strategy families share the same base schema. Strategy-specific optiona
 }
 ```
 
-**`strategy_adjustments` keys must exactly match the 5 tab IDs** (`earnings-momentum`, `post-shock`, `macro-volatility`, `crypto`, `pair-trades`).
+**`strategy_adjustments` keys must exactly match the 5 tab IDs** (`macro-volatility`, `earnings-momentum`, `post-shock`, `crypto`, `pair-trades`).
 
 **Regime values:** `trending_bullish`, `trending_bearish`, `choppy`, `high_volatility`, `low_volatility`, `range_bound`
 
@@ -151,38 +150,43 @@ All five strategy families share the same base schema. Strategy-specific optiona
 
 ## Strategy Adjustments by Regime
 
-| Regime | General guidance |
-|---|---|
-| `trending_bullish` | Favour long momentum setups. Widen profit targets. Reduce hedge frequency. |
-| `trending_bearish` | Favour short setups. Tighten stops. Avoid catching falling knives on rebounds. |
-| `choppy` | Reduce position frequency. Prefer mean-reversion over breakout. Tighten targets. |
-| `high_volatility` | Reduce all exposure. Avoid long volatility unless exceptional setup. Wider stops or avoid. |
-| `low_volatility` | Breakout setups more reliable. Long vol for upcoming catalysts. |
-| `range_bound` | Focus on pair trades and mean-reversion. Avoid directional momentum plays. |
+| Regime             | General guidance                                                                           |
+| ------------------ | ------------------------------------------------------------------------------------------ |
+| `trending_bullish` | Favour long momentum setups. Widen profit targets. Reduce hedge frequency.                 |
+| `trending_bearish` | Favour short setups. Tighten stops. Avoid catching falling knives on rebounds.             |
+| `choppy`           | Reduce position frequency. Prefer mean-reversion over breakout. Tighten targets.           |
+| `high_volatility`  | Reduce all exposure. Avoid long volatility unless exceptional setup. Wider stops or avoid. |
+| `low_volatility`   | Breakout setups more reliable. Long vol for upcoming catalysts.                            |
+| `range_bound`      | Focus on pair trades and mean-reversion. Avoid directional momentum plays.                 |
 
 ### Per-strategy regime guidance
 
 **Earnings Momentum & Gaps**
+
 - Trending bullish: highest edge — widen targets, favour long setups
 - Choppy/high-vol: skip weak setups; require strong options flow signal
 - Trending bearish: avoid unless strong sector-specific catalyst overrides
 
 **Post-Shock Rebounds**
+
 - High-vol/bearish: highest opportunity window — require volume and breadth confirmation
 - Trending bullish: fewer setups, higher bar required (stocks need genuine fundamentals)
 - Choppy: avoid, false rebounds are common
 
 **Macro & Volatility Events**
+
 - High-vol: prime window — most events produce outsized moves; widen stops or reduce size
 - Any regime: always populate with the next 5–7 days of high-impact calendar events
 - Trending: ride momentum direction on data surprises; fade only on clear overreaction
 
 **Crypto & Digital Assets**
+
 - Bullish/low-vol: altcoin momentum plays, BTC breakout setups
 - High-vol/bearish: BTC only, very tight stops, minimal allocation
 - Choppy: range-bound BTC plays only
 
 **Relative Value & Pairs**
+
 - All regimes: relatively regime-neutral
 - High-vol: tighten stops on both legs
 - Trending: favour sector rotation pairs (e.g. tech long / energy short)
@@ -194,12 +198,11 @@ All five strategy families share the same base schema. Strategy-specific optiona
 The SPA renders the data you produce. Keep JSON values clean — the UI handles display.
 
 The SPA surfaces:
+
 - 5 strategy tabs with opportunity cards
 - Per-card: ticker, company name, live price (crypto + FX/metals), sparkline chart (FX/metals), direction, conviction badge, impact badge (macro events only), stale badge, R:R, entry/stop/target
 - Market regime section with per-strategy adjustments (collapsible)
 - Stale badge: shown when `expected_holding_days` has elapsed since `last_updated`
-
-The SPA does **not** show: journal entries, archive data, trade counts, position sizes, user profile.
 
 ---
 

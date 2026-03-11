@@ -1,8 +1,8 @@
 # Post-Crash Rebound Strategy
 
-**Category:** Mean reversion / Recovery plays  
-**Trade Horizon:** 3-14 days (post-crash bounce)  
-**Typical Holding Period:** 5-10 days  
+**Category:** Mean reversion / Recovery plays
+**Trade Horizon:** 3-14 days (post-crash bounce)
+**Typical Holding Period:** 5-10 days
 **Best Market Regime:** Transitioning from panic to cautious bullish
 
 ---
@@ -12,6 +12,7 @@
 Capture the oversold bounce after sharp market crashes, corrections, or sector-specific selloffs. This strategy identifies stocks and indices that have been unjustifiably hammered and are poised for technical rebounds as panic subsides.
 
 **Core thesis:** Markets overshoot to the downside during panic selloffs due to:
+
 - Forced liquidations and margin calls
 - Algorithmic selling cascades
 - Emotional capitulation by retail investors
@@ -24,11 +25,13 @@ Capture the oversold bounce after sharp market crashes, corrections, or sector-s
 ## Typical Instruments
 
 **Primary (Revolut X):**
+
 - Quality US Mega Caps: AAPL, MSFT, GOOGL (sold off but fundamentally sound)
 - Sector Leaders: JPM, UNH, XOM (oversold during broad panic)
 - Growth Names: NVDA, TSLA, META (high-beta names that bounce hardest)
 
 **Secondary (Revolut CFDs):**
+
 - US500:CFD (S&P 500) for broad market rebounds
 - NSDQ:CFD (Nasdaq 100) for tech-heavy recovery
 - Individual sector CFDs if sector-specific crash
@@ -87,6 +90,7 @@ Capture the oversold bounce after sharp market crashes, corrections, or sector-s
 ## UI Expectations for SPA
 
 ### Strategy Header (Tab Level)
+
 - **Crash Context Box** (if crash active):
   - "Market Crash: [Trigger]" (e.g., "Fed Hawkish Surprise")
   - "Severity: [Minor/Moderate/Severe]" with color coding
@@ -94,11 +98,13 @@ Capture the oversold bounce after sharp market crashes, corrections, or sector-s
   - "Days Since Low: X"
 
 ### Card Header
+
 - **Symbol** + **Name**
 - **Decline badge**: "-12.5% from high" in red
 - **Phase indicator**: "🔴 Panic" / "🟡 Stabilizing" / "🟢 Recovering"
 
 ### Card Body
+
 - **Direction**: LONG (green - this strategy is almost always long)
 - **Entry zone** → **Target** (with rebound % calculation)
 - **Stop loss** (with % risk)
@@ -109,12 +115,14 @@ Capture the oversold bounce after sharp market crashes, corrections, or sector-s
 - **Risks**: What could prevent the bounce
 
 ### Card Footer
+
 - **Decline from high**: -X% (visual severity indicator)
 - **Position size**: X% of capital
 - **Max hold**: X days
 - **Tags**: recovery, oversold, quality, etc.
 
 ### Sorting
+
 - **Primary**: By conviction (high → moderate → low)
 - **Secondary**: By decline_from_high (most oversold first)
 
@@ -125,6 +133,7 @@ Capture the oversold bounce after sharp market crashes, corrections, or sector-s
 ### Example 1: Index Rebound After Fed Shock (Long)
 
 **Setup:**
+
 - **Symbol**: US500:CFD (S&P 500)
 - **Crash Trigger**: Fed unexpectedly hawkish, rate hike fears
 - **Entry**: 4,850 (after -8% decline from 5,270 high)
@@ -134,12 +143,14 @@ Capture the oversold bounce after sharp market crashes, corrections, or sector-s
 - **Setup Quality**: A+
 
 **Technical Indicators:**
+
 - RSI: 28 (extremely oversold)
 - Volume: Selling exhaustion (declining volume on down days)
 - Support: Holding 200-day MA at 4,840
 - Divergence: RSI making higher lows while price makes lower lows
 
 **Reasoning:**
+
 - Market overreacted to Fed comments (no actual policy change yet)
 - Quality mega caps down indiscriminately (AAPL, MSFT, GOOGL all -7-9%)
 - VIX spiked to 28 (panic peak, usually mean reverts)
@@ -147,12 +158,13 @@ Capture the oversold bounce after sharp market crashes, corrections, or sector-s
 - Smart money (institutional) likely accumulating at these levels
 
 **Risks:**
+
 - Fed doubles down with more hawkish rhetoric
 - Economic data surprise (inflation spike, weak jobs)
 - Geopolitical escalation compounds selling
 
-**Position Size**: 10% of capital  
-**Leverage**: 20x (on index CFD)  
+**Position Size**: 10% of capital
+**Leverage**: 20x (on index CFD)
 **Max Hold**: 7 days
 
 ---
@@ -160,6 +172,7 @@ Capture the oversold bounce after sharp market crashes, corrections, or sector-s
 ### Example 2: Quality Mega Cap Oversold (Long)
 
 **Setup:**
+
 - **Symbol**: AAPL (Apple)
 - **Crash Trigger**: Broad tech selloff on rate fears
 - **Entry**: $165 (down -11% from $185 recent high)
@@ -169,12 +182,14 @@ Capture the oversold bounce after sharp market crashes, corrections, or sector-s
 - **Setup Quality**: A
 
 **Technical Indicators:**
+
 - RSI: 31 (oversold)
 - Price: Testing 50-day MA at $163
 - Volume: High volume selling (capitulation signal)
 - Fundamentals: Strong (beat earnings, growing services revenue)
 
 **Reasoning:**
+
 - Apple sold off indiscriminately despite strong fundamentals
 - No company-specific negative news
 - Trading at support (50-day MA)
@@ -182,12 +197,13 @@ Capture the oversold bounce after sharp market crashes, corrections, or sector-s
 - iPhone 16 cycle positive (strong China demand)
 
 **Risks:**
+
 - Broader market continues lower, dragging AAPL down
 - Tech sector rotation accelerates
 - Unexpected company-specific negative headline
 
-**Position Size**: 6% of capital  
-**Leverage**: 5x  
+**Position Size**: 6% of capital
+**Leverage**: 5x
 **Max Hold**: 10 days
 
 ---
@@ -195,6 +211,7 @@ Capture the oversold bounce after sharp market crashes, corrections, or sector-s
 ## Confidence Interpretation
 
 ### High Conviction
+
 - **Criteria**:
   - Extremely oversold (RSI <30, decline >10%)
   - Clear panic trigger (not structural problem)
@@ -205,6 +222,7 @@ Capture the oversold bounce after sharp market crashes, corrections, or sector-s
 - **Position Sizing**: 8-12% of capital
 
 ### Moderate Conviction
+
 - **Criteria**:
   - Oversold but not extreme (RSI 30-35, decline 7-10%)
   - Less clear panic trigger
@@ -214,6 +232,7 @@ Capture the oversold bounce after sharp market crashes, corrections, or sector-s
 - **Position Sizing**: 4-7% of capital
 
 ### Low Conviction
+
 - **Criteria**:
   - Mild oversold (RSI 35-40, decline 5-7%)
   - Structural concerns (not just panic)
@@ -227,14 +246,16 @@ Capture the oversold bounce after sharp market crashes, corrections, or sector-s
 ## Risk Warnings
 
 ### False Bottom Risk (Knife-Catching)
+
 - **Definition**: Entering too early while selling continues
 - **Signs**: Price breaks below support, RSI continues falling, volume increasing on down days
-- **Mitigation**: 
+- **Mitigation**:
   - Wait for 1-2 days of stabilization before entering
   - Use smaller position sizes if entering during panic phase
   - Strict stop losses (2-3% max)
 
 ### Structural vs Cyclical Risk
+
 - **Cyclical Crash**: Panic-driven, emotional, mean reverts quickly (tradeable)
 - **Structural Crash**: Fundamental problems, sustained downtrend (avoid)
 - **How to Distinguish**:
@@ -243,16 +264,18 @@ Capture the oversold bounce after sharp market crashes, corrections, or sector-s
 - **Mitigation**: Only trade cyclical crashes with clear panic triggers
 
 ### Leverage Risk
+
 - **High leverage (10-20x)** means 2-3% adverse move = 20-60% loss
-- **Mitigation**: 
+- **Mitigation**:
   - Use tighter stops (2-3% max)
   - Smaller position sizes despite high conviction
   - Consider reducing leverage if position moves against you
 
 ### Regime Shift Risk
+
 - **Risk**: Market enters sustained bear market, no bounce materializes
 - **Signs**: VIX stays elevated >30 for weeks, breadth terrible, support levels breaking
-- **Mitigation**: 
+- **Mitigation**:
   - Cut positions quickly if bounce fails within 3-5 days
   - Don't average down into falling knife
   - Reassess regime (may need to switch to short strategies)
@@ -262,18 +285,21 @@ Capture the oversold bounce after sharp market crashes, corrections, or sector-s
 ## Strategy-Level Performance Notes
 
 **Best Market Conditions:**
+
 - Clear panic trigger (Fed, geopolitical) with no structural damage
 - VIX spike >25-30 (panic peak)
 - Market phase: Stabilizing → Recovering
 - Quality names oversold indiscriminately
 
 **Worst Market Conditions:**
+
 - Structural bear market (fundamentals deteriorating)
 - No clear panic trigger (slow grind lower)
 - Sustained high VIX (crisis mode)
 - Weak fundamentals (earnings recession)
 
 **Typical Drawdowns:**
+
 - Individual position: -3% to -5% (stop loss hits)
 - Strategy: Can lose 10-15% if mistiming regime shift
 

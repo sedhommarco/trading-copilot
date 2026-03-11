@@ -3,9 +3,9 @@ import { CONFIG } from './config';
 import { WatchlistData, MarketRegimeData, AppSettings, DEFAULT_SETTINGS } from './types';
 
 export interface AppData {
+  'macro-volatility': WatchlistData;
   'earnings-momentum': WatchlistData;
   'post-shock': WatchlistData;
-  'macro-volatility': WatchlistData;
   'crypto': WatchlistData;
   'pair-trades': WatchlistData;
   'market-regime': MarketRegimeData;
@@ -39,9 +39,9 @@ export async function loadAllData(): Promise<AppData> {
   ]);
 
   return {
+    'macro-volatility': macroVol,
     'earnings-momentum': earningsM,
     'post-shock': postShock,
-    'macro-volatility': macroVol,
     'crypto': crypto,
     'pair-trades': pairTrades,
     'market-regime': marketRegime,

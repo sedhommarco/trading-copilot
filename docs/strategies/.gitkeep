@@ -1,8 +1,0 @@
-# Strategy documentation files will be created here
-
-Each strategy will have its own markdown file with:
-- Purpose & trade horizon
-- Required JSON fields
-- SPA UI expectations
-- Strategy-level confidence and risks
-- Textbook setup examples
