@@ -1,6 +1,12 @@
 import { useState, useRef, useEffect, useContext } from 'react';
 import { SettingsContext } from '../state';
 
+// GitHub Actions workflow name — must match the workflow `name:` field in deploy.yml
+const CI_BADGE_URL =
+  'https://github.com/sedhommarco/trading-copilot/actions/workflows/deploy.yml/badge.svg';
+const CI_ACTIONS_URL =
+  'https://github.com/sedhommarco/trading-copilot/actions/workflows/deploy.yml';
+
 export default function Header() {
   const { settings, setSettings } = useContext(SettingsContext);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -19,7 +25,18 @@ export default function Header() {
 
   return (
     <header className="header">
-      <h1>📊 Trading Copilot</h1>
+      <div className="header-left">
+        <h1>📈 Trading Copilot</h1>
+        <a
+          href={CI_ACTIONS_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="ci-badge-link"
+          title="Deploy workflow status"
+        >
+          <img src={CI_BADGE_URL} alt="Deploy status" className="ci-badge" />
+        </a>
+      </div>
       <div className="header-actions" ref={menuRef}>
         <button
           className="avatar-btn"
@@ -38,7 +55,7 @@ export default function Header() {
                 checked={settings.showLivePrices}
                 onChange={e => setSettings(s => ({ ...s, showLivePrices: e.target.checked }))}
               />
-              Live Prices
+              Live prices
             </label>
             <label className="settings-toggle">
               <input
@@ -46,7 +63,7 @@ export default function Header() {
                 checked={settings.showPriceCharts}
                 onChange={e => setSettings(s => ({ ...s, showPriceCharts: e.target.checked }))}
               />
-              Sparklines
+              Price charts
             </label>
           </div>
         )}
