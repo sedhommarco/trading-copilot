@@ -1,4 +1,4 @@
-import { MacroEvent, AppSettings } from '../types';
+import { MacroEvent } from '../types';
 import {
   getConfidenceLabel,
   getConfidenceBadgeClass,
@@ -9,56 +9,60 @@ import {
 interface Props {
   trade: MacroEvent;
   lastUpdated?: string;
-  settings: AppSettings;
 }
 
 export default function MacroEventCard({ trade }: Props) {
   // event_name is the canonical title field for MacroEvent
-  const eventName  = trade.event_name ?? 'Macro Event';
-  const eventDate  = trade.date ?? 'N/A';
-  const eventTime  = trade.time ?? '';
-
+  const eventName = trade.event_name ?? 'Macro Event';
+  const eventDate = trade.date ?? 'N/A';
+  const eventTime = trade.time ?? '';
   const confidenceLabel = getConfidenceLabel(trade);
   const confidenceClass = getConfidenceBadgeClass(trade);
-  const impactLabel     = getImpactLabel(trade);
-  const impactClass     = getImpactBadgeClass(trade);
+  const impactLabel = getImpactLabel(trade);
+  const impactClass = getImpactBadgeClass(trade);
 
-  let isPast  = false;
+  let isPast = false;
   let daysAgo = 0;
   if (eventDate !== 'N/A') {
     const evtDate = new Date(eventDate);
-    isPast  = evtDate < new Date();
+    isPast = evtDate < new Date();
     daysAgo = Math.floor((Date.now() - evtDate.getTime()) / 86_400_000);
   }
 
   const instruments = trade.tradeable_instruments ?? [];
-
   const action = trade.recommended_action
     ? trade.recommended_action.replace(/_/g, ' ')
     : null;
 
   return (
     <div className={`trade-card${isPast ? ' stale' : ''}`}>
-
       {/* Row 1 — stale badge (past events only) */}
       {isPast && (
-        <div className="stale-badge">✓ Occurred {daysAgo}d ago</div>
+        <div className="stale-badge">
+          ✓ Occurred {daysAgo}d ago
+        </div>
       )}
 
       {/* Row 2 — Confidence + Impact badges */}
       <div className="badge-row">
-        <span className={`confidence-badge ${confidenceClass}`}>
+        <span className={confidenceClass}>
           {confidenceLabel.toUpperCase()} Confidence
         </span>
         {impactLabel && (
-          <span className={`confidence-badge ${impactClass}`}>
-            {impactLabel} Impact
-          </span>
+          <>
+            <span className="badge-separator">·</span>
+            <span className={impactClass}>{impactLabel} Impact</span>
+          </>
         )}
       </div>
 
-      {/* Row 3 — Event title */}
-      <div className="card-title">{eventName}</div>
+      {/* Row 3 — Event title as card-title; card-name spacer keeps layout consistent */}
+      <div className="card-header">
+        <div>
+          <div className="card-title">{eventName}</div>
+          <div className="card-name card-name-event">&nbsp;</div>
+        </div>
+      </div>
 
       {/* Row 4 — Date + time + action meta chips */}
       {eventDate !== 'N/A' && (
@@ -97,7 +101,6 @@ export default function MacroEventCard({ trade }: Props) {
           )}
         </div>
       )}
-
     </div>
   );
 }
