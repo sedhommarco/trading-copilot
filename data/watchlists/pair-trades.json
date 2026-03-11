@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-03-11T15:08:00Z",
+  "last_updated": "2026-03-11T16:00:00Z",
   "opportunities": [
     {
       "ticker": "LLY/NVO",
@@ -80,6 +80,46 @@
       "risk_percent": 2,
       "expected_holding_days": 5,
       "rationale": "In risk-off high-vol regimes BTC tends to outperform high-beta L1s like SOL. Updated BTC entry to current ~69,883 level. Conviction kept low; position size 2%."
+    },
+        {
+      "ticker": "MSFT/AMZN",
+      "company_name": "Microsoft vs Amazon",
+      "direction": "long",
+      "conviction": "high",
+      "long_ticker": "MSFT",
+      "short_ticker": "AMZN",
+      "long_entry": 405.74,
+      "short_entry": 214.33,
+      "long_stop": 385.0,
+      "short_stop": 228.0,
+      "current_price": 405.74,
+      "entry_zone": "400-412",
+      "stop_loss": 385.0,
+      "take_profit": 440.0,
+      "target_spread": "+8%",
+      "risk_percent": 2,
+      "expected_holding_days": 7,
+      "rationale": "Both names were hit by AI capex concerns, but Amazon's ~9% drop in early Feb was driven by a shocking $200B capex guide while Microsoft's selloff reflected more moderate capex fears. Going long MSFT / short AMZN expresses a view that the market over-penalised Amazon's spending trajectory relative to Microsoft's steadier cloud execution. AWS and Azure both accelerating, but MSFT ratio has room to recover. Invalidated if Amazon rallies strongly on positive macro or FOMC-driven risk-on."
+    },
+    {
+      "ticker": "XOM/UAL",
+      "company_name": "ExxonMobil vs United Airlines",
+      "direction": "long",
+      "conviction": "high",
+      "long_ticker": "XOM",
+      "short_ticker": "UAL",
+      "long_entry": 115.0,
+      "short_entry": 90.46,
+      "long_stop": 108.0,
+      "short_stop": 98.0,
+      "current_price": 115.0,
+      "entry_zone": "112-117",
+      "stop_loss": 108.0,
+      "take_profit": 129.0,
+      "target_spread": "+10%",
+      "risk_percent": 2,
+      "expected_holding_days": 7,
+      "rationale": "Upgraded to high conviction. Oil has surged on US-Iran Strait of Hormuz disruption putting structural pressure on airlines (higher jet fuel costs) while directly supporting energy majors (higher crude realisation). United Airlines at $90.46 remains highly exposed to fuel cost spikes; ExxonMobil benefits directly. Long XOM / short UAL captures the oil-driven sector divergence with reduced index beta. Thesis invalidated by confirmed Strait of Hormuz ceasefire or sharp OPEC supply response."
     }
   ]
 }
