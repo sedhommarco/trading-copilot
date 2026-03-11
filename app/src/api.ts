@@ -1,3 +1,4 @@
+/// <reference types="vite/client" />
 /**
  * Live price API utilities.
  *
