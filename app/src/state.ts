@@ -3,12 +3,11 @@ import { CONFIG } from './config';
 import { WatchlistData, MarketRegimeData, AppSettings, DEFAULT_SETTINGS } from './types';
 
 export interface AppData {
-  'pre-earnings': WatchlistData;
-  'post-crash': WatchlistData;
-  volatility: WatchlistData;
-  crypto: WatchlistData;
+  'earnings-momentum': WatchlistData;
+  'post-shock': WatchlistData;
+  'macro-volatility': WatchlistData;
+  'crypto': WatchlistData;
   'pair-trades': WatchlistData;
-  'macro-events': WatchlistData;
   'market-regime': MarketRegimeData;
 }
 
@@ -24,35 +23,32 @@ function dataUrl(path: string): string {
 
 export async function loadAllData(): Promise<AppData> {
   const [
-    preEarnings,
-    postCrash,
-    volatility,
+    earningsM,
+    postShock,
+    macroVol,
     crypto,
     pairTrades,
-    macroEvents,
     marketRegime,
   ] = await Promise.all([
     fetchJSON<WatchlistData>(dataUrl('watchlists/pre-earnings.json')),
     fetchJSON<WatchlistData>(dataUrl('watchlists/post-crash.json')),
-    fetchJSON<WatchlistData>(dataUrl('watchlists/volatility.json')),
+    fetchJSON<WatchlistData>(dataUrl('watchlists/macro-volatility.json')),
     fetchJSON<WatchlistData>(dataUrl('watchlists/crypto.json')),
     fetchJSON<WatchlistData>(dataUrl('watchlists/pair-trades.json')),
-    fetchJSON<WatchlistData>(dataUrl('watchlists/macro-events.json')),
     fetchJSON<MarketRegimeData>(dataUrl('context/market-regime.json')),
   ]);
 
   return {
-    'pre-earnings': preEarnings,
-    'post-crash': postCrash,
-    volatility,
-    crypto,
+    'earnings-momentum': earningsM,
+    'post-shock': postShock,
+    'macro-volatility': macroVol,
+    'crypto': crypto,
     'pair-trades': pairTrades,
-    'macro-events': macroEvents,
     'market-regime': marketRegime,
   };
 }
 
-// ─── Settings Context ─────────────────────────────────────────────────────────
+// ─── Settings Context ────────────────────────────────────────────────────────────────────────────────
 
 export interface SettingsContextValue {
   settings: AppSettings;

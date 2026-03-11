@@ -1,4 +1,4 @@
-// ─── Core Trade Types ────────────────────────────────────────────────────────
+// ─── Core Trade Types ────────────────────────────────────────────────────────────────────────
 
 export interface BaseTrade {
   direction?: string;
@@ -30,6 +30,7 @@ export interface Trade extends BaseTrade {
   entry_trigger?: string;
   crash_date?: string;
   drop_percent?: number;
+  event_tag?: string;
 }
 
 export interface PairTrade extends BaseTrade {
@@ -50,11 +51,12 @@ export interface MacroEvent extends BaseTrade {
   trade_setup?: string;
   recommended_action?: string;
   impact?: string;
+  event_tag?: string;
 }
 
 export type AnyTrade = Trade | PairTrade | MacroEvent;
 
-// ─── Watchlist ──────────────────────────────────────────────────────────────
+// ─── Watchlist ────────────────────────────────────────────────────────────────────
 
 export interface WatchlistData {
   strategy?: string;
@@ -66,7 +68,7 @@ export interface WatchlistData {
   candidates?: AnyTrade[];
 }
 
-// ─── Market Regime ────────────────────────────────────────────────────────
+// ─── Market Regime ───────────────────────────────────────────────────────────────────
 
 export interface MarketRegimeData {
   current_regime?: string;
@@ -81,7 +83,7 @@ export interface MarketRegimeData {
   strategy_adjustments?: Record<string, string>;
 }
 
-// ─── Live Price ───────────────────────────────────────────────────────────
+// ─── Live Price ──────────────────────────────────────────────────────────────────────
 
 export interface LivePriceData {
   price: number;
@@ -91,7 +93,7 @@ export interface LivePriceData {
   source: 'coinlore' | 'fawazahmed0' | 'yahoo';
 }
 
-// ─── App Settings ─────────────────────────────────────────────────────────
+// ─── App Settings ──────────────────────────────────────────────────────────────────
 
 export interface AppSettings {
   showLivePrices: boolean;
@@ -103,15 +105,15 @@ export const DEFAULT_SETTINGS: AppSettings = {
   showPriceCharts: true,
 };
 
-// ─── Navigation ──────────────────────────────────────────────────────────
+// ─── Navigation ───────────────────────────────────────────────────────────────────
 
+// The 5 canonical strategy families — everything else is an overlay or sub-type.
 export const TAB_ORDER = [
-  'pre-earnings',
-  'post-crash',
-  'volatility',
+  'earnings-momentum',
+  'post-shock',
+  'macro-volatility',
   'crypto',
   'pair-trades',
-  'macro-events',
 ] as const;
 
 export type TabId = typeof TAB_ORDER[number];

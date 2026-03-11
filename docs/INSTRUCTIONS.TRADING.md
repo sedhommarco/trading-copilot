@@ -1,8 +1,8 @@
 # Trading Copilot — Space Instructions
 
-**Space:** Trading Copilot  
-**Role:** AI Trading Analyst — Forecasts, Recommendations, Market Context  
-**Last updated:** 2026-03-10
+**Space:** Trading Copilot
+**Role:** AI Trading Analyst — Forecasts, Recommendations, Market Context
+**Last updated:** 2026-03-11
 
 ---
 
@@ -22,62 +22,55 @@ This space produces **current trading recommendations and market context** for t
 
 ---
 
+## The 5 Strategy Families
+
+Trading Copilot uses exactly **5 strategy families**. Each maps to one SPA tab and one JSON file.
+
+| # | Family name | SPA tab id | JSON file | Detailed doc |
+|---|---|---|---|---|
+| 1 | Earnings Momentum & Gaps | `earnings-momentum` | `watchlists/pre-earnings.json` | `strategies/pre-earnings-momentum.md` |
+| 2 | Post-Shock Rebounds | `post-shock` | `watchlists/post-crash.json` | `strategies/post-crash-rebound.md` |
+| 3 | Macro & Volatility Events | `macro-volatility` | `watchlists/macro-volatility.json` | `strategies/macro-volatility.md` |
+| 4 | Crypto & Digital Assets | `crypto` | `watchlists/crypto.json` | `strategies/crypto-opportunities.md` |
+| 5 | Relative Value & Pairs | `pair-trades` | `watchlists/pair-trades.json` | `strategies/pair-trades.md` |
+
+**Execution overlays** (not strategy tabs — apply on top of the above):
+- `strategies/revolut-tools-intraday-swing.md` — platform execution techniques
+- `strategies/cycles-sessions-events.md` — seasonal and calendar timing layer
+
+---
+
 ## Refresh Workflow
 
 When triggered (e.g., "Trading Copilot — Weekly Refresh"), execute in order:
 
 1. **Assess current market regime** → update `data/context/market-regime.json`
-2. **For each active strategy**, generate or refresh opportunity list → overwrite `data/watchlists/<strategy>.json`
-3. If a strategy has no current opportunities, write an empty array: `[]`
-4. Do not create archive folders, index files, or performance summaries
+2. **For each of the 5 strategy families**, generate or refresh opportunity list → overwrite `data/watchlists/<file>.json`
+3. **Cross-check execution overlays:** check seasonal calendar (Cycles overlay) and note any regime-specific execution reminders (Revolut Tools overlay) in the regime `notes` field
+4. If a strategy has no current opportunities, write an empty `opportunities` array: `"opportunities": []`
+5. Do not create archive folders, index files, or performance summaries
 
 ---
 
-## Output: Market Regime (`data/context/market-regime.json`)
+## Canonical Opportunity Schema
 
-```json
-{
-  "regime": "trending_bullish",
-  "vix_range": "14–16",
-  "sentiment": "Cautiously optimistic. Tech leading, defensive lagging.",
-  "updated": "2026-03-10",
-  "strategy_adjustments": {
-    "pre-earnings-momentum": "Favour long setups. Widen profit targets in low-vol environment.",
-    "post-crash-rebound": "Few setups available. Require strong volume confirmation.",
-    "volatility-plays": "Avoid long vol. Consider short vol on VIX spikes above 20.",
-    "crypto-opportunities": "BTC above key support. Altcoin momentum improving.",
-    "pair-trades": "Sector rotation active — look for tech/energy pairs.",
-    "macro-events": "Fed meeting key risk. Reduce exposure 24h before.",
-    "revolut-tools-intraday-swing": "Trending conditions favour MACD crossover entries.",
-    "cycles-sessions-events": "No major calendar events this week."
-  }
-}
-```
+All five strategy families share the same base schema. Strategy-specific optional fields are listed per-strategy in the detailed docs.
 
-**Regime values:** `trending_bullish`, `trending_bearish`, `choppy`, `high_volatility`, `low_volatility`, `range_bound`
-
----
-
-## Output: Watchlist (`data/watchlists/<strategy>.json`)
-
-Each watchlist file is an array of opportunity objects.
-
-### Minimal opportunity schema
+### Base fields (all strategies)
 
 ```json
 {
   "ticker": "AAPL",
-  "name": "Apple Inc.",
-  "direction": "long",
-  "timeframe": "swing",
-  "confidence": "high",
-  "risk_pct": "1–2%",
-  "risk_reward": "1:3",
-  "entry_zone": "175–177",
-  "stop_loss": "171",
-  "take_profit": "188",
-  "catalyst": "Earnings beat widely expected. Options flow bullish.",
-  "notes": "Watch for volume confirmation on breakout."
+  "company_name": "Apple Inc.",
+  "direction": "long | short",
+  "conviction": "high | moderate | low",
+  "current_price": 175.0,
+  "entry_zone": "173-177",
+  "stop_loss": 168.0,
+  "take_profit": 190.0,
+  "risk_percent": 2,
+  "expected_holding_days": 5,
+  "rationale": "1-3 sentences: catalyst + setup + key risk."
 }
 ```
 
@@ -85,28 +78,78 @@ Each watchlist file is an array of opportunity objects.
 
 | Field | Type | Required | Notes |
 |---|---|---|---|
-| `ticker` | string | yes | Exchange ticker symbol |
-| `name` | string | yes | Full instrument name |
-| `direction` | `"long"` \| `"short"` | yes | |
-| `timeframe` | string | yes | e.g. `"intraday"`, `"swing"`, `"1–5 days"` |
-| `confidence` | `"high"` \| `"moderate"` \| `"low"` | yes | |
-| `risk_pct` | string | recommended | % of capital at risk, e.g. `"1–2%"` |
-| `risk_reward` | string | recommended | e.g. `"1:3"` |
-| `entry_zone` | string | recommended | Price range for entry |
-| `stop_loss` | string/number | recommended | |
-| `take_profit` | string/number | recommended | |
-| `catalyst` | string | recommended | What is driving the setup |
-| `notes` | string | optional | Additional context |
+| `ticker` | string | yes | Exchange symbol or instrument code. Use `"N/A"` for pure macro calendar events. |
+| `company_name` | string | yes | Full name or event display name |
+| `direction` | `"long"` \| `"short"` | yes (omit for pure macro events) | |
+| `conviction` | `"high"` \| `"moderate"` \| `"low"` | yes | Maps directly to Confidence badge in SPA |
+| `current_price` | number | recommended | Snapshot price at time of refresh |
+| `entry_zone` | string \| number | recommended | Price range or exact level |
+| `stop_loss` | number | recommended | |
+| `take_profit` | number | recommended | |
+| `risk_percent` | number | recommended | % of capital at risk |
+| `expected_holding_days` | number | yes | Drives stale badge logic in SPA |
+| `rationale` | string | yes | 1-3 sentences |
 
-**Do not include:** position sizes, nominal amounts, leverage suggestions, capital allocations.
+### Strategy-specific optional fields
+
+| Field | Used by | Notes |
+|---|---|---|
+| `earnings_date` | Earnings Momentum | `"YYYY-MM-DD"` |
+| `crash_date` | Post-Shock | `"YYYY-MM-DD"` of the original shock |
+| `drop_percent` | Post-Shock | Negative number, e.g. `-18.5` |
+| `trade_setup` | Any | Short label, e.g. `"macro breakout"` |
+| `entry_trigger` | Any | Specific condition to enter |
+| `event_name` | Macro & Vol | Full event name for calendar entries |
+| `date` | Macro & Vol | `"YYYY-MM-DD"` of the event |
+| `time` | Macro & Vol | `"HH:MM CET"` |
+| `impact` | Macro & Vol | `"very high" \| "high" \| "medium" \| "low"` — drives Impact badge |
+| `event_tag` | Macro & Vol | `"nfp"`, `"cpi"`, `"ism"`, `"fomc"`, `"ecb"`, `"earnings"`, `"geopolitical"` |
+| `tradeable_instruments` | Macro & Vol | Array of instrument codes |
+| `recommended_action` | Macro & Vol | `"wait for data"`, `"reduce exposure"`, `"partial de-risk"` |
+| `long_ticker` | Pair Trades | |
+| `short_ticker` | Pair Trades | |
+| `long_entry` | Pair Trades | |
+| `short_entry` | Pair Trades | |
+| `long_stop` | Pair Trades | |
+| `short_stop` | Pair Trades | |
+| `target_spread` | Pair Trades | e.g. `"+8%"` |
+
+**Do not include:** `file_type`, `strategy`, `setup_quality`, `momentum_score`, `position_size_pct`, `position_size_usd`, `week_start`, `week_end`, `previous_week_outcomes` — these are legacy fields from earlier schema versions and are not used by the SPA.
 
 ---
 
-## Strategy Adjustments in Market Regime
+## Output: Market Regime (`data/context/market-regime.json`)
 
-For each refresh, provide **concrete, regime-specific adjustments** for each strategy. These appear in the SPA under the Market Regime section. Keep adjustments short (1–2 sentences), actionable, and directly tied to the current regime.
+```json
+{
+  "file_type": "market_regime",
+  "last_updated": "ISO 8601",
+  "current_regime": "trending_bullish",
+  "vix": 16.5,
+  "trend": "uptrend",
+  "sentiment": "Cautiously optimistic. Tech leading, defensive lagging.",
+  "sector_leaders": ["Semiconductors", "Energy"],
+  "sector_laggards": ["Utilities", "REITs"],
+  "fed_policy": "data dependent",
+  "next_major_catalyst": "string",
+  "strategy_adjustments": {
+    "earnings-momentum": "string",
+    "post-shock": "string",
+    "macro-volatility": "string",
+    "crypto": "string",
+    "pair-trades": "string"
+  },
+  "notes": "string"
+}
+```
 
-### Adjustment guidelines by regime
+**`strategy_adjustments` keys must exactly match the 5 tab IDs** (`earnings-momentum`, `post-shock`, `macro-volatility`, `crypto`, `pair-trades`).
+
+**Regime values:** `trending_bullish`, `trending_bearish`, `choppy`, `high_volatility`, `low_volatility`, `range_bound`
+
+---
+
+## Strategy Adjustments by Regime
 
 | Regime | General guidance |
 |---|---|
@@ -117,59 +160,44 @@ For each refresh, provide **concrete, regime-specific adjustments** for each str
 | `low_volatility` | Breakout setups more reliable. Long vol for upcoming catalysts. |
 | `range_bound` | Focus on pair trades and mean-reversion. Avoid directional momentum plays. |
 
-### Per-strategy regime considerations
+### Per-strategy regime guidance
 
-**Pre-Earnings Momentum**  
-- Trending: increase conviction on long setups, wider targets  
-- Choppy/high-vol: skip weak setups, require strong options flow signal  
-- Bearish: avoid unless strong sector catalyst
+**Earnings Momentum & Gaps**
+- Trending bullish: highest edge — widen targets, favour long setups
+- Choppy/high-vol: skip weak setups; require strong options flow signal
+- Trending bearish: avoid unless strong sector-specific catalyst overrides
 
-**Post-Crash Rebound**  
-- High-vol/bearish: highest opportunity window — require volume and breadth confirmation  
-- Trending bullish: few setups, higher bar required  
+**Post-Shock Rebounds**
+- High-vol/bearish: highest opportunity window — require volume and breadth confirmation
+- Trending bullish: fewer setups, higher bar required (stocks need genuine fundamentals)
 - Choppy: avoid, false rebounds are common
 
-**Volatility Plays**  
-- High-vol: short vol on spikes only with clear mean-reversion signal  
-- Low-vol: long vol on upcoming known catalysts (earnings, macro events)  
-- Trending: avoid unless regime transition expected
+**Macro & Volatility Events**
+- High-vol: prime window — most events produce outsized moves; widen stops or reduce size
+- Any regime: always populate with the next 5–7 days of high-impact calendar events
+- Trending: ride momentum direction on data surprises; fade only on clear overreaction
 
-**Crypto Opportunities**  
-- Bullish/low-vol: altcoin momentum plays, BTC breakout setups  
-- High-vol/bearish: BTC only, very tight stops, minimal allocation  
+**Crypto & Digital Assets**
+- Bullish/low-vol: altcoin momentum plays, BTC breakout setups
+- High-vol/bearish: BTC only, very tight stops, minimal allocation
 - Choppy: range-bound BTC plays only
 
-**Pair Trades**  
-- All regimes: pair trades are relatively regime-neutral  
-- High-vol: tighten stops on both legs  
-- Trending: favour sector rotation pairs (e.g., tech long / energy short)
-
-**Macro Events**  
-- Pre-event: reduce directional exposure 24–48h before major events  
-- Post-event: fade overreaction setups with tight risk  
-- High-vol: widen event windows, reduce size
-
-**Revolut Tools (Intraday/Swing)**  
-- Trending: MACD crossover entries reliable, follow trend  
-- Choppy: use oscillators (RSI, Stoch) for mean-reversion entries  
-- High-vol: intraday only, avoid overnight holds
-
-**Cycles / Sessions / Events**  
-- Always check event calendar before refresh  
-- Propose 1–3 upcoming seasonal or event-driven setups if within 2–3 week window  
-- Include event date, instrument, and expected directional bias
+**Relative Value & Pairs**
+- All regimes: relatively regime-neutral
+- High-vol: tighten stops on both legs
+- Trending: favour sector rotation pairs (e.g. tech long / energy short)
 
 ---
 
 ## What the SPA Shows
 
-The SPA renders the data you produce. You do not need to control formatting in your JSON output — keep values clean and the UI handles display.
+The SPA renders the data you produce. Keep JSON values clean — the UI handles display.
 
 The SPA surfaces:
-- Strategy tabs with opportunity cards
-- Per-card: ticker, name, live price, sparkline, direction, timeframe, confidence, risk %, R:R, catalyst
+- 5 strategy tabs with opportunity cards
+- Per-card: ticker, company name, live price (crypto + FX/metals), sparkline chart (FX/metals), direction, conviction badge, impact badge (macro events only), stale badge, R:R, entry/stop/target
 - Market regime section with per-strategy adjustments (collapsible)
-- Stale badge on cards when data is outdated
+- Stale badge: shown when `expected_holding_days` has elapsed since `last_updated`
 
 The SPA does **not** show: journal entries, archive data, trade counts, position sizes, user profile.
 
@@ -179,4 +207,10 @@ The SPA does **not** show: journal entries, archive data, trade counts, position
 
 - `docs/index.md` — system overview and data schemas
 - `docs/INSTRUCTIONS.DEV.md` — Dev Space behaviour (architecture, refactoring)
-- `docs/strategies/*.md` — per-strategy detailed documentation
+- `docs/strategies/pre-earnings-momentum.md` — Earnings Momentum & Gaps detail
+- `docs/strategies/post-crash-rebound.md` — Post-Shock Rebounds detail
+- `docs/strategies/macro-volatility.md` — Macro & Volatility Events detail
+- `docs/strategies/crypto-opportunities.md` — Crypto & Digital Assets detail
+- `docs/strategies/pair-trades.md` — Relative Value & Pairs detail
+- `docs/strategies/revolut-tools-intraday-swing.md` — Execution overlay
+- `docs/strategies/cycles-sessions-events.md` — Calendar overlay
