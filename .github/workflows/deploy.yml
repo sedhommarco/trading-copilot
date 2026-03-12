@@ -34,10 +34,14 @@ jobs:
         working-directory: app
         run: npx tsc --noEmit
 
+      - name: Set build version (yyyyMMdd.HHmm UTC)
+        id: version
+        run: echo "BUILD_VERSION=$(date -u +"%Y%m%d.%H%M")" >> $GITHUB_ENV
+
       - name: Build
         working-directory: app
         env:
-          VITE_APP_VERSION: ${{ github.ref_name }}
+          VITE_APP_VERSION: ${{ env.BUILD_VERSION }}
           VITE_GOOGLE_CLIENT_ID: ${{ secrets.VITE_GOOGLE_CLIENT_ID }}
         run: npm run build
 
