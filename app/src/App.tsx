@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { loadAllData, AppData, SettingsContext } from './state';
 import { TAB_ORDER, TabId, AppSettings, DEFAULT_SETTINGS } from './types';
 import Header from './components/Header';
@@ -6,13 +6,18 @@ import Tabs from './components/Tabs';
 import MarketRegime from './components/MarketRegime';
 import WatchlistPanel from './components/WatchlistPanel';
 import Footer from './components/Footer';
+import DiceIcon from './assets/icons/dice.svg?react';
+import EarningIcon from './assets/icons/earning.svg?react';
+import ReboundIcon from './assets/icons/rebound.svg?react';
+import CryptoIcon from './assets/icons/crypto.svg?react';
+import PairtradeIcon from './assets/icons/pairtrade.svg?react';
 
-const TAB_LABELS: Record<TabId, string> = {
-  'macro-volatility':  '🌊 Macro & Volatility',
-  'earnings-momentum': '📈 Earnings Momentum',
-  'post-shock':        '⚡ Post-Shock Rebounds',
-  'crypto':            '🪙 Crypto',
-  'pair-trades':       '↔️ Pair Trades',
+const TAB_LABELS: Record<TabId, React.ReactNode> = {
+  'macro-volatility':  <><DiceIcon    className="tab-icon" aria-hidden="true" /> Macro & Volatility</>,
+  'earnings-momentum': <><EarningIcon  className="tab-icon" aria-hidden="true" /> Earnings Momentum</>,
+  'post-shock':        <><ReboundIcon  className="tab-icon" aria-hidden="true" /> Post-Shock Rebounds</>,
+  'crypto':            <><CryptoIcon   className="tab-icon" aria-hidden="true" /> Crypto</>,
+  'pair-trades':       <><PairtradeIcon className="tab-icon" aria-hidden="true" /> Pair Trades</>,
 };
 
 export default function App() {
