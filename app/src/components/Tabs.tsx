@@ -1,8 +1,9 @@
+import { type ReactNode } from 'react';
 import { TabId } from '../types';
 
 interface Props {
   tabs: readonly TabId[];
-  labels: Record<TabId, string>;
+  labels: Record<TabId, ReactNode>;
   active: TabId;
   onChange: (tab: TabId) => void;
 }
