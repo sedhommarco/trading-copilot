@@ -17,11 +17,11 @@ import {
 import {
   GoogleOAuthProvider,
   googleLogout,
-  useGoogleLogin,
+  type CredentialResponse,
 } from '@react-oauth/google';
 import { Navigate, useLocation } from 'react-router-dom';
 
-// ─── Types ───────────────────────────────────────────────────────────────────
+// ─── Types ────────────────────────────────────────────────────────────────────
 
 export interface AuthUser {
   name: string;
@@ -32,15 +32,19 @@ export interface AuthUser {
 interface AuthContextValue {
   user: AuthUser | null;
   googleEnabled: boolean;
+  /** Called by <GoogleLogin onSuccess> to hydrate the user from the ID token. */
+  handleGoogleSuccess: (response: CredentialResponse) => void;
+  /** Legacy no-op kept for Header.tsx compatibility. */
   signInWithGoogle: () => void;
   signOut: () => void;
 }
 
-// ─── Context ─────────────────────────────────────────────────────────────────
+// ─── Context ───────────────────────────────────────────────────────────────────
 
 const AuthContext = createContext<AuthContextValue>({
   user: null,
   googleEnabled: false,
+  handleGoogleSuccess: () => {},
   signInWithGoogle: () => {},
   signOut: () => {},
 });
@@ -49,7 +53,7 @@ export function useAuth() {
   return useContext(AuthContext);
 }
 
-// ─── Storage helpers ─────────────────────────────────────────────────────────
+// ─── Storage helpers ─────────────────────────────────────────────────────────────
 
 const STORAGE_KEY = 'tradingAdvisorAuth';
 
@@ -70,65 +74,75 @@ function persistUser(user: AuthUser | null) {
   }
 }
 
-// ─── Provider with Google (must be inside GoogleOAuthProvider) ────────────────
+/** Decode a Google ID token (JWT) payload — client-side display only, NOT verified. */
+function decodeIdToken(credential: string): Record<string, unknown> {
+  try {
+    const payload = credential.split('.')[1];
+    return JSON.parse(atob(payload.replace(/-/g, '+').replace(/_/g, '/')));
+  } catch {
+    return {};
+  }
+}
+
+// ─── Provider with Google (must be inside GoogleOAuthProvider) ───────────────────────────────────────
 
 function AuthProviderWithGoogle({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<AuthUser | null>(loadPersistedUser);
-
   useEffect(() => { persistUser(user); }, [user]);
 
-  const handleSuccess = useCallback(
-    async (tokenResponse: { access_token: string }) => {
-      try {
-        const res = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
-          headers: { Authorization: `Bearer ${tokenResponse.access_token}` },
-        });
-        const info = (await res.json()) as {
-          name?: string; email?: string; picture?: string;
-        };
-        setUser({ name: info.name ?? 'User', email: info.email ?? '', avatarUrl: info.picture });
-      } catch (err) {
-        console.error('Failed to fetch Google user info', err);
-      }
-    },
-    [],
-  );
+  /**
+   * Called by <GoogleLogin onSuccess>.
+   * The response carries a credential (ID token / JWT) —
+   * we decode the payload client-side to extract display fields.
+   */
+  const handleGoogleSuccess = useCallback((response: CredentialResponse) => {
+    if (!response.credential) return;
+    const payload = decodeIdToken(response.credential);
+    setUser({
+      name: (payload.name as string) ?? 'User',
+      email: (payload.email as string) ?? '',
+      avatarUrl: payload.picture as string | undefined,
+    });
+  }, []);
 
-  const googleLogin = useGoogleLogin({
-    onSuccess: handleSuccess,
-    onError: (err) => console.error('Google login error', err),
-  });
-
-  const signInWithGoogle = useCallback(() => googleLogin(), [googleLogin]);
   const signOut = useCallback(() => { googleLogout(); setUser(null); }, []);
 
+  // No-op: <GoogleLogin /> drives the flow; kept for Header.tsx interface stability.
+  const signInWithGoogle = useCallback(() => {}, []);
+
   return (
-    <AuthContext.Provider value={{ user, googleEnabled: true, signInWithGoogle, signOut }}>
+    <AuthContext.Provider
+      value={{ user, googleEnabled: true, handleGoogleSuccess, signInWithGoogle, signOut }}
+    >
       {children}
     </AuthContext.Provider>
   );
 }
 
-// ─── Provider without Google (no-op sign-in) ──────────────────────────────
+// ─── Provider without Google (no-op sign-in) ──────────────────────────────────────────────
 
 function AuthProviderNoGoogle({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<AuthUser | null>(loadPersistedUser);
-
   useEffect(() => { persistUser(user); }, [user]);
 
   const signOut = useCallback(() => { setUser(null); }, []);
+  const handleGoogleSuccess = useCallback((_: CredentialResponse) => {
+    console.warn('Google Sign-In not configured. Set VITE_GOOGLE_CLIENT_ID.');
+  }, []);
   const signInWithGoogle = useCallback(() => {
     console.warn('Google Sign-In not configured. Set VITE_GOOGLE_CLIENT_ID.');
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, googleEnabled: false, signInWithGoogle, signOut }}>
+    <AuthContext.Provider
+      value={{ user, googleEnabled: false, handleGoogleSuccess, signInWithGoogle, signOut }}
+    >
       {children}
     </AuthContext.Provider>
   );
 }
 
-// ─── Public AuthProvider ────────────────────────────────────────────────────────
+// ─── Public AuthProvider ─────────────────────────────────────────────────────────────────────────
 
 const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID;
 
@@ -144,7 +158,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   return <AuthProviderNoGoogle>{children}</AuthProviderNoGoogle>;
 }
 
-// ─── RequireAuth guard ────────────────────────────────────────────────────────
+// ─── RequireAuth guard ────────────────────────────────────────────────────────────────────
 
 /**
  * RequireAuth is a client-side UX gate only.
@@ -154,10 +168,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 export function RequireAuth({ children }: { children: JSX.Element }) {
   const { user } = useAuth();
   const location = useLocation();
-
   if (!user) {
     return <Navigate to="/" state={{ from: location }} replace />;
   }
-
   return children;
 }
