@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { GoogleLogin, CredentialResponse } from '@react-oauth/google';
 import { useAuth } from './auth';
 
 const FEATURES = [
@@ -11,13 +12,17 @@ const FEATURES = [
 ];
 
 export default function WelcomePage() {
-  const { user, signInWithGoogle } = useAuth();
+  const { user, handleGoogleSuccess } = useAuth();
   const navigate = useNavigate();
 
   // If already signed in, redirect straight to the app
   useEffect(() => {
     if (user) navigate('/app', { replace: true });
   }, [user, navigate]);
+
+  function onSuccess(response: CredentialResponse) {
+    handleGoogleSuccess(response);
+  }
 
   return (
     <div className="welcome-page">
@@ -29,24 +34,21 @@ export default function WelcomePage() {
           and strategy-level market context.
         </p>
         <div className="welcome-cta-row">
-          <button
-            className="btn-primary"
-            onClick={() => navigate('/app')}
-          >
-            Launch Trading A¡dvisor
-          </button>
-          <button
-            className="btn-secondary"
-            onClick={signInWithGoogle}
-          >
-            Sign in with Google
-          </button>
+          <GoogleLogin
+            onSuccess={onSuccess}
+            onError={() => console.error('Google Sign-In failed')}
+            useOneTap={false}
+            theme="filled_blue"
+            size="large"
+            shape="rectangular"
+            logo_alignment="left"
+          />
         </div>
       </section>
 
       {/* Features */}
       <section className="welcome-features">
-        <h2 className="welcome-section-title">What’s inside</h2>
+        <h2 className="welcome-section-title">What's inside</h2>
         <ul className="features-list">
           {FEATURES.map((f) => (
             <li key={f.label} className="feature-item">
