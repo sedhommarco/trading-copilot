@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+import svgr from 'vite-plugin-svgr';
 import { readFileSync } from 'fs';
 import { resolve } from 'path';
 
@@ -8,15 +9,11 @@ const pkg = JSON.parse(
 );
 
 export default defineConfig({
-  plugins: [react()],
+  plugins: [react(), svgr()],
   base: '/trading-copilot/',
   define: {
     'import.meta.env.VITE_APP_VERSION': JSON.stringify(
       process.env.VITE_APP_VERSION ?? pkg.version
     ),
-  },
-  build: {
-    outDir: '../dist',
-    emptyOutDir: true,
   },
 });

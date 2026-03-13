@@ -2,13 +2,18 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { GoogleLogin, CredentialResponse } from '@react-oauth/google';
 import { useAuth } from './auth';
+import DiceIcon     from './assets/icons/dice.svg?react';
+import ForecastIcon from './assets/icons/forecast.svg?react';
+import WatchlistIcon from './assets/icons/watchlist.svg?react';
+import LiveIcon     from './assets/icons/live.svg?react';
+import ChartIcon    from './assets/icons/chart.svg?react';
 
 const FEATURES = [
-  { icon: '📈', label: 'Trade Forecasts', desc: 'Strategy-driven opportunities across 5 asset families.' },
-  { icon: '📄', label: 'Watchlists', desc: 'Curated long/short setups with entry, stop and target levels.' },
-  { icon: '🌍', label: 'Macro Events', desc: 'Volatility events and economic calendar catalysts.' },
-  { icon: '⚡', label: 'Live Prices', desc: 'Real-time prices for crypto and FX / metals.' },
-  { icon: '📉', label: 'Price Charts', desc: 'Inline sparklines for visual momentum confirmation.' },
+  { Icon: ForecastIcon,  label: 'Trade Forecasts', desc: 'Strategy-driven opportunities across 5 asset families.' },
+  { Icon: WatchlistIcon, label: 'Watchlists',       desc: 'Curated long/short setups with entry, stop and target levels.' },
+  { Icon: DiceIcon,      label: 'Macro Events',     desc: 'Volatility events and economic calendar catalysts.' },
+  { Icon: LiveIcon,      label: 'Live Prices',      desc: 'Real-time prices for crypto and FX / metals.' },
+  { Icon: ChartIcon,     label: 'Price Charts',     desc: 'Inline sparklines for visual momentum confirmation.' },
 ];
 
 export default function WelcomePage() {
@@ -52,7 +57,7 @@ export default function WelcomePage() {
         <ul className="features-list">
           {FEATURES.map((f) => (
             <li key={f.label} className="feature-item">
-              <span className="feature-icon">{f.icon}</span>
+              <f.Icon className="feature-icon-svg" aria-hidden="true" />
               <div>
                 <strong>{f.label}</strong>
                 <p>{f.desc}</p>
