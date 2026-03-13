@@ -860,3 +860,41 @@ body {
   font-size: 1.75rem;
   font-weight: 600;
 }
+
+/* ── SVG Icon system ──────────────────────────────────── */
+
+/* Tab bar icons */
+.tab-icon {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.15em;
+  margin-right: 0.35em;
+  flex-shrink: 0;
+  /* Inherits currentColor from the button text */
+  fill: currentColor;
+  stroke: currentColor;
+}
+
+/* Market Regime heading icon */
+.regime-icon {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.15em;
+  margin-right: 0.35em;
+  flex-shrink: 0;
+  fill: currentColor;
+  stroke: currentColor;
+}
+
+/* WelcomePage feature card icons */
+.feature-icon-svg {
+  width: 2rem;
+  height: 2rem;
+  flex-shrink: 0;
+  fill: currentColor;
+  stroke: currentColor;
+  color: var(--color-accent);
+  margin-top: 0.125rem;
+}
