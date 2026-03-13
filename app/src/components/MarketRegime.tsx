@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { MarketRegimeData } from '../types';
+import GlobeIcon from '../assets/icons/globe.svg?react';
 
 interface Props {
   regime: MarketRegimeData | undefined;
@@ -15,16 +16,17 @@ function regimeColors(name: string): { color: string; bg: string } {
 export default function MarketRegime({ regime }: Props) {
   const [expanded, setExpanded] = useState(false);
   if (!regime) return null;
-
   const name = regime.current_regime ?? 'N/A';
   const { color, bg } = regimeColors(name);
   const adj = regime.strategy_adjustments ?? {};
-
   return (
     <div className="market-regime" style={{ background: bg, borderColor: color }}>
       <div className="regime-header" onClick={() => setExpanded(e => !e)}>
         <div className="regime-summary">
-          <h2 style={{ color }}>🌍 Market Regime</h2>
+          <h2 style={{ color }}>
+            <GlobeIcon className="regime-icon" aria-hidden="true" />
+            Market Regime
+          </h2>
           <div className="regime-status" style={{ color }}>{name.toUpperCase()}</div>
           <div className="regime-quick-stats">
             <span>VIX: {regime.vix ?? 'N/A'}</span>
@@ -34,7 +36,6 @@ export default function MarketRegime({ regime }: Props) {
         </div>
         <div className="regime-toggle">{expanded ? '▲' : '▼'}</div>
       </div>
-
       {expanded && (
         <div className="regime-details">
           <div className="regime-grid">
@@ -51,7 +52,6 @@ export default function MarketRegime({ regime }: Props) {
               </div>
             ))}
           </div>
-
           {(regime.sector_leaders?.length || regime.sector_laggards?.length) ? (
             <div className="sectors-section">
               <div className="sectors-grid">
@@ -70,7 +70,6 @@ export default function MarketRegime({ regime }: Props) {
               </div>
             </div>
           ) : null}
-
           {Object.keys(adj).length > 0 && (
             <div className="strategy-adjustments">
               <h3>⚙️ Strategy Adjustments</h3>
@@ -84,7 +83,6 @@ export default function MarketRegime({ regime }: Props) {
               ))}
             </div>
           )}
-
           {regime.notes && (
             <p style={{ marginTop: '1rem', color: 'var(--color-text-secondary)', fontSize: '0.875rem' }}>
               {regime.notes}
