@@ -4,6 +4,7 @@
 **Trade Horizon:** 3-14 days (post-crash bounce)
 **Typical Holding Period:** 5-10 days
 **Best Market Regime:** Transitioning from panic to cautious bullish
+**Watchlist file:** `data/watchlists/post-crash.json`
 
 ---
 
@@ -24,7 +25,7 @@ Capture the oversold bounce after sharp market crashes, corrections, or sector-s
 
 ## Typical Instruments
 
-**Primary (Revolut X):**
+**Primary (Revolut X / cash):**
 
 - Quality US Mega Caps: AAPL, MSFT, GOOGL (sold off but fundamentally sound)
 - Sector Leaders: JPM, UNH, XOM (oversold during broad panic)
@@ -36,95 +37,58 @@ Capture the oversold bounce after sharp market crashes, corrections, or sector-s
 - NSDQ:CFD (Nasdaq 100) for tech-heavy recovery
 - Individual sector CFDs if sector-specific crash
 
-**Leverage:** 10-20x for indices (lower risk), 5-10x for individual stocks
+**Leverage:** 10-20x for indices (lower relative risk), 5-10x for individual stocks (used sparingly).
 
 ---
 
-## Required JSON Schema Fields
+## JSON Watchlist Schema (SPA-aligned)
 
-### Core Fields
+Post-Crash Rebounds uses the **canonical Trading Copilot watchlist schema** defined in `INSTRUCTIONS.TRADING.md` and `docs/index.md`. Each opportunity is a standard `Trade` item with a small number of rebound-specific fields.[^schema]
 
 ```json
 {
-  "file_type": "watchlist",
-  "strategy": "post_crash_rebound",
   "last_updated": "ISO 8601 timestamp",
-  "crash_context": {
-    "crash_date": "YYYY-MM-DD",
-    "trigger": "string (e.g., Fed hawkish surprise, geopolitical shock)",
-    "severity": "minor | moderate | severe",
-    "market_phase": "panic | stabilizing | recovering"
-  },
   "opportunities": [
     {
-      "symbol": "string",
-      "name": "string",
+      "ticker": "BNTX",
+      "company_name": "BioNTech SE",
       "direction": "long",
-      "entry_zone": "number (price)",
-      "target": "number (price)",
-      "stop_loss": "number (price)",
       "conviction": "high | moderate | low",
-      "setup_quality": "A+ | A | B+ | B | C",
-      "decline_from_high": "number (% decline, e.g., -12.5)",
-      "rsi": "number (0-100)",
-      "support_level": "number (key technical support price)",
-      "reasoning": "string",
-      "risks": "string",
-      "position_size_pct": "number",
-      "max_hold_days": "number",
-      "tags": ["array of strings"]
+      "current_price": 0,
+      "entry_zone": "string or number",
+      "stop_loss": 0,
+      "take_profit": 0,
+      "risk_percent": 2,
+      "expected_holding_days": 7,
+      "crash_date": "YYYY-MM-DD",
+      "drop_percent": -17.0,
+      "rationale": "1-3 sentences: crash catalyst + rebound thesis + key risk."
     }
   ]
 }
 ```
 
-### Optional Enhancement Fields
+[^schema]: See `docs/INSTRUCTIONS.TRADING.md` and `app/src/types.ts` for the canonical `Trade` and `WatchlistData` types.
 
-- `volume_exhaustion`: boolean (true if selling volume declining)
-- `bullish_divergence`: boolean (price lower, RSI/MACD higher)
-- `institutional_buying`: boolean (signs of smart money accumulation)
-- `days_since_low`: number (0 = just bottomed, 3 = bouncing)
+### Field notes
+
+- `ticker`, `company_name`, `direction`, `conviction`, `current_price`, `entry_zone`, `stop_loss`, `take_profit`, `risk_percent`, `expected_holding_days`, `rationale` all follow the global schema.[^schema]
+- `crash_date` and `drop_percent` are **strategy-specific optional fields** used to show when the shock occurred and how large the selloff was.
+- Do **not** add file-level fields like `file_type`, `strategy`, `week_start`, `week_end`, or nested `crash_context` objects — the SPA ignores them and they break the JSON schemas.
+- Do **not** add per-trade fields such as `setup_quality`, `position_size_pct`, `max_hold_days`, `tags`, `rsi`, `support_level`, etc. These were v1 concepts and are now handled via the textual `rationale` and external analysis tools.
 
 ---
 
-## UI Expectations for SPA
+## How the SPA renders Post-Shock cards
 
-### Strategy Header (Tab Level)
+At runtime the SPA reads `data/watchlists/post-crash.json` into `WatchlistData` and treats each entry as a `Trade` with optional `crash_date` and `drop_percent`:[^schema]
 
-- **Crash Context Box** (if crash active):
-  - "Market Crash: [Trigger]" (e.g., "Fed Hawkish Surprise")
-  - "Severity: [Minor/Moderate/Severe]" with color coding
-  - "Phase: [Panic/Stabilizing/Recovering]" with icon
-  - "Days Since Low: X"
+- **Header:** `ticker` + `company_name` and a `conviction` badge (High / Moderate / Low).
+- **Price & R:R row:** `current_price`, implied R:R from `entry_zone`, `stop_loss`, `take_profit`, and `risk_percent` as "X% risk".
+- **Crash context:** If present, `drop_percent` is displayed as a "% from recent high" style badge; `crash_date` is used in the description.
+- **Body:** `direction`, `expected_holding_days`, and the 1–3 sentence `rationale` summarising crash trigger, rebound thesis, and key risks.
 
-### Card Header
-
-- **Symbol** + **Name**
-- **Decline badge**: "-12.5% from high" in red
-- **Phase indicator**: "🔴 Panic" / "🟡 Stabilizing" / "🟢 Recovering"
-
-### Card Body
-
-- **Direction**: LONG (green - this strategy is almost always long)
-- **Entry zone** → **Target** (with rebound % calculation)
-- **Stop loss** (with % risk)
-- **RSI**: Display current RSI with color (green if <30 = extremely oversold)
-- **Support level**: Key technical level being tested
-- **Conviction** and **Setup quality** badges
-- **Reasoning**: Why this is a good rebound candidate
-- **Risks**: What could prevent the bounce
-
-### Card Footer
-
-- **Decline from high**: -X% (visual severity indicator)
-- **Position size**: X% of capital
-- **Max hold**: X days
-- **Tags**: recovery, oversold, quality, etc.
-
-### Sorting
-
-- **Primary**: By conviction (high → moderate → low)
-- **Secondary**: By decline_from_high (most oversold first)
+Any richer analytics (RSI, volume exhaustion, support level, etc.) inform how you write the `rationale` and where you set `entry_zone`/`stop_loss`, but are **not** stored as separate JSON fields.
 
 ---
 
@@ -134,38 +98,30 @@ Capture the oversold bounce after sharp market crashes, corrections, or sector-s
 
 **Setup:**
 
-- **Symbol**: US500:CFD (S&P 500)
+- **Ticker**: US500 (S&P 500 index CFD)
 - **Crash Trigger**: Fed unexpectedly hawkish, rate hike fears
-- **Entry**: 4,850 (after -8% decline from 5,270 high)
+- **Crash Date**: 2026-02-28
+- **Entry Zone**: 4,850 (after ~-8% decline from 5,270 high)
 - **Target**: 5,050 (+4.1% rebound)
 - **Stop Loss**: 4,750 (-2.1%)
 - **Conviction**: High
-- **Setup Quality**: A+
 
-**Technical Indicators:**
+**Technical Indicators (for analysis, not stored):**
 
 - RSI: 28 (extremely oversold)
 - Volume: Selling exhaustion (declining volume on down days)
 - Support: Holding 200-day MA at 4,840
 - Divergence: RSI making higher lows while price makes lower lows
 
-**Reasoning:**
+**Rationale example:**
 
-- Market overreacted to Fed comments (no actual policy change yet)
-- Quality mega caps down indiscriminately (AAPL, MSFT, GOOGL all -7-9%)
-- VIX spiked to 28 (panic peak, usually mean reverts)
-- Historical pattern: Fed-driven selloffs often bounce within 3-5 days
-- Smart money (institutional) likely accumulating at these levels
+> Fed commentary triggered an overreaction with no immediate policy change; quality mega caps sold off indiscriminately and VIX spiked near panic levels. With price holding the 200-day MA and oversold momentum starting to stabilise, a mean-reversion bounce toward 5,050 is likely if data does not further deteriorate.
 
-**Risks:**
+**Risk focus:**
 
 - Fed doubles down with more hawkish rhetoric
-- Economic data surprise (inflation spike, weak jobs)
+- Inflation or jobs data surprises negatively
 - Geopolitical escalation compounds selling
-
-**Position Size**: 10% of capital
-**Leverage**: 20x (on index CFD)
-**Max Hold**: 7 days
 
 ---
 
@@ -173,142 +129,49 @@ Capture the oversold bounce after sharp market crashes, corrections, or sector-s
 
 **Setup:**
 
-- **Symbol**: AAPL (Apple)
+- **Ticker**: AAPL (Apple Inc.)
 - **Crash Trigger**: Broad tech selloff on rate fears
-- **Entry**: $165 (down -11% from $185 recent high)
-- **Target**: $175 (+6.1%)
-- **Stop Loss**: $160 (-3.0%)
+- **Crash Date**: 2026-02-10
+- **Entry Zone**: 165 (down ~-11% from 185 recent high)
+- **Target**: 175 (+6.1%)
+- **Stop Loss**: 160 (-3.0%)
 - **Conviction**: Moderate
-- **Setup Quality**: A
 
-**Technical Indicators:**
+**Analysis (not stored as fields):**
 
-- RSI: 31 (oversold)
-- Price: Testing 50-day MA at $163
-- Volume: High volume selling (capitulation signal)
-- Fundamentals: Strong (beat earnings, growing services revenue)
+- RSI: ~31 (oversold)
+- Price: Testing 50-day MA support
+- Fundamentals: Strong (recent earnings beat, growing services revenue)
 
-**Reasoning:**
+**Rationale example:**
 
-- Apple sold off indiscriminately despite strong fundamentals
-- No company-specific negative news
-- Trading at support (50-day MA)
-- Institutional ownership stable (no forced selling)
-- iPhone 16 cycle positive (strong China demand)
-
-**Risks:**
-
-- Broader market continues lower, dragging AAPL down
-- Tech sector rotation accelerates
-- Unexpected company-specific negative headline
-
-**Position Size**: 6% of capital
-**Leverage**: 5x
-**Max Hold**: 10 days
+> Apple sold off with the broader tech complex despite solid fundamentals and no company-specific negative news. Price is testing the 50-day moving average after an ~11% drawdown; with earnings momentum intact, a bounce toward prior resistance around 175 is likely if index-level selling eases.
 
 ---
 
-## Confidence Interpretation
+## Confidence Interpretation (conceptual)
 
-### High Conviction
+The **`conviction`** field should be set using the same logic across all strategies:
 
-- **Criteria**:
-  - Extremely oversold (RSI <30, decline >10%)
-  - Clear panic trigger (not structural problem)
-  - Strong fundamentals (quality names)
-  - Volume exhaustion + bullish divergence
-  - Key support holding
-- **Expected Hit Rate**: 70-75%
-- **Position Sizing**: 8-12% of capital
+- **High conviction**: Deeply oversold (RSI <30, drop >10%), clear panic trigger, strong fundamentals, stabilisation at support.
+- **Moderate conviction**: Oversold but not extreme, mixed signals, decent fundamentals.
+- **Low conviction**: Mild oversold, structural concerns, or messy tape — often better skipped.
 
-### Moderate Conviction
-
-- **Criteria**:
-  - Oversold but not extreme (RSI 30-35, decline 7-10%)
-  - Less clear panic trigger
-  - Decent fundamentals
-  - Some technical signals
-- **Expected Hit Rate**: 60-65%
-- **Position Sizing**: 4-7% of capital
-
-### Low Conviction
-
-- **Criteria**:
-  - Mild oversold (RSI 35-40, decline 5-7%)
-  - Structural concerns (not just panic)
-  - Weak fundamentals
-  - Mixed technical signals
-- **Expected Hit Rate**: 45-55%
-- **Position Sizing**: 2-4% of capital (or skip)
+Specific hit rates or position sizes (e.g., "10–15% of capital") are execution guidance, **not JSON fields**. The SPA simply renders the conviction label and risk percentage you provide.
 
 ---
 
-## Risk Warnings
+## Risk Warnings (strategy-level)
 
-### False Bottom Risk (Knife-Catching)
-
-- **Definition**: Entering too early while selling continues
-- **Signs**: Price breaks below support, RSI continues falling, volume increasing on down days
-- **Mitigation**:
-  - Wait for 1-2 days of stabilization before entering
-  - Use smaller position sizes if entering during panic phase
-  - Strict stop losses (2-3% max)
-
-### Structural vs Cyclical Risk
-
-- **Cyclical Crash**: Panic-driven, emotional, mean reverts quickly (tradeable)
-- **Structural Crash**: Fundamental problems, sustained downtrend (avoid)
-- **How to Distinguish**:
-  - Cyclical: Sudden trigger, indiscriminate selling, VIX spike >30
-  - Structural: Gradual deterioration, sector-specific, rising spreads
-- **Mitigation**: Only trade cyclical crashes with clear panic triggers
-
-### Leverage Risk
-
-- **High leverage (10-20x)** means 2-3% adverse move = 20-60% loss
-- **Mitigation**:
-  - Use tighter stops (2-3% max)
-  - Smaller position sizes despite high conviction
-  - Consider reducing leverage if position moves against you
-
-### Regime Shift Risk
-
-- **Risk**: Market enters sustained bear market, no bounce materializes
-- **Signs**: VIX stays elevated >30 for weeks, breadth terrible, support levels breaking
-- **Mitigation**:
-  - Cut positions quickly if bounce fails within 3-5 days
-  - Don't average down into falling knife
-  - Reassess regime (may need to switch to short strategies)
-
----
-
-## Strategy-Level Performance Notes
-
-**Best Market Conditions:**
-
-- Clear panic trigger (Fed, geopolitical) with no structural damage
-- VIX spike >25-30 (panic peak)
-- Market phase: Stabilizing → Recovering
-- Quality names oversold indiscriminately
-
-**Worst Market Conditions:**
-
-- Structural bear market (fundamentals deteriorating)
-- No clear panic trigger (slow grind lower)
-- Sustained high VIX (crisis mode)
-- Weak fundamentals (earnings recession)
-
-**Typical Drawdowns:**
-
-- Individual position: -3% to -5% (stop loss hits)
-- Strategy: Can lose 10-15% if mistiming regime shift
-
-**Expected Win Rate**: 65-70% (high when conditions are right)
+- **False bottom risk (knife-catching):** Enter too early while selling continues. Mitigate by waiting for at least 1–2 days of price stabilisation and respecting tight stops.
+- **Structural vs cyclical crashes:** Focus on cyclical, panic-driven crashes with intact fundamentals; avoid structurally impaired stories.
+- **Leverage risk:** Indices with 10–20x leverage and stocks with 5–10x mean small price moves can translate into large P&L swings — position sizing and stops matter more than usual.
+- **Regime shift:** If the market transitions into a sustained bear phase (VIX elevated for weeks, repeated support breaks), post-crash rebounds lose edge quickly and should be scaled back.
 
 ---
 
 ## Related Strategies
 
-- **Volatility Plays**: Highly complementary - VIX spikes during crashes create opportunities
-- **Macro Events**: Watch for Fed, CPI, geopolitical catalysts that trigger crashes
-- **Pre-Earnings Momentum**: Avoid during crash periods (wait for stabilization first)
+- **Macro & Volatility Events:** Crashes are often triggered by macro events (Fed, CPI, geopolitics); always cross-check the macro calendar.
+- **Earnings Momentum & Gaps:** Avoid stacking pre-earnings momentum plays on top of fresh crash rebounds in the same name.
+- **Crypto & Pairs:** In very high-volatility regimes, consider reducing single-name rebound exposure in favour of BTC-only crypto and relative-value pair trades.
