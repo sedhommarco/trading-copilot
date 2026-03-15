@@ -21,6 +21,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 // Yahoo Finance symbol mapping (some indices need a ^ prefix or different symbol)
 const TICKERS = {
   // Equities (single-name stocks)
+  // -- Previously tracked --
   AVGO: 'AVGO',
   MRVL: 'MRVL',
   COST: 'COST',
@@ -50,15 +51,37 @@ const TICKERS = {
   DKS: 'DKS',
   LEN: 'LEN',
   DG: 'DG',
-
+  // -- March 16 2026 deep refresh additions --
+  // pair-trades.json
+  NEM: 'NEM',
+  CCL: 'CCL',
+  LMT: 'LMT',
+  CVX: 'CVX',
+  DAL: 'DAL',
+  GLD: 'GLD',
+  SPY: 'SPY',
+  // post-crash.json
+  LULU: 'LULU',
+  DOCU: 'DOCU',
+  GIS: 'GIS',
+  DLTR: 'DLTR',
+  // earnings-momentum.json (macro-vol week)
+  FDX: 'FDX',
+  DRI: 'DRI',
+  JBL: 'JBL',
+  FIVE: 'FIVE',
+  // Crypto ETF proxies (equity-listed)
+  IBIT: 'IBIT',   // BlackRock Bitcoin ETF
+  ETHA: 'ETHA',   // BlackRock Ethereum ETF
+  MSTR: 'MSTR',   // MicroStrategy / Strategy (BTC proxy)
   // Indices (Yahoo Finance uses ^ prefix)
   US500: '^GSPC',
   NAS100: '^NDX',
   DE40: '^GDAXI',
   EU50: '^STOXX50E',
-
-  // Commodities (Yahoo Finance futures for reference / static charts)
+  // Commodities (Yahoo Finance futures)
   USOIL: 'CL=F',
+  XAU: 'GC=F',
 };
 
 const OUTPUT_DIR = join(__dirname, '..', 'app', 'public', 'prices');
