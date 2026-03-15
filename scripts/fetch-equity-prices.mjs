@@ -20,7 +20,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 // All equity/index/commodity tickers tracked in the SPA opportunities
 // Yahoo Finance symbol mapping (some indices need a ^ prefix or different symbol)
 const TICKERS = {
-  // Equities
+  // Equities (single-name stocks)
   AVGO: 'AVGO',
   MRVL: 'MRVL',
   COST: 'COST',
@@ -34,26 +34,30 @@ const TICKERS = {
   CRWD: 'CRWD',
   QQQ: 'QQQ',
   ORCL: 'ORCL',
-  ADBE: 'ADBE',
-  DKS: 'DKS',
-  LEN: 'LEN',
   XOM: 'XOM',
   ALK: 'ALK',
   SE: 'SE',
   MDB: 'MDB',
   BLK: 'BLK',
-  DG: 'DG',
   WSM: 'WSM',
   BNTX: 'BNTX',
   AMZN: 'AMZN',
   MSFT: 'MSFT',
   UAL: 'UAL',
+  MU: 'MU',
+  BABA: 'BABA',
+  ACN: 'ACN',
+  DKS: 'DKS',
+  LEN: 'LEN',
+  DG: 'DG',
+
   // Indices (Yahoo Finance uses ^ prefix)
   US500: '^GSPC',
   NAS100: '^NDX',
   DE40: '^GDAXI',
   EU50: '^STOXX50E',
-  // Commodities (Yahoo Finance futures)
+
+  // Commodities (Yahoo Finance futures for reference / static charts)
   USOIL: 'CL=F',
 };
 
