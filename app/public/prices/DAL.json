@@ -1,38 +1,38 @@
 {
-  "symbol": "MU",
+  "symbol": "DAL",
   "currency": "USD",
-  "exchange": "NMS",
-  "current_price": 426.13,
-  "prev_close": 412.37,
-  "fetched_at": "2026-03-15T19:57:42.119Z",
+  "exchange": "NYQ",
+  "current_price": 58.78,
+  "prev_close": 65.7,
+  "fetched_at": "2026-03-15T19:57:40.762Z",
   "history": [
     {
       "date": "2026-03-06",
-      "close": 370.3
+      "close": 59.01
     },
     {
       "date": "2026-03-09",
-      "close": 389.32
+      "close": 60.58
     },
     {
       "date": "2026-03-10",
-      "close": 403.11
+      "close": 59.27
     },
     {
       "date": "2026-03-11",
-      "close": 418.69
+      "close": 59.14
     },
     {
       "date": "2026-03-12",
-      "close": 405.35
+      "close": 57.94
     },
     {
       "date": "2026-03-13",
-      "close": 426.13
+      "close": 58.78
     },
     {
       "date": "2026-03-13",
-      "close": 426.13
+      "close": 58.78
     }
   ]
 }

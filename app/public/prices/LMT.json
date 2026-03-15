@@ -1,38 +1,38 @@
 {
-  "symbol": "MU",
+  "symbol": "LMT",
   "currency": "USD",
-  "exchange": "NMS",
-  "current_price": 426.13,
-  "prev_close": 412.37,
-  "fetched_at": "2026-03-15T19:57:42.119Z",
+  "exchange": "NYQ",
+  "current_price": 646,
+  "prev_close": 658.08,
+  "fetched_at": "2026-03-15T19:57:38.694Z",
   "history": [
     {
       "date": "2026-03-06",
-      "close": 370.3
+      "close": 671.77
     },
     {
       "date": "2026-03-09",
-      "close": 389.32
+      "close": 664.15
     },
     {
       "date": "2026-03-10",
-      "close": 403.11
+      "close": 651.22
     },
     {
       "date": "2026-03-11",
-      "close": 418.69
+      "close": 649.47
     },
     {
       "date": "2026-03-12",
-      "close": 405.35
+      "close": 652.83
     },
     {
       "date": "2026-03-13",
-      "close": 426.13
+      "close": 646
     },
     {
       "date": "2026-03-13",
-      "close": 426.13
+      "close": 646
     }
   ]
 }

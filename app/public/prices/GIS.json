@@ -1,38 +1,38 @@
 {
-  "symbol": "MU",
+  "symbol": "GIS",
   "currency": "USD",
-  "exchange": "NMS",
-  "current_price": 426.13,
-  "prev_close": 412.37,
-  "fetched_at": "2026-03-15T19:57:42.119Z",
+  "exchange": "NYQ",
+  "current_price": 39.38,
+  "prev_close": 45.23,
+  "fetched_at": "2026-03-15T19:57:41.442Z",
   "history": [
     {
       "date": "2026-03-06",
-      "close": 370.3
+      "close": 44.29
     },
     {
       "date": "2026-03-09",
-      "close": 389.32
+      "close": 43.4
     },
     {
       "date": "2026-03-10",
-      "close": 403.11
+      "close": 42.28
     },
     {
       "date": "2026-03-11",
-      "close": 418.69
+      "close": 40.66
     },
     {
       "date": "2026-03-12",
-      "close": 405.35
+      "close": 39.4
     },
     {
       "date": "2026-03-13",
-      "close": 426.13
+      "close": 39.38
     },
     {
       "date": "2026-03-13",
-      "close": 426.13
+      "close": 39.38
     }
   ]
 }

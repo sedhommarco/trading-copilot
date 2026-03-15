@@ -1,38 +1,38 @@
 {
-  "symbol": "MU",
+  "symbol": "SPY",
   "currency": "USD",
-  "exchange": "NMS",
-  "current_price": 426.13,
-  "prev_close": 412.37,
-  "fetched_at": "2026-03-15T19:57:42.119Z",
+  "exchange": "PCX",
+  "current_price": 662.29,
+  "prev_close": 685.99,
+  "fetched_at": "2026-03-15T19:57:39.368Z",
   "history": [
     {
       "date": "2026-03-06",
-      "close": 370.3
+      "close": 672.38
     },
     {
       "date": "2026-03-09",
-      "close": 389.32
+      "close": 678.27
     },
     {
       "date": "2026-03-10",
-      "close": 403.11
+      "close": 677.18
     },
     {
       "date": "2026-03-11",
-      "close": 418.69
+      "close": 676.33
     },
     {
       "date": "2026-03-12",
-      "close": 405.35
+      "close": 666.06
     },
     {
       "date": "2026-03-13",
-      "close": 426.13
+      "close": 662.29
     },
     {
       "date": "2026-03-13",
-      "close": 426.13
+      "close": 662.29
     }
   ]
 }
