@@ -1,29 +1,67 @@
 {
-  "file_type": "market_regime",
-  "last_updated": "2026-03-15T18:30:00Z",
-  "current_regime": "high volatility",
-  "vix": 27.29,
-  "trend": "High-volatility correction within a longer-term uptrend; S&P 500 trading near 6,684 as of 12 Mar, roughly 2.5% below recent highs but still ~19% higher year-on-year.",
-  "sentiment": "Defensive and headline-driven. Elevated VIX around the high-20s, Iran-linked disruption in the Strait of Hormuz, and in-line February CPI at 2.4% YoY keep risk appetite fragile heading into the 17–18 Mar FOMC.",
-  "sector_leaders": [
-    "Energy",
-    "Defense",
-    "Gold / Commodities"
-  ],
-  "sector_laggards": [
-    "Airlines",
-    "Cyclical Consumer",
-    "Industrials",
-    "Speculative AI Hardware"
-  ],
-  "fed_policy": "Data dependent — March 17–18 FOMC is widely expected to leave rates unchanged, with Powell’s guidance on oil-driven inflation and the updated dot plot the key driver for risk assets.",
-  "next_major_catalyst": "US February PPI (18 Mar), FOMC statement and dot plot (18 Mar), ECB rate decision (19 Mar), weekly US jobless claims (19 Mar), and a dense earnings cluster including Micron, Williams-Sonoma, Alibaba, Accenture, and FedEx around 18–19 Mar.",
-  "strategy_adjustments": {
-    "macro-volatility": "Prime window — high VIX and back-to-back macro events (PPI and FOMC on 18 Mar, ECB on 19 Mar) support volatility breakouts in indices, gold, oil, and USD pairs. Reduce directional exposure immediately into FOMC; favour post-event breakout or fade setups rather than pre-positioning with leverage.",
-    "earnings-momentum": "Concentrate on high-conviction pre-earnings plays (Micron 18 Mar, Williams-Sonoma 18 Mar, Alibaba / Accenture / FedEx 19 Mar). Treat all as short holding windows with strict rules to exit before the print; no leveraged holds through earnings or FOMC.",
-    "post-shock": "Still attractive in this regime — focus on quality names that crashed on guidance or one-off headlines (Sea, MongoDB, BioNTech, Amazon). Require 1–2 days of stabilisation and confirmation above crash-day support; avoid structurally impaired stories.",
-    "crypto": "BTC-dominant environment. BTC has held around the 70k area despite macro and war shocks; keep altcoin exposure minimal and conviction low outside BTC while VIX remains elevated. Favour dip buys into clearly defined support zones with tight invalidation.",
-    "pair-trades": "Remain regime-neutral but particularly useful to reduce index beta into FOMC and Iran headlines. Favour energy-vs-airlines and quality-vs-reset tech/healthcare pairs; keep spread stops tight and expected holding periods shorter than usual."
+  "last_updated": "2026-03-15T20:00:00Z",
+  "current_regime": "high_volatility",
+  "vix": 28.4,
+  "spx_price": 6632.19,
+  "trend": "High-volatility correction within a longer-term uptrend. S&P 500 at 6,632 — down ~3% on the week and ~2.7% YTD — as JPMorgan warns a sustained oil price above $90 could trigger a further 10-15% correction. Iran has effectively closed the Strait of Hormuz, WTI surged past $98, and Goldman Sachs raised its Brent target to $110 for March. VIX is trading near 28, up over 30% in the past month.",
+  "sentiment": "Decidedly risk-off and stagflation-fearful. EUR/USD slipped to $1.14 on safe-haven USD demand. Asian equities lost $15B in a single session as Goldman slashed MXAPJ growth forecasts. Bearish Sentiment reading confirmed by Perplexity Finance dashboard as of March 15 close.",
+  "sector_leaders": ["Energy", "Defense", "Gold", "Utilities", "Basic Materials"],
+  "sector_laggards": ["Airlines", "Cyclical Consumer", "Technology", "Communication Services", "Industrials"],
+  "sector_etf_prices": {
+    "XLK": 136.80,
+    "XLE": 57.70,
+    "XLY": 110.86,
+    "XLP": 84.74,
+    "XLC": 114.45,
+    "XLI": 164.65,
+    "XLF": 48.89,
+    "XLU": 46.96,
+    "XLB": 49.19,
+    "XLRE": 42.25,
+    "XLV": 149.79
   },
-  "notes": "February US CPI printed in line at +2.4% YoY and +0.3% MoM, easing fears of an upside shock but doing little to offset oil-driven forward inflation risk from the US–Israel–Iran conflict and near-halt in Strait of Hormuz shipping. VIX has spiked back into the high-20s, with front-month futures around the mid-20s and up more than 25% over the past month, confirming a high-volatility regime. The S&P 500 (US500) is trading near 6,684, roughly 2.5% down year-to-date but ~19% higher year-on-year, with breadth pressured by energy shocks and rate-cut expectations being pushed further out. The March 17–18 FOMC meeting and 18 Mar PPI print are the dominant macro catalysts; ECB on 19 Mar adds a second European rates impulse. On the micro side, Micron, Williams-Sonoma, Alibaba, Accenture and FedEx all report between 18–19 Mar, creating a dense event cluster for the Earnings Momentum tab. Execution overlay: favour entries during London open and US session overlap; avoid initiating new macro trades during thin Asian hours; keep leverage at the low end of allowed ranges in front of FOMC and major Iran headlines."
+  "index_prices": {
+    "SPX": 6632.19,
+    "NDX": 23956.0,
+    "DAX": 23447.29,
+    "CAC40": 7911.53,
+    "STOXX50": 5716.61,
+    "FTSE100": 10261.15
+  },
+  "commodity_prices": {
+    "WTI_USOIL": 98.71,
+    "XAU_USD": 5183.0
+  },
+  "fx_prices": {
+    "EUR_USD": 1.14,
+    "USD_index_note": "DXY bid as safe-haven flows accelerate on Iran war escalation"
+  },
+  "crypto_prices": {
+    "BTC": 71502.04,
+    "ETH": 2111.08,
+    "SOL": 88.14,
+    "XRP": 1.41
+  },
+  "fed_policy": "FOMC meets March 17-18. Rates widely expected held at 3.5-3.75%. Powell press conference is the key risk event — dual pressure of rising oil-driven inflation and softening labour (92K jobs in Feb) creates a stagflation dilemma. February PPI prints March 18 before the decision.",
+  "next_major_catalysts": [
+    {"date": "2026-03-16", "event": "DLTR earnings (pre-market), US Industrial Production"},
+    {"date": "2026-03-17", "event": "LULU earnings (after close), DOCU earnings (after close), FOMC begins"},
+    {"date": "2026-03-18", "event": "US February PPI (14:30 CET), FOMC decision + Powell press conference (20:00 CET), MU / WSM / GIS / JBL / FIVE earnings"},
+    {"date": "2026-03-19", "event": "ECB rate decision (13:45 CET), ACN / FDX / DRI / BABA / CCL earnings, weekly US jobless claims"}
+  ],
+  "strategy_adjustments": {
+    "macro-volatility": "Prime window. WTI above $98, VIX near 28, back-to-back PPI + FOMC + ECB cluster. Favour vol breakout trades post-data rather than pre-positioning. Reduce index longs into FOMC. XAU/USD and USOIL are the cleanest trending instruments; EUR/USD short against safe-haven USD demand is a secondary theme.",
+    "earnings-momentum": "Dense 4-day earnings cluster (DLTR, LULU, DOCU, MU, WSM, GIS, ACN, FDX, DRI, BABA, CCL). Pre-earnings run-ups carry extra risk this week given macro overlay. All pre-earnings positions must be flat BEFORE the print. Post-earnings gap plays (ORCL still live) are safer given defined entry after the binary risk has passed.",
+    "post-shock": "High-volatility regime creates fresh shock candidates daily. Focus on names with verifiable crash dates, non-structural triggers, and price now stabilising above the crash low. SE at $86 (crashed from $118 on guidance miss), DOCU at $47 (crashed from $94 high on downgrade wave), BNTX at $83 (hit 52-week low on trial failure), LULU at $158 (down 55% from 52-week high). Require 1-2 session stabilisation before entry.",
+    "crypto": "BTC is the standout outperformer — +6% on the week despite S&P -1.6%, with $800M in ETF inflows and Strategy's $776M BTC purchase. Institutional accumulation is decisive. Coinbase premium turned positive signalling US-led demand revival. Bear flag risk above $73-75K is the key technical warning to watch. ETH elevated by BlackRock staked ETF launch on Nasdaq. SOL and XRP moving but remain low-conviction in high-vol macro environment.",
+    "pair-trades": "Regime-neutral pairs are especially valuable into FOMC. Core themes: energy beneficiary vs airline victim (XOM/UAL, XOM/ALK), quality defensive vs reset growth (COST/WMT, LLY/NVO), BTC dominance over high-beta L1s (BTC/SOL), quality hyperscale vs capex-heavy cloud (MSFT/AMZN), safe-haven gold miner vs beaten discretionary (NEM/CCL)."
+  },
+  "key_risks": [
+    "Iran fully closing Strait of Hormuz — 20% of global oil supply disrupted, Goldman $110 Brent target already in play",
+    "FOMC hawkish surprise on dot plot — oil-driven inflation forces fewer cuts, stagflation narrative accelerates S&P correction toward JPMorgan 10-15% warning",
+    "BTC bear flag above $73-75K resistance — technical breakdown could trigger $51K target per analysts",
+    "Asian equity contagion — Goldman slashed MXAPJ 2026 EPS by 2%, $15B outflow in one session",
+    "EUR/USD breakdown below $1.12 on sustained USD safe-haven bid"
+  ],
+  "notes": "All prices sourced from Perplexity Finance dashboard and cross-referenced with StockAnalysis, Investing.com, MarketBeat, and Yahoo Finance as of Sunday March 15 2026, 20:00 CET (Torino, IT). WTI crude rose 3.11% to $98.71 as Iran effectively closed the Strait of Hormuz, choking ~20% of global oil supply. Goldman Sachs raised Brent target to $110 for March. BTC posted 6% weekly gain outperforming all major equity indices, driven by Strategy $776M purchase and $767M spot ETF inflows. EUR/USD slipped to $1.14 on risk-off USD demand. JPMorgan warned oil above $90 could spark 10-15% S&P 500 correction with domino effects on EM. Federal Reserve holds rates at 3.5-3.75% expected; Powell's post-FOMC tone on stagflation is the pivotal risk event. BlackRock launched staked Ethereum ETF on Nasdaq March 14, boosting ETH institutional narrative."
 }
