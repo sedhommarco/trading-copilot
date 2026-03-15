@@ -1,7 +1,7 @@
 {
   "file_type": "market_regime",
   "last_updated": "2026-03-16T08:00:00Z",
-  "current_regime": "high_volatility",
+  "current_regime": "high volatility",
   "vix": 28.4,
   "trend": "downtrend",
   "sentiment": "Decidedly risk-off and stagflation-fearful. EUR/USD at $1.14 on safe-haven USD demand; Asian equities lost $15B in a single session as Goldman slashed MXAPJ growth forecasts. Bearish Sentiment reading confirmed by Perplexity Finance dashboard as of March 15 close.",
