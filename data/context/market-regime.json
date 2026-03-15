@@ -1,67 +1,20 @@
 {
-  "last_updated": "2026-03-15T20:00:00Z",
+  "file_type": "market_regime",
+  "last_updated": "2026-03-16T08:00:00Z",
   "current_regime": "high_volatility",
   "vix": 28.4,
-  "spx_price": 6632.19,
-  "trend": "High-volatility correction within a longer-term uptrend. S&P 500 at 6,632 — down ~3% on the week and ~2.7% YTD — as JPMorgan warns a sustained oil price above $90 could trigger a further 10-15% correction. Iran has effectively closed the Strait of Hormuz, WTI surged past $98, and Goldman Sachs raised its Brent target to $110 for March. VIX is trading near 28, up over 30% in the past month.",
-  "sentiment": "Decidedly risk-off and stagflation-fearful. EUR/USD slipped to $1.14 on safe-haven USD demand. Asian equities lost $15B in a single session as Goldman slashed MXAPJ growth forecasts. Bearish Sentiment reading confirmed by Perplexity Finance dashboard as of March 15 close.",
+  "trend": "downtrend",
+  "sentiment": "Decidedly risk-off and stagflation-fearful. EUR/USD at $1.14 on safe-haven USD demand; Asian equities lost $15B in a single session as Goldman slashed MXAPJ growth forecasts. Bearish Sentiment reading confirmed by Perplexity Finance dashboard as of March 15 close.",
   "sector_leaders": ["Energy", "Defense", "Gold", "Utilities", "Basic Materials"],
   "sector_laggards": ["Airlines", "Cyclical Consumer", "Technology", "Communication Services", "Industrials"],
-  "sector_etf_prices": {
-    "XLK": 136.80,
-    "XLE": 57.70,
-    "XLY": 110.86,
-    "XLP": 84.74,
-    "XLC": 114.45,
-    "XLI": 164.65,
-    "XLF": 48.89,
-    "XLU": 46.96,
-    "XLB": 49.19,
-    "XLRE": 42.25,
-    "XLV": 149.79
-  },
-  "index_prices": {
-    "SPX": 6632.19,
-    "NDX": 23956.0,
-    "DAX": 23447.29,
-    "CAC40": 7911.53,
-    "STOXX50": 5716.61,
-    "FTSE100": 10261.15
-  },
-  "commodity_prices": {
-    "WTI_USOIL": 98.71,
-    "XAU_USD": 5183.0
-  },
-  "fx_prices": {
-    "EUR_USD": 1.14,
-    "USD_index_note": "DXY bid as safe-haven flows accelerate on Iran war escalation"
-  },
-  "crypto_prices": {
-    "BTC": 71502.04,
-    "ETH": 2111.08,
-    "SOL": 88.14,
-    "XRP": 1.41
-  },
-  "fed_policy": "FOMC meets March 17-18. Rates widely expected held at 3.5-3.75%. Powell press conference is the key risk event — dual pressure of rising oil-driven inflation and softening labour (92K jobs in Feb) creates a stagflation dilemma. February PPI prints March 18 before the decision.",
-  "next_major_catalysts": [
-    {"date": "2026-03-16", "event": "DLTR earnings (pre-market), US Industrial Production"},
-    {"date": "2026-03-17", "event": "LULU earnings (after close), DOCU earnings (after close), FOMC begins"},
-    {"date": "2026-03-18", "event": "US February PPI (14:30 CET), FOMC decision + Powell press conference (20:00 CET), MU / WSM / GIS / JBL / FIVE earnings"},
-    {"date": "2026-03-19", "event": "ECB rate decision (13:45 CET), ACN / FDX / DRI / BABA / CCL earnings, weekly US jobless claims"}
-  ],
+  "fed_policy": "FOMC meets March 17-18. Rates held at 3.5-3.75% widely expected. Dual pressure of oil-driven inflation (WTI $98) and softening labour (92K Feb jobs) creates stagflation dilemma. Powell press conference March 18 is the pivotal risk event.",
+  "next_major_catalyst": "FOMC decision + Powell press conference March 18 (20:00 CET); US February PPI March 18 (14:30 CET); ECB rate decision March 19 (13:45 CET); MU, FDX, ACN, CCL, DRI earnings March 18-19.",
   "strategy_adjustments": {
-    "macro-volatility": "Prime window. WTI above $98, VIX near 28, back-to-back PPI + FOMC + ECB cluster. Favour vol breakout trades post-data rather than pre-positioning. Reduce index longs into FOMC. XAU/USD and USOIL are the cleanest trending instruments; EUR/USD short against safe-haven USD demand is a secondary theme.",
-    "earnings-momentum": "Dense 4-day earnings cluster (DLTR, LULU, DOCU, MU, WSM, GIS, ACN, FDX, DRI, BABA, CCL). Pre-earnings run-ups carry extra risk this week given macro overlay. All pre-earnings positions must be flat BEFORE the print. Post-earnings gap plays (ORCL still live) are safer given defined entry after the binary risk has passed.",
-    "post-shock": "High-volatility regime creates fresh shock candidates daily. Focus on names with verifiable crash dates, non-structural triggers, and price now stabilising above the crash low. SE at $86 (crashed from $118 on guidance miss), DOCU at $47 (crashed from $94 high on downgrade wave), BNTX at $83 (hit 52-week low on trial failure), LULU at $158 (down 55% from 52-week high). Require 1-2 session stabilisation before entry.",
-    "crypto": "BTC is the standout outperformer — +6% on the week despite S&P -1.6%, with $800M in ETF inflows and Strategy's $776M BTC purchase. Institutional accumulation is decisive. Coinbase premium turned positive signalling US-led demand revival. Bear flag risk above $73-75K is the key technical warning to watch. ETH elevated by BlackRock staked ETF launch on Nasdaq. SOL and XRP moving but remain low-conviction in high-vol macro environment.",
-    "pair-trades": "Regime-neutral pairs are especially valuable into FOMC. Core themes: energy beneficiary vs airline victim (XOM/UAL, XOM/ALK), quality defensive vs reset growth (COST/WMT, LLY/NVO), BTC dominance over high-beta L1s (BTC/SOL), quality hyperscale vs capex-heavy cloud (MSFT/AMZN), safe-haven gold miner vs beaten discretionary (NEM/CCL)."
+    "macro-volatility": "Prime window. WTI above $98, VIX near 28, back-to-back PPI + FOMC + ECB cluster this week. Favour vol breakout trades post-data rather than pre-positioning. Reduce index longs into FOMC. XAU/USD and USOIL are the cleanest trending instruments; EUR/USD short against safe-haven USD demand is a secondary theme.",
+    "earnings-momentum": "Dense 4-day earnings cluster (DLTR Mon, LULU/DOCU Tue, MU/WSM/GIS/JBL/FIVE Wed, ACN/FDX/DRI/BABA/CCL Thu). Pre-earnings run-ups carry extra risk this week given macro overlay. All pre-earnings positions must be flat BEFORE the print. Post-earnings gap plays (ORCL still live) are safer given defined entry after the binary risk has passed.",
+    "post-shock": "High-volatility regime creates fresh shock candidates daily. Focus on names with verifiable crash dates, non-structural triggers, and price stabilising above the crash low. SE at $86 (crashed from $118 on guidance miss), DLTR at $68 (crashed from $87 on restructuring), BNTX at $82 (hit 52-week low on trial failure), LULU at $158 (down 19% YTD). Require 1-2 session stabilisation before entry.",
+    "crypto": "BTC is the standout outperformer, +6% on the week vs S&P -1.6%, with $767M in ETF inflows and Strategy $776M BTC purchase. Institutional accumulation is decisive. Coinbase premium turned positive signalling US-led demand revival. Bear flag risk above $73-75K is the key technical warning. ETH elevated by BlackRock staked ETF launch on Nasdaq March 14. SOL, LINK, AVAX moving but remain low-conviction in high-vol macro.",
+    "pair-trades": "Regime-neutral pairs especially valuable into FOMC. Core themes: energy beneficiary vs airline victim (XOM/UAL, XOM/ALK, CVX/DAL), quality defensive vs reset growth (COST/WMT, LLY/NVO), BTC dominance over high-beta L1s (BTC/SOL), quality hyperscaler vs capex-heavy cloud (MSFT/AMZN), safe-haven gold miner vs beaten cyclical (NEM/CCL, GLD/SPY), defense vs leisure (LMT/CCL)."
   },
-  "key_risks": [
-    "Iran fully closing Strait of Hormuz — 20% of global oil supply disrupted, Goldman $110 Brent target already in play",
-    "FOMC hawkish surprise on dot plot — oil-driven inflation forces fewer cuts, stagflation narrative accelerates S&P correction toward JPMorgan 10-15% warning",
-    "BTC bear flag above $73-75K resistance — technical breakdown could trigger $51K target per analysts",
-    "Asian equity contagion — Goldman slashed MXAPJ 2026 EPS by 2%, $15B outflow in one session",
-    "EUR/USD breakdown below $1.12 on sustained USD safe-haven bid"
-  ],
-  "notes": "All prices sourced from Perplexity Finance dashboard and cross-referenced with StockAnalysis, Investing.com, MarketBeat, and Yahoo Finance as of Sunday March 15 2026, 20:00 CET (Torino, IT). WTI crude rose 3.11% to $98.71 as Iran effectively closed the Strait of Hormuz, choking ~20% of global oil supply. Goldman Sachs raised Brent target to $110 for March. BTC posted 6% weekly gain outperforming all major equity indices, driven by Strategy $776M purchase and $767M spot ETF inflows. EUR/USD slipped to $1.14 on risk-off USD demand. JPMorgan warned oil above $90 could spark 10-15% S&P 500 correction with domino effects on EM. Federal Reserve holds rates at 3.5-3.75% expected; Powell's post-FOMC tone on stagflation is the pivotal risk event. BlackRock launched staked Ethereum ETF on Nasdaq March 14, boosting ETH institutional narrative."
+  "notes": "All prices sourced from Perplexity Finance and cross-referenced with StockAnalysis, Investing.com, MarketBeat, Yahoo Finance as of Sunday March 15 2026, 20:00 CET. WTI crude rose 3.11% to $98.71 as Iran effectively closed the Strait of Hormuz; Goldman Sachs raised Brent target to $110. BTC posted 6% weekly gain driven by Strategy $776M purchase and $767M spot ETF inflows. EUR/USD slipped to $1.14 on risk-off USD demand. JPMorgan warned oil above $90 could spark 10-15% S&P 500 correction. BlackRock launched staked Ethereum ETF on Nasdaq March 14."
 }
