@@ -1,14 +1,21 @@
 /**
  * fetch-equity-prices.mjs
  *
- * Fetches 7-day closing price history for all equity symbols used in the
- * Trading Copilot SPA and writes them as static JSON files to
+ * Fetches 7-day closing price history for all equity and crypto symbols
+ * used in the Trading Copilot SPA and writes them as static JSON files to
  * app/public/prices/<TICKER>.json
  *
  * Called by the GitHub Actions workflow .github/workflows/fetch-equity-prices.yml
  * No npm dependencies needed - uses Node.js built-in fetch (Node 18+).
  *
- * Yahoo Finance v8 chart API (server-side, no CORS issue).
+ * Symbols covered (Week of 2026-03-16):
+ *   Pair Trades  : LLY, NVO, XOM, UAL, ALK, MSFT, AMZN, COST, WMT,
+ *                  NEM, CCL, LMT, GLD, SPY, CVX, DAL, BTC-USD, SOL-USD
+ *   Post-Crash   : SE, MDB, BNTX, LULU, DOCU, GIS, DLTR
+ *   Pre-Earnings : ORCL, WSM, MU, BABA, ACN
+ *   Crypto       : BTC-USD, ETH-USD, SOL-USD, XRP-USD, LINK-USD,
+ *                  AVAX-USD, BNB-USD, TON-USD, ADA-USD, SUI-USD
+ *   Macro/Vol    : (index proxies via SPY, GLD, covered above)
  */
 
 import { writeFileSync, mkdirSync } from 'fs';
@@ -16,133 +23,162 @@ import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-
-// All equity/index/commodity tickers tracked in the SPA opportunities
-// Yahoo Finance symbol mapping (some indices need a ^ prefix or different symbol)
-const TICKERS = {
-  // Equities (single-name stocks)
-  // -- Previously tracked --
-  AVGO: 'AVGO',
-  MRVL: 'MRVL',
-  COST: 'COST',
-  CRWV: 'CRWV',
-  NVO: 'NVO',
-  WMT: 'WMT',
-  SOXX: 'SOXX',
-  APO: 'APO',
-  RUN: 'RUN',
-  LLY: 'LLY',
-  CRWD: 'CRWD',
-  QQQ: 'QQQ',
-  ORCL: 'ORCL',
-  XOM: 'XOM',
-  ALK: 'ALK',
-  SE: 'SE',
-  MDB: 'MDB',
-  BLK: 'BLK',
-  WSM: 'WSM',
-  BNTX: 'BNTX',
-  AMZN: 'AMZN',
-  MSFT: 'MSFT',
-  UAL: 'UAL',
-  MU: 'MU',
-  BABA: 'BABA',
-  ACN: 'ACN',
-  DKS: 'DKS',
-  LEN: 'LEN',
-  DG: 'DG',
-  // -- March 16 2026 deep refresh additions --
-  // pair-trades.json
-  NEM: 'NEM',
-  CCL: 'CCL',
-  LMT: 'LMT',
-  CVX: 'CVX',
-  DAL: 'DAL',
-  GLD: 'GLD',
-  SPY: 'SPY',
-  // post-crash.json
-  LULU: 'LULU',
-  DOCU: 'DOCU',
-  GIS: 'GIS',
-  DLTR: 'DLTR',
-  // earnings-momentum.json (macro-vol week)
-  FDX: 'FDX',
-  DRI: 'DRI',
-  JBL: 'JBL',
-  FIVE: 'FIVE',
-  // Crypto ETF proxies (equity-listed)
-  IBIT: 'IBIT',   // BlackRock Bitcoin ETF
-  ETHA: 'ETHA',   // BlackRock Ethereum ETF
-  MSTR: 'MSTR',   // MicroStrategy / Strategy (BTC proxy)
-  // Indices (Yahoo Finance uses ^ prefix)
-  US500: '^GSPC',
-  NAS100: '^NDX',
-  DE40: '^GDAXI',
-  EU50: '^STOXX50E',
-  // Commodities (Yahoo Finance futures)
-  USOIL: 'CL=F',
-  XAU: 'GC=F',
-};
-
 const OUTPUT_DIR = join(__dirname, '..', 'app', 'public', 'prices');
 
-function formatDate(ts) {
-  return new Date(ts * 1000).toISOString().split('T')[0];
-}
+// ── Symbol master list ───────────────────────────────────────────────────────
+const EQUITY_SYMBOLS = [
+  // Pair Trades – long legs
+  'LLY',   // Eli Lilly
+  'MSFT',  // Microsoft
+  'COST',  // Costco
+  'NEM',   // Newmont
+  'LMT',   // Lockheed Martin
+  'GLD',   // Gold ETF
+  'SPY',   // S&P 500 ETF
+  'XOM',   // ExxonMobil
+  'CVX',   // Chevron
 
-async function fetchHistory(yahooSymbol) {
-  const end = Math.floor(Date.now() / 1000);
-  const start = end - 8 * 24 * 60 * 60; // 8 days back to ensure 7 trading days
-  const url = `https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(yahooSymbol)}`
-    + `?interval=1d&period1=${start}&period2=${end}&events=history`;
-  const headers = {
-    'User-Agent': 'Mozilla/5.0 (compatible; trading-copilot-bot/1.0)',
-    'Accept': 'application/json',
-  };
-  const res = await fetch(url, { headers });
-  if (!res.ok) throw new Error(`HTTP ${res.status} for ${yahooSymbol}`);
-  const json = await res.json();
-  const result = json?.chart?.result?.[0];
-  if (!result) throw new Error(`No result for ${yahooSymbol}`);
-  const timestamps = result.timestamp ?? [];
-  const closes = result.indicators?.quote?.[0]?.close ?? [];
-  const data = timestamps
-    .map((ts, i) => ({
-      date: formatDate(ts),
-      price: closes[i],
-    }))
-    .filter(d => d.price != null && !isNaN(d.price))
-    // Keep last 7 data points
-    .slice(-7);
-  return data;
-}
+  // Pair Trades – short legs (equity)
+  'NVO',   // Novo Nordisk
+  'UAL',   // United Airlines
+  'ALK',   // Alaska Air
+  'AMZN',  // Amazon
+  'WMT',   // Walmart
+  'CCL',   // Carnival Corp
+  'DAL',   // Delta Air Lines
 
-async function main() {
-  mkdirSync(OUTPUT_DIR, { recursive: true });
-  const results = { ok: [], failed: [] };
+  // Post-Crash Recovery
+  'SE',    // Sea Limited
+  'MDB',   // MongoDB
+  'BNTX',  // BioNTech
+  'LULU',  // lululemon
+  'DOCU',  // DocuSign
+  'GIS',   // General Mills
+  'WSM',   // Williams-Sonoma
+  'DLTR',  // Dollar Tree
 
-  for (const [ticker, yahooSymbol] of Object.entries(TICKERS)) {
-    try {
-      const data = await fetchHistory(yahooSymbol);
-      if (data.length === 0) throw new Error('No data points');
-      const outPath = join(OUTPUT_DIR, `${ticker}.json`);
-      writeFileSync(outPath, JSON.stringify(data, null, 2), 'utf8');
-      console.log(`+ ${ticker} (${yahooSymbol}): ${data.length} data points, latest=${data.at(-1)?.price?.toFixed(2)}`);
-      results.ok.push(ticker);
-    } catch (err) {
-      console.warn(`! ${ticker} (${yahooSymbol}): ${err.message}`);
-      results.failed.push(ticker);
-      // Write empty-but-valid JSON so the SPA returns null gracefully
-      const outPath = join(OUTPUT_DIR, `${ticker}.json`);
-      writeFileSync(outPath, '[]', 'utf8');
-    }
-    // Rate-limit: small delay between requests
-    await new Promise(r => setTimeout(r, 300));
+  // Pre-Earnings
+  'ORCL',  // Oracle
+  'MU',    // Micron
+  'BABA',  // Alibaba
+  'ACN',   // Accenture
+];
+
+const CRYPTO_SYMBOLS = [
+  'BTC-USD',   // Bitcoin
+  'ETH-USD',   // Ethereum
+  'SOL-USD',   // Solana
+  'XRP-USD',   // Ripple XRP
+  'LINK-USD',  // Chainlink
+  'AVAX-USD',  // Avalanche
+  'BNB-USD',   // BNB Chain
+  'TON-USD',   // Toncoin
+  'ADA-USD',   // Cardano
+  'SUI-USD',   // Sui Network
+];
+
+const ALL_SYMBOLS = [...EQUITY_SYMBOLS, ...CRYPTO_SYMBOLS];
+
+// ── Yahoo Finance v8 chart endpoint ─────────────────────────────────────────
+const YF_BASE = 'https://query1.finance.yahoo.com/v8/finance/chart';
+const RANGE   = '10d';   // fetch 10 calendar days to ensure 7 trading days
+const INTERVAL = '1d';
+
+async function fetchPrices(symbol) {
+  const url = `${YF_BASE}/${encodeURIComponent(symbol)}?range=${RANGE}&interval=${INTERVAL}&includePrePost=false`;
+  const res = await fetch(url, {
+    headers: {
+      'User-Agent': 'Mozilla/5.0 (compatible; TradingCopilot/1.0)',
+      'Accept': 'application/json',
+    },
+  });
+
+  if (!res.ok) {
+    throw new Error(`HTTP ${res.status} for ${symbol}`);
   }
 
-  console.log(`\nDone: ${results.ok.length} succeeded, ${results.failed.length} failed.`);
-  if (results.failed.length) {
-    console.log('Failed:', results.failed.join(', '));
+  const json = await res.json();
+  const result = json?.chart?.result?.[0];
+
+  if (!result) {
+    throw new Error(`No chart result for ${symbol}`);
+  }
+
+  const timestamps = result.timestamp ?? [];
+  const closes     = result.indicators?.quote?.[0]?.close ?? [];
+  const meta       = result.meta ?? {};
+
+  // Build array of { date, close } – drop nulls (trading halts, weekends)
+  const history = timestamps
+    .map((ts, i) => ({
+      date:  new Date(ts * 1000).toISOString().slice(0, 10),
+      close: closes[i] != null ? parseFloat(closes[i].toFixed(4)) : null,
+    }))
+    .filter(d => d.close !== null)
+    .slice(-7);  // keep only the last 7 trading days
+
+  return {
+    symbol,
+    currency:      meta.currency      ?? 'USD',
+    exchange:      meta.exchangeName  ?? 'UNKNOWN',
+    current_price: meta.regularMarketPrice
+      ? parseFloat(meta.regularMarketPrice.toFixed(4))
+      : (history.at(-1)?.close ?? null),
+    prev_close:    meta.chartPreviousClose
+      ? parseFloat(meta.chartPreviousClose.toFixed(4))
+      : null,
+    fetched_at:    new Date().toISOString(),
+    history,
+  };
+}
+
+// ── Main ─────────────────────────────────────────────────────────────────────
+async function main() {
+  mkdirSync(OUTPUT_DIR, { recursive: true });
+
+  const results = { success: [], failed: [] };
+  const CONCURRENCY = 5;   // respect Yahoo rate limits
+
+  for (let i = 0; i < ALL_SYMBOLS.length; i += CONCURRENCY) {
+    const batch = ALL_SYMBOLS.slice(i, i + CONCURRENCY);
+
+    await Promise.all(
+      batch.map(async symbol => {
+        try {
+          const data     = await fetchPrices(symbol);
+          const filename = join(OUTPUT_DIR, `${symbol}.json`);
+          writeFileSync(filename, JSON.stringify(data, null, 2));
+          console.log(`[OK]   ${symbol.padEnd(10)} price=${data.current_price}`);
+          results.success.push(symbol);
+        } catch (err) {
+          console.error(`[FAIL] ${symbol.padEnd(10)} ${err.message}`);
+          results.failed.push({ symbol, error: err.message });
+        }
+      })
+    );
+
+    // Short pause between batches to avoid 429 rate limiting
+    if (i + CONCURRENCY < ALL_SYMBOLS.length) {
+      await new Promise(r => setTimeout(r, 600));
+    }
+  }
+
+  // Write a manifest so the SPA knows which price files are available
+  const manifest = {
+    generated_at: new Date().toISOString(),
+    total:        ALL_SYMBOLS.length,
+    success:      results.success.length,
+    failed:       results.failed.length,
+    symbols:      results.success,
+    errors:       results.failed,
+  };
+  writeFileSync(join(OUTPUT_DIR, '_manifest.json'), JSON.stringify(manifest, null, 2));
+
+  console.log(`\nDone: ${results.success.length}/${ALL_SYMBOLS.length} symbols fetched.`);
+
+  if (results.failed.length > 0) {
+    console.error('Failed symbols:', results.failed.map(f => f.symbol).join(', '));
+    process.exit(1);
   }
 }
 
