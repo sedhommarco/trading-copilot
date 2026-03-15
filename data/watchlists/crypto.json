@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-03-11T16:00:00Z",
+  "last_updated": "2026-03-15T18:30:00Z",
   "opportunities": [
     {
       "ticker": "ETH",
@@ -13,8 +13,8 @@
       "risk_percent": 2,
       "expected_holding_days": 5,
       "trade_setup": "support bounce",
-      "entry_trigger": "Enter near 1960-2000 if price holds 1900 on next correction and BTC is stable above 67k.",
-      "rationale": "ETH recovered to ~$2,028 from prior lows. Risk/reward is acceptable for a small swing position but conviction is low given ETH's underperformance vs BTC YTD and macro headwinds. Position size kept minimal."
+      "entry_trigger": "Enter near 1960-2000 if price holds 1900 on the next correction and BTC is stable above the 67k area.",
+      "rationale": "ETH has recovered toward the low 2,000s from prior lows but continues to underperform BTC year-to-date. Risk/reward is acceptable only for a small swing position near support; conviction remains low given macro headwinds and altcoin beta in a high-volatility regime."
     },
     {
       "ticker": "BTC",
@@ -28,8 +28,8 @@
       "risk_percent": 2,
       "expected_holding_days": 4,
       "trade_setup": "support_bounce",
-      "entry_trigger": "Stagger entries between 67,000-69,000 on dips, provided daily closes remain above 65,000 and macro risk-off does not accelerate. Invalidate on daily close below 65,000.",
-      "rationale": "67,000 and 65,000 are key BTC support zones, with resistance at 70,500-77,000. In a regime where BTC is outperforming alts and broader risk assets, buying controlled dips into the 67k area with tight invalidation under 65k offers a clean R:R toward the upper resistance band. Complements the breakout setup above as a lower-entry alternative."
+      "entry_trigger": "Stagger entries between 67,000-69,000 on dips, provided daily closes remain above 65,000 and macro risk-off does not accelerate.",
+      "rationale": "BTC has held the mid- to high-60k zone despite macro and war shocks, with 67k and 65k acting as key support and resistance around 70.5k–77k overhead. In a regime where BTC is outperforming alts and broader risk assets, buying controlled dips into support with tight invalidation under 65k offers a clean swing R:R toward the upper resistance band."
     }
   ]
 }

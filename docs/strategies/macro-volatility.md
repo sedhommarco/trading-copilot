@@ -105,12 +105,12 @@ Cards are sorted first by **conviction** (high → moderate → low), then by **
 
 | Regime             | Guidance                                                                                |
 | ------------------ | --------------------------------------------------------------------------------------- |
-| `high_volatility`  | Prime window — most calendar events produce outsized moves. Widen stops or reduce size. |
-| `trending_bullish` | Fade bearish overreactions on strong data; ride momentum on risk-on surprises.          |
-| `trending_bearish` | Favour downside breaks on weak data; tight stops on any long counter-trend.             |
+| `high volatility`  | Prime window — most calendar events produce outsized moves. Widen stops or reduce size. |
+| `trending bullish` | Fade bearish overreactions on strong data; ride momentum on risk-on surprises.          |
+| `trending bearish` | Favour downside breaks on weak data; tight stops on any long counter-trend.             |
 | `choppy`           | Reduce frequency; only trade the highest-impact events (NFP, CPI, FOMC).                |
-| `low_volatility`   | Pre-event positioning for IV expansion plays; smaller size.                             |
-| `range_bound`      | Fade extremes post-event; mean-reversion setups most reliable.                          |
+| `low volatility`   | Pre-event positioning for IV expansion plays; smaller size.                             |
+| `range bound`      | Fade extremes post-event; mean-reversion setups most reliable.                          |
 
 ---
 

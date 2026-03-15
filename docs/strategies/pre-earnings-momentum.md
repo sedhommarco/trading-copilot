@@ -66,11 +66,11 @@ All fields follow the **canonical Trading Copilot schema**. Key fields for this 
 
 | Regime             | Guidance                                                     |
 | ------------------ | ------------------------------------------------------------ |
-| `trending_bullish` | Highest edge window — widen targets, favour long setups      |
-| `trending_bearish` | Skip unless strong sector-specific catalyst overrides market |
+| `trending bullish` | Highest edge window — widen targets, favour long setups      |
+| `trending bearish` | Skip unless strong sector-specific catalyst overrides market |
 | `choppy`           | Reduce size; require strong options flow or upgrade signal   |
-| `high_volatility`  | Avoid; binary event risk compounds with market vol           |
-| `low_volatility`   | Reliable breakout setups; tighter spreads                    |
+| `high volatility`  | Avoid; binary event risk compounds with market vol           |
+| `low volatility`   | Reliable breakout setups; tighter spreads                    |
 
 ---
 

@@ -1,25 +1,29 @@
 {
   "file_type": "market_regime",
-  "last_updated": "2026-03-11T15:08:00Z",
-  "current_regime": "high_volatility",
-  "vix": 24.93,
-  "trend": "Short-term correction within a longer-term uptrend; S&P 500 off ~3% from recent highs, NAS100 ~4% off peak.",
-  "sentiment": "Defensive and headline-driven. Oil shock from US-Iran conflict, VIX back near 25, and February CPI in-line at 2.4% YoY provide modest relief — but forward inflation fears from energy persist. Risk appetite fragile.",
-  "sector_leaders": ["Energy", "Defense", "Gold / Commodities"],
+  "last_updated": "2026-03-15T18:30:00Z",
+  "current_regime": "high volatility",
+  "vix": 27.29,
+  "trend": "High-volatility correction within a longer-term uptrend; S&P 500 trading near 6,684 as of 12 Mar, roughly 2.5% below recent highs but still ~19% higher year-on-year.",
+  "sentiment": "Defensive and headline-driven. Elevated VIX around the high-20s, Iran-linked disruption in the Strait of Hormuz, and in-line February CPI at 2.4% YoY keep risk appetite fragile heading into the 17–18 Mar FOMC.",
+  "sector_leaders": [
+    "Energy",
+    "Defense",
+    "Gold / Commodities"
+  ],
   "sector_laggards": [
     "Airlines",
     "Cyclical Consumer",
     "Industrials",
     "Speculative AI Hardware"
   ],
-  "fed_policy": "data dependent — FOMC meets 18-19 Mar; CPI in-line reduces urgency to hike but oil-driven inflation risk keeps cuts off table",
-  "next_major_catalyst": "FOMC decision (18-19 Mar 2026) + Adobe earnings (12 Mar, after close)",
+  "fed_policy": "Data dependent — March 17–18 FOMC is widely expected to leave rates unchanged, with Powell’s guidance on oil-driven inflation and the updated dot plot the key driver for risk assets.",
+  "next_major_catalyst": "US February PPI (18 Mar), FOMC statement and dot plot (18 Mar), ECB rate decision (19 Mar), weekly US jobless claims (19 Mar), and a dense earnings cluster including Micron, Williams-Sonoma, Alibaba, Accenture, and FedEx around 18–19 Mar.",
   "strategy_adjustments": {
-    "macro-volatility": "Prime window — most events produce outsized moves in high-vol. Focus on FOMC (18-19 Mar), US jobless claims (12 Mar), and ongoing US-Iran / oil headlines. Widen stops on directional index trades or reduce size. Favour volatility breakouts on XAU/USD and USOIL; fade first-spike overreactions on US500 and NAS100.",
-    "earnings-momentum": "Active but downshifted: only high-conviction setups. Oracle gap follow-through is the cleanest current play. Adobe (12 Mar AC) is a pre-earnings momentum candidate — exit before print. Avoid holding leveraged positions through the FOMC window (16-19 Mar).",
-    "post-shock": "Highest opportunity window given elevated vol and recent sharp single-name moves. Require 1-2 days of price stabilisation before entry. Focus on quality names with intact fundamentals; avoid catching falling knives in structurally challenged sectors.",
-    "crypto": "BTC only at moderate conviction; high-beta alts (SOL, ADA) reduced to low or removed. Sub-2x leverage; BTC holding near 70k with improving momentum. Altcoin allocation minimal until VIX retreats below 20.",
-    "pair-trades": "Relatively regime-neutral — best strategy in high-vol. Tighten spread stops on both legs. Favour quality-vs-reset pairs (LLY/NVO) and sector-rotation pairs (Energy long / Tech short). Reduce expected holding days given headline risk."
+    "macro-volatility": "Prime window — high VIX and back-to-back macro events (PPI and FOMC on 18 Mar, ECB on 19 Mar) support volatility breakouts in indices, gold, oil, and USD pairs. Reduce directional exposure immediately into FOMC; favour post-event breakout or fade setups rather than pre-positioning with leverage.",
+    "earnings-momentum": "Concentrate on high-conviction pre-earnings plays (Micron 18 Mar, Williams-Sonoma 18 Mar, Alibaba / Accenture / FedEx 19 Mar). Treat all as short holding windows with strict rules to exit before the print; no leveraged holds through earnings or FOMC.",
+    "post-shock": "Still attractive in this regime — focus on quality names that crashed on guidance or one-off headlines (Sea, MongoDB, BioNTech, Amazon). Require 1–2 days of stabilisation and confirmation above crash-day support; avoid structurally impaired stories.",
+    "crypto": "BTC-dominant environment. BTC has held around the 70k area despite macro and war shocks; keep altcoin exposure minimal and conviction low outside BTC while VIX remains elevated. Favour dip buys into clearly defined support zones with tight invalidation.",
+    "pair-trades": "Remain regime-neutral but particularly useful to reduce index beta into FOMC and Iran headlines. Favour energy-vs-airlines and quality-vs-reset tech/healthcare pairs; keep spread stops tight and expected holding periods shorter than usual."
   },
-  "notes": "US February CPI printed in-line at +2.4% YoY / +0.3% MoM this morning (11 Mar), removing a hawkish upside surprise risk. However, the US-Iran conflict and Strait of Hormuz disruption have pushed Brent to $87-92/bbl and WTI to $83-84, creating a forward energy inflation overhang the Fed will address at the 18-19 Mar FOMC. Oracle beat Q3 estimates sharply (EPS $1.79 vs $1.71 est, revenue +22% YoY) and gapped up ~10% after hours on 10 Mar. Adobe reports 12 Mar after close. DAX recovered to ~23,800-23,935 after Middle East de-escalation hopes; DE40 down ~4% over the past month. Session note (Revolut execution overlay): enter macro trades only during London open (09-11 CET) or NY overlap (14:30-17:00 CET); avoid Asian session entries. Seasonal overlay: mid-March is a neutral seasonal window; Q1 earnings season begins re-activating in late March."
+  "notes": "February US CPI printed in line at +2.4% YoY and +0.3% MoM, easing fears of an upside shock but doing little to offset oil-driven forward inflation risk from the US–Israel–Iran conflict and near-halt in Strait of Hormuz shipping. VIX has spiked back into the high-20s, with front-month futures around the mid-20s and up more than 25% over the past month, confirming a high-volatility regime. The S&P 500 (US500) is trading near 6,684, roughly 2.5% down year-to-date but ~19% higher year-on-year, with breadth pressured by energy shocks and rate-cut expectations being pushed further out. The March 17–18 FOMC meeting and 18 Mar PPI print are the dominant macro catalysts; ECB on 19 Mar adds a second European rates impulse. On the micro side, Micron, Williams-Sonoma, Alibaba, Accenture and FedEx all report between 18–19 Mar, creating a dense event cluster for the Earnings Momentum tab. Execution overlay: favour entries during London open and US session overlap; avoid initiating new macro trades during thin Asian hours; keep leverage at the low end of allowed ranges in front of FOMC and major Iran headlines."
 }

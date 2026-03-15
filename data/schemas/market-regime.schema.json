@@ -14,12 +14,12 @@
       "type": "string",
       "description": "Current market regime label. Use canonical values where possible.",
       "examples": [
-        "trending_bullish",
-        "trending_bearish",
+        "trending bullish",
+        "trending bearish",
         "choppy",
-        "high_volatility",
-        "low_volatility",
-        "range_bound"
+        "high volatility",
+        "low volatility",
+        "range bound"
       ]
     },
     "last_updated": {

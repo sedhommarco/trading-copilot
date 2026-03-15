@@ -146,7 +146,7 @@ All five strategy families share the same base schema. Strategy-specific optiona
 
 **`strategy_adjustments` keys must exactly match the 5 tab IDs** (`macro-volatility`, `earnings-momentum`, `post-shock`, `crypto`, `pair-trades`).
 
-**Regime values:** `trending_bullish`, `trending_bearish`, `choppy`, `high_volatility`, `low_volatility`, `range_bound`
+**Regime values:** `trending bullish`, `trending bearish`, `choppy`, `high volatility`, `low volatility`, `range bound`
 
 ---
 
@@ -154,12 +154,12 @@ All five strategy families share the same base schema. Strategy-specific optiona
 
 | Regime             | General guidance                                                                           |
 | ------------------ | ------------------------------------------------------------------------------------------ |
-| `trending_bullish` | Favour long momentum setups. Widen profit targets. Reduce hedge frequency.                 |
-| `trending_bearish` | Favour short setups. Tighten stops. Avoid catching falling knives on rebounds.             |
+| `trending bullish` | Favour long momentum setups. Widen profit targets. Reduce hedge frequency.                 |
+| `trending bearish` | Favour short setups. Tighten stops. Avoid catching falling knives on rebounds.             |
 | `choppy`           | Reduce position frequency. Prefer mean-reversion over breakout. Tighten targets.           |
-| `high_volatility`  | Reduce all exposure. Avoid long volatility unless exceptional setup. Wider stops or avoid. |
-| `low_volatility`   | Breakout setups more reliable. Long vol for upcoming catalysts.                            |
-| `range_bound`      | Focus on pair trades and mean-reversion. Avoid directional momentum plays.                 |
+| `high volatility`  | Reduce all exposure. Avoid long volatility unless exceptional setup. Wider stops or avoid. |
+| `low volatility`   | Breakout setups more reliable. Long vol for upcoming catalysts.                            |
+| `range bound`      | Focus on pair trades and mean-reversion. Avoid directional momentum plays.                 |
 
 ### Per-strategy regime guidance
 

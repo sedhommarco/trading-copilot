@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-03-11T16:00:00Z",
+  "last_updated": "2026-03-15T18:30:00Z",
   "opportunities": [
     {
       "ticker": "LLY/NVO",
@@ -19,7 +19,7 @@
       "target_spread": "+10%",
       "risk_percent": 2,
       "expected_holding_days": 7,
-      "rationale": "Highest-conviction pair in the current regime. LLY continues to execute in obesity drugs while NVO has repriced lower on weaker 2026 guidance and trial disappointment. Quality-vs-reset dynamic is intact; high-vol environment makes the pair relatively immune to index direction. Tightened risk_percent from 3 to 2 given elevated VIX."
+      "rationale": "Highest-conviction pair in the current regime. LLY continues to execute in obesity drugs while NVO has repriced lower on weaker 2026 guidance and trial disappointment. Quality-vs-reset dynamic is intact; the pair should be relatively insulated from index direction in a high-volatility environment. Tightened risk to 2% given elevated VIX."
     },
     {
       "ticker": "COST/WMT",
@@ -39,7 +39,7 @@
       "target_spread": "+6%",
       "risk_percent": 2,
       "expected_holding_days": 5,
-      "rationale": "Costco's membership model and recent beat potential should allow outperformance vs Walmart in a defensive consumer environment. Note: Dick's Sporting Goods earnings on 12 Mar could shift consumer-retail sentiment — size accordingly."
+      "rationale": "Costco’s premium membership model and recent beat potential should allow outperformance vs Walmart in a defensive consumer environment. The pair benefits from a shift toward higher-quality retail while keeping beta lower than a pure long discretionary trade."
     },
     {
       "ticker": "XOM/ALK",
@@ -59,7 +59,7 @@
       "target_spread": "+11%",
       "risk_percent": 2,
       "expected_holding_days": 5,
-      "rationale": "New pair for this window. Long Energy (beneficiary of $84 WTI and geopolitical oil premium) / Short Airlines (victim of high jet-fuel costs and slowing consumer travel). Mirrors the sector rotation dynamic cleanly. Exit on confirmed Strait of Hormuz ceasefire."
+      "rationale": "Long Energy / short Airlines expresses the oil-shock theme cleanly: higher crude prices support XOM’s earnings while pressuring fuel-cost-sensitive carriers like Alaska Air. Exit on confirmed Strait of Hormuz ceasefire or a sharp OPEC supply response that normalises oil prices."
     },
     {
       "ticker": "BTC/SOL",
@@ -79,7 +79,7 @@
       "target_spread": "+10%",
       "risk_percent": 2,
       "expected_holding_days": 5,
-      "rationale": "In risk-off high-vol regimes BTC tends to outperform high-beta L1s like SOL. Updated BTC entry to current ~69,883 level. Conviction kept low; position size 2%."
+      "rationale": "In risk-off, high-volatility regimes BTC tends to outperform high-beta L1s like SOL. This pair isolates that relative dynamic: long BTC as the crypto safe-haven vs short SOL as a higher-beta alt, sized small given crypto volatility and macro cross-currents."
     },
     {
       "ticker": "MSFT/AMZN",
@@ -99,7 +99,7 @@
       "target_spread": "+8%",
       "risk_percent": 2,
       "expected_holding_days": 7,
-      "rationale": "Both names were hit by AI capex concerns, but Amazon's ~9% drop in early Feb was driven by a shocking $200B capex guide while Microsoft's selloff reflected more moderate capex fears. Going long MSFT / short AMZN expresses a view that the market over-penalised Amazon's spending trajectory relative to Microsoft's steadier cloud execution. AWS and Azure both accelerating, but MSFT ratio has room to recover. Invalidated if Amazon rallies strongly on positive macro or FOMC-driven risk-on."
+      "rationale": "Both names were hit by AI capex concerns, but Amazon’s ~9% drop in early Feb was driven by an aggressive multi-year capex guide while Microsoft’s selloff reflected more moderate expectations. Long MSFT / short AMZN expresses a view that Azure execution and diversified earnings will be rewarded relative to Amazon’s more controversial spending path."
     },
     {
       "ticker": "XOM/UAL",
@@ -119,7 +119,7 @@
       "target_spread": "+10%",
       "risk_percent": 2,
       "expected_holding_days": 7,
-      "rationale": "Upgraded to high conviction. Oil has surged on US-Iran Strait of Hormuz disruption putting structural pressure on airlines (higher jet fuel costs) while directly supporting energy majors (higher crude realisation). United Airlines at $90.46 remains highly exposed to fuel cost spikes; ExxonMobil benefits directly. Long XOM / short UAL captures the oil-driven sector divergence with reduced index beta. Thesis invalidated by confirmed Strait of Hormuz ceasefire or sharp OPEC supply response."
+      "rationale": "Upgraded to high conviction in light of the Iran war and oil shock. United Airlines is highly exposed to jet fuel costs and geopolitical travel disruptions, while ExxonMobil benefits directly from higher crude realisations. Long XOM / short UAL captures this divergence with reduced index beta; thesis is invalidated by a durable ceasefire or rapid normalisation in oil prices."
     }
   ]
 }
