@@ -2,9 +2,9 @@
   "symbol": "DAL",
   "currency": "USD",
   "exchange": "NYQ",
-  "current_price": 58.78,
-  "prev_close": 65.7,
-  "fetched_at": "2026-03-15T19:57:40.762Z",
+  "current_price": 60.84,
+  "prev_close": 64.25,
+  "fetched_at": "2026-03-16T22:56:13.627Z",
   "history": [
     {
       "date": "2026-03-06",
@@ -31,8 +31,8 @@
       "close": 58.78
     },
     {
-      "date": "2026-03-13",
-      "close": 58.78
+      "date": "2026-03-16",
+      "close": 60.84
     }
   ]
 }
