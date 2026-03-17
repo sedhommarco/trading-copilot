@@ -1,38 +1,38 @@
 {
-  "symbol": "AVAX-USD",
+  "symbol": "BNB-USD",
   "currency": "USD",
   "exchange": "CCC",
-  "current_price": 10.381,
-  "prev_close": 8.8205,
-  "fetched_at": "2026-03-17T07:27:40.125Z",
+  "current_price": 675.0888,
+  "prev_close": 612.0389,
+  "fetched_at": "2026-03-17T07:27:40.126Z",
   "history": [
     {
       "date": "2026-03-10",
-      "close": 9.532
+      "close": 641.8792
     },
     {
       "date": "2026-03-11",
-      "close": 9.5492
+      "close": 651.4783
     },
     {
       "date": "2026-03-12",
-      "close": 9.6776
+      "close": 652.135
     },
     {
       "date": "2026-03-13",
-      "close": 9.7209
+      "close": 655.882
     },
     {
       "date": "2026-03-14",
-      "close": 9.7207
+      "close": 657.8316
     },
     {
       "date": "2026-03-15",
-      "close": 9.9351
+      "close": 673.7012
     },
     {
       "date": "2026-03-17",
-      "close": 10.381
+      "close": 675.0888
     }
   ]
 }
