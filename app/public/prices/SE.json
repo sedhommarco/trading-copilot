@@ -2,14 +2,10 @@
   "symbol": "SE",
   "currency": "USD",
   "exchange": "NYQ",
-  "current_price": 87.57,
-  "prev_close": 105.21,
-  "fetched_at": "2026-03-17T07:27:38.083Z",
+  "current_price": 87.59,
+  "prev_close": 87.82,
+  "fetched_at": "2026-03-17T22:59:12.662Z",
   "history": [
-    {
-      "date": "2026-03-06",
-      "close": 91.98
-    },
     {
       "date": "2026-03-09",
       "close": 90.1
@@ -33,6 +29,10 @@
     {
       "date": "2026-03-16",
       "close": 87.57
+    },
+    {
+      "date": "2026-03-17",
+      "close": 87.59
     }
   ]
 }

@@ -2,14 +2,10 @@
   "symbol": "MU",
   "currency": "USD",
   "exchange": "NMS",
-  "current_price": 441.8,
-  "prev_close": 412.67,
-  "fetched_at": "2026-03-17T07:27:39.483Z",
+  "current_price": 461.69,
+  "prev_close": 379.68,
+  "fetched_at": "2026-03-17T22:59:14.219Z",
   "history": [
-    {
-      "date": "2026-03-06",
-      "close": 370.3
-    },
     {
       "date": "2026-03-09",
       "close": 389.32
@@ -33,6 +29,10 @@
     {
       "date": "2026-03-16",
       "close": 441.8
+    },
+    {
+      "date": "2026-03-17",
+      "close": 461.69
     }
   ]
 }

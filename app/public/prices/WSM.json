@@ -2,14 +2,10 @@
   "symbol": "WSM",
   "currency": "USD",
   "exchange": "NYQ",
-  "current_price": 182.36,
-  "prev_close": 201.34,
-  "fetched_at": "2026-03-17T07:27:38.753Z",
+  "current_price": 182.17,
+  "prev_close": 199.58,
+  "fetched_at": "2026-03-17T22:59:13.470Z",
   "history": [
-    {
-      "date": "2026-03-06",
-      "close": 186.52
-    },
     {
       "date": "2026-03-09",
       "close": 188.3
@@ -33,6 +29,10 @@
     {
       "date": "2026-03-16",
       "close": 182.36
+    },
+    {
+      "date": "2026-03-17",
+      "close": 182.17
     }
   ]
 }

@@ -2,14 +2,10 @@
   "symbol": "AMZN",
   "currency": "USD",
   "exchange": "NMS",
-  "current_price": 211.74,
-  "prev_close": 208.39,
-  "fetched_at": "2026-03-17T07:27:37.373Z",
+  "current_price": 215.2,
+  "prev_close": 208.73,
+  "fetched_at": "2026-03-17T22:59:11.925Z",
   "history": [
-    {
-      "date": "2026-03-06",
-      "close": 213.21
-    },
     {
       "date": "2026-03-09",
       "close": 213.49
@@ -33,6 +29,10 @@
     {
       "date": "2026-03-16",
       "close": 211.74
+    },
+    {
+      "date": "2026-03-17",
+      "close": 215.2
     }
   ]
 }
