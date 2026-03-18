@@ -2,14 +2,10 @@
   "symbol": "BNB-USD",
   "currency": "USD",
   "exchange": "CCC",
-  "current_price": 671.1442,
-  "prev_close": 612.0389,
-  "fetched_at": "2026-03-17T22:59:14.951Z",
+  "current_price": 651.5434,
+  "prev_close": 634.5004,
+  "fetched_at": "2026-03-18T22:55:51.653Z",
   "history": [
-    {
-      "date": "2026-03-11",
-      "close": 651.4783
-    },
     {
       "date": "2026-03-12",
       "close": 652.135
@@ -32,7 +28,11 @@
     },
     {
       "date": "2026-03-17",
-      "close": 671.1442
+      "close": 668.7809
+    },
+    {
+      "date": "2026-03-18",
+      "close": 651.5434
     }
   ]
 }

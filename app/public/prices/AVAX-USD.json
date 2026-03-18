@@ -2,14 +2,10 @@
   "symbol": "AVAX-USD",
   "currency": "USD",
   "exchange": "CCC",
-  "current_price": 10.2565,
-  "prev_close": 8.8205,
-  "fetched_at": "2026-03-17T22:59:15.015Z",
+  "current_price": 9.6934,
+  "prev_close": 9.2509,
+  "fetched_at": "2026-03-18T22:55:51.653Z",
   "history": [
-    {
-      "date": "2026-03-11",
-      "close": 9.5492
-    },
     {
       "date": "2026-03-12",
       "close": 9.6776
@@ -32,7 +28,11 @@
     },
     {
       "date": "2026-03-17",
-      "close": 10.2565
+      "close": 10.1962
+    },
+    {
+      "date": "2026-03-18",
+      "close": 9.6934
     }
   ]
 }

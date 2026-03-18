@@ -2,14 +2,10 @@
   "symbol": "DOCU",
   "currency": "USD",
   "exchange": "NMS",
-  "current_price": 47.54,
-  "prev_close": 46.74,
-  "fetched_at": "2026-03-17T22:59:13.441Z",
+  "current_price": 48.9,
+  "prev_close": 46.22,
+  "fetched_at": "2026-03-18T22:55:50.085Z",
   "history": [
-    {
-      "date": "2026-03-09",
-      "close": 48.69
-    },
     {
       "date": "2026-03-10",
       "close": 48.64
@@ -33,6 +29,10 @@
     {
       "date": "2026-03-17",
       "close": 47.54
+    },
+    {
+      "date": "2026-03-18",
+      "close": 48.9
     }
   ]
 }

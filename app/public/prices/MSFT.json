@@ -2,14 +2,10 @@
   "symbol": "MSFT",
   "currency": "USD",
   "exchange": "NMS",
-  "current_price": 399.41,
-  "prev_close": 403.93,
-  "fetched_at": "2026-03-17T22:59:10.422Z",
+  "current_price": 391.79,
+  "prev_close": 405.2,
+  "fetched_at": "2026-03-18T22:55:47.078Z",
   "history": [
-    {
-      "date": "2026-03-09",
-      "close": 409.41
-    },
     {
       "date": "2026-03-10",
       "close": 405.76
@@ -33,6 +29,10 @@
     {
       "date": "2026-03-17",
       "close": 399.41
+    },
+    {
+      "date": "2026-03-18",
+      "close": 391.79
     }
   ]
 }
