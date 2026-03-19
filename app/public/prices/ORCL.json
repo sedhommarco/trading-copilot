@@ -2,14 +2,10 @@
   "symbol": "ORCL",
   "currency": "USD",
   "exchange": "NYQ",
-  "current_price": 152.9,
-  "prev_close": 152.37,
-  "fetched_at": "2026-03-18T22:55:50.115Z",
+  "current_price": 155.52,
+  "prev_close": 154.79,
+  "fetched_at": "2026-03-19T22:55:10.057Z",
   "history": [
-    {
-      "date": "2026-03-10",
-      "close": 149.4
-    },
     {
       "date": "2026-03-11",
       "close": 163.12
@@ -33,6 +29,10 @@
     {
       "date": "2026-03-18",
       "close": 152.9
+    },
+    {
+      "date": "2026-03-19",
+      "close": 155.52
     }
   ]
 }

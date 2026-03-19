@@ -2,14 +2,10 @@
   "symbol": "BABA",
   "currency": "USD",
   "exchange": "NYQ",
-  "current_price": 134.43,
-  "prev_close": 133.27,
-  "fetched_at": "2026-03-18T22:55:50.894Z",
+  "current_price": 124.9,
+  "prev_close": 130.35,
+  "fetched_at": "2026-03-19T22:55:10.823Z",
   "history": [
-    {
-      "date": "2026-03-10",
-      "close": 136.85
-    },
     {
       "date": "2026-03-11",
       "close": 136.29
@@ -33,6 +29,10 @@
     {
       "date": "2026-03-18",
       "close": 134.43
+    },
+    {
+      "date": "2026-03-19",
+      "close": 124.9
     }
   ]
 }

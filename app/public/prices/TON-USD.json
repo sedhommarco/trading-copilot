@@ -2,14 +2,10 @@
   "symbol": "TON-USD",
   "currency": "USD",
   "exchange": "CCC",
-  "current_price": 0.005,
+  "current_price": 0.0046,
   "prev_close": 0.0045,
-  "fetched_at": "2026-03-18T22:55:52.605Z",
+  "fetched_at": "2026-03-19T22:55:12.332Z",
   "history": [
-    {
-      "date": "2026-03-12",
-      "close": 0.0045
-    },
     {
       "date": "2026-03-13",
       "close": 0.0045
@@ -33,6 +29,10 @@
     {
       "date": "2026-03-18",
       "close": 0.005
+    },
+    {
+      "date": "2026-03-19",
+      "close": 0.0046
     }
   ]
 }

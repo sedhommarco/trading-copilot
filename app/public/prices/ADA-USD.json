@@ -2,14 +2,10 @@
   "symbol": "ADA-USD",
   "currency": "USD",
   "exchange": "CCC",
-  "current_price": 0.2736,
-  "prev_close": 0.255,
-  "fetched_at": "2026-03-18T22:55:52.642Z",
+  "current_price": 0.2664,
+  "prev_close": 0.262,
+  "fetched_at": "2026-03-19T22:55:12.385Z",
   "history": [
-    {
-      "date": "2026-03-12",
-      "close": 0.2632
-    },
     {
       "date": "2026-03-13",
       "close": 0.2657
@@ -32,7 +28,11 @@
     },
     {
       "date": "2026-03-18",
-      "close": 0.2736
+      "close": 0.2742
+    },
+    {
+      "date": "2026-03-19",
+      "close": 0.2664
     }
   ]
 }
