@@ -2,14 +2,10 @@
   "symbol": "XRP-USD",
   "currency": "USD",
   "exchange": "CCC",
-  "current_price": 1.4485,
-  "prev_close": 1.3864,
-  "fetched_at": "2026-03-19T22:55:11.615Z",
+  "current_price": 1.4483,
+  "prev_close": 1.3849,
+  "fetched_at": "2026-03-20T22:55:07.895Z",
   "history": [
-    {
-      "date": "2026-03-13",
-      "close": 1.3989
-    },
     {
       "date": "2026-03-14",
       "close": 1.4073
@@ -32,7 +28,11 @@
     },
     {
       "date": "2026-03-19",
-      "close": 1.4485
+      "close": 1.4473
+    },
+    {
+      "date": "2026-03-20",
+      "close": 1.4483
     }
   ]
 }

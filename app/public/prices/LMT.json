@@ -2,14 +2,10 @@
   "symbol": "LMT",
   "currency": "USD",
   "exchange": "NYQ",
-  "current_price": 637.51,
-  "prev_close": 655,
-  "fetched_at": "2026-03-19T22:55:06.774Z",
+  "current_price": 627.43,
+  "prev_close": 671.77,
+  "fetched_at": "2026-03-20T22:55:03.631Z",
   "history": [
-    {
-      "date": "2026-03-11",
-      "close": 649.47
-    },
     {
       "date": "2026-03-12",
       "close": 652.83
@@ -33,6 +29,10 @@
     {
       "date": "2026-03-19",
       "close": 637.51
+    },
+    {
+      "date": "2026-03-20",
+      "close": 627.43
     }
   ]
 }

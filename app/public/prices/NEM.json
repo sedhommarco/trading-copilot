@@ -2,14 +2,10 @@
   "symbol": "NEM",
   "currency": "USD",
   "exchange": "NYQ",
-  "current_price": 99.2,
-  "prev_close": 116.09,
-  "fetched_at": "2026-03-19T22:55:06.703Z",
+  "current_price": 95.8,
+  "prev_close": 116.29,
+  "fetched_at": "2026-03-20T22:55:03.567Z",
   "history": [
-    {
-      "date": "2026-03-11",
-      "close": 116.21
-    },
     {
       "date": "2026-03-12",
       "close": 114.48
@@ -33,6 +29,10 @@
     {
       "date": "2026-03-19",
       "close": 99.2
+    },
+    {
+      "date": "2026-03-20",
+      "close": 95.8
     }
   ]
 }

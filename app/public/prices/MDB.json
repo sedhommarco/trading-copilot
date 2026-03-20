@@ -2,14 +2,10 @@
   "symbol": "MDB",
   "currency": "USD",
   "exchange": "NGM",
-  "current_price": 270.16,
-  "prev_close": 263.93,
-  "fetched_at": "2026-03-19T22:55:09.216Z",
+  "current_price": 261.16,
+  "prev_close": 270.47,
+  "fetched_at": "2026-03-20T22:55:05.881Z",
   "history": [
-    {
-      "date": "2026-03-11",
-      "close": 270.57
-    },
     {
       "date": "2026-03-12",
       "close": 260.68
@@ -33,6 +29,10 @@
     {
       "date": "2026-03-19",
       "close": 270.16
+    },
+    {
+      "date": "2026-03-20",
+      "close": 261.16
     }
   ]
 }

@@ -2,14 +2,10 @@
   "symbol": "CCL",
   "currency": "USD",
   "exchange": "NYQ",
-  "current_price": 24.94,
-  "prev_close": 27.16,
-  "fetched_at": "2026-03-19T22:55:08.477Z",
+  "current_price": 24.12,
+  "prev_close": 25.79,
+  "fetched_at": "2026-03-20T22:55:05.233Z",
   "history": [
-    {
-      "date": "2026-03-11",
-      "close": 25.97
-    },
     {
       "date": "2026-03-12",
       "close": 23.92
@@ -33,6 +29,10 @@
     {
       "date": "2026-03-19",
       "close": 24.94
+    },
+    {
+      "date": "2026-03-20",
+      "close": 24.12
     }
   ]
 }

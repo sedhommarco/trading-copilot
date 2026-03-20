@@ -2,14 +2,10 @@
   "symbol": "GIS",
   "currency": "USD",
   "exchange": "NYQ",
-  "current_price": 37.5,
-  "prev_close": 43.57,
-  "fetched_at": "2026-03-19T22:55:10.070Z",
+  "current_price": 37.01,
+  "prev_close": 44.29,
+  "fetched_at": "2026-03-20T22:55:06.585Z",
   "history": [
-    {
-      "date": "2026-03-11",
-      "close": 40.66
-    },
     {
       "date": "2026-03-12",
       "close": 39.4
@@ -33,6 +29,10 @@
     {
       "date": "2026-03-19",
       "close": 37.5
+    },
+    {
+      "date": "2026-03-20",
+      "close": 37.01
     }
   ]
 }
