@@ -92,6 +92,17 @@ const coingeckoIds: Record<string, string> = {
 const cryptoHistoryCache = new Map<string, { data: Array<{ date: string; price: number }>; ts: number }>();
 const CRYPTO_HISTORY_TTL = 15 * 60_000; // 15 minutes
 
+// Simple queue to stagger CoinGecko requests (free tier: 10-30 req/min)
+let lastGeckoFetch = 0;
+const GECKO_MIN_INTERVAL = 2_500; // 2.5s between requests
+
+async function geckoThrottle(): Promise<void> {
+  const now = Date.now();
+  const wait = GECKO_MIN_INTERVAL - (now - lastGeckoFetch);
+  if (wait > 0) await new Promise(r => setTimeout(r, wait));
+  lastGeckoFetch = Date.now();
+}
+
 export async function fetchCryptoHistory(
   ticker: string,
 ): Promise<Array<{ date: string; price: number }> | null> {
@@ -104,23 +115,33 @@ export async function fetchCryptoHistory(
     return cached.data;
   }
 
+  // Try CoinGecko first (throttled)
   try {
+    await geckoThrottle();
     const url = `https://api.coingecko.com/api/v3/coins/${geckoId}/market_chart?vs_currency=usd&days=7&interval=daily`;
     const res = await fetch(url);
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const json = await res.json() as { prices: Array<[number, number]> };
     if (!json?.prices?.length) throw new Error('No price data');
-    // CoinGecko returns [timestamp_ms, price] pairs
     const data = json.prices.map(([ts, price]) => ({
       date: new Date(ts).toISOString().split('T')[0],
       price,
     }));
     cryptoHistoryCache.set(key, { data, ts: Date.now() });
     return data;
-  } catch (err) {
-    console.error(`CoinGecko history fetch failed for ${ticker}:`, err);
-    return null;
+  } catch {
+    // CoinGecko failed (429/CORS) — fall back to static JSON from GH Action
   }
+
+  // Fallback: static JSON files (GH Action writes BTC-USD.json, ETH-USD.json, etc.)
+  const yahooTicker = `${key}-USD`;
+  const fallback = await fetchEquityHistory(yahooTicker);
+  if (fallback) {
+    cryptoHistoryCache.set(key, { data: fallback, ts: Date.now() });
+    return fallback;
+  }
+
+  return null;
 }
 
 // ─── FX & Metals (fawazahmed0 via jsDelivr) ───────────────────────────────────────────────
