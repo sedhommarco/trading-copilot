@@ -1,6 +1,6 @@
 {
   "version": "3.0.0",
-  "last_global_update": "2026-03-11T01:20:00Z",
+  "last_global_update": "2026-03-22T18:00:00Z",
   "ui": {
     "tab_order": [
       "macro-volatility",
@@ -14,46 +14,46 @@
     "watchlists/macro-volatility.json": {
       "strategy_family": "macro-volatility",
       "label": "Macro & Volatility Events",
-      "last_updated": "2026-03-01T21:30:00Z",
-      "record_count": 10,
+      "last_updated": "2026-03-22T18:00:00Z",
+      "record_count": 9,
       "opportunity_count_guidance": "5-10",
-      "status": "stale"
+      "status": "fresh"
     },
     "watchlists/pre-earnings.json": {
       "strategy_family": "earnings-momentum",
       "label": "Earnings Momentum & Gaps",
-      "last_updated": "2026-03-01T21:30:00Z",
-      "record_count": 3,
+      "last_updated": "2026-03-22T18:00:00Z",
+      "record_count": 4,
       "opportunity_count_guidance": "5-10",
-      "status": "stale"
+      "status": "fresh"
     },
     "watchlists/post-crash.json": {
       "strategy_family": "post-shock",
       "label": "Post-Shock Rebounds",
-      "last_updated": "2026-03-01T21:30:00Z",
+      "last_updated": "2026-03-22T18:00:00Z",
       "record_count": 4,
       "opportunity_count_guidance": "5-10",
-      "status": "stale"
+      "status": "fresh"
     },
     "watchlists/crypto.json": {
       "strategy_family": "crypto",
       "label": "Crypto & Digital Assets",
-      "last_updated": "2026-03-01T21:30:00Z",
-      "record_count": 5,
+      "last_updated": "2026-03-22T18:00:00Z",
+      "record_count": 3,
       "opportunity_count_guidance": "5-10",
-      "status": "stale"
+      "status": "fresh"
     },
     "watchlists/pair-trades.json": {
       "strategy_family": "pair-trades",
       "label": "Relative Value & Pairs",
-      "last_updated": "2026-03-01T21:30:00Z",
-      "record_count": 5,
+      "last_updated": "2026-03-22T18:00:00Z",
+      "record_count": 6,
       "opportunity_count_guidance": "5-10",
-      "status": "stale"
+      "status": "fresh"
     },
     "context/market-regime.json": {
-      "last_updated": "2026-03-01T21:30:00Z",
-      "status": "stale"
+      "last_updated": "2026-03-22T18:00:00Z",
+      "status": "fresh"
     }
   },
   "data_sources": [
@@ -65,7 +65,7 @@
     "Seeking Alpha"
   ],
   "stale_threshold_days": 7,
-    "name": "Trading A¡dvisor",
+  "name": "Trading Advisor",
   "description": "A minimal SPA for surfacing trading opportunities and strategy-level context.",
   "app_version": "0.2.0"
 }
