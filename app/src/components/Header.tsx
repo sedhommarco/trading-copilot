@@ -42,15 +42,21 @@ export default function Header() {
     }, ADMIN_CLICK_WINDOW);
   }
 
-  // ─── Close menu on outside click ─────────────────────────────────────────
+  // ─── Close menu on outside click/touch ───────────────────────────────────
   useEffect(() => {
-    function handler(e: MouseEvent) {
+    function handler(e: MouseEvent | TouchEvent) {
       if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
         setMenuOpen(false);
       }
     }
-    if (menuOpen) document.addEventListener('mousedown', handler);
-    return () => document.removeEventListener('mousedown', handler);
+    if (menuOpen) {
+      document.addEventListener('mousedown', handler);
+      document.addEventListener('touchstart', handler);
+    }
+    return () => {
+      document.removeEventListener('mousedown', handler);
+      document.removeEventListener('touchstart', handler);
+    };
   }, [menuOpen]);
 
   // ─── Derived helpers ──────────────────────────────────────────────────────

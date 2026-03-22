@@ -124,10 +124,13 @@ trading-copilot/
 - Watchlist files are **overwritten in place** on each Trading Copilot refresh — no archiving
 - GitHub Actions builds Vite and deploys `dist/` to GitHub Pages on every push to `main`
 - **Live prices:**
-  - Crypto → Coinlore API (CORS-friendly)
+  - Crypto → Coinlore API (CORS-friendly) — BTC, ETH, SOL, ADA, XRP, LINK, BNB, TON, AVAX, SUI
   - FX/Metals → fawazahmed0 via jsDelivr (CORS-friendly)
-  - Equities → disabled; Yahoo Finance blocks browser CORS. Planned for backend proxy phase.
-- **Sparklines:** 7-day SVG trend line for FX/metals only (`SparklineChart` + `fetchFxMetalHistory`). Crypto/equities sparklines planned for the backend proxy phase.
+  - Equities → Static JSON served from GitHub Pages, updated daily by `fetch-equity-prices.yml` GH Action (Yahoo Finance). Shows current price + 24h % change.
+- **Sparklines:** 7-day SVG trend line for all asset classes:
+  - Crypto → CoinGecko public API (7-day daily history, 15-min cache)
+  - FX/Metals → fawazahmed0 CDN (7-day daily fetches)
+  - Equities → Static JSON from GitHub Pages (7-day close history from Yahoo Finance)
 
 ---
 
@@ -158,6 +161,17 @@ Rationale / Setup / Entry Trigger
 ```
 
 Cards sorted by conviction (high → moderate → low), then impact (very high → high → medium → low).
+
+### Mobile behaviour (≤768px)
+
+- Sticky header (top, edge-to-edge)
+- Fixed bottom tab bar (5 icons + short labels: Macro / Earnings / Rebounds / Crypto / Pairs)
+- Single-column card layout, reduced padding
+- Footer hidden
+- Sparklines render at 70×30px (smaller than desktop 84×36px)
+- Pair trade sparklines stack vertically
+- Touch targets ≥44px, safe-area support for notched devices
+- Very small screens (≤374px): icon-only tabs
 
 ---
 

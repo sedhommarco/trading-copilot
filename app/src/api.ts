@@ -28,6 +28,10 @@ const coinloreIds: Record<string, string> = {
   DOT: '9295',
   AVAX: '44883',
   XRP: '58',
+  LINK: '2751',
+  BNB: '2710',
+  TON: '54683',
+  SUI: '93845',
 };
 
 /** Normalise BTC-USD → BTC, ETH-USD → ETH, etc. */
@@ -79,6 +83,10 @@ const coingeckoIds: Record<string, string> = {
   DOT: 'polkadot',
   AVAX: 'avalanche-2',
   XRP: 'ripple',
+  LINK: 'chainlink',
+  BNB: 'binancecoin',
+  TON: 'the-open-network',
+  SUI: 'sui',
 };
 
 const cryptoHistoryCache = new Map<string, { data: Array<{ date: string; price: number }>; ts: number }>();
@@ -226,8 +234,22 @@ export async function fetchEquityHistory(
     const url = `${base}prices/${key}.json`;
     const res = await fetch(url);
     if (!res.ok) return null;
-    const data = await res.json() as Array<{ date: string; price: number }>;
-    if (!Array.isArray(data) || data.length === 0) return null;
+    const raw = await res.json();
+
+    // The GH Action script writes { symbol, history: [{ date, close }] }
+    // Normalise both the new format and the legacy flat-array format.
+    let data: Array<{ date: string; price: number }>;
+    if (raw && Array.isArray(raw.history)) {
+      data = raw.history
+        .filter((d: { close?: number }) => d.close != null)
+        .map((d: { date: string; close: number }) => ({ date: d.date, price: d.close }));
+    } else if (Array.isArray(raw)) {
+      data = raw;
+    } else {
+      return null;
+    }
+
+    if (data.length === 0) return null;
     equityHistoryCache.set(key, { data, ts: Date.now() });
     return data;
   } catch {
@@ -235,15 +257,33 @@ export async function fetchEquityHistory(
   }
 }
 
-/** Latest equity price from pre-built JSON (last data point). */
-const equityPriceCache = new Map<string, { price: number; ts: number }>();
+/** Latest equity price from pre-built JSON (last data point or current_price). */
+const equityPriceCache = new Map<string, { price: number; change24h?: number; ts: number }>();
 
 export async function fetchEquityPrice(ticker: string): Promise<LivePriceData | null> {
   const key = ticker.toUpperCase();
   const cached = equityPriceCache.get(key);
   if (cached && Date.now() - cached.ts < EQUITY_HISTORY_TTL) {
-    return { price: cached.price, source: 'static-json' };
+    return { price: cached.price, change24h: cached.change24h, source: 'static-json' };
   }
+
+  // Try fetching the raw JSON directly first (contains current_price + prev_close for 24h %)
+  try {
+    const base = import.meta.env.BASE_URL ?? '/';
+    const url = `${base}prices/${key}.json`;
+    const res = await fetch(url);
+    if (res.ok) {
+      const raw = await res.json();
+      if (raw && typeof raw.current_price === 'number') {
+        let change24h: number | undefined;
+        if (typeof raw.prev_close === 'number' && raw.prev_close > 0) {
+          change24h = ((raw.current_price - raw.prev_close) / raw.prev_close) * 100;
+        }
+        equityPriceCache.set(key, { price: raw.current_price, change24h, ts: Date.now() });
+        return { price: raw.current_price, change24h, source: 'static-json' };
+      }
+    }
+  } catch { /* fall through to history-based approach */ }
 
   const history = await fetchEquityHistory(key);
   if (!history || history.length === 0) return null;

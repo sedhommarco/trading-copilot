@@ -23,7 +23,7 @@ The system is driven by two Perplexity Spaces:
 
 ### Current stack
 
-- **UI:** React 18 + TypeScript + Vite SPA
+- **UI:** React 18 + TypeScript + Vite SPA (responsive — mobile-friendly with fixed bottom tab bar)
 - **Hosting:** GitHub Pages (static)
 - **Deployment:** GitHub Actions on push to `main` (`npm ci → tsc → vite build → deploy dist/`)
 - **Data:** Static JSON files in `data/` (no backend, no database)
@@ -149,10 +149,21 @@ JSON Schema files used by the validation workflow. One schema per data type:
 ### Layout
 
 - **Header:** App title (left) + user avatar / settings icon (right)
-- **Market regime bar:** current regime, VIX, per-strategy adjustments
+- **Market regime bar:** current regime, VIX, per-strategy adjustments (collapsed by default)
 - **Tabs:** 5 strategy family tabs
 - **Cards:** opportunity cards within each tab
 - **Footer:** risk disclaimer (centered, small text)
+
+### Mobile layout (≤768px)
+
+- **Sticky header** at top (edge-to-edge, compact title + avatar)
+- **Fixed bottom tab bar** with 5 strategy tabs (icon + short label, e.g. "Macro", "Earnings", "Rebounds", "Crypto", "Pairs")
+- **Content scrolls** between header and bottom bar
+- **Cards:** single-column, reduced padding
+- **Footer:** hidden (bottom tab bar replaces it)
+- **Very small screens (≤374px):** icon-only tabs, no labels
+- **Touch targets:** minimum 44px (avatar 44px, tab buttons 56px height)
+- **Safe area:** supports iPhone notch/home indicator via `env(safe-area-inset-bottom)`
 
 ### Card layout
 
@@ -180,11 +191,11 @@ Cards are sorted by **conviction** (high → moderate → low), then by **impact
 
 ## Live Prices
 
-| Asset class        | Source                   | Status                                     |
-| ------------------ | ------------------------ | ------------------------------------------ |
-| Crypto             | Coinlore API             | ✅ Live                                    |
-| FX / Metals        | fawazahmed0 via jsDelivr | ✅ Live                                    |
-| Equities / Indices | Yahoo Finance            | ❌ Disabled (CORS) — planned backend proxy |
+| Asset class        | Source                                     | Status                                                        |
+| ------------------ | ------------------------------------------ | ------------------------------------------------------------- |
+| Crypto             | Coinlore API (live) + CoinGecko (sparkline)| ✅ Live — BTC, ETH, SOL, ADA, XRP, LINK, BNB, TON, AVAX, SUI |
+| FX / Metals        | fawazahmed0 via jsDelivr                   | ✅ Live                                                       |
+| Equities / Indices | Static JSON via GH Action (Yahoo Finance)  | ✅ Daily snapshots — sparkline + price + 24h %                |
 
 ---
 

@@ -13,11 +13,11 @@ import CryptoIcon from './assets/icons/crypto.svg?react';
 import PairtradeIcon from './assets/icons/pairtrade.svg?react';
 
 const TAB_LABELS: Record<TabId, React.ReactNode> = {
-  'macro-volatility':  <><DiceIcon    className="tab-icon" aria-hidden="true" /> Macro & Volatility</>,
-  'earnings-momentum': <><EarningIcon  className="tab-icon" aria-hidden="true" /> Earnings Momentum</>,
-  'post-shock':        <><ReboundIcon  className="tab-icon" aria-hidden="true" /> Post-Shock Rebounds</>,
-  'crypto':            <><CryptoIcon   className="tab-icon" aria-hidden="true" /> Crypto</>,
-  'pair-trades':       <><PairtradeIcon className="tab-icon" aria-hidden="true" /> Pair Trades</>,
+  'macro-volatility':  <><DiceIcon    className="tab-icon" aria-hidden="true" /><span className="tab-label-full"> Macro & Volatility</span><span className="tab-label-short">Macro</span></>,
+  'earnings-momentum': <><EarningIcon  className="tab-icon" aria-hidden="true" /><span className="tab-label-full"> Earnings Momentum</span><span className="tab-label-short">Earnings</span></>,
+  'post-shock':        <><ReboundIcon  className="tab-icon" aria-hidden="true" /><span className="tab-label-full"> Post-Shock Rebounds</span><span className="tab-label-short">Rebounds</span></>,
+  'crypto':            <><CryptoIcon   className="tab-icon" aria-hidden="true" /><span className="tab-label-full"> Crypto</span><span className="tab-label-short">Crypto</span></>,
+  'pair-trades':       <><PairtradeIcon className="tab-icon" aria-hidden="true" /><span className="tab-label-full"> Pair Trades</span><span className="tab-label-short">Pairs</span></>,
 };
 
 export default function App() {
