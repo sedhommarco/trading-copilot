@@ -234,6 +234,48 @@ git push
 - Log failures in the commit message.
 - **NEVER fabricate data.** If you cannot verify a price or date, omit the opportunity or mark conviction `"low"`.
 
+### Post-Refresh Pipeline (Price Sync)
+
+After writing watchlist JSON files and before the final push, sync the price-fetch script with the new tickers:
+
+```
+Step 1: Update scripts/fetch-equity-prices.mjs
+        — Add any NEW tickers from the refreshed watchlists
+        — Remove tickers no longer in any watchlist
+        — Keep the EQUITY_SYMBOLS and CRYPTO_SYMBOLS arrays accurate
+
+Step 2: Commit & push (data/ + scripts/)
+        — This push triggers the fetch-equity-prices.yml GH Action
+          (trigger: paths: ['scripts/fetch-equity-prices.mjs'])
+        — The GH Action fetches fresh prices for all tickers and
+          commits the price files to app/public/prices/
+
+Step 3: Pull the GH Action commit locally
+        — git pull --rebase
+        — This brings the fresh price files into your local repo
+
+Step 4: Verify & push final state
+        — Confirm price files exist for all watchlist tickers
+        — Push if there are any local changes
+```
+
+**GH Action trigger:** `fetch-equity-prices.yml` runs on:
+- Daily cron (22:30 UTC Mon-Fri)
+- Manual dispatch
+- Push to `main` that modifies `scripts/fetch-equity-prices.mjs`
+
+This ensures that whenever the watchlist tickers change, price data is automatically refreshed.
+
+### Critical Rule: All Forecasts Must Be Forward-Looking
+
+**Every opportunity must have catalysts/events on or after the current date.** Specifically:
+- `earnings_date` must be in the future (or omitted if no earnings play)
+- `date` (macro events) must be in the future
+- `next_catalyst_date` must be in the future
+- `crash_date` may be in the past (it's the date of the crash), but the RECOVERY setup must be current
+- Entry zones and prices must be verified against TODAY's market, not historical levels
+- If an event has already occurred, the opportunity must be REMOVED — not left as stale
+
 ---
 
 ## Interaction with Trading Copilot Space

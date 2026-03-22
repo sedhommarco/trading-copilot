@@ -8,13 +8,11 @@
  * Called by the GitHub Actions workflow .github/workflows/fetch-equity-prices.yml
  * No npm dependencies needed - uses Node.js built-in fetch (Node 18+).
  *
- * Symbols covered (Week of 2026-03-16):
- *   Pair Trades  : LLY, NVO, XOM, UAL, ALK, MSFT, AMZN, COST, WMT,
- *                  NEM, CCL, LMT, GLD, SPY, CVX, DAL, BTC-USD, SOL-USD
- *   Post-Crash   : SE, MDB, BNTX, LULU, DOCU, GIS, DLTR
- *   Pre-Earnings : ORCL, WSM, MU, BABA, ACN
- *   Crypto       : BTC-USD, ETH-USD, SOL-USD, XRP-USD, LINK-USD,
- *                  AVAX-USD, BNB-USD, TON-USD, ADA-USD, SUI-USD
+ * Symbols covered (Week of 2026-03-22):
+ *   Pair Trades  : XOM, UAL, CVX, ALK, LLY, NVO, COST, WMT, LMT, CCL, SPY
+ *   Post-Crash   : MDB, BNTX, DLTR, GLD
+ *   Pre-Earnings : MU, CCL, LULU, PAYX, CTAS, ACN, CHWY
+ *   Crypto       : BTC-USD, ETH-USD, SOL-USD
  *   Macro/Vol    : (index proxies via SPY, GLD, covered above)
  */
 
@@ -28,60 +26,46 @@ const OUTPUT_DIR = join(__dirname, '..', 'app', 'public', 'prices');
 // ── Symbol master list ───────────────────────────────────────────────────────
 const EQUITY_SYMBOLS = [
   // Pair Trades – long legs
-  'LLY',   // Eli Lilly
-  'MSFT',  // Microsoft
-  'COST',  // Costco
-  'NEM',   // Newmont
-  'LMT',   // Lockheed Martin
-  'GLD',   // Gold ETF
-  'SPY',   // S&P 500 ETF
   'XOM',   // ExxonMobil
   'CVX',   // Chevron
+  'LLY',   // Eli Lilly
+  'COST',  // Costco
+  'LMT',   // Lockheed Martin
+  'SPY',   // S&P 500 ETF
 
   // Pair Trades – short legs (equity)
-  'NVO',   // Novo Nordisk
   'UAL',   // United Airlines
   'ALK',   // Alaska Air
-  'AMZN',  // Amazon
+  'NVO',   // Novo Nordisk
   'WMT',   // Walmart
   'CCL',   // Carnival Corp
-  'DAL',   // Delta Air Lines
 
   // Post-Crash Recovery
-  'SE',    // Sea Limited
   'MDB',   // MongoDB
   'BNTX',  // BioNTech
-  'LULU',  // lululemon
-  'DOCU',  // DocuSign
-  'GIS',   // General Mills
-  'WSM',   // Williams-Sonoma
   'DLTR',  // Dollar Tree
+  'GLD',   // Gold ETF
 
   // Pre-Earnings
-  'ORCL',  // Oracle
   'MU',    // Micron
-  'BABA',  // Alibaba
+  'LULU',  // lululemon
+  'PAYX',  // Paychex
+  'CTAS',  // Cintas
   'ACN',   // Accenture
+  'CHWY',  // Chewy
 ];
 
 const CRYPTO_SYMBOLS = [
   'BTC-USD',   // Bitcoin
   'ETH-USD',   // Ethereum
   'SOL-USD',   // Solana
-  'XRP-USD',   // Ripple XRP
-  'LINK-USD',  // Chainlink
-  'AVAX-USD',  // Avalanche
-  'BNB-USD',   // BNB Chain
-  'TON-USD',   // Toncoin
-  'ADA-USD',   // Cardano
-  'SUI-USD',   // Sui Network
 ];
 
 const ALL_SYMBOLS = [...EQUITY_SYMBOLS, ...CRYPTO_SYMBOLS];
 
 // ── Yahoo Finance v8 chart endpoint ─────────────────────────────────────────
 const YF_BASE = 'https://query1.finance.yahoo.com/v8/finance/chart';
-const RANGE   = '10d';   // fetch 10 calendar days to ensure 7 trading days
+const RANGE = '10d';   // fetch 10 calendar days to ensure 7 trading days
 const INTERVAL = '1d';
 
 async function fetchPrices(symbol) {
@@ -105,13 +89,13 @@ async function fetchPrices(symbol) {
   }
 
   const timestamps = result.timestamp ?? [];
-  const closes     = result.indicators?.quote?.[0]?.close ?? [];
-  const meta       = result.meta ?? {};
+  const closes = result.indicators?.quote?.[0]?.close ?? [];
+  const meta = result.meta ?? {};
 
   // Build array of { date, close } – drop nulls (trading halts, weekends)
   const history = timestamps
     .map((ts, i) => ({
-      date:  new Date(ts * 1000).toISOString().slice(0, 10),
+      date: new Date(ts * 1000).toISOString().slice(0, 10),
       close: closes[i] != null ? parseFloat(closes[i].toFixed(4)) : null,
     }))
     .filter(d => d.close !== null)
@@ -119,15 +103,15 @@ async function fetchPrices(symbol) {
 
   return {
     symbol,
-    currency:      meta.currency      ?? 'USD',
-    exchange:      meta.exchangeName  ?? 'UNKNOWN',
+    currency: meta.currency ?? 'USD',
+    exchange: meta.exchangeName ?? 'UNKNOWN',
     current_price: meta.regularMarketPrice
       ? parseFloat(meta.regularMarketPrice.toFixed(4))
       : (history.at(-1)?.close ?? null),
-    prev_close:    meta.chartPreviousClose
+    prev_close: meta.chartPreviousClose
       ? parseFloat(meta.chartPreviousClose.toFixed(4))
       : null,
-    fetched_at:    new Date().toISOString(),
+    fetched_at: new Date().toISOString(),
     history,
   };
 }
@@ -145,7 +129,7 @@ async function main() {
     await Promise.all(
       batch.map(async symbol => {
         try {
-          const data     = await fetchPrices(symbol);
+          const data = await fetchPrices(symbol);
           const filename = join(OUTPUT_DIR, `${symbol}.json`);
           writeFileSync(filename, JSON.stringify(data, null, 2));
           console.log(`[OK]   ${symbol.padEnd(10)} price=${data.current_price}`);
@@ -166,11 +150,11 @@ async function main() {
   // Write a manifest so the SPA knows which price files are available
   const manifest = {
     generated_at: new Date().toISOString(),
-    total:        ALL_SYMBOLS.length,
-    success:      results.success.length,
-    failed:       results.failed.length,
-    symbols:      results.success,
-    errors:       results.failed,
+    total: ALL_SYMBOLS.length,
+    success: results.success.length,
+    failed: results.failed.length,
+    symbols: results.success,
+    errors: results.failed,
   };
   writeFileSync(join(OUTPUT_DIR, '_manifest.json'), JSON.stringify(manifest, null, 2));
 

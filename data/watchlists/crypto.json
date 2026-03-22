@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-03-22T18:00:00Z",
+  "last_updated": "2026-03-22T21:30:00Z",
   "opportunities": [
     {
       "ticker": "BTC",
@@ -7,17 +7,18 @@
       "direction": "long",
       "conviction": "moderate",
       "current_price": 68301.08,
-      "entry_zone": "65500-68200",
-      "stop_loss": 61000,
+      "entry_zone": "65600-68300",
+      "stop_loss": 61500,
       "take_profit": 76000,
       "risk_percent": 2,
       "expected_holding_days": 5,
       "trade_setup": "support_bounce",
-      "entry_trigger": "Scale into longs $65,500-$68,200 on intraday dips; require daily close above $65,000 to hold.",
-      "rationale": "Crypto Fear & Greed at 10 (Extreme Fear) is historically a contrarian buy for BTC -- previous readings below 15 preceded 20-40% rallies within 30 days. Price testing $65K-$68K demand zone that held in prior corrections. Spot ETF institutional flows remain the structural bid. Invalidated below $61,000 which opens path to $55K.",
-      "data_sources": ["alternative.me Fear & Greed", "Yahoo Finance BTC-USD", "market-regime.json", "CoinGecko"],
+      "entry_trigger": "Scale into longs $65,600-$68,300 on intraday dips toward the demand zone; require a daily close above $65,000 to hold. Add on any 4H close back above $70,000.",
+      "rationale": "Crypto Fear & Greed at 10 (Extreme Fear) is a historically reliable contrarian signal for BTC — readings below 15 have preceded 20-40% rallies within 30 days in prior cycles. BTC down 8.8% in 7 days to $68,301, testing the $65K-$68K demand zone that held during the Jan-Feb correction. Geopolitical risk (Iran/Hormuz) is the overhang but priced into broader market. PCE inflation data Mar 28 is the next directional catalyst — a soft print could trigger risk-on rotation into BTC. Fed dot plot showing only 1 cut in 2026 limits upside pace but spot ETF structural bid remains intact. Invalidated below $61,500 which would confirm a breakdown toward $55K.",
+      "data_sources": ["alternative.me Crypto Fear & Greed (10)", "Yahoo Finance BTC-USD", "market-regime.json (VIX 26.78, high-vol)", "FOMC Mar 18 statement", "BTC-USD.json price history"],
       "evidence_count": 5,
-      "price_checked_at": "2026-03-22T20:05:03Z"
+      "price_checked_at": "2026-03-22T20:05:03Z",
+      "next_catalyst_date": "2026-03-28"
     },
     {
       "ticker": "ETH",
@@ -27,15 +28,16 @@
       "current_price": 2067.07,
       "entry_zone": "1960-2060",
       "stop_loss": 1780,
-      "take_profit": 2370,
+      "take_profit": 2350,
       "risk_percent": 1,
       "expected_holding_days": 5,
       "trade_setup": "support_bounce",
-      "entry_trigger": "Enter $1,960-$2,060 only if BTC holds above $65,000; invalidated on 4H close below $1,900.",
-      "rationale": "BlackRock staked Ethereum ETF (launched Mar 14 on Nasdaq) provides institutional accumulation catalyst. ETH down 12% in 7 days to $2,067, approaching $1,950-$2,000 structural support. LOW conviction: ETH underperforming BTC in risk-off, altcoins capped in high-vol regime. Invalidated below $1,780 crash low.",
-      "data_sources": ["Yahoo Finance ETH-USD", "market-regime.json", "CoinGecko", "alternative.me Fear & Greed"],
+      "entry_trigger": "Enter $1,960-$2,060 only if BTC holds above $65,000; invalidated on any 4H close below $1,900. Prefer limit orders at $1,980-$2,000 round-number support.",
+      "rationale": "BlackRock staked Ethereum ETF (launched Mar 14 on Nasdaq) provides a structural institutional accumulation catalyst that differentiates ETH from other alts. ETH down 12.1% in 7 days to $2,067, approaching the $1,950-$2,000 structural support from the Dec 2025 consolidation floor. LOW conviction enforced: ETH is underperforming BTC on the ETH/BTC ratio in this risk-off leg, and altcoins are capped in the high-vol regime per strategy rules. PCE Mar 28 soft read would benefit ETH disproportionately as a risk-on beta play. Invalidated below $1,780 crash level which would signal capitulation.",
+      "data_sources": ["Yahoo Finance ETH-USD", "market-regime.json", "ETH-USD.json price history", "alternative.me Crypto Fear & Greed (10)"],
       "evidence_count": 4,
-      "price_checked_at": "2026-03-22T20:05:03Z"
+      "price_checked_at": "2026-03-22T20:05:03Z",
+      "next_catalyst_date": "2026-03-28"
     },
     {
       "ticker": "SOL",
@@ -49,11 +51,12 @@
       "risk_percent": 1,
       "expected_holding_days": 4,
       "trade_setup": "range_bounce",
-      "entry_trigger": "Enter $83-$87 only if BTC holds above $65,000 and SOL shows daily RSI divergence; exit immediately if BTC loses $65K.",
-      "rationale": "CME SOL futures and options provide growing institutional access. SOL down 9.7% in 7 days to $86.93, testing $83-$88 support from prior consolidation. HIGH beta play sized at 1% only. LOW conviction: altcoins are dangerous in Extreme Fear with high-vol regime. Invalidated below $74 which is the Jan 2026 swing low.",
-      "data_sources": ["Yahoo Finance SOL-USD", "market-regime.json", "CoinGecko", "alternative.me Fear & Greed"],
+      "entry_trigger": "Enter $83-$87 only if BTC holds above $65,000 and SOL prints a daily RSI bullish divergence on the 4H chart; exit immediately on a BTC breakdown below $65K.",
+      "rationale": "CME SOL futures and options (launched Jan 2026) provide growing institutional access and legitimacy, building the structural case for a SOL spot ETF filing cycle. SOL down 9.7% in 7 days to $86.93, testing $83-$88 support from the Feb consolidation range. Highest beta of the three positions — sized at 1% risk only. LOW conviction enforced: altcoins are inherently dangerous in Extreme Fear with high-vol regime. NFP Apr 4 and potential SOL ETF newsflow are forward catalysts. Invalidated below $74 (Jan 2026 swing low) which would signal trend breakdown.",
+      "data_sources": ["Yahoo Finance SOL-USD", "market-regime.json", "SOL-USD.json price history", "alternative.me Crypto Fear & Greed (10)"],
       "evidence_count": 3,
-      "price_checked_at": "2026-03-22T20:05:04Z"
+      "price_checked_at": "2026-03-22T20:05:04Z",
+      "next_catalyst_date": "2026-04-04"
     }
   ]
 }

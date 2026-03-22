@@ -1,10 +1,15 @@
 name: Fetch Equity Prices
 
-# Runs daily at 22:30 UTC (after US market close) and on manual trigger
+# Runs daily at 22:30 UTC (after US market close), on manual trigger,
+# and when the price-fetch script is updated (e.g. new tickers added during refresh)
 on:
   schedule:
     - cron: '30 22 * * 1-5'
   workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/fetch-equity-prices.mjs'
 
 jobs:
   fetch-prices:

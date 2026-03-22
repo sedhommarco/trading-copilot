@@ -1,6 +1,6 @@
 {
   "version": "3.0.0",
-  "last_global_update": "2026-03-22T18:00:00Z",
+  "last_global_update": "2026-03-22T21:30:00Z",
   "ui": {
     "tab_order": [
       "macro-volatility",
@@ -14,7 +14,7 @@
     "watchlists/macro-volatility.json": {
       "strategy_family": "macro-volatility",
       "label": "Macro & Volatility Events",
-      "last_updated": "2026-03-22T18:00:00Z",
+      "last_updated": "2026-03-22T21:30:00Z",
       "record_count": 9,
       "opportunity_count_guidance": "5-10",
       "status": "fresh"
@@ -22,15 +22,15 @@
     "watchlists/pre-earnings.json": {
       "strategy_family": "earnings-momentum",
       "label": "Earnings Momentum & Gaps",
-      "last_updated": "2026-03-22T18:00:00Z",
-      "record_count": 4,
+      "last_updated": "2026-03-22T21:30:00Z",
+      "record_count": 7,
       "opportunity_count_guidance": "5-10",
       "status": "fresh"
     },
     "watchlists/post-crash.json": {
       "strategy_family": "post-shock",
       "label": "Post-Shock Rebounds",
-      "last_updated": "2026-03-22T18:00:00Z",
+      "last_updated": "2026-03-22T21:30:00Z",
       "record_count": 4,
       "opportunity_count_guidance": "5-10",
       "status": "fresh"
@@ -38,7 +38,7 @@
     "watchlists/crypto.json": {
       "strategy_family": "crypto",
       "label": "Crypto & Digital Assets",
-      "last_updated": "2026-03-22T18:00:00Z",
+      "last_updated": "2026-03-22T21:30:00Z",
       "record_count": 3,
       "opportunity_count_guidance": "5-10",
       "status": "fresh"
@@ -46,13 +46,13 @@
     "watchlists/pair-trades.json": {
       "strategy_family": "pair-trades",
       "label": "Relative Value & Pairs",
-      "last_updated": "2026-03-22T18:00:00Z",
+      "last_updated": "2026-03-22T21:30:00Z",
       "record_count": 6,
       "opportunity_count_guidance": "5-10",
       "status": "fresh"
     },
     "context/market-regime.json": {
-      "last_updated": "2026-03-22T18:00:00Z",
+      "last_updated": "2026-03-22T21:30:00Z",
       "status": "fresh"
     }
   },
