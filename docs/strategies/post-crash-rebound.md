@@ -175,3 +175,58 @@ Specific hit rates or position sizes (e.g., "10–15% of capital") are execution
 - **Macro & Volatility Events:** Crashes are often triggered by macro events (Fed, CPI, geopolitics); always cross-check the macro calendar.
 - **Earnings Momentum & Gaps:** Avoid stacking pre-earnings momentum plays on top of fresh crash rebounds in the same name.
 - **Crypto & Pairs:** In very high-volatility regimes, consider reducing single-name rebound exposure in favour of BTC-only crypto and relative-value pair trades.
+
+---
+
+## AI Refresh Protocol
+
+### Data Gathering Checklist
+1. Screen for drops: Finviz screener (finviz.com/screener.ashx — stocks down >15% last month, avg vol >1M), StockAnalysis monthly losers, Yahoo Finance screener.
+2. Volume analysis: TradingView daily chart — crash day volume vs 20d avg (want ≥3× on crash day, then declining).
+3. Crash classification: web search "{TICKER} stock drop reason {date}" — classify as Structural/Event-Driven/Sentiment.
+4. Analyst stance: TipRanks, MarketBeat — how many maintained/raised PT vs cut within 14 days of crash.
+5. Insider activity: OpenInsider (openinsider.com), Finviz insider section — any CEO/CFO purchases >$50K within 30 days of crash.
+6. Institutional signals: Fintel (fintel.io/so/us/{TICKER}), Nasdaq institutional holdings — new/increased positions.
+7. Technical recovery: TradingView daily — RSI divergence, price holding above crash low 2+ sessions, MACD cross, volume on up-days vs down-days.
+
+### Crash Classification System (MANDATORY)
+**Category A — Structural (NEVER publish):** Revenue in secular decline, fraud/SEC investigation, bankruptcy risk, management exodus, permanent demand destruction. Examples: Wirecard, SVB.
+
+**Category B — Event-Driven (TRADEABLE):** Earnings miss on guidance (not revenue collapse), single-quarter execution miss, sector-wide selloff, macro shock, analyst downgrade on valuation.
+
+**Category C — Sentiment/Contagion (TRADEABLE WITH CAUTION):** No company-specific news, broad market panic, beta amplification, guilty by association. Extra condition: broad market must also stabilize.
+
+### Recovery Signal Checklist (need ≥3 of 5 for MODERATE, ≥4 for HIGH)
+1. Volume exhaustion: selling volume declined 2+ sessions after crash. Quantify.
+2. RSI divergence/reversal: RSI turned up from below 30. Give exact numbers.
+3. Price holding: closed above crash low 2+ consecutive sessions. Give dates/prices.
+4. Analyst support: ≥50% maintained/raised PT within 14 days. Give counts.
+5. Insider/institutional buying: Form 4 filing with purchase >$50K within 30 days.
+
+### Signal Scoring Matrix
+- HIGH: Category B + drop ≥15% + 4/5 recovery signals + analyst consensus Buy/Strong Buy with PT ≥20% upside + no earnings within 3d
+- MODERATE: Category B or C + drop ≥10% + 3/5 signals + analyst ≥Hold with PT ≥10% upside
+- LOW: Category C + 2/5 signals + 8-15% drop + mixed analysts. Size at 1% risk max.
+- DISQUALIFIED: Category A, drop <8%, crash >45 days ago with no recovery, negative FCF + rising debt, ticker also short in pair-trades
+
+### Entry/Exit Precision
+- Entry zone: stabilization zone bottom to +3%. NEVER enter crash day itself — wait 2 sessions.
+- Stop: 2-3% below crash-day low. If crash low breached on above-avg volume, exit immediately.
+- Take profit: pre-crash support level (50-70% of way back to high). Do NOT target full recovery.
+- R:R minimum 1:2. Time stop: if no 25% progress toward TP within 5 days, exit.
+
+### Cross-Validation Requirements
+1. No ticker both long here AND short in pair-trades (currently CCL violates this)
+2. Regime check: bearish/high-vol → Category B only, require 4/5 recovery signals
+3. Earnings within holding period → rationale must address binary risk, or exit before print
+4. Max 2 positions per sector
+5. crash_date must be within past 45 days
+
+### Common Mistakes to Avoid
+1. Catching falling knives — enforce 2-session stabilization wait
+2. Contradictory positions (long here, short in pairs)
+3. Stale crashes (>45 days old without recovery = repriced, not bouncing)
+4. Earnings binary risk not addressed
+5. Structural misclassification — 3 quarters of declining revenue is structural, not event-driven
+6. Unquantified recovery signals — always give specific numbers
+7. Ignoring balance sheet risk

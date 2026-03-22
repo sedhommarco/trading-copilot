@@ -7,6 +7,8 @@ import {
   calcEntryPrice,
   calcRiskReward,
   fmt,
+  getPriceFreshness,
+  getCatalystCountdown,
 } from '../utils/trade';
 import LivePriceRow from './LivePriceRow';
 import SparklineChart from './SparklineChart';
@@ -34,6 +36,9 @@ export default function TradeCard({ trade, lastUpdated, settings }: Props) {
   const riskPct = trade.risk_percent ?? null;
 
     const hasLivePrice = ticker !== 'N/A';
+  const freshness = getPriceFreshness(trade, lastUpdated);
+  const catalystCountdown = getCatalystCountdown(trade);
+  const sourceCount = trade.data_sources?.length ?? null;
 
   return (
     <div className={`trade-card${isStale ? ' stale' : ''}`}>
@@ -48,6 +53,25 @@ export default function TradeCard({ trade, lastUpdated, settings }: Props) {
       <div className="badge-row">
         <span className={confidenceClass}>{confidenceLabel.toUpperCase()} Confidence</span>
       </div>
+
+      {/* Data quality indicators */}
+      {(freshness || catalystCountdown || sourceCount) && (
+        <div className="data-quality-row">
+          {freshness && freshness !== 'fresh' && (
+            <span className={`freshness-indicator freshness-${freshness}`} title={`Price data: ${freshness}`} />
+          )}
+          {sourceCount != null && (
+            <span className="evidence-badge" title={trade.data_sources!.join(', ')}>
+              {sourceCount} {sourceCount === 1 ? 'source' : 'sources'}
+            </span>
+          )}
+          {catalystCountdown && (
+            <span className="catalyst-countdown" title={trade.next_catalyst_date ?? trade.earnings_date ?? ''}>
+              {catalystCountdown}
+            </span>
+          )}
+        </div>
+      )}
 
       <div className="card-header">
         <div>

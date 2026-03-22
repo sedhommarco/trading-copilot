@@ -86,3 +86,53 @@ All fields follow the **canonical Trading Copilot schema**. Key fields for this 
 
 - **Revolut Tools:** Use 4h/daily MACD for entry timing on pre-earnings run-ups. See `revolut-tools-intraday-swing.md`.
 - **Macro & Volatility:** Cross-check macro event calendar — avoid opening new positions 24–48h before high-impact releases. See `macro-volatility.md`.
+
+---
+
+## AI Refresh Protocol
+
+### Data Gathering Checklist
+
+1. **Earnings calendar:** MarketBeat (marketbeat.com/earnings/), StockAnalysis (stockanalysis.com/actions/earnings/) — next 10 days. Filter: market cap >$5B, ≥5 analyst estimates.
+2. **Earnings history:** StockAnalysis or MarketBeat — last 4 quarters beat/miss, magnitude of surprise, stock price reaction.
+3. **Analyst revisions:** TipRanks (tipranks.com/stocks/{TICKER}/forecast), StockAnalysis — consensus rating, price target, 30-day revision trend.
+4. **Implied move:** search "{TICKER} earnings implied move" or check Yahoo Finance options chain — at-the-money straddle / stock price. Compare to historical avg move.
+5. **Whisper numbers:** search "{TICKER} earnings whisper", check Estimize if available.
+6. **Technical setup:** TradingView daily — RSI(14), MACD, price vs 50d/200d MA.
+7. **Macro cross-check:** any high-impact macro event within 24h of earnings? If yes, reduce conviction or specify "flat before both events."
+
+### Signal Scoring Matrix
+
+- **HIGH:** beat 3/4 quarters + EPS revised up 30d + implied move ≤1.2× historical + RSI 35-65 above 50d MA + no macro within 24h
+- **MODERATE:** 3-4 of 5 conditions
+- **LOW:** 2 of 5 conditions with clear qualitative catalyst
+- **DISQUALIFIED:** same-day FOMC/NFP/CPI, <5 analysts, missed 3/4 quarters, entry >5% from current price, implied move >2× historical, market cap <$5B
+
+### Entry/Exit Precision Rules
+
+**Pre-earnings run-up:** Enter 5-7d before (HIGH), 3-5d (MOD). Zone between 20d EMA and current price, width ≤3%. Stop below recent swing low or 1.5× ATR. EXIT BEFORE EARNINGS — never hold through print. If stock rallies >5%, partial profit + trail to breakeven.
+
+**Post-earnings gap follow-through:** Enter AFTER print only. Enter Day 1 last 30min or Day 2 on pullback holding above 50% of gap. Stop below gap fill level. Volume must be ≥1.5× 20d avg.
+
+**Analyst revision momentum:** Enter within 3 trading days of revision. Zone between pre-revision close and post-revision high. Stop below pre-revision close. Hold 5-10d max.
+
+R:R minimums: run-up 1:2, gap 1:2.5, revision 1:3.
+
+### Cross-Validation Requirements
+
+1. Earnings history + revision direction must agree (if beat 4/4 but revisions down, conflicted → MOD max)
+2. Implied move sanity (if implied >2× historical, explain or mark LOW)
+3. Sector peers: if 3+ peers missed, sector headwind → reduce conviction
+4. Regime alignment: high-vol/bearish → require extra condition (defensive sector or 4/4 beat history)
+5. No duplicate: if ticker in macro-volatility or post-crash, don't duplicate here
+
+### Common Mistakes to Avoid
+
+1. Holding through earnings on run-up trades
+2. Confusing "beat EPS" with "stock went up" — check both
+3. Omitting implied move analysis
+4. Too many MODERATE trades (max 3 per conviction level)
+5. Stale earnings dates — verify at every refresh
+6. Macro overlay ignored — same-day FOMC → auto-reduce conviction one tier
+7. Entry zones too wide — max 3-5% of stock price
+8. Missing exit deadline — every pre-earnings trade must state last exit date/time

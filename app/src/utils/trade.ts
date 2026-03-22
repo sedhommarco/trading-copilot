@@ -117,3 +117,57 @@ export function isMacroEvent(trade: AnyTrade): boolean {
 export function fmt(value: number | undefined | null, decimals = 2): string {
   return value != null && value > 0 ? `$${formatNumber(value, decimals)}` : 'N/A';
 }
+
+// ─── Data Quality Indicators ─────────────────────────────────────────────────
+
+export type FreshnessLevel = 'fresh' | 'aging' | 'stale';
+
+/**
+ * Returns price freshness based on how old `price_checked_at` is.
+ * Falls back to lastUpdated if price_checked_at is absent.
+ * Returns null if neither timestamp exists (backward compat).
+ */
+export function getPriceFreshness(
+  trade: AnyTrade,
+  lastUpdated?: string,
+): FreshnessLevel | null {
+  const raw = (trade as Trade).price_checked_at ?? lastUpdated;
+  if (!raw) return null;
+  const checked = new Date(raw);
+  if (isNaN(checked.getTime())) return null;
+  const hoursAgo = (Date.now() - checked.getTime()) / 3_600_000;
+  if (hoursAgo < 24) return 'fresh';
+  if (hoursAgo < 72) return 'aging';
+  return 'stale';
+}
+
+/**
+ * Returns countdown string to next_catalyst_date, or null if absent/past.
+ */
+export function getCatalystCountdown(trade: AnyTrade): string | null {
+  const dateStr = (trade as Trade).next_catalyst_date ?? (trade as Trade).earnings_date ?? (trade as MacroEvent).date;
+  if (!dateStr) return null;
+  const target = new Date(dateStr + (dateStr.includes('T') ? '' : 'T00:00:00'));
+  if (isNaN(target.getTime())) return null;
+  const now = new Date();
+  now.setHours(0, 0, 0, 0);
+  const diffDays = Math.ceil((target.getTime() - now.getTime()) / 86_400_000);
+  if (diffDays < -7) return null; // too far in the past
+  if (diffDays < 0) return `${Math.abs(diffDays)}d ago`;
+  if (diffDays === 0) return 'Today';
+  return `${diffDays}d`;
+}
+
+export type EvidenceLevel = 'strong' | 'moderate' | 'weak';
+
+/**
+ * Maps evidence_count to a qualitative level.
+ * Returns null if evidence_count is absent (backward compat).
+ */
+export function getEvidenceLevel(trade: AnyTrade): EvidenceLevel | null {
+  const count = (trade as Trade).evidence_count;
+  if (count == null) return null;
+  if (count >= 5) return 'strong';
+  if (count >= 3) return 'moderate';
+  return 'weak';
+}

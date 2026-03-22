@@ -257,6 +257,63 @@ body {
   line-height: 1;
 }
 
+/* ─── Data Quality Indicators ─────────────────────────────────────────────── */
+
+.data-quality-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.5rem;
+}
+
+.evidence-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.15rem 0.5rem;
+  border-radius: 9999px;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  background: rgba(56, 189, 248, 0.1);
+  color: var(--color-accent);
+  white-space: nowrap;
+}
+
+.catalyst-countdown {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.15rem 0.5rem;
+  border-radius: 9999px;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  background: rgba(245, 158, 11, 0.1);
+  color: var(--color-warning);
+  white-space: nowrap;
+}
+
+.freshness-indicator {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.freshness-fresh {
+  background: var(--color-success);
+  box-shadow: 0 0 4px rgba(34, 197, 94, 0.5);
+}
+
+.freshness-aging {
+  background: var(--color-warning);
+  box-shadow: 0 0 4px rgba(245, 158, 11, 0.5);
+}
+
+.freshness-stale {
+  background: var(--color-danger);
+  box-shadow: 0 0 4px rgba(239, 68, 68, 0.5);
+}
+
 /* card header: ticker (left) + sparkline (right, FX/metals only) */
 .card-header {
   display: flex;
@@ -785,6 +842,23 @@ body {
   .live-price-value {
     flex-wrap: wrap;
     gap: 0.25rem;
+  }
+
+  /* ── Data quality indicators ─────────────────────────────────────── */
+  .data-quality-row {
+    gap: 0.375rem;
+    margin-bottom: 0.375rem;
+  }
+
+  .evidence-badge,
+  .catalyst-countdown {
+    font-size: 0.625rem;
+    padding: 0.1rem 0.375rem;
+  }
+
+  .freshness-indicator {
+    width: 6px;
+    height: 6px;
   }
 
   /* ── Market Regime ────────────────────────────────────────────────── */

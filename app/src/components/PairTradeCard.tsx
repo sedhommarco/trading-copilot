@@ -1,5 +1,5 @@
 import { PairTrade, AppSettings } from '../types';
-import { getConfidenceLabel, getConfidenceBadgeClass, getTradeAge, fmt } from '../utils/trade';
+import { getConfidenceLabel, getConfidenceBadgeClass, getTradeAge, fmt, getPriceFreshness, getCatalystCountdown } from '../utils/trade';
 import LivePriceRow from './LivePriceRow';
 import SparklineChart from './SparklineChart';
 
@@ -16,6 +16,10 @@ export default function PairTradeCard({ trade, lastUpdated, settings }: Props) {
   const confidenceClass = getConfidenceBadgeClass(trade);
   const { isStale, daysOld } = getTradeAge(trade, lastUpdated);
   const timeframe = trade.expected_holding_days ? `${trade.expected_holding_days}d` : 'N/A';
+
+  const freshness = getPriceFreshness(trade, lastUpdated);
+  const catalystCountdown = getCatalystCountdown(trade);
+  const sourceCount = trade.data_sources?.length ?? null;
 
   // Show live prices for both legs (all asset classes — crypto, FX/metals, equities)
   const longHasLive = longT !== 'N/A';
@@ -36,6 +40,25 @@ export default function PairTradeCard({ trade, lastUpdated, settings }: Props) {
           {confidenceLabel.toUpperCase()} Confidence
         </span>
       </div>
+
+      {/* Data quality indicators */}
+      {(freshness || catalystCountdown || sourceCount) && (
+        <div className="data-quality-row">
+          {freshness && freshness !== 'fresh' && (
+            <span className={`freshness-indicator freshness-${freshness}`} title={`Price data: ${freshness}`} />
+          )}
+          {sourceCount != null && (
+            <span className="evidence-badge" title={trade.data_sources!.join(', ')}>
+              {sourceCount} {sourceCount === 1 ? 'source' : 'sources'}
+            </span>
+          )}
+          {catalystCountdown && (
+            <span className="catalyst-countdown" title={trade.next_catalyst_date ?? ''}>
+              {catalystCountdown}
+            </span>
+          )}
+        </div>
+      )}
 
       {/* Line 3: Pair title + dual sparklines */}
       <div className="card-header">

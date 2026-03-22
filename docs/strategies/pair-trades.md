@@ -161,3 +161,65 @@ The SPA shows this as a single pair card; it does **not** model separate long/sh
 - Track **spread accuracy**; if spreads consistently miss targets, tighten entry criteria or reduce `target_spread`.
 - Monitor **execution slippage**; if average slippage >1%, favour limit orders and narrower entry zones.
 - Analyse **beta risk events**; if pairs regularly break during macro shocks (e.g. FOMC, war headlines), reduce size or avoid opening new pairs into such events.
+
+---
+
+## AI Refresh Protocol
+
+### Data Gathering Checklist
+
+1. **Sector rankings:** Finviz ([finviz.com/groups.php?g=sector&v=110&o=-perf1w](https://finviz.com/groups.php?g=sector&v=110&o=-perf1w)) — 1w/1m/3m performance for 11 GICS sectors.
+2. **Candidate pairs:** From diverging sectors, identify top 3 stocks in the winning sector + bottom 3 in the losing sector.
+3. **Correlation verification:** PortfolioVisualizer ([portfoliovisualizer.com/asset-correlations](https://www.portfoliovisualizer.com/asset-correlations)) — 1Y and 3Y correlation for each pair. Intra-sector minimum 0.6, cross-sector 0.3-0.6.
+4. **Spread Z-score:** TradingView custom ratio chart (`{TICKER1}/{TICKER2}`) — visual or calculated Z-score vs 60-90 day mean. Z>2 or Z<-2 = mean reversion candidate.
+5. **Fundamental divergence:** StockAnalysis financials, TipRanks forecast — build comparison table (forward P/E, revenue growth, last EPS surprise, analyst consensus, recent upgrades/downgrades). Long leg must win >=3 of 6 metrics.
+6. **Event calendar:** Check if either leg has earnings within 14 days.
+7. **Short availability:** Verify short leg available as Revolut CFD.
+
+### Pair Archetypes
+
+| Archetype | Long Profile | Short Profile | Regime |
+|-----------|-------------|---------------|--------|
+| Energy vs Airlines | Oil producer benefiting from spike | Airline with high fuel exposure | Oil shock |
+| Quality vs Reset | Executing with margin expansion | Same-sector peer with guidance cut | Any |
+| Defensive vs Cyclical | Staple/utility/gold miner | High-beta cruise/discretionary | Risk-off |
+| Safe Haven vs Index | GLD, TLT | SPY, QQQ | Stagflation |
+| BTC Dominance | BTC | High-beta altcoin | Risk-off crypto |
+| Sector Rotation | Gaining relative strength | Losing relative strength | Regime transition |
+
+### Signal Scoring Matrix
+
+- **HIGH (all 4):** Active macro catalyst directly benefiting one leg, hurting other + fundamental divergence >=4/6 metrics + spread Z>2 or clear catalyst within 7d + no conflicting earnings for either leg.
+- **MODERATE (2-3 of 4):** Catalyst present but gradual, Z 1-2, divergence >=3/6.
+- **LOW:** Catalyst timing uncertain, spread near fair value, binary event upcoming.
+- **DISQUALIFIED:** Both legs report earnings same week, correlation <0.3 intra-sector, short leg not on Revolut CFD, >2 pairs with same stock in one leg, target spread <5%, both legs same direction vs market.
+
+### Entry/Exit Precision
+
+- **Long leg entry:** Nearest support to support +1.5%.
+- **Short leg entry:** Nearest resistance to resistance -1.5%.
+- Both legs same session. If one doesn't fill, don't leave other open.
+- **Spread stop:** Exit both when spread moves against by half the target.
+- **Time stop:** If spread hasn't moved 25% of target in 3 days, exit.
+- **Catalyst exit:** Within 1 trading day of key event completing.
+
+### Target Spread Calculation
+
+Target spread = long leg expected gain + short leg expected gain. Must be achievable based on pair's 20-day average daily spread movement x expected_holding_days. Target <= 1.5x this figure.
+
+### Cross-Validation
+
+1. **Concentration:** No stock in >2 active pairs (currently CCL in 3 — fix this).
+2. **Directional neutrality:** Sum net dollar exposure across all pairs ~ zero.
+3. **Regime:** High-vol -> tighten spread stop to -3% instead of -5%.
+4. **Correlation with other strategies:** If a leg appears in another file, note correlated exposure.
+5. **Price freshness:** Both legs' current_price within 2% of actual.
+
+### Common Mistakes
+
+1. Same stock in too many pairs (CCL in 3 pairs).
+2. Stock long in one strategy, short in another (CCL long in post-crash, short in pairs).
+3. Same-thesis pairs counted separately (XOM/UAL, XOM/ALK, CVX/DAL all = "oil up, airlines down").
+4. Round-number target spreads — derive from technical levels.
+5. Beta mismatch unaddressed — note if legs have very different betas.
+6. Missing spread stop — every pair must specify spread stop condition.

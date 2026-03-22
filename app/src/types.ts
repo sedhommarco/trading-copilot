@@ -15,6 +15,14 @@ export interface BaseTrade {
   created_date?: string;
   /** 1-3 sentences: catalyst + setup + key risk. */
   rationale?: string;
+  /** Data sources consulted for this opportunity, e.g. ["TipRanks", "Yahoo Finance"]. */
+  data_sources?: string[];
+  /** Number of independent evidence points supporting the thesis. */
+  evidence_count?: number;
+  /** ISO 8601 timestamp when current_price was last verified against a live source. */
+  price_checked_at?: string;
+  /** YYYY-MM-DD date of the next catalyst that could materially affect this opportunity. */
+  next_catalyst_date?: string;
 }
 
 export interface Trade extends BaseTrade {

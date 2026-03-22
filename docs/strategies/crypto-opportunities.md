@@ -150,3 +150,63 @@ BTC correlation, leverage, and product choice (Revolut vs Revolut X) are handled
 - Track **BTC correlation impact**; if altcoins consistently fail when BTC dips, focus more heavily on BTC-only setups.
 - Monitor **weekend performance**; if weekend entries underperform, enforce a strict Mon–Thu entry rule.
 - Analyse **leverage outcomes**; if leveraged trades hit stops more often than spot positions, scale back to 1x (no leverage) for most setups.
+
+---
+
+## AI Refresh Protocol
+
+### Data Gathering Checklist
+
+1. **BTC price/trend/dominance:** CoinGecko ([coingecko.com/en/coins/bitcoin](https://www.coingecko.com/en/coins/bitcoin) + [/en/global-charts](https://www.coingecko.com/en/global-charts)). Extract: price, 24h vol, 7d/30d%, market cap, BTC dominance %.
+2. **Spot ETF flows:** Farside Investors ([farside.co.uk/btc/](https://farside.co.uk/btc/)) or SoSoValue. Extract: daily + weekly net inflow/outflow.
+3. **On-chain:** [blockchain.com/explorer/charts](https://www.blockchain.com/explorer/charts) (hash rate, active addresses, exchange flows), Glassnode free tier (MVRV, NUPL), [lookintobitcoin.com](https://www.lookintobitcoin.com/) (Pi Cycle, 200w MA heatmap).
+4. **Fear & Greed:** [alternative.me/crypto/fear-and-greed-index/](https://alternative.me/crypto/fear-and-greed-index/) — current value 0-100. Interpretation: 0-25 contrarian bullish BTC-only, 26-45 cautious accumulation, 46-55 neutral, 56-75 tighten stops, 76-100 disqualify new longs.
+5. **Regulatory news:** web search "crypto regulation news this week", [coindesk.com/policy/](https://www.coindesk.com/policy/), [cointelegraph.com/tags/regulation](https://cointelegraph.com/tags/regulation).
+6. **Altcoin relative performance:** CoinGecko for each (ETH, SOL, XRP, LINK, AVAX, BNB, TON, ADA, SUI) — 7d% minus BTC 7d%. TradingView ratio charts (ETH/BTC, SOL/BTC).
+7. **Technical:** TradingView daily — RSI(14), 50d/200d MA position, Bollinger Bands, key S/R.
+8. **Funding rates:** Coinglass ([coinglass.com/FundingRate](https://www.coinglass.com/FundingRate)) — BTC+ETH perpetual funding. >0.05% crowded long, <-0.02% crowded short.
+
+### Signal Scoring Matrix
+
+- **HIGH (all 5):** BTC above 200d MA + ETF weekly inflows >$200M + Fear/Greed 30-65 + RSI 35-65 + clear 7-day catalyst. Altcoins additionally: BTC in uptrend AND altcoin outperforming BTC 7d.
+- **MODERATE (3+ of 5):** BTC at least sideways + no regulatory headwind + volume >=1.2x 20d avg + price near technical level within 3%.
+- **LOW (<3 criteria but defined thesis):** Not purely speculative, specific catalyst exists, BTC not in crash mode (not down >10% 7d).
+- **DISQUALIFIED:** Altcoin HIGH during BTC downtrend (below 50d MA), any coin during Extreme Greed (>75) for longs, active SEC enforcement, <$500M daily volume, >3 altcoins simultaneously, entry zone wider than 5%.
+
+### BTC-First Gate Rule
+
+BTC is evaluated first. If BTC < MODERATE, no altcoin can be HIGH. If BTC < LOW, publish empty array.
+
+### Regime-Based Position Caps
+
+| Regime | Max positions | Altcoin rule |
+|---|---|---|
+| Trending bullish | 7 | All qualify |
+| Choppy | 3 | BTC range plays only |
+| High volatility | 3 | BTC only above LOW |
+| Trending bearish | 2 | BTC only |
+
+### Entry/Exit Precision
+
+- **Entry zone:** nearest support + 2% (BTC) or +3% (alts). Max width 4% BTC, 5% alts.
+- **Stop:** next support below entry -1-2%. BTC 5-10% from entry, alts 8-15%.
+- **Take profit:** next resistance -1%. R:R minimum 1:1.5.
+- **Partial exit:** +50% to TP close 1/3, +75% close 1/3, trail rest at breakeven.
+
+### Cross-Validation
+
+1. Regime consistency — high-vol: altcoins capped LOW.
+2. BTC-first gate.
+3. No duplicate with pair-trades crypto pairs.
+4. Ticker format: plain (BTC, ETH) in crypto.json; BTC-USD format only in pair-trades.
+5. Weekend filter: no positions with expected_holding_days < 3 on Fri-Sun refresh.
+
+### Common Mistakes
+
+1. Altcoins in risk-off — enforce BTC-first gate.
+2. Wide entry zones — max 4-5% width.
+3. False conviction from narrative — user base / partnership announcements aren't trading signals without price confirmation.
+4. Missing BTC correlation check for every altcoin.
+5. Ticker format inconsistency.
+6. Ignoring on-chain top signals (Pi Cycle, MVRV >7).
+7. Too many positions (10 positions in high-vol is excessive — cap at 3).

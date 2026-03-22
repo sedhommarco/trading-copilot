@@ -4,6 +4,7 @@ import {
   getConfidenceBadgeClass,
   getImpactLabel,
   getImpactBadgeClass,
+  getCatalystCountdown,
 } from '../utils/trade';
 
 interface Props {
@@ -11,7 +12,7 @@ interface Props {
   lastUpdated?: string;
 }
 
-export default function MacroEventCard({ trade }: Props) {
+export default function MacroEventCard({ trade, lastUpdated }: Props) {
   // event_name is the canonical title field for MacroEvent
   const eventName = trade.event_name ?? 'Macro Event';
   const eventDate = trade.date ?? 'N/A';
@@ -28,6 +29,9 @@ export default function MacroEventCard({ trade }: Props) {
     isPast = evtDate < new Date();
     daysAgo = Math.floor((Date.now() - evtDate.getTime()) / 86_400_000);
   }
+
+  const catalystCountdown = getCatalystCountdown(trade);
+  const sourceCount = trade.data_sources?.length ?? null;
 
   const instruments = trade.tradeable_instruments ?? [];
   const action = trade.recommended_action
@@ -55,6 +59,22 @@ export default function MacroEventCard({ trade }: Props) {
           </>
         )}
       </div>
+
+      {/* Data quality indicators */}
+      {(sourceCount || catalystCountdown) && (
+        <div className="data-quality-row">
+          {sourceCount != null && (
+            <span className="evidence-badge" title={trade.data_sources!.join(', ')}>
+              {sourceCount} {sourceCount === 1 ? 'source' : 'sources'}
+            </span>
+          )}
+          {catalystCountdown && !isPast && (
+            <span className="catalyst-countdown">
+              {catalystCountdown}
+            </span>
+          )}
+        </div>
+      )}
 
       {/* Row 3 — Event title as card-title; card-name spacer keeps layout consistent */}
       <div className="card-header">
