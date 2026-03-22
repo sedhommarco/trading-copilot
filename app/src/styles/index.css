@@ -1149,7 +1149,6 @@ body {
   width: 1em;
   height: 1em;
   vertical-align: -0.15em;
-  margin-right: 0.35em;
   flex-shrink: 0;
   /* Inherits currentColor from the button text */
   fill: currentColor;
