@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-03-22T22:30:00Z",
+  "last_updated": "2026-03-22T21:00:00Z",
   "opportunities": [
     {
       "ticker": "MDB",
@@ -14,10 +14,10 @@
       "expected_holding_days": 7,
       "crash_date": "2026-03-03",
       "drop_percent": -27.0,
-      "data_sources": ["Yahoo Finance (price snapshot)", "market-regime.json", "Jefferies research", "JPMorgan research", "GH Actions price manifest"],
+      "data_sources": ["Yahoo Finance (price snapshot)", "Jefferies research", "JPMorgan research", "GH Actions price manifest"],
       "evidence_count": 5,
-      "price_checked_at": "2026-03-22T20:05:02Z",
-      "rationale": "MongoDB dropped 27% on Mar 3 after softer FY27 guidance overshadowed a Q4 revenue beat (+27% YoY). Category B event-driven (guidance miss, not structural — Atlas cloud growth above 30% YoY intact). Price formed a stabilisation base at $258-272 over 12 sessions (Mar 13: $260.50, Mar 17: $272.27, Mar 20: $261.16), holding the $258 crash low consistently. Jefferies and JPMorgan maintained Buy with PTs $310-325 (19-24% upside). 4/5 recovery signals: (1) selling volume exhaustion post Mar 3 with declining daily volume each week, (2) price holding above $258 crash low for 12+ sessions, (3) 2 major brokers maintained/raised PT within 14 days, (4) RSI recovered from sub-25 crash level to ~38 range. Entry midpoint $261.50, stop $248 (2.5% below $254 intraday low), target $310 — R:R 1:3.7. Invalidated below $248 on closing basis. Next earnings ~Jun 2026 (no binary risk in holding period)."
+      "price_checked_at": "2026-03-22T21:00:00Z",
+      "rationale": "MongoDB dropped 27% on Mar 3 after softer FY27 guidance overshadowed a Q4 revenue beat (+27% YoY). Category B event-driven (guidance miss, not structural — Atlas cloud growth above 30% YoY intact). Price formed a stabilisation base at $258-272 over 12+ sessions (Mar 13: $260.50, Mar 17: $272.27, Mar 20: $261.16), holding the $258 crash low consistently. Jefferies and JPMorgan maintained Buy with PTs $310-325 (19-24% upside). 4/5 recovery signals: selling volume exhaustion, price holding above $258 for 12+ sessions, 2 major brokers maintained PTs, RSI recovered from sub-25 to ~38. R:R from $261.50 midpoint: stop $248, target $310, R:R 1:3.7. Invalidated below $248 on closing basis. Next earnings ~Jun 2026."
     },
     {
       "ticker": "BNTX",
@@ -32,10 +32,10 @@
       "expected_holding_days": 7,
       "crash_date": "2026-03-10",
       "drop_percent": -17.0,
-      "data_sources": ["Yahoo Finance (price snapshot)", "market-regime.json", "Citi research (PT $130)", "GH Actions price manifest"],
+      "data_sources": ["Yahoo Finance (price snapshot)", "Citi research (PT $130)", "GH Actions price manifest"],
       "evidence_count": 5,
-      "price_checked_at": "2026-03-22T20:05:02Z",
-      "rationale": "BioNTech fell 17% on Mar 10 after lowering COVID vaccine revenue guidance, masking a $2.1B+ oncology pipeline with multiple Phase 2/3 readouts in H1 2026. Category B event-driven (guidance miss on legacy COVID revenue, not structural — oncology pipeline is the forward value driver). Price stabilised in the $89-91 range for 4 sessions (Mar 17: $94.86 bounce, Mar 19: $89.31, Mar 20: $89.27 — holding $89 floor). Citi PT $130 implies 46% upside. 4/5 recovery signals: (1) selling volume declining for 3 sessions post-crash, (2) RSI at 28 on crash day now recovering to ~34, (3) price closed above $89 crash low for 4 consecutive sessions, (4) analyst consensus Buy with Citi PT $130 maintained. Entry zone $87-92, midpoint $89.50, stop $84 (3% below $86.50 intraday crash low), target $103 — R:R 1:2.5. Invalidated on daily close below $84. Oncology data readout is upside catalyst, not binary downside risk."
+      "price_checked_at": "2026-03-22T21:00:00Z",
+      "rationale": "BioNTech fell 17% on Mar 10 after lowering COVID vaccine revenue guidance, masking a $2.1B+ oncology pipeline with multiple Phase 2/3 readouts in H1 2026. Category B event-driven (guidance miss on legacy COVID revenue, not structural). Price stabilised in the $89-91 range for 4+ sessions, holding $89 floor. Citi PT $130 implies 46% upside. 4/5 recovery signals: selling volume declining, RSI recovering from 28 toward 34, price closed above $89 crash low for 4+ consecutive sessions, analyst consensus Buy maintained. R:R from $89.50 midpoint: stop $84, target $103, R:R 1:2.5. Invalidated on daily close below $84. Oncology data readout is upside catalyst, not binary downside risk."
     },
     {
       "ticker": "DLTR",
@@ -50,10 +50,10 @@
       "expected_holding_days": 7,
       "crash_date": "2026-02-26",
       "drop_percent": -22.0,
-      "data_sources": ["Yahoo Finance (price snapshot)", "market-regime.json", "GH Actions price manifest", "DLTR earnings Mar 16 confirmation"],
+      "data_sources": ["Yahoo Finance (price snapshot)", "GH Actions price manifest", "DLTR earnings Mar 16 confirmation"],
       "evidence_count": 5,
-      "price_checked_at": "2026-03-22T20:05:02Z",
-      "rationale": "Dollar Tree crashed 22% on Feb 26 on Q4 miss and multi-year store restructuring guidance. Category B event-driven (execution miss with restructuring plan, not secular decline — discount retail demand intact). Earnings reported Mar 16 — binary risk has passed. Price bounced to $114 post-earnings before retreating to $105.92 in the broad market selloff, confirming a durable base above the $101 crash low. 4/5 recovery signals: (1) post-earnings bounce to $114 confirmed institutional buy interest, (2) price held above $101 crash low for 24 days across 3+ pullbacks, (3) RSI recovered from 20 to ~40 range, (4) in stagflation regime, consumers trade down to discount retail — structural demand tailwind supports thesis. Entry midpoint $105.50, stop $98 (3% below $101 crash low), target $122 — R:R 1:2.2. Invalidated below $98. Crash date Feb 26 = 24 days ago (within 45-day window)."
+      "price_checked_at": "2026-03-22T21:00:00Z",
+      "rationale": "Dollar Tree crashed 22% on Feb 26 on Q4 miss and multi-year store restructuring guidance. Category B event-driven (execution miss with restructuring plan, not secular decline). Earnings reported Mar 16 — binary risk has passed. Price bounced to $114 post-earnings before retreating to $105.92 in broad market selloff, confirming a durable base above the $101 crash low. 4/5 recovery signals: post-earnings bounce to $114 confirmed institutional buy interest, price held above $101 crash low for 24+ days across multiple pullbacks, RSI recovered from 20 to ~40 range, stagflation regime drives consumers to trade down to discount retail. R:R from $105.50 midpoint: stop $98, target $122, R:R 1:2.2. Invalidated below $98."
     },
     {
       "ticker": "GLD",
@@ -61,17 +61,17 @@
       "direction": "long",
       "conviction": "low",
       "current_price": 413.38,
-      "entry_zone": "415-425",
-      "stop_loss": 400.0,
-      "take_profit": 450.0,
+      "entry_zone": "415-430",
+      "stop_loss": 395.0,
+      "take_profit": 455.0,
       "risk_percent": 1,
       "expected_holding_days": 10,
       "crash_date": "2026-03-18",
       "drop_percent": -12.7,
-      "data_sources": ["Yahoo Finance (price snapshot)", "market-regime.json", "CBOE VIX data", "Fed FOMC Mar 18 statement"],
+      "data_sources": ["Yahoo Finance GLD $413.38 Mar 20", "twelvedata.com XAU spot $4,497 Mar 22", "CBOE VIX", "Fed FOMC Mar 18 statement"],
       "evidence_count": 4,
-      "price_checked_at": "2026-03-22T20:05:00Z",
-      "rationale": "Gold crashed 12.7% in 5 sessions (GLD from $473.51 to $413.38) driven by USD strength on hawkish FOMC hold and forced liquidations/margin calls — the largest gold drawdown since 2013. Category B event-driven (macro shock: rate repricing + USD surge, not structural gold thesis impairment — central bank buying, geopolitical hedging, and fiscal deficit tailwinds remain intact). WARNING: 2-session stabilisation NOT yet confirmed — GLD still making lower lows ($460 -> $444 -> $426 -> $413). LOW conviction: enter ONLY after confirmed daily close above $415 held for 2 consecutive sessions. Forward catalysts: PCE data Mar 28 (softer = USD relief = gold bid), OPEC+ Apr 1 (oil supply = inflation hedge demand), and persistent Iran war premium supports safe-haven thesis. 2/5 recovery signals currently (crash magnitude + macro catalyst intact); need 2 more (price holding + volume exhaustion) before upgrading. R:R from $420 midpoint entry to $450 target vs $400 stop = 1:1.5 minimum, improving if stabilisation occurs lower. Invalidated below $400 (full capitulation level). Size at 1% risk max given unconfirmed stabilisation."
+      "price_checked_at": "2026-03-22T21:00:00Z",
+      "rationale": "Gold crashed 12.7% in 5 sessions (GLD $473 to $413.38) on USD strength + hawkish FOMC hold + forced liquidations. Weekend spot ~$4,497 shows early stabilisation 4 days post-crash. Category B event-driven (macro shock: rate repricing + USD surge, not structural gold thesis impairment). UPDATED entry zone to 415-430 — wait for confirmed stabilisation above $415 GLD (XAU ~$4,500). Condition: enter ONLY after 2 consecutive daily closes above GLD $415. Do NOT enter pre-PCE (Mar 28). Iran war safe-haven bid, stagflation backdrop, and OPEC+ catalyst remain intact. R:R from $422 midpoint to $455 target vs $395 stop = 1:2.1. Invalidated below $395 GLD (XAU ~$4,080). Size 1% risk max given unconfirmed stabilisation."
     }
   ]
 }
