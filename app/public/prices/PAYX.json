@@ -1,38 +1,38 @@
 {
-  "symbol": "UAL",
+  "symbol": "PAYX",
   "currency": "USD",
   "exchange": "NMS",
-  "current_price": 89.95,
-  "prev_close": 92.07,
-  "fetched_at": "2026-03-22T20:46:03.003Z",
+  "current_price": 92.55,
+  "prev_close": 100.85,
+  "fetched_at": "2026-03-22T20:46:04.453Z",
   "history": [
     {
       "date": "2026-03-13",
-      "close": 86.6
+      "close": 92.61
     },
     {
       "date": "2026-03-16",
-      "close": 90.28
+      "close": 93.1
     },
     {
       "date": "2026-03-17",
-      "close": 93.19
+      "close": 92.43
     },
     {
       "date": "2026-03-18",
-      "close": 92.51
+      "close": 90.64
     },
     {
       "date": "2026-03-19",
-      "close": 94.15
+      "close": 91.71
     },
     {
       "date": "2026-03-20",
-      "close": 89.95
+      "close": 92.55
     },
     {
       "date": "2026-03-20",
-      "close": 89.95
+      "close": 92.55
     }
   ]
 }

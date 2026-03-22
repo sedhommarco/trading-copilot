@@ -1,38 +1,38 @@
 {
-  "symbol": "UAL",
+  "symbol": "CTAS",
   "currency": "USD",
   "exchange": "NMS",
-  "current_price": 89.95,
-  "prev_close": 92.07,
-  "fetched_at": "2026-03-22T20:46:03.003Z",
+  "current_price": 179.34,
+  "prev_close": 203.61,
+  "fetched_at": "2026-03-22T20:46:04.454Z",
   "history": [
     {
       "date": "2026-03-13",
-      "close": 86.6
+      "close": 194.28
     },
     {
       "date": "2026-03-16",
-      "close": 90.28
+      "close": 192.74
     },
     {
       "date": "2026-03-17",
-      "close": 93.19
+      "close": 192.84
     },
     {
       "date": "2026-03-18",
-      "close": 92.51
+      "close": 185.44
     },
     {
       "date": "2026-03-19",
-      "close": 94.15
+      "close": 181.83
     },
     {
       "date": "2026-03-20",
-      "close": 89.95
+      "close": 179.34
     },
     {
       "date": "2026-03-20",
-      "close": 89.95
+      "close": 179.34
     }
   ]
 }
