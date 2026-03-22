@@ -2,18 +2,10 @@
   "symbol": "LINK-USD",
   "currency": "USD",
   "exchange": "CCC",
-  "current_price": 9.1387,
-  "prev_close": 8.9955,
-  "fetched_at": "2026-03-20T22:55:07.896Z",
+  "current_price": 8.7142,
+  "prev_close": 9.088,
+  "fetched_at": "2026-03-22T20:05:04.137Z",
   "history": [
-    {
-      "date": "2026-03-14",
-      "close": 9.1615
-    },
-    {
-      "date": "2026-03-15",
-      "close": 9.4821
-    },
     {
       "date": "2026-03-16",
       "close": 9.9271
@@ -32,7 +24,15 @@
     },
     {
       "date": "2026-03-20",
-      "close": 9.1387
+      "close": 9.1132
+    },
+    {
+      "date": "2026-03-21",
+      "close": 8.8074
+    },
+    {
+      "date": "2026-03-22",
+      "close": 8.7142
     }
   ]
 }
