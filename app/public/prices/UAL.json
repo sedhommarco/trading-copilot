@@ -2,9 +2,9 @@
   "symbol": "UAL",
   "currency": "USD",
   "exchange": "NMS",
-  "current_price": 89.95,
-  "prev_close": 92.07,
-  "fetched_at": "2026-03-22T20:46:03.003Z",
+  "current_price": 93.96,
+  "prev_close": 94.52,
+  "fetched_at": "2026-03-23T22:58:52.597Z",
   "history": [
     {
       "date": "2026-03-13",
@@ -31,8 +31,8 @@
       "close": 89.95
     },
     {
-      "date": "2026-03-20",
-      "close": 89.95
+      "date": "2026-03-23",
+      "close": 93.96
     }
   ]
 }
