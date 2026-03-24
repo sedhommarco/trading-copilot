@@ -2,14 +2,10 @@
   "symbol": "WMT",
   "currency": "USD",
   "exchange": "NMS",
-  "current_price": 120.72,
-  "prev_close": 124.34,
-  "fetched_at": "2026-03-23T22:58:52.655Z",
+  "current_price": 122.05,
+  "prev_close": 125.12,
+  "fetched_at": "2026-03-24T22:57:42.935Z",
   "history": [
-    {
-      "date": "2026-03-13",
-      "close": 126.52
-    },
     {
       "date": "2026-03-16",
       "close": 125.99
@@ -33,6 +29,10 @@
     {
       "date": "2026-03-23",
       "close": 120.72
+    },
+    {
+      "date": "2026-03-24",
+      "close": 122.05
     }
   ]
 }
