@@ -2,14 +2,10 @@
   "symbol": "CTAS",
   "currency": "USD",
   "exchange": "NMS",
-  "current_price": 176.85,
-  "prev_close": 198.34,
-  "fetched_at": "2026-03-25T23:02:29.974Z",
+  "current_price": 168.85,
+  "prev_close": 193.26,
+  "fetched_at": "2026-03-26T22:58:56.978Z",
   "history": [
-    {
-      "date": "2026-03-17",
-      "close": 192.84
-    },
     {
       "date": "2026-03-18",
       "close": 185.44
@@ -33,6 +29,10 @@
     {
       "date": "2026-03-25",
       "close": 176.85
+    },
+    {
+      "date": "2026-03-26",
+      "close": 168.85
     }
   ]
 }

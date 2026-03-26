@@ -2,14 +2,10 @@
   "symbol": "PAYX",
   "currency": "USD",
   "exchange": "NMS",
-  "current_price": 93.36,
-  "prev_close": 94,
-  "fetched_at": "2026-03-25T23:02:30.001Z",
+  "current_price": 93.59,
+  "prev_close": 91.67,
+  "fetched_at": "2026-03-26T22:58:56.959Z",
   "history": [
-    {
-      "date": "2026-03-17",
-      "close": 92.43
-    },
     {
       "date": "2026-03-18",
       "close": 90.64
@@ -33,6 +29,10 @@
     {
       "date": "2026-03-25",
       "close": 93.36
+    },
+    {
+      "date": "2026-03-26",
+      "close": 93.59
     }
   ]
 }

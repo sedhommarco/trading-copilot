@@ -2,14 +2,10 @@
   "symbol": "CHWY",
   "currency": "USD",
   "exchange": "NYQ",
-  "current_price": 26.57,
-  "prev_close": 25.7,
-  "fetched_at": "2026-03-25T23:02:30.635Z",
+  "current_price": 27.01,
+  "prev_close": 24.6,
+  "fetched_at": "2026-03-26T22:58:57.706Z",
   "history": [
-    {
-      "date": "2026-03-17",
-      "close": 25.22
-    },
     {
       "date": "2026-03-18",
       "close": 24.33
@@ -33,6 +29,10 @@
     {
       "date": "2026-03-25",
       "close": 26.57
+    },
+    {
+      "date": "2026-03-26",
+      "close": 27.01
     }
   ]
 }
