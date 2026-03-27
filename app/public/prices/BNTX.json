@@ -2,14 +2,10 @@
   "symbol": "BNTX",
   "currency": "USD",
   "exchange": "NMS",
-  "current_price": 87.46,
-  "prev_close": 90.1,
-  "fetched_at": "2026-03-26T22:58:56.112Z",
+  "current_price": 85.68,
+  "prev_close": 91.19,
+  "fetched_at": "2026-03-27T22:59:52.111Z",
   "history": [
-    {
-      "date": "2026-03-18",
-      "close": 90
-    },
     {
       "date": "2026-03-19",
       "close": 89.31
@@ -33,6 +29,10 @@
     {
       "date": "2026-03-26",
       "close": 87.46
+    },
+    {
+      "date": "2026-03-27",
+      "close": 85.68
     }
   ]
 }
