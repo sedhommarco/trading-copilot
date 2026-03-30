@@ -2,14 +2,10 @@
   "symbol": "LULU",
   "currency": "USD",
   "exchange": "NMS",
-  "current_price": 145.85,
-  "prev_close": 157.78,
-  "fetched_at": "2026-03-27T22:59:52.808Z",
+  "current_price": 145.83,
+  "prev_close": 159.91,
+  "fetched_at": "2026-03-30T23:02:51.751Z",
   "history": [
-    {
-      "date": "2026-03-19",
-      "close": 165.57
-    },
     {
       "date": "2026-03-20",
       "close": 162.82
@@ -33,6 +29,10 @@
     {
       "date": "2026-03-27",
       "close": 145.85
+    },
+    {
+      "date": "2026-03-30",
+      "close": 145.83
     }
   ]
 }
