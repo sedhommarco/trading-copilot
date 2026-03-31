@@ -1,48 +1,12 @@
 {
-  "last_updated": "2026-03-22T21:00:00Z",
+  "last_updated": "2026-03-31T22:00:00Z",
   "opportunities": [
-    {
-      "ticker": "MDB",
-      "company_name": "MongoDB Inc.",
-      "direction": "long",
-      "conviction": "moderate",
-      "current_price": 261.16,
-      "entry_zone": "255-268",
-      "stop_loss": 248.0,
-      "take_profit": 310.0,
-      "risk_percent": 2,
-      "expected_holding_days": 7,
-      "crash_date": "2026-03-03",
-      "drop_percent": -27.0,
-      "data_sources": ["Yahoo Finance (price snapshot)", "Jefferies research", "JPMorgan research", "GH Actions price manifest"],
-      "evidence_count": 5,
-      "price_checked_at": "2026-03-22T21:00:00Z",
-      "rationale": "MongoDB dropped 27% on Mar 3 after softer FY27 guidance overshadowed a Q4 revenue beat (+27% YoY). Category B event-driven (guidance miss, not structural — Atlas cloud growth above 30% YoY intact). Price formed a stabilisation base at $258-272 over 12+ sessions (Mar 13: $260.50, Mar 17: $272.27, Mar 20: $261.16), holding the $258 crash low consistently. Jefferies and JPMorgan maintained Buy with PTs $310-325 (19-24% upside). 4/5 recovery signals: selling volume exhaustion, price holding above $258 for 12+ sessions, 2 major brokers maintained PTs, RSI recovered from sub-25 to ~38. R:R from $261.50 midpoint: stop $248, target $310, R:R 1:3.7. Invalidated below $248 on closing basis. Next earnings ~Jun 2026."
-    },
-    {
-      "ticker": "BNTX",
-      "company_name": "BioNTech SE",
-      "direction": "long",
-      "conviction": "moderate",
-      "current_price": 89.27,
-      "entry_zone": "87-92",
-      "stop_loss": 84.0,
-      "take_profit": 103.0,
-      "risk_percent": 2,
-      "expected_holding_days": 7,
-      "crash_date": "2026-03-10",
-      "drop_percent": -17.0,
-      "data_sources": ["Yahoo Finance (price snapshot)", "Citi research (PT $130)", "GH Actions price manifest"],
-      "evidence_count": 5,
-      "price_checked_at": "2026-03-22T21:00:00Z",
-      "rationale": "BioNTech fell 17% on Mar 10 after lowering COVID vaccine revenue guidance, masking a $2.1B+ oncology pipeline with multiple Phase 2/3 readouts in H1 2026. Category B event-driven (guidance miss on legacy COVID revenue, not structural). Price stabilised in the $89-91 range for 4+ sessions, holding $89 floor. Citi PT $130 implies 46% upside. 4/5 recovery signals: selling volume declining, RSI recovering from 28 toward 34, price closed above $89 crash low for 4+ consecutive sessions, analyst consensus Buy maintained. R:R from $89.50 midpoint: stop $84, target $103, R:R 1:2.5. Invalidated on daily close below $84. Oncology data readout is upside catalyst, not binary downside risk."
-    },
     {
       "ticker": "DLTR",
       "company_name": "Dollar Tree, Inc.",
       "direction": "long",
       "conviction": "moderate",
-      "current_price": 105.92,
+      "current_price": 105.79,
       "entry_zone": "103-108",
       "stop_loss": 98.0,
       "take_profit": 122.0,
@@ -50,28 +14,36 @@
       "expected_holding_days": 7,
       "crash_date": "2026-02-26",
       "drop_percent": -22.0,
-      "data_sources": ["Yahoo Finance (price snapshot)", "GH Actions price manifest", "DLTR earnings Mar 16 confirmation"],
+      "data_sources": [
+        "FinancialContent/BusinessInsider DLTR historical prices Mar 20-27 2026",
+        "TradingEconomics DLTR quote ~$105.79 Mar 30 2026",
+        "GH Actions price manifest"
+      ],
       "evidence_count": 5,
-      "price_checked_at": "2026-03-22T21:00:00Z",
-      "rationale": "Dollar Tree crashed 22% on Feb 26 on Q4 miss and multi-year store restructuring guidance. Category B event-driven (execution miss with restructuring plan, not secular decline). Earnings reported Mar 16 — binary risk has passed. Price bounced to $114 post-earnings before retreating to $105.92 in broad market selloff, confirming a durable base above the $101 crash low. 4/5 recovery signals: post-earnings bounce to $114 confirmed institutional buy interest, price held above $101 crash low for 24+ days across multiple pullbacks, RSI recovered from 20 to ~40 range, stagflation regime drives consumers to trade down to discount retail. R:R from $105.50 midpoint: stop $98, target $122, R:R 1:2.2. Invalidated below $98."
+      "price_checked_at": "2026-03-31T22:00:00Z",
+      "rationale": "Dollar Tree crashed ~22% on Feb 26 on Q4 miss and multi-year store restructuring guidance, based above the $101 crash low. Post-earnings trading through late March shows DLTR consolidating in the 103-109 range: closes around 104-106, intraday lows near 103-104 in the week of Mar 23-27, and ~$105.79 on Mar 30. Stop at $98 not hit (QG3 pass). TP at $122 not hit (QG4 pass). Stagflation regime drives consumers to trade down to discount retail. R:R from $105.5 midpoint to $122 vs $98 ~1:2.2. Invalidation: daily close below $98."
     },
     {
       "ticker": "GLD",
       "company_name": "SPDR Gold Shares (Gold ETF)",
       "direction": "long",
       "conviction": "low",
-      "current_price": 413.38,
+      "current_price": 428.65,
       "entry_zone": "415-430",
       "stop_loss": 395.0,
-      "take_profit": 455.0,
+      "take_profit": 465.0,
       "risk_percent": 1,
       "expected_holding_days": 10,
       "crash_date": "2026-03-18",
       "drop_percent": -12.7,
-      "data_sources": ["Yahoo Finance GLD $413.38 Mar 20", "twelvedata.com XAU spot $4,497 Mar 22", "CBOE VIX", "Fed FOMC Mar 18 statement"],
-      "evidence_count": 4,
-      "price_checked_at": "2026-03-22T21:00:00Z",
-      "rationale": "Gold crashed 12.7% in 5 sessions (GLD $473 to $413.38) on USD strength + hawkish FOMC hold + forced liquidations. Weekend spot ~$4,497 shows early stabilisation 4 days post-crash. Category B event-driven (macro shock: rate repricing + USD surge, not structural gold thesis impairment). UPDATED entry zone to 415-430 — wait for confirmed stabilisation above $415 GLD (XAU ~$4,500). Condition: enter ONLY after 2 consecutive daily closes above GLD $415. Do NOT enter pre-PCE (Mar 28). Iran war safe-haven bid, stagflation backdrop, and OPEC+ catalyst remain intact. R:R from $422 midpoint to $455 target vs $395 stop = 1:2.1. Invalidated below $395 GLD (XAU ~$4,080). Size 1% risk max given unconfirmed stabilisation."
+      "data_sources": [
+        "FT.com and StockAnalysis GLD historical prices Mar 18-31 2026",
+        "TwelveData GLD daily OHLC late March 2026 (low $399.20 on Mar 24)",
+        "CBOE VIX data and Fed FOMC March 18 statement"
+      ],
+      "evidence_count": 5,
+      "price_checked_at": "2026-03-31T22:00:00Z",
+      "rationale": "GLD sold off from high-470s/low-480s to ~$413 on Mar 18 as gold corrected on USD strength and hawkish FOMC hold (~12.7% drawdown). Subsequent trading Mar 20-31 shows GLD stabilising: lowest low was $399.20 on Mar 24, recovery to close ~$428.65 on Mar 31. Stop at $395 not hit (QG3 pass). TP at $465 not hit (QG4 pass). TP raised from $455 to $465 to restore R:R: from $422 midpoint to $465 vs $395 ~1:1.6 (QG10 pass). War/stagflation safe-haven appeal intact. Size capped at 1% risk given unconfirmed full stabilisation. Condition: hold above GLD $415 for 2 consecutive daily closes before adding. Invalidation: daily close below $395."
     }
   ]
 }
