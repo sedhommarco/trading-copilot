@@ -1,21 +1,20 @@
 {
   "file_type": "market_regime",
-  "last_updated": "2026-03-22T21:00:00Z",
+  "last_updated": "2026-03-31T22:00:00Z",
   "current_regime": "high volatility",
-  "vix": 26.78,
+  "vix": 29.2,
   "trend": "downtrend",
-  "sentiment": "Extreme Fear (CNN F&G ~15, Crypto F&G 10). S&P 500 at 6,506 on Mar 20 close, now below both 50-day MA (6,857) AND 200-day MA (6,621) — deepening bearish structure. Iran war + Strait of Hormuz disruption: WTI $98.23, reports of US troop deployment planning escalating conflict. Gold in post-crash recovery: spot ~$4,497, GLD $413.38 Mar 20 close. BTC $68,811 weekend. EUR/USD 1.1572.",
+  "sentiment": "Extreme Fear in equities and crypto. S&P 500 closing around 6,344-6,446 by Mar 30-31, stuck below 20-, 50-, and 200-day MAs with VIX near 29.2, reflecting persistent risk-off and stagflation worries driven by Iran/Hormuz supply shock and weak labour market signals.",
   "sector_leaders": ["Energy", "Defense", "Utilities"],
   "sector_laggards": ["Technology", "Financials", "Consumer Discretionary", "Communication Services"],
-  "fed_policy": "Rates held at 3.5-3.75% (Mar 18). Dot plot: 1 cut in 2026, 1 in 2027. PCE inflation forecast raised to 2.7%. Dual pressure: oil-driven inflation vs softening labour. Next FOMC: May 6-7.",
-  "next_major_catalyst": "US PCE Inflation (Mar 28), EU CPI Flash (Mar 31), OPEC+ Meeting (Apr 1), US ISM Manufacturing (Apr 1), US Non-Farm Payrolls (Apr 4).",
+  "fed_policy": "Rates held at 3.5-3.75% (Mar 18). Dot plot: 1 cut in 2026, 1 in 2027. Oil-driven inflation keeps the Fed data-dependent and wary of easing too soon. PCE inflation forecast raised to 2.7%.",
+  "next_major_catalyst": "OPEC+ Meeting (Apr 1), US ISM Manufacturing (Apr 1), US ISM Services (Apr 3), US Non-Farm Payrolls (Apr 4), JNJ Q1 Earnings (Apr 14), PEP Q1 Earnings (Apr 16), PG Q3 FY26 (Apr 24), KO Q1 Earnings (Apr 28).",
   "strategy_adjustments": {
-    "macro-volatility": "Prime window. VIX 26.78 steady. S&P now below 200-day MA — regime has deepened. Key events next 10 days: PCE (Mar 28), EU CPI (Mar 31), OPEC+ (Apr 1), NFP (Apr 4). Pentagon deploying troops/Marines to Middle East escalates oil risk toward $105-110. Gold stabilising at $4,497 spot — watching $4,350 floor. EUR/USD 1.1572. Favour post-data directional trades; no pre-positioning within 12h of prints.",
-    "earnings-momentum": "Earnings heavy week: CHWY, CTAS, PAYX all report Mar 25 BMO; CCL reports Mar 27 BMO. Entry windows are tight (1-2 days pre-report). High-vol regime requires 4/4 beat history OR defensive compounder quality. LULU already reported Mar 17 — removed. Require confirmed catalyst still pending and exit before print.",
-    "post-shock": "High-vol regime continues to surface rebound candidates. GLD post-crash: spot $4,497 stabilising from $5,400 crash — upgrade if 2 consecutive closes above $4,500. Tech selloff and MDB base-building ongoing. Max 5 positions. Require 4/5 recovery signals before adding.",
-    "crypto": "BTC at $68,811 weekend (up from $68,301 Mar 20). Crypto F&G 10 (Extreme Fear) — contrarian bullish signal intact. BTC holding $65K-$68K demand zone. PCE Mar 28 is next directional catalyst. Max 3 positions. Altcoins LOW conviction only.",
-    "pair-trades": "Energy pairs (XOM/UAL, CVX/ALK) remain the highest-conviction regime plays with Pentagon escalation news. LMT/CCL: initiate short CCL leg only AFTER Mar 27 earnings. Gold stabilisation opens potential NEM/GLD or NEM/CCL pairs if GLD recovers. Max 2 pairs per short leg. Spread stops at -3%."
+    "macro-volatility": "Regime remains high-vol: VIX ~29, S&P below all key moving averages. USOIL long removed — stop at $89.50 was breached on Mar 25 (intraday low $86.72). Focus on the next 5-7 days of Tier-1 data (OPEC+, ISM Manufacturing/Services, NFP). Prefer post-data volatility breakouts over pre-positioning; avoid opening new macro-directional risk within 12h of any major print.",
+    "earnings-momentum": "March heavy-earnings week (CTAS, PAYX, CHWY, CCL) has passed; MU stop breached. Book now focuses on post-earnings gap follow-throughs (ACN) and defensive pre-earnings run-ups in April reporters (JNJ Apr 14, PEP Apr 16, PG Apr 24, KO Apr 28). All are large-cap defensives with strong beat histories. High-vol regime caps new entries at MODERATE/LOW conviction.",
+    "post-shock": "MDB and BNTX removed: MDB stop ($248) clearly breached with closes in the low-230s by Mar 30; BNTX aged past 1.5x holding window with unverifiable stop behaviour. Book retains DLTR (confirmed base above $98 stop) and GLD (stabilised ~$428-429 by Mar 31, TP raised to $465 to restore R:R to 1:1.6). Accept that post-crash is intentionally lean rather than fill with low-quality names.",
+    "crypto": "BTC closed ~$67.9K on Mar 31 after oscillating mid-60Ks to high-60Ks through late March. Regime: Extreme Fear. Treat BTC and ETH as primary vehicles; limit total crypto positions to a maximum of three and keep all altcoins at LOW conviction only. Entries should respect BTC $65K support zone and avoid overlapping with major macro prints (especially NFP Apr 4).",
+    "pair-trades": "XOM/UAL removed: UAL short stop (96.50) hit on Mar 23. LMT/CCL removed: LMT long stop ($608) breached with close $598.57 on Mar 30; CCL now ~$28.78 above $27 short stop. Book retains CVX/ALK, XOM/SPY, LLY/NVO, COST/WMT — all stops confirmed not hit. Manual chart check recommended for CVX/ALK to confirm no intraday spike below $194 immediately post-entry."
   },
-  "notes": "Data sourced Mar 22, 2026. Sources: ycharts.com VIX 26.78 (Mar 20 close); Yahoo Finance SPY/S&P 6,506; StreetStats.finance 50-day MA 6,857.76, 200-day MA 6,621.73; oilprice.com WTI $98.23; twelvedata.com XAU $4,497; Yahoo Finance BTC $68,811 (weekend); poundsterlinglive EUR/USD 1.1572; rootdata.com Crypto F&G 10; barchart.com defense/energy equities; stocktitan.net CCL Mar 27 earnings; marketbeat.com CHWY/PAYX/CTAS Mar 25 BMO.",
-  "data_sources": ["ycharts.com", "Yahoo Finance", "StreetStats.finance", "oilprice.com", "twelvedata.com", "poundsterlinglive.com", "rootdata.com", "barchart.com", "stocktitan.net", "marketbeat.com"]
+  "notes": "Regime classification follows Trading Copilot thresholds: VIX >25 forces high volatility; S&P 500 trading below 20- and 50-day MAs plus continued geopolitical risk (Iran/Hormuz) confirms bearish skew. All prices re-verified as of Mar 31, 2026. USOIL, MDB, BNTX, XOM/UAL, LMT/CCL, MU, CTAS, PAYX, CHWY, CCL pre-earnings removed due to QG3 stop violations or lifecycle expiry."
 }
