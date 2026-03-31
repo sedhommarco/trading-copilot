@@ -1,38 +1,38 @@
 {
-  "symbol": "SPY",
+  "symbol": "KO",
   "currency": "USD",
-  "exchange": "PCX",
-  "current_price": 650.34,
-  "prev_close": 670.79,
-  "fetched_at": "2026-03-31T20:38:03.417Z",
+  "exchange": "NYQ",
+  "current_price": 76.05,
+  "prev_close": 77.58,
+  "fetched_at": "2026-03-31T20:38:05.025Z",
   "history": [
     {
       "date": "2026-03-23",
-      "close": 655.38
+      "close": 75.11
     },
     {
       "date": "2026-03-24",
-      "close": 653.18
+      "close": 74.67
     },
     {
       "date": "2026-03-25",
-      "close": 656.82
+      "close": 75.25
     },
     {
       "date": "2026-03-26",
-      "close": 645.09
+      "close": 74.69
     },
     {
       "date": "2026-03-27",
-      "close": 634.09
+      "close": 75.71
     },
     {
       "date": "2026-03-30",
-      "close": 631.97
+      "close": 76.27
     },
     {
       "date": "2026-03-31",
-      "close": 650.34
+      "close": 76.05
     }
   ]
 }

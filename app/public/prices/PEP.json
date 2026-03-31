@@ -1,38 +1,38 @@
 {
-  "symbol": "SPY",
+  "symbol": "PEP",
   "currency": "USD",
-  "exchange": "PCX",
-  "current_price": 650.34,
-  "prev_close": 670.79,
-  "fetched_at": "2026-03-31T20:38:03.417Z",
+  "exchange": "NMS",
+  "current_price": 155.29,
+  "prev_close": 156.5,
+  "fetched_at": "2026-03-31T20:38:05.008Z",
   "history": [
     {
       "date": "2026-03-23",
-      "close": 655.38
+      "close": 150.88
     },
     {
       "date": "2026-03-24",
-      "close": 653.18
+      "close": 150.59
     },
     {
       "date": "2026-03-25",
-      "close": 656.82
+      "close": 151.73
     },
     {
       "date": "2026-03-26",
-      "close": 645.09
+      "close": 150.83
     },
     {
       "date": "2026-03-27",
-      "close": 634.09
+      "close": 153.04
     },
     {
       "date": "2026-03-30",
-      "close": 631.97
+      "close": 156.82
     },
     {
       "date": "2026-03-31",
-      "close": 650.34
+      "close": 155.29
     }
   ]
 }

@@ -1,38 +1,38 @@
 {
-  "symbol": "SPY",
+  "symbol": "JNJ",
   "currency": "USD",
-  "exchange": "PCX",
-  "current_price": 650.34,
-  "prev_close": 670.79,
-  "fetched_at": "2026-03-31T20:38:03.417Z",
+  "exchange": "NYQ",
+  "current_price": 244.44,
+  "prev_close": 238.11,
+  "fetched_at": "2026-03-31T20:38:05.032Z",
   "history": [
     {
       "date": "2026-03-23",
-      "close": 655.38
+      "close": 235.42
     },
     {
       "date": "2026-03-24",
-      "close": 653.18
+      "close": 235.27
     },
     {
       "date": "2026-03-25",
-      "close": 656.82
+      "close": 239.93
     },
     {
       "date": "2026-03-26",
-      "close": 645.09
+      "close": 239.24
     },
     {
       "date": "2026-03-27",
-      "close": 634.09
+      "close": 240.45
     },
     {
       "date": "2026-03-30",
-      "close": 631.97
+      "close": 242.49
     },
     {
       "date": "2026-03-31",
-      "close": 650.34
+      "close": 244.44
     }
   ]
 }
