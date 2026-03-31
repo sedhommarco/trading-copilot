@@ -1,24 +1,6 @@
 {
-  "last_updated": "2026-03-22T21:00:00Z",
+  "last_updated": "2026-03-31T22:00:00Z",
   "opportunities": [
-    {
-      "ticker": "N/A",
-      "company_name": "US PCE Inflation — February 2026",
-      "conviction": "high",
-      "event_name": "US Personal Consumption Expenditures Price Index — February 2026",
-      "date": "2026-03-28",
-      "time": "14:30 CET",
-      "impact": "very high",
-      "event_tag": "cpi",
-      "tradeable_instruments": ["US500", "NAS100", "XAU/USD", "EUR/USD", "USOIL"],
-      "trade_setup": "direction dependent on print",
-      "recommended_action": "wait for data",
-      "expected_holding_days": 2,
-      "rationale": "PCE is the Fed's preferred inflation gauge, released 10 days after FOMC held at 3.5-3.75% and raised PCE forecast to 2.7%. WTI at $98.23 drives energy cost pass-through. A hot print (core PCE >0.4% MoM) kills remaining rate-cut hopes, sends US500 toward 6,200-6,300; a soft print (<0.2%) triggers relief rally toward 6,500-6,600. S&P at 6,506, now below both 50-day MA (6,857) AND 200-day MA (6,621) — bear structure intact. VIX 26.78 ensures outsized reaction. Invalidation: VIX drops below 20 before release.",
-      "data_sources": ["Federal Reserve FOMC Statement Mar 18", "CBOE VIX ycharts.com", "StreetStats.finance MA data", "CNN Fear & Greed", "BEA release schedule"],
-      "evidence_count": 7,
-      "price_checked_at": "2026-03-22T21:00:00Z"
-    },
     {
       "ticker": "N/A",
       "company_name": "US Non-Farm Payrolls — March 2026",
@@ -32,10 +14,10 @@
       "trade_setup": "volatility breakout post-release",
       "recommended_action": "wait for data",
       "expected_holding_days": 2,
-      "rationale": "February NFP printed a soft 92K, sharply below expectations. March data confirms whether labour market is genuinely weakening under oil-driven stagflation or if Feb was a seasonal anomaly. S&P at 6,506, now below 200-day MA (6,621) — a weak print (<100K) accelerates recession pricing toward 6,100-6,200; a strong rebound (>200K) eases growth fears but keeps Fed on hold. VIX 26.78 ensures amplified reaction. Invalidation: Iran ceasefire materially shifts risk appetite before release.",
+      "rationale": "February NFP printed a soft 92K, sharply below expectations. March data confirms whether labour market is genuinely weakening under oil-driven stagflation or if Feb was a seasonal anomaly. S&P now below 200-day MA (~6,620), closing ~6,446 on Mar 31. A weak print (<100K) accelerates recession pricing toward 6,100-6,200; a strong rebound (>200K) eases growth fears but keeps Fed on hold. VIX ~29 ensures amplified reaction. Invalidation: Iran ceasefire materially shifts risk appetite before release.",
       "data_sources": ["BLS February NFP", "Federal Reserve FOMC Mar 18", "StreetStats.finance", "CNN Fear & Greed", "BLS release schedule"],
       "evidence_count": 7,
-      "price_checked_at": "2026-03-22T21:00:00Z"
+      "price_checked_at": "2026-03-31T22:00:00Z"
     },
     {
       "ticker": "N/A",
@@ -50,28 +32,10 @@
       "trade_setup": "volatility spike — direction dependent on output decision",
       "recommended_action": "wait for data",
       "expected_holding_days": 3,
-      "rationale": "Strait of Hormuz 70% traffic reduction, WTI at $98.23. Pentagon now deploying three warships and thousands of Marines to Middle East (CBS/Axios reports Mar 20) — conflict escalation risk adds a new bullish oil catalyst. OPEC+ binary: increase output (bearish oil, bullish equities) vs maintain cuts (bullish oil toward $110+). Goldman Sachs Brent target $110. WTI at $98.23 near 52-week high. Invalidation: Hormuz reopens before meeting.",
-      "data_sources": ["Goldman Sachs Brent forecast", "Reuters OPEC+", "barchart.com Pentagon deployment news", "OPEC Secretariat calendar"],
+      "rationale": "Strait of Hormuz disruption and Iran conflict keep the oil risk premium elevated into the April OPEC+ meeting. A decision to maintain or deepen cuts would be bullish for crude and energy equities, while a surprise output increase would be bearish oil and supportive for broader equities. The binary nature argues for waiting for the announcement before trading. Note: USOIL directional long removed from this file after stop $89.50 was breached on Mar 25 (intraday low $86.72). Invalidation: Hormuz reopens before meeting.",
+      "data_sources": ["Reuters OPEC+", "Goldman Sachs Brent forecast", "oilprice.com Iran/Hormuz updates", "OPEC Secretariat calendar"],
       "evidence_count": 7,
-      "price_checked_at": "2026-03-22T21:00:00Z"
-    },
-    {
-      "ticker": "N/A",
-      "company_name": "EU CPI Flash — March 2026",
-      "conviction": "moderate",
-      "event_name": "Eurozone Flash CPI Estimate — March 2026",
-      "date": "2026-03-31",
-      "time": "11:00 CEST",
-      "impact": "high",
-      "event_tag": "cpi",
-      "tradeable_instruments": ["EUR/USD", "DE40", "EU50"],
-      "trade_setup": "direction dependent on print",
-      "recommended_action": "wait for data",
-      "expected_holding_days": 2,
-      "rationale": "Eurozone under dual pressure: oil-driven energy costs (WTI $98.23) pushing headline CPI higher vs weak domestic demand pulling core lower. Hot print (>2.8% YoY) constrains ECB easing, supports EUR/USD above 1.16; soft print (<2.3%) opens April cut, pressures EUR toward 1.14. EUR/USD at 1.1572 (ECB ref rate 1.1555 Mar 20), near 50-day support. Invalidation: US PCE causes such large USD move that EU CPI reaction is muted.",
-      "data_sources": ["Eurostat CPI prior", "ECB rate decision Mar 19", "poundsterlinglive.com EUR/USD 1.1572", "Reuters ECB commentary", "Eurostat release calendar"],
-      "evidence_count": 5,
-      "price_checked_at": "2026-03-22T21:00:00Z"
+      "price_checked_at": "2026-03-31T22:00:00Z"
     },
     {
       "ticker": "N/A",
@@ -86,37 +50,17 @@
       "trade_setup": "direction dependent — contraction vs expansion",
       "recommended_action": "wait for data",
       "expected_holding_days": 1,
-      "rationale": "ISM prints same day as OPEC+ meeting (Apr 1 double-catalyst). Sub-50 contraction confirms stagflation narrative (rising oil input costs + shrinking activity) and accelerates equity selling from S&P 6,506 already below 200-day MA. Expansion above 50 with tame prices-paid would be the most bullish combo. VIX 26.78 = outsized moves expected. Invalidation: OPEC+ headline dominates and ISM reaction is negligible.",
+      "rationale": "ISM prints same day as OPEC+ meeting (Apr 1 double-catalyst). Sub-50 contraction confirms stagflation narrative and accelerates equity selling from S&P already below 200-day MA. Expansion above 50 with tame prices-paid would be rare bullish combo. VIX ~29 implies outsized moves. Invalidation: OPEC+ headlines dominate and ISM reaction is negligible.",
       "data_sources": ["ISM prior reading", "StreetStats.finance", "CBOE VIX", "Federal Reserve commentary"],
       "evidence_count": 5,
-      "price_checked_at": "2026-03-22T21:00:00Z"
-    },
-    {
-      "ticker": "USOIL",
-      "company_name": "WTI Crude Oil",
-      "direction": "long",
-      "conviction": "high",
-      "current_price": 98.23,
-      "entry_zone": "94-98",
-      "stop_loss": 89.50,
-      "take_profit": 110.00,
-      "risk_percent": 2,
-      "expected_holding_days": 5,
-      "event_tag": "geopolitical",
-      "trade_setup": "pullback buy on supply shock continuation + military escalation",
-      "entry_trigger": "Enter long on dips into 94-98 zone on any temporary de-escalation noise or pre-OPEC+ profit-taking. Exit immediately on confirmed ceasefire + Hormuz reopening or OPEC+ emergency output increase >1.5Mbpd. Do NOT add within 24h before OPEC+ meeting (Apr 1).",
-      "rationale": "Strait of Hormuz 70% traffic reduction. Pentagon deploying 3 warships and thousands of Marines to Middle East (CBS/Axios Mar 20) — risk of kinetic escalation materially increases supply disruption duration. Goldman Sachs Brent target $110, JPMorgan warns sustained >$90 triggers 10-15% S&P correction. WTI at $98.23 near 52-week highs; pullback into 94-98 offers R:R of 1:2.7 from $96 midpoint to $110 target with $89.50 stop. UPGRADED to HIGH: 6 universal EPs (EP1 support zone, EP3 volume, EP5 catalyst, EP6 regime alignment, EP7 R:R 1:2.7, EP8 no conflicting macro within 24h) + EP-M1 (event within 5 days) + EP-M2 (WTI moved >5% per OPEC session historically) + EP-M3 (supply shortage consensus). Invalidation: confirmed ceasefire, coordinated IEA SPR release, or daily close below $89.",
-      "data_sources": ["Goldman Sachs Brent forecast", "oilprice.com $98.23", "barchart.com Pentagon deployment", "CBOE VIX"],
-      "evidence_count": 8,
-      "price_checked_at": "2026-03-22T21:00:00Z",
-      "next_catalyst_date": "2026-04-01"
+      "price_checked_at": "2026-03-31T22:00:00Z"
     },
     {
       "ticker": "XAU/USD",
-      "company_name": "Gold — Post-Crash Stabilisation Watch",
+      "company_name": "Gold — Post-Crash Stabilisation",
       "direction": "long",
       "conviction": "moderate",
-      "current_price": 4497.00,
+      "current_price": 4558.00,
       "entry_zone": "4350-4520",
       "stop_loss": 4180.00,
       "take_profit": 4850.00,
@@ -124,19 +68,19 @@
       "expected_holding_days": 7,
       "event_tag": "safe_haven",
       "trade_setup": "post-crash mean reversion at support",
-      "entry_trigger": "Enter long ONLY after gold holds above $4,500 for 2 consecutive daily closes AND RSI(14) daily turns up from sub-30. Do NOT enter pre-PCE (Mar 28). Scale: 50% initial on confirmation, add 50% on reclaim of $4,600. GLD $413.38 (Mar 20 close) confirms spot near $4,491; spot now ~$4,497 weekend.",
-      "rationale": "Gold crashed 17% from $5,400 to $4,491 (GLD $473 to $413) on USD strength + rate-cut repricing after FOMC signaled only 1 cut in 2026. Weekend spot $4,497 shows early stabilisation. Iran war safe-haven bid and stagflation backdrop remain intact. $4,350 zone aligns with November 2025 breakout level and estimated 200-day MA area. R:R from $4,435 midpoint to $4,850 target vs $4,180 stop = 1:2.5. Invalidation: daily close below $4,180 or Fed signals 0 cuts for 2026.",
-      "data_sources": ["twelvedata.com XAU $4,497 Mar 22", "Yahoo Finance GLD $413.38 Mar 20", "CBOE VIX", "Federal Reserve dot plot Mar 18"],
+      "entry_trigger": "Enter long ONLY after gold holds above $4,500 for 2 consecutive daily closes AND RSI(14) daily turns up from sub-30. Scale: 50% initial on confirmation, add 50% on reclaim of $4,600.",
+      "rationale": "Gold crashed from ~$5,400 to mid-$4,400s on USD strength and hawkish FOMC repricing, then stabilised with XAU/USD quoted around $4,558 on Mar 31. Stop at $4,180 has not been hit (low since crash was ~$4,448). R:R from $4,435 midpoint to $4,850 target vs $4,180 stop ~1:1.6. Iran war safe-haven bid and stagflation backdrop remain intact. Invalidation: daily close below $4,180 or Fed signals 0 cuts for 2026.",
+      "data_sources": ["Markets.com XAU/USD ~$4,558 Mar 31", "Fed FOMC Mar 18 statement", "CBOE VIX", "poundsterlinglive.com EUR/USD history"],
       "evidence_count": 6,
-      "price_checked_at": "2026-03-22T21:00:00Z",
-      "next_catalyst_date": "2026-03-28"
+      "price_checked_at": "2026-03-31T22:00:00Z",
+      "next_catalyst_date": "2026-04-04"
     },
     {
       "ticker": "EUR/USD",
       "company_name": "Euro / US Dollar",
       "direction": "short",
       "conviction": "low",
-      "current_price": 1.1572,
+      "current_price": 1.1480,
       "entry_zone": "1.1550-1.1650",
       "stop_loss": 1.1750,
       "take_profit": 1.1300,
@@ -144,18 +88,18 @@
       "expected_holding_days": 5,
       "event_tag": "geopolitical",
       "trade_setup": "safe-haven USD continuation into event cluster",
-      "entry_trigger": "Enter short at 1.1550-1.1650 with reduced size ahead of PCE (Mar 28) and EU CPI (Mar 31). Add on hot US PCE or soft EU CPI. Exit on dovish Fed repricing or confirmed Iran de-escalation.",
-      "rationale": "EUR/USD at 1.1572 (ECB reference rate 1.1555 Mar 20) caught between safe-haven USD demand (Iran war, VIX 26.78) and Eurozone energy vulnerability (WTI $98.23). Fed held hawkishly at 3.5-3.75%; ECB under pressure to cut on weak growth. Rate differential favours USD. Target 1.1300 aligns with January 2026 low. R:R = 1:1.8 from 1.1600 midpoint. LOW conviction: two binary data releases (PCE Mar 28, EU CPI Mar 31) within holding period create event risk. CNN F&G 15 = contrarian — sudden risk-on would hurt USD longs. Invalidation: daily close above 1.1750.",
-      "data_sources": ["poundsterlinglive.com EUR/USD 1.1572", "ECB reference rate 1.1555", "Federal Reserve FOMC Mar 18", "CNN Fear & Greed"],
+      "entry_trigger": "Enter short at 1.1550-1.1650 into the early-April macro cluster (OPEC+, ISM, NFP). Add on hot US data or weak Eurozone prints. Exit on dovish Fed repricing or confirmed Iran de-escalation.",
+      "rationale": "EUR/USD closed ~1.1480 on Mar 31 after oscillating mid-1.14s to mid-1.16s since late March. Stop at 1.1750 not hit (max high since Mar 22 was ~1.1640). QG3 pass confirmed. Fed cautious cutting path vs ECB under pressure to ease keeps rate differential USD-positive. R:R from 1.1600 midpoint to 1.1300 vs 1.1750 ~1:2.0. Invalidation: daily close above 1.1750.",
+      "data_sources": ["poundsterlinglive.com EUR/USD daily OHLC March 2026", "ECB reference rates", "Federal Reserve FOMC Mar 18", "CNN Fear & Greed"],
       "evidence_count": 5,
-      "price_checked_at": "2026-03-22T21:00:00Z"
+      "price_checked_at": "2026-03-31T22:00:00Z"
     },
     {
       "ticker": "US500",
       "company_name": "S&P 500 Index",
       "direction": "short",
       "conviction": "low",
-      "current_price": 6506.00,
+      "current_price": 6445.99,
       "entry_zone": "6550-6650",
       "stop_loss": 6750.00,
       "take_profit": 6150.00,
@@ -163,11 +107,11 @@
       "expected_holding_days": 5,
       "event_tag": "geopolitical",
       "trade_setup": "bear continuation below 200-day MA",
-      "entry_trigger": "Enter short on any bounce into 6,550-6,650 zone (prior support, now resistance). Requires daily close below 200-day MA (~6,621). Skip entry if VIX drops below 22 or Iran ceasefire announced.",
-      "rationale": "S&P at 6,506 has now broken below BOTH 50-day MA (6,857) AND 200-day MA (6,621) — a significant structural deterioration vs last week. VIX 26.78. The 6,550-6,650 zone was prior 200-day MA support and should now act as resistance. JPMorgan warns oil above $90 could trigger 10-15% correction from highs (~7,200), implying 6,100-6,200 target. Pentagon military escalation raises geopolitical risk premium further. R:R = 1:3.0 from 6,600 midpoint to 6,150 target. LOW conviction because Extreme Fear at 15 is a strong contrarian signal — sharp relief rally possible on any de-escalation or soft PCE. Invalidation: daily close above 6,750.",
-      "data_sources": ["StreetStats.finance 200-day MA 6,621", "investing.com S&P 6,506", "CBOE VIX", "JPMorgan oil impact note", "CNN Fear & Greed"],
+      "entry_trigger": "Enter short on any bounce into 6,550-6,650 zone (prior 200-day MA support, now resistance). Requires daily close below 200-day MA. Skip if VIX drops below 22 or Iran ceasefire announced.",
+      "rationale": "S&P closed ~6,446 on Mar 31 after failing to reclaim 20-, 50-, and 200-day MAs. Stop at 6,750 not hit (max high since Mar 22 was 6,651.62 on Mar 23). QG3 pass confirmed. TP at 6,150 not hit (low was 6,316.91 on Mar 30). QG4 pass. R:R from 6,600 midpoint to 6,150 vs 6,750 ~1:3. Invalidation: daily close above 6,750.",
+      "data_sources": ["FT.com S&P 500 daily OHLC Mar 20-31 2026", "Investing.com S&P 500", "CBOE VIX", "JPMorgan oil impact note"],
       "evidence_count": 6,
-      "price_checked_at": "2026-03-22T21:00:00Z"
+      "price_checked_at": "2026-03-31T22:00:00Z"
     }
   ]
 }
