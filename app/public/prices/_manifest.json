@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-04-14T23:10:07.196Z",
+  "generated_at": "2026-04-15T23:08:34.356Z",
   "total": 18,
   "success": 18,
   "failed": 0,
@@ -9,19 +9,19 @@
     "XOM",
     "CVX",
     "LLY",
-    "GLD",
     "DLTR",
+    "GLD",
+    "NVO",
     "ALK",
     "WMT",
-    "NVO",
-    "ACN",
-    "PEP",
-    "PG",
-    "JNJ",
     "KO",
+    "JNJ",
+    "PEP",
+    "ACN",
+    "PG",
+    "ETH-USD",
     "SOL-USD",
-    "BTC-USD",
-    "ETH-USD"
+    "BTC-USD"
   ],
   "errors": []
 }
