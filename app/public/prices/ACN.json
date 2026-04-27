@@ -2,14 +2,10 @@
   "symbol": "ACN",
   "currency": "USD",
   "exchange": "NYQ",
-  "current_price": 178.36,
-  "prev_close": 179.53,
-  "fetched_at": "2026-04-24T23:05:23.051Z",
+  "current_price": 176.97,
+  "prev_close": 191.95,
+  "fetched_at": "2026-04-27T23:26:48.723Z",
   "history": [
-    {
-      "date": "2026-04-16",
-      "close": 194
-    },
     {
       "date": "2026-04-17",
       "close": 197.65
@@ -33,6 +29,10 @@
     {
       "date": "2026-04-24",
       "close": 178.36
+    },
+    {
+      "date": "2026-04-27",
+      "close": 176.97
     }
   ]
 }
