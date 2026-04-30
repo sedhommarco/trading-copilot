@@ -2,14 +2,10 @@
   "symbol": "PG",
   "currency": "USD",
   "exchange": "NYQ",
-  "current_price": 146.46,
-  "prev_close": 143.38,
-  "fetched_at": "2026-04-29T23:27:50.412Z",
+  "current_price": 147.09,
+  "prev_close": 143.11,
+  "fetched_at": "2026-04-30T23:26:47.861Z",
   "history": [
-    {
-      "date": "2026-04-21",
-      "close": 142.32
-    },
     {
       "date": "2026-04-22",
       "close": 142.85
@@ -33,6 +29,10 @@
     {
       "date": "2026-04-29",
       "close": 146.46
+    },
+    {
+      "date": "2026-04-30",
+      "close": 147.09
     }
   ]
 }
