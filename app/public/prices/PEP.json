@@ -2,14 +2,10 @@
   "symbol": "PEP",
   "currency": "USD",
   "exchange": "NMS",
-  "current_price": 154.62,
-  "prev_close": 155.44,
-  "fetched_at": "2026-05-08T23:28:07.661Z",
+  "current_price": 149.41,
+  "prev_close": 154.1,
+  "fetched_at": "2026-05-11T23:28:53.241Z",
   "history": [
-    {
-      "date": "2026-04-30",
-      "close": 158.49
-    },
     {
       "date": "2026-05-01",
       "close": 157.41
@@ -33,6 +29,10 @@
     {
       "date": "2026-05-08",
       "close": 154.62
+    },
+    {
+      "date": "2026-05-11",
+      "close": 149.41
     }
   ]
 }
