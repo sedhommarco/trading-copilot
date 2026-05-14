@@ -2,14 +2,10 @@
   "symbol": "SOL-USD",
   "currency": "USD",
   "exchange": "CCC",
-  "current_price": 91.1,
-  "prev_close": 84.0899,
-  "fetched_at": "2026-05-13T23:35:59.558Z",
+  "current_price": 92.48,
+  "prev_close": 86.3192,
+  "fetched_at": "2026-05-14T23:27:18.372Z",
   "history": [
-    {
-      "date": "2026-05-07",
-      "close": 88.4048
-    },
     {
       "date": "2026-05-08",
       "close": 91.9498
@@ -32,7 +28,11 @@
     },
     {
       "date": "2026-05-13",
-      "close": 91.1
+      "close": 91.0855
+    },
+    {
+      "date": "2026-05-14",
+      "close": 92.48
     }
   ]
 }
