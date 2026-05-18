@@ -2,14 +2,10 @@
   "symbol": "SPY",
   "currency": "USD",
   "exchange": "PCX",
-  "current_price": 739.17,
-  "prev_close": 720.65,
-  "fetched_at": "2026-05-15T23:27:15.494Z",
+  "current_price": 738.65,
+  "prev_close": 718.01,
+  "fetched_at": "2026-05-18T23:34:36.102Z",
   "history": [
-    {
-      "date": "2026-05-07",
-      "close": 731.58
-    },
     {
       "date": "2026-05-08",
       "close": 737.62
@@ -33,6 +29,10 @@
     {
       "date": "2026-05-15",
       "close": 739.17
+    },
+    {
+      "date": "2026-05-18",
+      "close": 738.65
     }
   ]
 }
