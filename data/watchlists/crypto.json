@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-05-19T17:00:00Z",
+  "last_updated": "2026-05-20T00:00:00Z",
   "opportunities": [
     {
       "ticker": "BTC",
@@ -17,7 +17,7 @@
       "entry_trigger": "Enter on confirmed hold above $74k after FOMC minutes May 20; avoid entry before macro print.",
       "data_sources": ["CoinStats", "Fortune", "alternative.me", "Farside Investors"],
       "evidence_count": 5,
-      "price_checked_at": "2026-05-19T17:00:00Z"
+      "price_checked_at": "2026-05-20T00:00:00Z"
     },
     {
       "ticker": "ETH",
@@ -35,25 +35,25 @@
       "entry_trigger": "Enter only if BTC confirms hold above $74k; enter ETH in $2,050-$2,150 zone.",
       "data_sources": ["Yahoo Finance", "Fortune", "Phemex", "CryptoRank"],
       "evidence_count": 4,
-      "price_checked_at": "2026-05-19T17:00:00Z"
+      "price_checked_at": "2026-05-20T00:00:00Z"
     },
     {
       "ticker": "SOL",
       "company_name": "Solana",
       "direction": "long",
       "conviction": "low",
-      "current_price": 85.30,
-      "entry_zone": "82-90",
+      "current_price": 84.38,
+      "entry_zone": "82-88",
       "stop_loss": 74.0,
       "take_profit": 105.0,
       "risk_percent": 1,
       "expected_holding_days": 10,
-      "rationale": "SOL at $85.30 (Yahoo Finance, May 19). Spot SOL ETF inflows +$39.23M this week — largest since February (MetaMask data) — signaling renewed institutional demand. Down from $89-90 highs last week but holding above $85 support. SOL/ETH ratio ~0.041 (Yahoo Finance historical). Approaching $120 resistance requires sustained momentum. LOW conviction due to Extreme Fear regime in crypto and BTC still below 20d EMA. Cap at 1% risk.",
+      "rationale": "SOL at $84.38 (investing.com May 19). Spot SOL ETF inflows +$39.23M this week — largest since February (MetaMask data) — signaling renewed institutional demand. Down from $89-90 highs last week but holding above $84 support. Approaching $120 resistance requires sustained momentum. LOW conviction due to Extreme Fear regime in crypto and BTC still below 20d EMA. Cap at 1% risk.",
       "trade_setup": "ETF inflow + support bounce",
       "entry_trigger": "Enter only if BTC above $76k and SOL holds $82 support; exit if BTC drops below $74k.",
-      "data_sources": ["Yahoo Finance", "MetaMask", "CoinStats", "alternative.me"],
+      "data_sources": ["investing.com", "MetaMask", "CoinStats", "alternative.me"],
       "evidence_count": 3,
-      "price_checked_at": "2026-05-19T17:00:00Z"
+      "price_checked_at": "2026-05-20T00:00:00Z"
     },
     {
       "ticker": "BTC",
@@ -71,7 +71,7 @@
       "entry_trigger": "Enter $76k-$77k after FOMC minutes release if reaction is clearly dovish; hold max 3 days.",
       "data_sources": ["CoinStats", "alternative.me", "MarketWatch", "heygotrade"],
       "evidence_count": 3,
-      "price_checked_at": "2026-05-19T17:00:00Z",
+      "price_checked_at": "2026-05-20T00:00:00Z",
       "next_catalyst_date": "2026-05-20"
     },
     {
@@ -79,18 +79,18 @@
       "company_name": "MicroStrategy (now Strategy)",
       "direction": "long",
       "conviction": "low",
-      "current_price": 395.0,
-      "entry_zone": "380-410",
-      "stop_loss": 350.0,
-      "take_profit": 460.0,
+      "current_price": 163.99,
+      "entry_zone": "158-170",
+      "stop_loss": 148.0,
+      "take_profit": 195.0,
       "risk_percent": 1,
       "expected_holding_days": 7,
-      "rationale": "MSTR acts as leveraged BTC proxy. If BTC recovers from $77k toward $85k+, MSTR typically amplifies the move. Stock regime: trending bullish (S&P above all MAs), which supports equity risk appetite. Crypto F&G at 28 suggests entry risk asymmetry favors longs if fundamental BTC bid holds. LOW conviction given crypto sector fear; cap at 1%. Invalidated below $350 if BTC breaks $70k.",
+      "rationale": "MSTR at $163.99 (Google Finance / CNBC May 19 open; day range $163.50-$168.49, prev close $166.63). 52-week high $457.22 (CNBC). Acts as leveraged BTC proxy. If BTC recovers from $77k toward $85k+, MSTR typically amplifies the move. Stock regime: trending bullish (S&P above all MAs), which supports equity risk appetite. Crypto F&G at 28 suggests entry risk asymmetry favors longs if fundamental BTC bid holds. LOW conviction given crypto sector fear; cap at 1%. Invalidated below $148 if BTC breaks $70k.",
       "trade_setup": "leveraged BTC proxy",
       "entry_trigger": "Enter only after BTC confirms $76k+ hold post-FOMC; monitor 20d EMA as key level.",
-      "data_sources": ["CoinStats", "Yahoo Finance", "alternative.me"],
+      "data_sources": ["Google Finance", "CNBC", "Yahoo Finance", "alternative.me"],
       "evidence_count": 3,
-      "price_checked_at": "2026-05-19T17:00:00Z"
+      "price_checked_at": "2026-05-20T00:00:00Z"
     }
   ]
 }
