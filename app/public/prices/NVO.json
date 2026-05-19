@@ -3,13 +3,9 @@
   "currency": "USD",
   "exchange": "NYQ",
   "current_price": 44.28,
-  "prev_close": 44.39,
-  "fetched_at": "2026-05-18T23:34:36.963Z",
+  "prev_close": 44.87,
+  "fetched_at": "2026-05-19T22:27:52.328Z",
   "history": [
-    {
-      "date": "2026-05-08",
-      "close": 46.07
-    },
     {
       "date": "2026-05-11",
       "close": 46.4
@@ -32,6 +28,10 @@
     },
     {
       "date": "2026-05-18",
+      "close": 44.28
+    },
+    {
+      "date": "2026-05-19",
       "close": 44.28
     }
   ]
