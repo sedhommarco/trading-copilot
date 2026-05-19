@@ -1,0 +1,81 @@
+{
+  "last_updated": "2026-05-20T01:00:00Z",
+  "regime": {
+    "label": "Risk-On / Bullish",
+    "confidence": "moderate",
+    "summary": "Equity markets remain in uptrend post-tariff relief rally. SPY at $733.73 (-0.67% May 19), QQQ at $701.53. Pullback from highs but structure intact above 20d/50d MAs. VIX at $17.95 — below 20, fear gauge declining from March peak of $31.05. TLT at $82.98 — bonds under pressure as 10Y yields remain elevated. GLD at $413.56 — gold consolidating at highs. WTI at ~$104/bbl — crude elevated on supply constraints. Regime: Risk-On with moderate caution on elevated rates and tariff residual uncertainty.",
+    "key_signals": [
+      {
+        "ticker": "SPY",
+        "label": "S&P 500 ETF",
+        "current_price": 733.73,
+        "ma_20d": 720.0,
+        "ma_50d": 695.0,
+        "signal": "bullish",
+        "note": "Above both MAs; mild pullback from highs after Moody's downgrade noise; uptrend intact"
+      },
+      {
+        "ticker": "QQQ",
+        "label": "Nasdaq 100 ETF",
+        "current_price": 701.53,
+        "ma_20d": 685.0,
+        "ma_50d": 660.0,
+        "signal": "bullish",
+        "note": "AI earnings cycle (NVDA beat) supporting tech; above both MAs"
+      },
+      {
+        "ticker": "VIX",
+        "label": "CBOE Volatility Index",
+        "current_price": 17.95,
+        "signal": "low_fear",
+        "note": "Below 20 threshold; declining from March 2026 peak of 31.05; confirms risk-on regime"
+      },
+      {
+        "ticker": "TLT",
+        "label": "iShares 20+ Year Treasury Bond ETF",
+        "current_price": 82.98,
+        "ma_20d": 84.5,
+        "ma_50d": 86.0,
+        "signal": "bearish",
+        "note": "Below both MAs; 10Y yields elevated ~4.5%+; headwind for rate-sensitive sectors (utilities, REITs)"
+      },
+      {
+        "ticker": "GLD",
+        "label": "SPDR Gold Shares ETF",
+        "current_price": 413.56,
+        "ma_20d": 405.0,
+        "ma_50d": 385.0,
+        "signal": "bullish",
+        "note": "Gold at highs; geopolitical premium + inflation hedge; confirms macro uncertainty bid"
+      },
+      {
+        "ticker": "WTI",
+        "label": "WTI Crude Oil (USD/bbl)",
+        "current_price": 104.14,
+        "signal": "elevated",
+        "note": "Crude above $100; supply constraints supporting energy sector. Invalidates energy bear thesis."
+      }
+    ],
+    "sector_bias": {
+      "overweight": ["Technology", "Energy", "Consumer Staples", "Materials"],
+      "underweight": ["Utilities", "Real Estate", "Consumer Discretionary"],
+      "neutral": ["Industrials", "Financials", "Healthcare"]
+    },
+    "macro_backdrop": {
+      "rates": "elevated (10Y ~4.5%+)",
+      "inflation": "moderating but sticky",
+      "tariffs": "residual uncertainty post US-China truce",
+      "fed_stance": "hold — no near-term rate cuts expected",
+      "earnings_season": "Q1 2026 beats broadly confirmed; NVDA catalyst active"
+    },
+    "invalidation_conditions": [
+      "VIX sustained above 25 (regime shift to risk-off)",
+      "SPY breaks below 50d MA (~$695)",
+      "WTI drops below $65 (energy sector headwind)",
+      "10Y yields spike above 5.5% (broad de-rating)",
+      "Tariff escalation resumes (US-China breakdown)"
+    ],
+    "price_checked_at": "2026-05-20T01:00:00Z",
+    "data_sources": ["Perplexity Finance", "CBOE", "TradingEconomics", "Yahoo Finance", "Investing.com"]
+  }
+}
