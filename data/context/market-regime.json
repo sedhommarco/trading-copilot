@@ -1,20 +1,20 @@
 {
   "file_type": "market_regime",
-  "last_updated": "2026-03-31T22:00:00Z",
-  "current_regime": "high volatility",
-  "vix": 29.2,
-  "trend": "downtrend",
-  "sentiment": "Extreme Fear in equities and crypto. S&P 500 closing around 6,344-6,446 by Mar 30-31, stuck below 20-, 50-, and 200-day MAs with VIX near 29.2, reflecting persistent risk-off and stagflation worries driven by Iran/Hormuz supply shock and weak labour market signals.",
-  "sector_leaders": ["Energy", "Defense", "Utilities"],
-  "sector_laggards": ["Technology", "Financials", "Consumer Discretionary", "Communication Services"],
-  "fed_policy": "Rates held at 3.5-3.75% (Mar 18). Dot plot: 1 cut in 2026, 1 in 2027. Oil-driven inflation keeps the Fed data-dependent and wary of easing too soon. PCE inflation forecast raised to 2.7%.",
-  "next_major_catalyst": "OPEC+ Meeting (Apr 1), US ISM Manufacturing (Apr 1), US ISM Services (Apr 3), US Non-Farm Payrolls (Apr 4), JNJ Q1 Earnings (Apr 14), PEP Q1 Earnings (Apr 16), PG Q3 FY26 (Apr 24), KO Q1 Earnings (Apr 28).",
+  "last_updated": "2026-05-19T17:00:00Z",
+  "current_regime": "trending bullish",
+  "vix": 17.81,
+  "trend": "uptrend",
+  "sentiment": "Greed in equities (CNN F&G 62.66), Extreme Fear in crypto (alternative.me F&G 28). S&P 500 at 7,403 above all key MAs (20d 7,274 / 50d 6,930 / 200d 6,787). VIX at 17.81, just below the 18 trending-bullish threshold. Market recovered strongly from March-April Iran/Hormuz shock via a rare V-bottom. Oil remains elevated at ~$95-100 WTI; gold near $4,570. Energy and consumer defensives leading; materials and utilities lagging.",
+  "sector_leaders": ["Energy", "Consumer Defensive", "Communication Services"],
+  "sector_laggards": ["Basic Materials", "Utilities", "Industrials", "Consumer Cyclical"],
+  "fed_policy": "Target rate 3.50-3.75% (unchanged through March and April 2026 meetings). Fed projects 1 cut in 2026, 1 in 2027 — data-dependent under new Chair Kevin Warsh. Next FOMC: June 16-17, 2026. ECB deposit rate 2.00% (March 19 meeting).",
+  "next_major_catalyst": "FOMC Minutes release May 20 2026, US Housing Starts & Building Permits May 21, S&P Global Flash PMIs May 21, NVDA Q1 FY27 earnings May 20 AMC (rev ~$78-80B), WMT Q1 FY27 earnings May 21 BMO, June FOMC meeting Jun 16-17 2026.",
   "strategy_adjustments": {
-    "macro-volatility": "Regime remains high-vol: VIX ~29, S&P below all key moving averages. USOIL long removed — stop at $89.50 was breached on Mar 25 (intraday low $86.72). Focus on the next 5-7 days of Tier-1 data (OPEC+, ISM Manufacturing/Services, NFP). Prefer post-data volatility breakouts over pre-positioning; avoid opening new macro-directional risk within 12h of any major print.",
-    "earnings-momentum": "March heavy-earnings week (CTAS, PAYX, CHWY, CCL) has passed; MU stop breached. Book now focuses on post-earnings gap follow-throughs (ACN) and defensive pre-earnings run-ups in April reporters (JNJ Apr 14, PEP Apr 16, PG Apr 24, KO Apr 28). All are large-cap defensives with strong beat histories. High-vol regime caps new entries at MODERATE/LOW conviction.",
-    "post-shock": "MDB and BNTX removed: MDB stop ($248) clearly breached with closes in the low-230s by Mar 30; BNTX aged past 1.5x holding window with unverifiable stop behaviour. Book retains DLTR (confirmed base above $98 stop) and GLD (stabilised ~$428-429 by Mar 31, TP raised to $465 to restore R:R to 1:1.6). Accept that post-crash is intentionally lean rather than fill with low-quality names.",
-    "crypto": "BTC closed ~$67.9K on Mar 31 after oscillating mid-60Ks to high-60Ks through late March. Regime: Extreme Fear. Treat BTC and ETH as primary vehicles; limit total crypto positions to a maximum of three and keep all altcoins at LOW conviction only. Entries should respect BTC $65K support zone and avoid overlapping with major macro prints (especially NFP Apr 4).",
-    "pair-trades": "XOM/UAL removed: UAL short stop (96.50) hit on Mar 23. LMT/CCL removed: LMT long stop ($608) breached with close $598.57 on Mar 30; CCL now ~$28.78 above $27 short stop. Book retains CVX/ALK, XOM/SPY, LLY/NVO, COST/WMT — all stops confirmed not hit. Manual chart check recommended for CVX/ALK to confirm no intraday spike below $194 immediately post-entry."
+    "macro-volatility": "Regime trending bullish: VIX 17.81, S&P above all MAs. Focus on this week's high-impact events — FOMC Minutes (May 20), Flash PMIs (May 21). Oil elevated at $95-100 supports energy-linked plays. Ride momentum direction on surprises; no defensive hedging needed at current VIX.",
+    "earnings-momentum": "Prime week for earnings momentum: NVDA reports May 20 AMC (78% YoY growth expected, ~90% beat probability on Polymarket). WMT May 21 BMO, TJX May 20. Bullish regime supports widening targets on strong beats. Favour large-cap tech and consumer bellwethers; require 3+ beat history.",
+    "post-shock": "Basic Materials sector down -5.84% this week (XLB below 50d MA, MACD negative). APD, NUE, FCX showing oversold conditions. Favour names with non-structural shocks, confirmed base above crash lows, and RSI below 40. Bullish regime means higher bar — genuine fundamental support required.",
+    "crypto": "BTC ~$77,000 (down ~5.8% past week from $81k high), ETH ~$2,128, SOL ~$85. Crypto Fear & Greed at 28 (Fear) while equities show Greed — divergence creates selective opportunity. ETF inflows +$1.85B over 30 days though past 7 days saw $-1.27B outflows. Treat BTC as primary vehicle; maintain LOW-MODERATE conviction. Avoid overlapping with NVDA earnings volatility window (May 20).",
+    "pair-trades": "Trending bullish regime: favour sector rotation pairs — long tech/AI leaders vs short laggards. Energy vs consumer cyclical spread attractive given oil at $95-100 and CVX/XOM YTD outperformance. ISM Manufacturing 52.7 in April (expansionary 4th consecutive month) supports industrials long vs materials short."
   },
-  "notes": "Regime classification follows Trading Copilot thresholds: VIX >25 forces high volatility; S&P 500 trading below 20- and 50-day MAs plus continued geopolitical risk (Iran/Hormuz) confirms bearish skew. All prices re-verified as of Mar 31, 2026. USOIL, MDB, BNTX, XOM/UAL, LMT/CCL, MU, CTAS, PAYX, CHWY, CCL pre-earnings removed due to QG3 stop violations or lifecycle expiry."
+  "notes": "Regime classification per Trading Copilot thresholds: VIX 17.81 < 18 and S&P 500 above both 20d and 50d MA → trending bullish. S&P close 7,403.05 (May 18 2026, FT Markets). VIX 17.81 (CBOE, May 19 2026). MAs from Barchart $SPX technical page. CNN Fear & Greed 62.66 (MacroMicro, May 19 2026). Crypto F&G 28 Fear (alternative.me, May 19 2026). Fed rate TradingEconomics. Sector performance Finviz week view May 19. WTI ~$95-100 (Farmbucks/MarketWatch). Gold ~$4,570 (TwelveData). EUR/USD 1.1644 (TradingEconomics). BTC $77,002 (CoinStats, May 19). ETH $2,128 (Yahoo Finance, May 19). SOL $85.30 (Yahoo Finance, May 19). ISM Manufacturing April 52.7 (TD Economics)."
 }
