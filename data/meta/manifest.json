@@ -1,6 +1,6 @@
 {
   "version": "3.0.0",
-  "last_global_update": "2026-03-22T21:30:00Z",
+  "last_global_update": "2026-05-19T17:00:00Z",
   "ui": {
     "tab_order": [
       "macro-volatility",
@@ -14,23 +14,23 @@
     "watchlists/macro-volatility.json": {
       "strategy_family": "macro-volatility",
       "label": "Macro & Volatility Events",
-      "last_updated": "2026-03-22T21:30:00Z",
-      "record_count": 9,
+      "last_updated": "2026-05-19T17:00:00Z",
+      "record_count": 8,
       "opportunity_count_guidance": "5-10",
       "status": "fresh"
     },
     "watchlists/pre-earnings.json": {
       "strategy_family": "earnings-momentum",
       "label": "Earnings Momentum & Gaps",
-      "last_updated": "2026-03-22T21:30:00Z",
-      "record_count": 7,
+      "last_updated": "2026-05-19T17:00:00Z",
+      "record_count": 6,
       "opportunity_count_guidance": "5-10",
       "status": "fresh"
     },
     "watchlists/post-crash.json": {
       "strategy_family": "post-shock",
       "label": "Post-Shock Rebounds",
-      "last_updated": "2026-03-22T21:30:00Z",
+      "last_updated": "2026-05-19T17:00:00Z",
       "record_count": 4,
       "opportunity_count_guidance": "5-10",
       "status": "fresh"
@@ -38,34 +38,25 @@
     "watchlists/crypto.json": {
       "strategy_family": "crypto",
       "label": "Crypto & Digital Assets",
-      "last_updated": "2026-03-22T21:30:00Z",
-      "record_count": 3,
+      "last_updated": "2026-05-19T17:00:00Z",
+      "record_count": 5,
       "opportunity_count_guidance": "5-10",
       "status": "fresh"
     },
     "watchlists/pair-trades.json": {
       "strategy_family": "pair-trades",
       "label": "Relative Value & Pairs",
-      "last_updated": "2026-03-22T21:30:00Z",
-      "record_count": 6,
+      "last_updated": "2026-05-19T17:00:00Z",
+      "record_count": 5,
       "opportunity_count_guidance": "5-10",
       "status": "fresh"
     },
     "context/market-regime.json": {
-      "last_updated": "2026-03-22T21:30:00Z",
+      "strategy_family": "market-regime",
+      "label": "Market Regime Context",
+      "last_updated": "2026-05-19T17:00:00Z",
+      "record_count": 1,
       "status": "fresh"
     }
-  },
-  "data_sources": [
-    "TipRanks Earnings Calendar",
-    "Yahoo Finance",
-    "TradingView",
-    "MarketBeat",
-    "StockAnalysis",
-    "Seeking Alpha"
-  ],
-  "stale_threshold_days": 7,
-  "name": "Trading Advisor",
-  "description": "A minimal SPA for surfacing trading opportunities and strategy-level context.",
-  "app_version": "0.2.0"
+  }
 }
