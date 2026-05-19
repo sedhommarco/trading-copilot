@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-05-19T17:00:00Z",
+  "last_updated": "2026-05-20T00:00:00Z",
   "opportunities": [
     {
       "ticker": "N/A",
@@ -15,9 +15,8 @@
       "tradeable_instruments": ["SPY", "QQQ", "TLT", "GLD", "EURUSD"],
       "recommended_action": "wait for data",
       "trade_setup": "post-release directional",
-      "impact": "very high",
       "data_sources": ["Federal Reserve", "MarketWatch", "TradingEconomics"],
-      "price_checked_at": "2026-05-19T17:00:00Z"
+      "price_checked_at": "2026-05-20T00:00:00Z"
     },
     {
       "ticker": "N/A",
@@ -34,7 +33,7 @@
       "recommended_action": "wait for data",
       "trade_setup": "post-release momentum or fade",
       "data_sources": ["S&P Global", "TradingEconomics", "MarketWatch"],
-      "price_checked_at": "2026-05-19T17:00:00Z"
+      "price_checked_at": "2026-05-20T00:00:00Z"
     },
     {
       "ticker": "N/A",
@@ -46,12 +45,12 @@
       "impact": "medium",
       "event_tag": "ism",
       "expected_holding_days": 1,
-      "rationale": "Housing data with Fed on hold and mortgage rates elevated. Weak print could pressure homebuilders (DHI, LEN) and home improvement retail (HD). HD already reported Q1 cautiously today. Invalidated if housing beats consensus — would support further consumer discretionary strength.",
+      "rationale": "Housing data with Fed on hold and mortgage rates elevated. Weak print could pressure homebuilders (DHI, LEN) and home improvement retail (HD). HD already reported Q1 cautiously. Invalidated if housing beats consensus — would support further consumer discretionary strength.",
       "tradeable_instruments": ["XHB", "DHI", "LEN", "HD"],
       "recommended_action": "wait for data",
       "trade_setup": "sector reaction play",
       "data_sources": ["US Census Bureau", "MarketWatch", "heygotrade"],
-      "price_checked_at": "2026-05-19T17:00:00Z"
+      "price_checked_at": "2026-05-20T00:00:00Z"
     },
     {
       "ticker": "N/A",
@@ -68,43 +67,43 @@
       "recommended_action": "wait for data",
       "trade_setup": "macro directional",
       "data_sources": ["US Dept of Labor", "MarketWatch"],
-      "price_checked_at": "2026-05-19T17:00:00Z"
+      "price_checked_at": "2026-05-20T00:00:00Z"
     },
     {
       "ticker": "WTI",
-      "company_name": "WTI Crude Oil — Elevated Price Setup",
+      "company_name": "WTI Crude Oil",
       "direction": "long",
       "conviction": "moderate",
-      "current_price": 97.5,
-      "entry_zone": "94-99",
-      "stop_loss": 89.0,
-      "take_profit": 110.0,
+      "current_price": 102.47,
+      "entry_zone": "100-105",
+      "stop_loss": 94.0,
+      "take_profit": 115.0,
       "risk_percent": 2,
       "expected_holding_days": 10,
-      "rationale": "WTI holding $95-100 range (May 19); Energy sector +4.52% WTD — the clear weekly leader. Oil above $90 supported by Middle East risk premium (Iran residual), OPEC+ discipline and global demand recovery. 50-day MA likely around $88-90. Invalidated below $89 (structural demand break or OPEC+ supply shock).",
+      "rationale": "WTI at $102.47 (TwelveData May 19 close). Energy sector +4.52% WTD — the clear weekly leader. Oil above $100 supported by Middle East risk premium, OPEC+ discipline and global demand recovery. 50-day MA likely around $94-96. Invalidated below $94 (structural demand break or OPEC+ supply shock).",
       "trade_setup": "macro breakout continuation",
-      "entry_trigger": "Hold above $94 with energy ETF (XLE) above 20d MA",
-      "data_sources": ["Farmbucks", "MarketWatch", "heygotrade", "Finviz"],
+      "entry_trigger": "Hold above $100 with energy ETF (XLE) above 20d MA",
+      "data_sources": ["TwelveData", "MarketWatch", "heygotrade", "Finviz"],
       "evidence_count": 5,
-      "price_checked_at": "2026-05-19T17:00:00Z"
+      "price_checked_at": "2026-05-20T00:00:00Z"
     },
     {
       "ticker": "GLD",
       "company_name": "Gold ETF (SPDR Gold Shares)",
       "direction": "long",
       "conviction": "moderate",
-      "current_price": 426.0,
-      "entry_zone": "422-430",
-      "stop_loss": 412.0,
-      "take_profit": 450.0,
+      "current_price": 411.88,
+      "entry_zone": "408-418",
+      "stop_loss": 398.0,
+      "take_profit": 435.0,
       "risk_percent": 1,
       "expected_holding_days": 10,
-      "rationale": "Gold spot near $4,570/oz (May 19, TwelveData) — elevated safe-haven demand despite equity greed. Fed on hold through June FOMC, real rate uncertainty. EUR/USD at 1.1644 supportive for gold. FOMC minutes on May 20 could be a catalyst — dovish = gold up. Invalidated below $4,400 spot ($412 GLD) if hawkish pivot confirmed.",
+      "rationale": "GLD at $411.88 (MarketWatch May 19 close); Gold spot ~$4,501/oz (TradingEconomics May 19, down 1.44% on day). Elevated safe-haven demand despite equity greed. Fed on hold through June FOMC, real rate uncertainty. EUR/USD at 1.1644 supportive for gold. FOMC minutes on May 20 could be a catalyst — dovish = gold up. Invalidated below $398 GLD if hawkish pivot confirmed.",
       "trade_setup": "safe haven with catalyst",
-      "entry_trigger": "Enter on or after FOMC minutes if dovish; or hold current position above $422 GLD",
-      "data_sources": ["TwelveData", "TradingEconomics", "Yahoo Finance"],
+      "entry_trigger": "Enter on or after FOMC minutes if dovish; or hold current position above $408 GLD",
+      "data_sources": ["MarketWatch", "TradingEconomics", "stockanalysis.com GLD", "ssga.com"],
       "evidence_count": 4,
-      "price_checked_at": "2026-05-19T17:00:00Z"
+      "price_checked_at": "2026-05-20T00:00:00Z"
     },
     {
       "ticker": "N/A",
@@ -121,7 +120,7 @@
       "recommended_action": "partial de-risk",
       "trade_setup": "ECB divergence vs Fed",
       "data_sources": ["ECB", "TradingEconomics", "EqualsMoney"],
-      "price_checked_at": "2026-05-19T17:00:00Z"
+      "price_checked_at": "2026-05-20T00:00:00Z"
     },
     {
       "ticker": "N/A",
@@ -138,7 +137,7 @@
       "recommended_action": "wait for data",
       "trade_setup": "pre-positioning only if macro deteriorates",
       "data_sources": ["BLS", "TradingEconomics", "Guggenheim Investments"],
-      "price_checked_at": "2026-05-19T17:00:00Z"
+      "price_checked_at": "2026-05-20T00:00:00Z"
     }
   ]
 }
