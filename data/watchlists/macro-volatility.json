@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-05-20T00:00:00Z",
+  "last_updated": "2026-05-20T01:00:00Z",
   "opportunities": [
     {
       "ticker": "N/A",
@@ -11,12 +11,12 @@
       "impact": "very high",
       "event_tag": "fomc",
       "expected_holding_days": 2,
-      "rationale": "First minutes release under new Fed Chair Kevin Warsh; markets expect clues on rate-cut path (1 cut in 2026 vs 2 priced in futures). VIX at 17.81 means any hawkish surprise could spike vol. S&P near ATH — outsized reaction risk. Invalidated if minutes confirm unchanged data-dependent stance with no new guidance.",
+      "rationale": "First minutes release under new Fed Chair Kevin Warsh; markets expect clues on rate-cut path (1 cut in 2026 vs 2 priced in futures). VIX closed 18.01 May 19 (Yahoo Finance) — above the 18 trending-bullish threshold; hawkish surprise could spike vol toward 20-22. S&P 500 at 7,410 / SPY $733.73, QQQ $702.36. 10Y yield 4.667% (MarketWatch May 19) at multi-year highs — any dovish pivot is a catalyst for TLT and GLD. Invalidated if minutes confirm unchanged data-dependent stance with no new guidance.",
       "tradeable_instruments": ["SPY", "QQQ", "TLT", "GLD", "EURUSD"],
       "recommended_action": "wait for data",
       "trade_setup": "post-release directional",
-      "data_sources": ["Federal Reserve", "MarketWatch", "TradingEconomics"],
-      "price_checked_at": "2026-05-20T00:00:00Z"
+      "data_sources": ["Federal Reserve", "MarketWatch", "Yahoo Finance", "TradingEconomics"],
+      "price_checked_at": "2026-05-20T01:00:00Z"
     },
     {
       "ticker": "N/A",
@@ -28,12 +28,12 @@
       "impact": "high",
       "event_tag": "ism",
       "expected_holding_days": 2,
-      "rationale": "April ISM Manufacturing held at 52.7 (4th consecutive expansionary month). May Flash PMIs are the first real-time read on whether momentum continues. With S&P above all MAs, a miss below 50 could trigger rotation out of cyclicals. Invalidated if prior PMI trend proves sticky above 52.",
+      "rationale": "April ISM Manufacturing held at 52.7 (4th consecutive expansionary month). May Flash PMIs are the first real-time read on whether momentum continues. XLB at $49.04 (below both MAs) and NUE at $221.73 (below 20d MA) indicate materials/industrials are already pricing in risk. With S&P above all MAs at 7,410, a miss below 50 could trigger sector rotation out of cyclicals. A beat above 52.7 would reconfirm XLI/XLB longs.",
       "tradeable_instruments": ["SPY", "XLI", "XLB", "EURUSD"],
       "recommended_action": "wait for data",
       "trade_setup": "post-release momentum or fade",
       "data_sources": ["S&P Global", "TradingEconomics", "MarketWatch"],
-      "price_checked_at": "2026-05-20T00:00:00Z"
+      "price_checked_at": "2026-05-20T01:00:00Z"
     },
     {
       "ticker": "N/A",
@@ -45,12 +45,12 @@
       "impact": "medium",
       "event_tag": "ism",
       "expected_holding_days": 1,
-      "rationale": "Housing data with Fed on hold and mortgage rates elevated. Weak print could pressure homebuilders (DHI, LEN) and home improvement retail (HD). HD already reported Q1 cautiously. Invalidated if housing beats consensus — would support further consumer discretionary strength.",
+      "rationale": "Housing data with Fed on hold and mortgage rates elevated (30Y ~7%). XHB at $96.41 close May 19 (SSGA/MarketWatch) — down from $103 highs in Feb 2026. DHI at $135.27 (Perplexity Finance May 19), LEN at $82.64 (Yahoo Finance May 19) — both showing weakness. Weak print could pressure homebuilders further. HD already reported cautiously. Strong print = short-term relief for XHB.",
       "tradeable_instruments": ["XHB", "DHI", "LEN", "HD"],
       "recommended_action": "wait for data",
       "trade_setup": "sector reaction play",
-      "data_sources": ["US Census Bureau", "MarketWatch", "heygotrade"],
-      "price_checked_at": "2026-05-20T00:00:00Z"
+      "data_sources": ["Perplexity Finance", "SSGA", "MarketWatch", "Yahoo Finance"],
+      "price_checked_at": "2026-05-20T01:00:00Z"
     },
     {
       "ticker": "N/A",
@@ -62,48 +62,48 @@
       "impact": "medium",
       "event_tag": "nfp",
       "expected_holding_days": 1,
-      "rationale": "Weekly jobless claims are the most current labour market signal ahead of June 6 NFP. Elevated claims would validate Fed dovish signals; low claims reinforce no-cut-needed stance. VIX near 18 means claims surprise can move markets. Invalidated if reading remains in normal 210k-240k range with no surprise.",
+      "rationale": "Weekly jobless claims are the most current labour market signal ahead of June 6 NFP. 10Y yield at 4.667% shows market pricing in no near-term Fed cuts. Elevated claims would validate rate-cut hopes; low claims reinforce no-cut stance. VIX at 18.01 means claims surprise can move markets. Normal 210k-240k range = no reaction. Invalidated if reading remains in normal range.",
       "tradeable_instruments": ["SPY", "TLT", "XLF"],
       "recommended_action": "wait for data",
       "trade_setup": "macro directional",
-      "data_sources": ["US Dept of Labor", "MarketWatch"],
-      "price_checked_at": "2026-05-20T00:00:00Z"
+      "data_sources": ["US Dept of Labor", "MarketWatch", "FRED"],
+      "price_checked_at": "2026-05-20T01:00:00Z"
     },
     {
       "ticker": "WTI",
       "company_name": "WTI Crude Oil",
       "direction": "long",
       "conviction": "moderate",
-      "current_price": 102.47,
+      "current_price": 103.20,
       "entry_zone": "100-105",
       "stop_loss": 94.0,
       "take_profit": 115.0,
       "risk_percent": 2,
       "expected_holding_days": 10,
-      "rationale": "WTI at $102.47 (TwelveData May 19 close). Energy sector +4.52% WTD — the clear weekly leader. Oil above $100 supported by Middle East risk premium, OPEC+ discipline and global demand recovery. 50-day MA likely around $94-96. Invalidated below $94 (structural demand break or OPEC+ supply shock).",
+      "rationale": "WTI at $103.20 May 19 close (investing.com historical data); intraday touched near $105 per riskreversal.com commentary. Oil above $100 sustained by Middle East risk premium and OPEC+ discipline. Energy sector leading all sectors weekly. XLE at $61.29, XOM at $162.62 — both above 20d MAs confirming energy strength. 50d MA for WTI ~$94-96. Invalidated below $94 (structural demand break).",
       "trade_setup": "macro breakout continuation",
-      "entry_trigger": "Hold above $100 with energy ETF (XLE) above 20d MA",
-      "data_sources": ["TwelveData", "MarketWatch", "heygotrade", "Finviz"],
+      "entry_trigger": "Hold above $100 with XLE above 20d MA $59; scale out at $110-115",
+      "data_sources": ["investing.com", "riskreversal.com", "MarketWatch", "ATB Financial"],
       "evidence_count": 5,
-      "price_checked_at": "2026-05-20T00:00:00Z"
+      "price_checked_at": "2026-05-20T01:00:00Z"
     },
     {
       "ticker": "GLD",
       "company_name": "Gold ETF (SPDR Gold Shares)",
       "direction": "long",
       "conviction": "moderate",
-      "current_price": 411.88,
+      "current_price": 413.77,
       "entry_zone": "408-418",
       "stop_loss": 398.0,
       "take_profit": 435.0,
       "risk_percent": 1,
       "expected_holding_days": 10,
-      "rationale": "GLD at $411.88 (MarketWatch May 19 close); Gold spot ~$4,501/oz (TradingEconomics May 19, down 1.44% on day). Elevated safe-haven demand despite equity greed. Fed on hold through June FOMC, real rate uncertainty. EUR/USD at 1.1644 supportive for gold. FOMC minutes on May 20 could be a catalyst — dovish = gold up. Invalidated below $398 GLD if hawkish pivot confirmed.",
-      "trade_setup": "safe haven with catalyst",
-      "entry_trigger": "Enter on or after FOMC minutes if dovish; or hold current position above $408 GLD",
-      "data_sources": ["MarketWatch", "TradingEconomics", "stockanalysis.com GLD", "ssga.com"],
+      "rationale": "GLD closed $413.77 May 19 (investing.com historical). 52-week high $509.70 (Jan 2026). Pulled back ~19% from all-time highs. Elevated safe-haven demand despite equity greed (CNN F&G 62.66). 10Y yield at 4.667% is headwind but gold holding. FOMC minutes May 20 is the key catalyst — dovish tone = GLD upside. SSGA NAV data shows $415.75 as of May 15. Stop below $398 GLD if confirmed hawkish pivot.",
+      "trade_setup": "safe haven with FOMC catalyst",
+      "entry_trigger": "Enter on or after FOMC minutes if dovish signal; or hold above $408 GLD (support zone)",
+      "data_sources": ["investing.com", "SSGA", "MarketWatch", "stockanalysis.com"],
       "evidence_count": 4,
-      "price_checked_at": "2026-05-20T00:00:00Z"
+      "price_checked_at": "2026-05-20T01:00:00Z"
     },
     {
       "ticker": "N/A",
@@ -115,12 +115,12 @@
       "impact": "high",
       "event_tag": "ecb",
       "expected_holding_days": 5,
-      "rationale": "ECB deposit rate at 2.00% after March 19 cut. June meeting may confirm further easing given subdued EU inflation. EUR/USD at 1.1644 could weaken on dovish ECB signal. EURUSD short could be viable if ECB cuts while Fed stays on hold. Invalidated if ECB signals pause or inflation surprise forces hawkish tilt.",
+      "rationale": "ECB deposit rate at 2.00% after March 19 cut. June meeting may confirm further easing given subdued EU inflation. EUR/USD elevated; Fed-ECB divergence widening if Fed stays on hold at 3.50-3.75% while ECB cuts. EURUSD short could be viable if ECB cuts while Fed stays. 10Y US yield at 4.667% reinforces USD strength. Invalidated if ECB signals pause.",
       "tradeable_instruments": ["EURUSD", "FXE", "EWG"],
       "recommended_action": "partial de-risk",
       "trade_setup": "ECB divergence vs Fed",
-      "data_sources": ["ECB", "TradingEconomics", "EqualsMoney"],
-      "price_checked_at": "2026-05-20T00:00:00Z"
+      "data_sources": ["ECB", "TradingEconomics", "MarketWatch"],
+      "price_checked_at": "2026-05-20T01:00:00Z"
     },
     {
       "ticker": "N/A",
@@ -132,12 +132,12 @@
       "impact": "very high",
       "event_tag": "nfp",
       "expected_holding_days": 3,
-      "rationale": "Next NFP (May data) on June 6. Under new Fed Chair Warsh with 1 cut projected for 2026, a weak jobs report could front-run that cut and spark broad risk rally. With S&P above ATH and VIX at 17.81, outsized reaction likely. LOW conviction — event too far out for precise positioning. Invalidated if macro data between now and June 6 resets expectations.",
+      "rationale": "Next NFP (May data) on June 6. Under new Fed Chair Warsh with 1 cut projected for 2026, a weak jobs report could front-run that cut and spark broad risk rally. S&P at 7,410 / SPY $733.73 near ATH; VIX at 18.01. Outsized reaction likely if miss. LOW conviction — event too far out for precise positioning. Watch for jobless claims drift toward 250k+ as leading indicator. Invalidated if macro data resets expectations between now and June 6.",
       "tradeable_instruments": ["SPY", "TLT", "XLF", "USD"],
       "recommended_action": "wait for data",
       "trade_setup": "pre-positioning only if macro deteriorates",
-      "data_sources": ["BLS", "TradingEconomics", "Guggenheim Investments"],
-      "price_checked_at": "2026-05-20T00:00:00Z"
+      "data_sources": ["BLS", "TradingEconomics", "MarketWatch"],
+      "price_checked_at": "2026-05-20T01:00:00Z"
     }
   ]
 }
