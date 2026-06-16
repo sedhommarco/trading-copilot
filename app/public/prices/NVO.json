@@ -2,14 +2,10 @@
   "symbol": "NVO",
   "currency": "USD",
   "exchange": "NYQ",
-  "current_price": 43.88,
-  "prev_close": 45.58,
-  "fetched_at": "2026-06-12T23:58:25.063Z",
+  "current_price": 43.92,
+  "prev_close": 44.07,
+  "fetched_at": "2026-06-16T00:09:06.844Z",
   "history": [
-    {
-      "date": "2026-06-04",
-      "close": 43.75
-    },
     {
       "date": "2026-06-05",
       "close": 42.96
@@ -33,6 +29,10 @@
     {
       "date": "2026-06-12",
       "close": 43.88
+    },
+    {
+      "date": "2026-06-15",
+      "close": 43.92
     }
   ]
 }
