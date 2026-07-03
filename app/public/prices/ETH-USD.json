@@ -2,14 +2,10 @@
   "symbol": "ETH-USD",
   "currency": "USD",
   "exchange": "CCC",
-  "current_price": 1699.17,
-  "prev_close": 1665.4368,
-  "fetched_at": "2026-07-02T23:35:02.608Z",
+  "current_price": 1757.86,
+  "prev_close": 1619.9249,
+  "fetched_at": "2026-07-03T23:33:00.191Z",
   "history": [
-    {
-      "date": "2026-06-26",
-      "close": 1576.6161
-    },
     {
       "date": "2026-06-27",
       "close": 1571.5883
@@ -32,7 +28,11 @@
     },
     {
       "date": "2026-07-02",
-      "close": 1699.17
+      "close": 1698.1694
+    },
+    {
+      "date": "2026-07-03",
+      "close": 1757.86
     }
   ]
 }
