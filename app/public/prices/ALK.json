@@ -2,14 +2,10 @@
   "symbol": "ALK",
   "currency": "USD",
   "exchange": "NYQ",
-  "current_price": 50.14,
-  "prev_close": 51.56,
-  "fetched_at": "2026-07-09T23:44:41.951Z",
+  "current_price": 49.42,
+  "prev_close": 53.29,
+  "fetched_at": "2026-07-10T23:26:59.189Z",
   "history": [
-    {
-      "date": "2026-06-30",
-      "close": 52.2
-    },
     {
       "date": "2026-07-01",
       "close": 51.25
@@ -33,6 +29,10 @@
     {
       "date": "2026-07-09",
       "close": 50.14
+    },
+    {
+      "date": "2026-07-10",
+      "close": 49.42
     }
   ]
 }
