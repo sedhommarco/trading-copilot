@@ -2,14 +2,10 @@
   "symbol": "JNJ",
   "currency": "USD",
   "exchange": "NYQ",
-  "current_price": 256.98,
-  "prev_close": 244.88,
-  "fetched_at": "2026-07-10T23:26:59.939Z",
+  "current_price": 257.77,
+  "prev_close": 254.66,
+  "fetched_at": "2026-07-13T23:24:51.834Z",
   "history": [
-    {
-      "date": "2026-07-01",
-      "close": 253.98
-    },
     {
       "date": "2026-07-02",
       "close": 263.04
@@ -33,6 +29,10 @@
     {
       "date": "2026-07-10",
       "close": 256.98
+    },
+    {
+      "date": "2026-07-13",
+      "close": 257.77
     }
   ]
 }
