@@ -2,14 +2,10 @@
   "symbol": "KO",
   "currency": "USD",
   "exchange": "NYQ",
-  "current_price": 89.08,
-  "prev_close": 82.45,
-  "fetched_at": "2026-07-29T23:29:13.282Z",
+  "current_price": 88.49,
+  "prev_close": 84.92,
+  "fetched_at": "2026-07-30T23:31:21.194Z",
   "history": [
-    {
-      "date": "2026-07-21",
-      "close": 81.97
-    },
     {
       "date": "2026-07-22",
       "close": 82.2
@@ -33,6 +29,10 @@
     {
       "date": "2026-07-29",
       "close": 89.08
+    },
+    {
+      "date": "2026-07-30",
+      "close": 88.49
     }
   ]
 }
