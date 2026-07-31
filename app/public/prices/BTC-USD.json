@@ -2,14 +2,10 @@
   "symbol": "BTC-USD",
   "currency": "USD",
   "exchange": "CCC",
-  "current_price": 64892.05,
-  "prev_close": 66505.125,
-  "fetched_at": "2026-07-30T23:31:21.859Z",
+  "current_price": 62922.12,
+  "prev_close": 66100.8,
+  "fetched_at": "2026-07-31T23:28:39.218Z",
   "history": [
-    {
-      "date": "2026-07-24",
-      "close": 64098.4961
-    },
     {
       "date": "2026-07-25",
       "close": 64311.8125
@@ -32,7 +28,11 @@
     },
     {
       "date": "2026-07-30",
-      "close": 64892.0508
+      "close": 64725.3086
+    },
+    {
+      "date": "2026-07-31",
+      "close": 62922.1211
     }
   ]
 }
