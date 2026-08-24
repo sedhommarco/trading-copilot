@@ -2,14 +2,10 @@
   "symbol": "XOM",
   "currency": "USD",
   "exchange": "NYQ",
-  "current_price": 165.11,
-  "prev_close": 153.04,
-  "fetched_at": "2026-08-21T22:49:07.072Z",
+  "current_price": 164.05,
+  "prev_close": 159.79,
+  "fetched_at": "2026-08-24T22:51:57.979Z",
   "history": [
-    {
-      "date": "2026-08-13",
-      "close": 158.61
-    },
     {
       "date": "2026-08-14",
       "close": 160.1
@@ -33,6 +29,10 @@
     {
       "date": "2026-08-21",
       "close": 165.11
+    },
+    {
+      "date": "2026-08-24",
+      "close": 164.05
     }
   ]
 }
