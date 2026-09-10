@@ -2,14 +2,10 @@
   "symbol": "CVX",
   "currency": "USD",
   "exchange": "NYQ",
-  "current_price": 209.8,
-  "prev_close": 203.09,
-  "fetched_at": "2026-09-09T00:25:03.752Z",
+  "current_price": 213.81,
+  "prev_close": 199.89,
+  "fetched_at": "2026-09-10T00:24:16.632Z",
   "history": [
-    {
-      "date": "2026-08-27",
-      "close": 199.77
-    },
     {
       "date": "2026-08-28",
       "close": 201.86
@@ -33,6 +29,10 @@
     {
       "date": "2026-09-04",
       "close": 208.6
+    },
+    {
+      "date": "2026-09-08",
+      "close": 209.8
     }
   ]
 }
