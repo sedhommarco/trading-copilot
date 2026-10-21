@@ -2,14 +2,10 @@
   "symbol": "DLTR",
   "currency": "USD",
   "exchange": "NMS",
-  "current_price": 123.15,
-  "prev_close": 113.19,
-  "fetched_at": "2026-10-20T01:08:06.115Z",
+  "current_price": 124.96,
+  "prev_close": 116.19,
+  "fetched_at": "2026-10-21T00:43:43.487Z",
   "history": [
-    {
-      "date": "2026-10-08",
-      "close": 118.62
-    },
     {
       "date": "2026-10-09",
       "close": 118.64
@@ -33,6 +29,10 @@
     {
       "date": "2026-10-16",
       "close": 124.18
+    },
+    {
+      "date": "2026-10-19",
+      "close": 123.15
     }
   ]
 }
