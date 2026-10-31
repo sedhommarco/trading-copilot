@@ -2,14 +2,10 @@
   "symbol": "COST",
   "currency": "USD",
   "exchange": "NMS",
-  "current_price": 996.08,
-  "prev_close": 978.01,
-  "fetched_at": "2026-10-30T02:04:02.596Z",
+  "current_price": 1012.28,
+  "prev_close": 989.11,
+  "fetched_at": "2026-10-31T01:42:47.161Z",
   "history": [
-    {
-      "date": "2026-10-21",
-      "close": 998.31
-    },
     {
       "date": "2026-10-22",
       "close": 1018.21
@@ -33,6 +29,10 @@
     {
       "date": "2026-10-29",
       "close": 996.08
+    },
+    {
+      "date": "2026-10-30",
+      "close": 1012.28
     }
   ]
 }
