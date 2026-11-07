@@ -2,14 +2,10 @@
   "symbol": "LLY",
   "currency": "USD",
   "exchange": "NYQ",
-  "current_price": 1364.73,
-  "prev_close": 1306.69,
-  "fetched_at": "2026-11-06T02:41:01.933Z",
+  "current_price": 1354,
+  "prev_close": 1273.46,
+  "fetched_at": "2026-11-07T02:08:22.892Z",
   "history": [
-    {
-      "date": "2026-10-28",
-      "close": 1288.3
-    },
     {
       "date": "2026-10-29",
       "close": 1373.7
@@ -33,6 +29,10 @@
     {
       "date": "2026-11-05",
       "close": 1364.73
+    },
+    {
+      "date": "2026-11-06",
+      "close": 1354
     }
   ]
 }
