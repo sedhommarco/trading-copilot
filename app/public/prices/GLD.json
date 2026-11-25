@@ -2,14 +2,10 @@
   "symbol": "GLD",
   "currency": "USD",
   "exchange": "PCX",
-  "current_price": 333.02,
-  "prev_close": 379.53,
-  "fetched_at": "2026-11-24T06:13:43.547Z",
+  "current_price": 325.45,
+  "prev_close": 369.36,
+  "fetched_at": "2026-11-25T04:57:49.671Z",
   "history": [
-    {
-      "date": "2026-11-13",
-      "close": 355.45
-    },
     {
       "date": "2026-11-16",
       "close": 352.93
@@ -33,6 +29,10 @@
     {
       "date": "2026-11-23",
       "close": 333.02
+    },
+    {
+      "date": "2026-11-24",
+      "close": 325.45
     }
   ]
 }
